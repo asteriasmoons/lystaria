@@ -3,13 +3,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Home · Asteria's Grimoire">
+<BaseLayout title="Home · Lystaria">
   <div class="container">
     <section class="hero">
-      <h1>Welcome to My Grimoire</h1>
+      <h1>Welcome to Lystaria</h1>
       <p class="intro">
-        A space for witchy wisdom, mystical musings, and the magic woven into everyday life.
+        Where the mystical meets the mundane. A space for exploring the magic woven into everyday life—through personal growth, mental wellness, and the philosophies that shape us. Here, we honor both the cosmic and the practical, the spiritual and the human.
       </p>
+      <div class="moon-phase" id="moon-phase">
+        <span class="moon-icon">🌙</span>
+        <span class="moon-text">Calculating moon phase...</span>
+      </div>
     </section>
 
     <section class="featured-posts">
@@ -17,13 +21,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="post-grid">
         <article class="post-card">
           <h3>Coming Soon</h3>
-          <p class="post-date">Moon Phase: Waxing Crescent</p>
-          <p>Your first blog post will appear here...</p>
+          <p class="post-date">Your first post awaits</p>
+          <p>Stories of growth, magic, and the journey inward...</p>
         </article>
         <article class="post-card">
           <h3>Coming Soon</h3>
-          <p class="post-date">Moon Phase: Full Moon</p>
-          <p>Another mystical post awaits...</p>
+          <p class="post-date">More wisdom on the way</p>
+          <p>Reflections on the mystical and the everyday...</p>
         </article>
       </div>
     </section>
@@ -48,9 +52,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .intro {
       font-size: 1.2rem;
       color: var(--color-text-muted);
-      max-width: 600px;
-      margin: 0 auto;
+      max-width: 700px;
+      margin: 0 auto 2rem;
       line-height: 1.8;
+    }
+
+    .moon-phase {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 50px;
+      margin-top: 1rem;
+    }
+
+    .moon-icon {
+      font-size: 1.5rem;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 5px var(--color-accent));
+      }
+      50% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 15px var(--color-accent));
+      }
+    }
+
+    .moon-text {
+      font-size: 0.95rem;
+      color: var(--color-accent-bright);
+      letter-spacing: 0.05em;
     }
 
     .featured-posts {
@@ -97,9 +134,71 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         font-size: 2rem;
       }
 
+      .intro {
+        font-size: 1.1rem;
+      }
+
       .post-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
+
+  <script>
+    // Moon phase calculator
+    function getMoonPhase() {
+      const today = new Date();
+      let year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      const day = today.getDate();
+      
+      // Calculate moon phase using astronomical algorithm
+      let c = 0;
+      let e = 0;
+      let jd = 0;
+      let b = 0;
+
+      if (month < 3) {
+        year--;
+        month += 12;
+      }
+
+      ++month;
+      c = 365.25 * year;
+      e = 30.6 * month;
+      jd = c + e + day - 694039.09;
+      jd /= 29.5305882;
+      b = Math.floor(jd);
+      jd -= b;
+      b = Math.round(jd * 8);
+
+      if (b >= 8) {
+        b = 0;
+      }
+
+      // Moon phase names and emojis
+      const phases = [
+        { name: 'New Moon', emoji: '🌑' },
+        { name: 'Waxing Crescent', emoji: '🌒' },
+        { name: 'First Quarter', emoji: '🌓' },
+        { name: 'Waxing Gibbous', emoji: '🌔' },
+        { name: 'Full Moon', emoji: '🌕' },
+        { name: 'Waning Gibbous', emoji: '🌖' },
+        { name: 'Last Quarter', emoji: '🌗' },
+        { name: 'Waning Crescent', emoji: '🌘' }
+      ];
+
+      return phases[b];
+    }
+
+    // Update the moon phase display
+    const moonPhaseEl = document.getElementById('moon-phase');
+    if (moonPhaseEl) {
+      const phase = getMoonPhase();
+      moonPhaseEl.innerHTML = `
+        <span class="moon-icon">${phase.emoji}</span>
+        <span class="moon-text">Current Moon: ${phase.name}</span>
+      `;
+    }
+  </script>
 </BaseLayout>
