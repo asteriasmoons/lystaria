@@ -111,27 +111,70 @@ const latestPosts = sortedPosts.slice(0, 2);
       margin-top: 1rem;
     }
 
+    .moon-phase {
+      display: inline-flex;
+      padding: 1.25rem 1.75rem;
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .moon-info-main {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .moon-icon {
-      font-size: 1.5rem;
+      font-size: 2.5rem;
       animation: glow 3s ease-in-out infinite;
+      flex-shrink: 0;
     }
 
     @keyframes glow {
       0%,
       100% {
         opacity: 1;
-        filter: drop-shadow(0 0 5px var(--color-accent));
+        filter: drop-shadow(0 0 8px var(--color-accent));
       }
       50% {
         opacity: 0.8;
-        filter: drop-shadow(0 0 15px var(--color-accent));
+        filter: drop-shadow(0 0 20px var(--color-accent));
       }
     }
 
-    .moon-text {
-      font-size: 0.95rem;
+    .moon-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .moon-phase {
+      font-size: 1rem;
       color: var(--color-accent-bright);
       letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .moon-details {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .moon-icon {
+        font-size: 2rem;
+      }
+
+      .moon-phase {
+        font-size: 0.9rem;
+      }
+
+      .moon-details {
+        font-size: 0.8rem;
+      }
     }
 
     .featured-posts {
@@ -265,60 +308,136 @@ const latestPosts = sortedPosts.slice(0, 2);
   </style>
 
   <script>
-    // Moon phase calculator
-    function getMoonPhase() {
-      const today = new Date();
-      let year = today.getFullYear();
-      let month = today.getMonth() + 1;
-      const day = today.getDate();
+    // @ts-nocheck
+    // Accurate Moon Phase & Zodiac Calculator
+    const SYNODIC_MONTH = 29.530588853;
+    const NEW_MOON_EPOCH_JD = 2451550.1;
+    const PHASE_OFFSET_DAYS = 0.706;
 
-      // Calculate moon phase using astronomical algorithm
-      let c = 0;
-      let e = 0;
-      let jd = 0;
-      let b = 0;
+    const PHASE_BOUNDS = [
+      0.0,
+      1.84566,
+      5.53699,
+      9.22831,
+      12.91963,
+      16.61096,
+      20.30228,
+      23.99361,
+      SYNODIC_MONTH,
+    ];
 
-      if (month < 3) {
-        year--;
-        month += 12;
+    const PHASE_NAMES = [
+      "New Moon",
+      "Waxing Crescent",
+      "First Quarter",
+      "Waxing Gibbous",
+      "Full Moon",
+      "Waning Gibbous",
+      "Last Quarter",
+      "Waning Crescent",
+    ];
+
+    const PHASE_ICONS = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"];
+
+    const ZODIAC_SIGNS = [
+      "Aries ♈",
+      "Taurus ♉",
+      "Gemini ♊",
+      "Cancer ♋",
+      "Leo ♌",
+      "Virgo ♍",
+      "Libra ♎",
+      "Scorpio ♏",
+      "Sagittarius ♐",
+      "Capricorn ♑",
+      "Aquarius ♒",
+      "Pisces ♓",
+    ];
+
+    function toJulianDay(date) {
+      return date.getTime() / 86400000 + 2440587.5;
+    }
+
+    function norm360(deg) {
+      deg = deg % 360;
+      return deg < 0 ? deg + 360 : deg;
+    }
+
+    function clamp01(x) {
+      return Math.max(0, Math.min(1, x));
+    }
+
+    function getMoonAgeDays(date = new Date()) {
+      const jd = toJulianDay(date);
+      let age = (jd - NEW_MOON_EPOCH_JD + PHASE_OFFSET_DAYS) % SYNODIC_MONTH;
+      if (age < 0) age += SYNODIC_MONTH;
+      return age;
+    }
+
+    function getMoonPhaseName(date = new Date()) {
+      const age = getMoonAgeDays(date);
+      for (let i = 0; i < PHASE_BOUNDS.length - 1; i++) {
+        if (age >= PHASE_BOUNDS[i] && age < PHASE_BOUNDS[i + 1]) {
+          return { name: PHASE_NAMES[i], icon: PHASE_ICONS[i] };
+        }
       }
+      return { name: PHASE_NAMES[0], icon: PHASE_ICONS[0] };
+    }
 
-      ++month;
-      c = 365.25 * year;
-      e = 30.6 * month;
-      jd = c + e + day - 694039.09;
-      jd /= 29.5305882;
-      b = Math.floor(jd);
-      jd -= b;
-      b = Math.round(jd * 8);
+    function getMoonEclipticLongitude(date = new Date()) {
+      const jd = toJulianDay(date);
+      const d = jd - 2451545.0;
 
-      if (b >= 8) {
-        b = 0;
-      }
+      const L = norm360(218.316 + 13.176396 * d);
+      const Mm = norm360(134.963 + 13.064993 * d);
+      const Ms = norm360(357.529 + 0.98560028 * d);
+      const D = norm360(297.85 + 12.190749 * d);
+      const F = norm360(93.272 + 13.22935 * d);
 
-      // Moon phase names and emojis
-      const phases = [
-        { name: "New Moon", emoji: "🌑" },
-        { name: "Waxing Crescent", emoji: "🌒" },
-        { name: "First Quarter", emoji: "🌓" },
-        { name: "Waxing Gibbous", emoji: "🌔" },
-        { name: "Full Moon", emoji: "🌕" },
-        { name: "Waning Gibbous", emoji: "🌖" },
-        { name: "Last Quarter", emoji: "🌗" },
-        { name: "Waning Crescent", emoji: "🌘" },
-      ];
+      const lon =
+        L +
+        6.289 * Math.sin((Mm * Math.PI) / 180) +
+        1.274 * Math.sin(((2 * D - Mm) * Math.PI) / 180) +
+        0.658 * Math.sin((2 * D * Math.PI) / 180) +
+        0.214 * Math.sin((2 * Mm * Math.PI) / 180) -
+        0.186 * Math.sin((Ms * Math.PI) / 180) -
+        0.114 * Math.sin((2 * F * Math.PI) / 180);
 
-      return phases[b];
+      return norm360(lon);
+    }
+
+    function getMoonSign(date = new Date()) {
+      return ZODIAC_SIGNS[Math.floor(getMoonEclipticLongitude(date) / 30)];
+    }
+
+    function getIlluminationFraction(date = new Date()) {
+      const age = getMoonAgeDays(date);
+      return clamp01(0.5 * (1 - Math.cos((2 * Math.PI * age) / SYNODIC_MONTH)));
+    }
+
+    function getMoonDayNumber(date = new Date()) {
+      const age = getMoonAgeDays(date);
+      return Math.floor(age) + 1;
     }
 
     // Update the moon phase display
     const moonPhaseEl = document.getElementById("moon-phase");
     if (moonPhaseEl) {
-      const phase = getMoonPhase();
+      const now = new Date();
+      const phase = getMoonPhaseName(now);
+      const sign = getMoonSign(now);
+      const moonDay = getMoonDayNumber(now);
+      const illumPct = (getIlluminationFraction(now) * 100).toFixed(1);
+
       moonPhaseEl.innerHTML = `
-        <span class="moon-icon">${phase.emoji}</span>
-        <span class="moon-text">Current Moon: ${phase.name}</span>
-      `;
+      <div class="moon-info-main">
+        <span class="moon-icon">${phase.icon}</span>
+        <div class="moon-text-group">
+          <span class="moon-phase">${phase.name} in ${sign}</span>
+          <span class="moon-details">Moon Day ${moonDay} • ${illumPct}% illuminated</span>
+        </div>
+      </div>
+    `;
     }
   </script>
 </BaseLayout>
