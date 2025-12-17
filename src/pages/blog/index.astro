@@ -47,11 +47,14 @@ const sortedPosts = allPosts.sort(
                 </div>
 
                 <p class="post-description">{post.data.description}</p>
-
                 {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="post-tags" onclick="event.stopPropagation();">
+                  <div class="post-tags">
                     {post.data.tags.map((tag) => (
-                      <a href={`/blog/tag/${tag}`} class="tag-link">
+                      <a
+                        href={`/blog/tag/${tag}`}
+                        class="tag-link"
+                        onclick="event.stopPropagation();"
+                      >
                         <span class="tag">{tag}</span>
                       </a>
                     ))}
@@ -161,7 +164,9 @@ const sortedPosts = allPosts.sort(
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
-      margin-bottom: 1.5rem;
+      align-items: flex-start;
+      margin-top: auto;
+      padding-top: 1rem;
     }
 
     .tag {
