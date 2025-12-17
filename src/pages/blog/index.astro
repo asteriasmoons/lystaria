@@ -50,13 +50,7 @@ const sortedPosts = allPosts.sort(
                 {post.data.tags && post.data.tags.length > 0 && (
                   <div class="post-tags">
                     {post.data.tags.map((tag) => (
-                      <a
-                        href={`/blog/tag/${tag}`}
-                        class="tag-link"
-                        onclick="event.stopPropagation();"
-                      >
-                        <span class="tag">{tag}</span>
-                      </a>
+                      <span class="tag">{tag}</span>
                     ))}
                   </div>
                 )}

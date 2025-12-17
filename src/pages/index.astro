@@ -52,13 +52,7 @@ const latestPosts = sortedPosts.slice(0, 2);
                   {post.data.tags && (
                     <div class="post-tags">
                       {post.data.tags.slice(0, 3).map((tag) => (
-                        <a
-                          href={`/blog/tag/${tag}`}
-                          class="tag-link"
-                          onclick="event.stopPropagation();"
-                        >
-                          <span class="tag">{tag}</span>
-                        </a>
+                        <span class="tag">{tag}</span>
                       ))}
                     </div>
                   )}
