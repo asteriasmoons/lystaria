@@ -7,10 +7,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="About · Lystaria">
   <div class="container">
     <article class="about-content">
-      <header class="about-header">
-        <h1>About</h1>
-        <p class="about-subtitle">The person behind the grimoire</p>
-      </header>
+		<header class="about-header">
+  <h1>About</h1>
+  <p class="about-subtitle">The person behind the grimoire</p>
+  <div class="banner-container">
+    <img src="/about-banner.jpg" alt="Decorative banner" class="banner-image" />
+  </div>
+</header>
 
       <div class="about-text">
         <p>Hi, I'm <strong>Asteria</strong> — a creative, intuitive, deeply analytical soul who lives at the intersection of design, technology, healing, and self-discovery.</p>
@@ -66,6 +69,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       font-size: 1.1rem;
       font-style: italic;
     }
+
+	.banner-container {
+  margin-top: 2rem;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 300px;
+}
 
     .about-text {
       line-height: 1.8;
