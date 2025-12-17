@@ -1,30 +1,31 @@
 ---
 // src/pages/blog/[...slug].astro
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+// @ts-nocheck
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 // Generate a page for each blog post
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map((post: CollectionEntry<'posts'>) => ({
+  const posts = await getCollection("posts");
+  return posts.map((post: CollectionEntry<"posts">) => ({
     params: { slug: post.slug },
     props: { post },
   }));
 }
 
 interface Props {
-  post: CollectionEntry<'posts'>;
+  post: CollectionEntry<"posts">;
 }
 
 const { post } = Astro.props;
 const { Content } = await post.render();
 
 // Format the date nicely
-const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
+const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
 
@@ -36,13 +37,17 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
         <time datetime={post.data.pubDate.toISOString()}>
           {formattedDate}
         </time>
-        {post.data.tags && (
-          <div class="post-tags">
-            {post.data.tags.map((tag: string) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        )}
+        {
+          post.data.tags && (
+            <div class="post-tags">
+              {post.data.tags.map((tag) => (
+                <a href={`/blog/tag/${tag}`} class="tag-link">
+                  <span class="tag">{tag}</span>
+                </a>
+              ))}
+            </div>
+          )
+        }
       </div>
     </header>
 
@@ -94,6 +99,16 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
       border-radius: 20px;
       font-size: 0.85rem;
       border: 1px solid var(--color-border);
+    }
+
+    .tag-link {
+      text-decoration: none;
+    }
+
+    .tag-link:hover .tag {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+      transform: translateY(-2px);
     }
 
     /* Post Content Styling */
@@ -167,7 +182,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
       border-radius: 4px;
       font-size: 0.9em;
       color: var(--color-accent-bright);
-      font-family: 'Courier New', monospace;
+      font-family: "Courier New", monospace;
     }
 
     .post-content :global(pre) {

@@ -1,13 +1,13 @@
 ---
 // @ts-nocheck
 // Homepage
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
 
 // Get all posts, sorted by date (newest first)
-const allPosts = await getCollection('posts');
-const sortedPosts = allPosts.sort((a, b) => 
-  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+const allPosts = await getCollection("posts");
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
 // Get the latest 2 posts for the homepage
@@ -19,7 +19,10 @@ const latestPosts = sortedPosts.slice(0, 2);
     <section class="hero">
       <h1>Welcome to Lystaria</h1>
       <p class="intro">
-        Where the mystical meets the mundane. A space for exploring the magic woven into everyday life—through personal growth, mental wellness, and the philosophies that shape us. Here, we honor both the cosmic and the practical, the spiritual and the human.
+        Where the mystical meets the mundane. A space for exploring the magic
+        woven into everyday life—through personal growth, mental wellness, and
+        the philosophies that shape us. Here, we honor both the cosmic and the
+        practical, the spiritual and the human.
       </p>
       <div class="moon-phase" id="moon-phase">
         <span class="moon-icon">🌙</span>
@@ -30,32 +33,38 @@ const latestPosts = sortedPosts.slice(0, 2);
     <section class="featured-posts">
       <h2>Latest Spells & Stories</h2>
       <div class="post-grid">
-        {latestPosts.map((post) => {
-          const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          });
-          
-          return (
-            <article class="post-card">
-              <a href={`/blog/${post.slug}`} class="post-link">
-                <h3>{post.data.title}</h3>
-                <p class="post-date">{formattedDate}</p>
-                <p class="post-description">{post.data.description}</p>
-                {post.data.tags && (
-                  <div class="post-tags">
-                    {post.data.tags.slice(0, 3).map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </a>
-            </article>
-          );
-        })}
+        {
+          latestPosts.map((post) => {
+            const formattedDate = new Date(
+              post.data.pubDate
+            ).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+
+            return (
+              <article class="post-card">
+                <a href={`/blog/${post.slug}`} class="post-link">
+                  <h3>{post.data.title}</h3>
+                  <p class="post-date">{formattedDate}</p>
+                  <p class="post-description">{post.data.description}</p>
+                  {post.data.tags && (
+                    <div class="post-tags">
+                      {post.data.tags.slice(0, 3).map((tag) => (
+                        <a href={`/blog/tag/${tag}`} class="tag-link">
+                          <span class="tag">{tag}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </a>
+              </article>
+            );
+          })
+        }
       </div>
-      
+
       <div class="view-all">
         <a href="/blog" class="view-all-link">View All Posts →</a>
       </div>
@@ -72,7 +81,11 @@ const latestPosts = sortedPosts.slice(0, 2);
     .hero h1 {
       font-size: 3rem;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-bright));
+      background: linear-gradient(
+        135deg,
+        var(--color-accent),
+        var(--color-accent-bright)
+      );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -103,7 +116,8 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
 
     @keyframes glow {
-      0%, 100% {
+      0%,
+      100% {
         opacity: 1;
         filter: drop-shadow(0 0 5px var(--color-accent));
       }
@@ -139,7 +153,9 @@ const latestPosts = sortedPosts.slice(0, 2);
       background-color: var(--color-bg-secondary);
       border: 1px solid var(--color-border);
       border-radius: 8px;
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
       overflow: hidden;
     }
 
@@ -189,6 +205,16 @@ const latestPosts = sortedPosts.slice(0, 2);
       border: 1px solid var(--color-border);
     }
 
+    .tag-link {
+      text-decoration: none;
+    }
+
+    .tag-link:hover .tag {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+      transform: translateY(-2px);
+    }
+
     .view-all {
       text-align: center;
     }
@@ -232,7 +258,7 @@ const latestPosts = sortedPosts.slice(0, 2);
       let year = today.getFullYear();
       let month = today.getMonth() + 1;
       const day = today.getDate();
-      
+
       // Calculate moon phase using astronomical algorithm
       let c = 0;
       let e = 0;
@@ -259,21 +285,21 @@ const latestPosts = sortedPosts.slice(0, 2);
 
       // Moon phase names and emojis
       const phases = [
-        { name: 'New Moon', emoji: '🌑' },
-        { name: 'Waxing Crescent', emoji: '🌒' },
-        { name: 'First Quarter', emoji: '🌓' },
-        { name: 'Waxing Gibbous', emoji: '🌔' },
-        { name: 'Full Moon', emoji: '🌕' },
-        { name: 'Waning Gibbous', emoji: '🌖' },
-        { name: 'Last Quarter', emoji: '🌗' },
-        { name: 'Waning Crescent', emoji: '🌘' }
+        { name: "New Moon", emoji: "🌑" },
+        { name: "Waxing Crescent", emoji: "🌒" },
+        { name: "First Quarter", emoji: "🌓" },
+        { name: "Waxing Gibbous", emoji: "🌔" },
+        { name: "Full Moon", emoji: "🌕" },
+        { name: "Waning Gibbous", emoji: "🌖" },
+        { name: "Last Quarter", emoji: "🌗" },
+        { name: "Waning Crescent", emoji: "🌘" },
       ];
 
       return phases[b];
     }
 
     // Update the moon phase display
-    const moonPhaseEl = document.getElementById('moon-phase');
+    const moonPhaseEl = document.getElementById("moon-phase");
     if (moonPhaseEl) {
       const phase = getMoonPhase();
       moonPhaseEl.innerHTML = `
