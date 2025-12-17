@@ -193,6 +193,7 @@ const latestPosts = sortedPosts.slice(0, 2);
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
+      align-items: center;
       margin-top: 1rem;
     }
 
@@ -309,3 +310,12 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
   </script>
 </BaseLayout>
+
+<script>
+  // Fix for Safari - prevent tag clicks from triggering card clicks
+  document.querySelectorAll(".tag-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  });
+</script>
