@@ -49,6 +49,7 @@ const latestPosts = sortedPosts.slice(0, 2);
                   <h3>{post.data.title}</h3>
                   <p class="post-date">{formattedDate}</p>
                   <p class="post-description">{post.data.description}</p>
+                  <div class="read-more">Read more →</div>
                 </a>
                 {post.data.tags && (
                   <div class="post-tags">
@@ -213,6 +214,18 @@ const latestPosts = sortedPosts.slice(0, 2);
       background-color: var(--color-accent);
       color: var(--color-bg);
       transform: translateY(-2px);
+    }
+
+    .read-more {
+      color: var(--color-accent);
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-top: auto;
+      transition: color 0.3s ease;
+    }
+
+    .post-card:hover .read-more {
+      color: var(--color-accent-bright);
     }
 
     .view-all {
