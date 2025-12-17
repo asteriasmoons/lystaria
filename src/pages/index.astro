@@ -50,7 +50,7 @@ const latestPosts = sortedPosts.slice(0, 2);
                   <p class="post-date">{formattedDate}</p>
                   <p class="post-description">{post.data.description}</p>
                   {post.data.tags && (
-                    <div class="post-tags">
+                    <div class="post-tags" onclick="event.stopPropagation();">
                       {post.data.tags.slice(0, 3).map((tag) => (
                         <a href={`/blog/tag/${tag}`} class="tag-link">
                           <span class="tag">{tag}</span>
