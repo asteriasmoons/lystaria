@@ -1,7 +1,15 @@
 ---
 // BaseLayout.astro - The wrapper for all pages
 import "../styles/global.css";
-const { title = "Lystaria" } = Astro.props;
+
+const {
+  title = "Lystaria",
+  description = "Where the mystical meets the mundane. A space for exploring magic, personal growth, mental wellness, and the philosophies that shape us.",
+  image = "/banner.png",
+  type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -9,7 +17,28 @@ const { title = "Lystaria" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
     <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook / Discord -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+    <!-- Favicon & RSS -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link
       rel="alternate"
@@ -17,6 +46,8 @@ const { title = "Lystaria" } = Astro.props;
       title="Lystaria RSS Feed"
       href="/rss.xml"
     />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

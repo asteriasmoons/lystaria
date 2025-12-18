@@ -30,7 +30,12 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
 });
 ---
 
-<BaseLayout title={post.data.title + " · Lystaria"}>
+<BaseLayout
+  title={post.data.title + " · Lystaria"}
+  description={post.data.description}
+  image="/banner.png"
+  type="article"
+>
   <article class="post-container">
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
