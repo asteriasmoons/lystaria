@@ -1,0 +1,81 @@
+---
+// This component adds Giscus comments to any page
+---
+
+<section class="comments-wrapper">
+  <div class="comments-divider">
+    <span class="divider-text">Comments</span>
+  </div>
+
+  <div class="giscus-container"></div>
+
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="asteriasmoons/lystaria"
+    data-repo-id="R_kgDOQp7uJA"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOQp7uJM4Cz8fz"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="https://lystaria.im/giscus-theme.css"
+    data-lang="en"
+    crossorigin="anonymous"
+    async></script>
+</section>
+
+<style>
+  .comments-wrapper {
+    margin-top: 4rem;
+    max-width: 100%;
+  }
+
+  .comments-divider {
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .comments-divider::before,
+  .comments-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(147, 51, 234, 0.5),
+      transparent
+    );
+  }
+
+  .comments-divider::before {
+    left: 0;
+  }
+
+  .comments-divider::after {
+    right: 0;
+  }
+
+  .divider-text {
+    font-family: "Berkshire Swash", cursive;
+    color: rgba(147, 51, 234, 0.9);
+    font-size: 1.5rem;
+    padding: 0 1rem;
+    background: var(--bg-color, #0a0a0a);
+    position: relative;
+  }
+
+  .giscus-container {
+    /* Giscus will inject itself here */
+  }
+
+  /* Override Giscus dark theme to match your aesthetic */
+  :global(.giscus) {
+    color-scheme: dark;
+  }
+</style>

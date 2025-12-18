@@ -4,6 +4,7 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Comments from "../../components/Comments.astro";
 
 // Generate a page for each blog post
 export async function getStaticPaths() {
@@ -54,6 +55,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     <div class="post-content">
       <Content />
     </div>
+    <Comments />
   </article>
 
   <style>

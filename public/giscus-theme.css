@@ -1,0 +1,45 @@
+/* Custom Giscus theme for Lystaria */
+:root {
+  color-scheme: dark;
+}
+
+/* Comment container */
+.gsc-comments {
+  background: transparent !important;
+}
+
+/* Individual comments */
+.gsc-comment {
+  background: rgba(20, 20, 30, 0.5) !important;
+  border: 1px solid rgba(147, 51, 234, 0.2) !important;
+  border-radius: 8px !important;
+}
+
+/* Comment text */
+.gsc-comment-content {
+  color: #e0e0e0 !important;
+}
+
+/* Links */
+.gsc-comment a {
+  color: #a78bfa !important;
+}
+
+/* Buttons */
+.gsc-comment-box-tabs button {
+  color: #a78bfa !important;
+}
+
+.gsc-comment-box-tabs button:hover {
+  color: #9333ea !important;
+}
+
+/* Reactions */
+.gsc-reactions-button {
+  background: rgba(147, 51, 234, 0.1) !important;
+  border-color: rgba(147, 51, 234, 0.3) !important;
+}
+
+.gsc-reactions-button:hover {
+  background: rgba(147, 51, 234, 0.2) !important;
+}
