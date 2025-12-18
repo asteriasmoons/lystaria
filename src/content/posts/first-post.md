@@ -1,7 +1,7 @@
 ---
 title: "Welcome to Lystaria"
 description: "The first entry in this grimoire—a space where magic meets the everyday."
-pubDate: 2024-12-16
+pubDate: 2025-12-16
 tags: ["welcome", "introduction", "magic"]
 ---
 

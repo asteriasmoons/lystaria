@@ -1,0 +1,119 @@
+---
+title: "Seven Pillars of Self-Care"
+description: "An introduction to the seven pillars of self-care and how to use them in your daily life."
+pubDate: 2025-12-17
+tags: ["self-care", "healing", "spirituality"]
+---
+
+Hello. Today I’m going to talk about the seven pillars of self-care. By the end of this post, you’ll have a better understanding of what self-care actually is and how to practice it. My goal is to show you that balance can exist among each of these pillars, and that they can be incorporated into your life without it feeling overwhelming or unrealistic.
+
+## Where the Seven Pillars Come From
+The seven pillars of self-care come from multiple overlapping traditions that emerged throughout the 20th and 21st centuries. One of the earliest influences was public health and preventive medicine. Organizations like the **World Health Organization (WHO)** helped lay the groundwork by emphasizing self-care as a necessary part of overall health and wellbeing.
+
+In the 1970s–1990s, wellness researchers began breaking wellbeing down into dimensions, such as:
+
+- Physical
+- Emotional
+- Social
+- Spiritual
+- Intellectual
+- Occupational
+- Environmental
+
+Sound familiar? These dimensions were later rebranded and simplified into what we now commonly refer to as “pillars,” especially in coaching, therapy, and self-help spaces.
+
+Psychology and therapy also played a large role in shaping this model. Mental health professionals quickly realized that you can’t “fix” mental health by focusing on just one area of life. Because of this, more holistic approaches were emphasized. The pillars model became a kind of clinical shorthand — a way to quickly assess which areas of life might be neglected.
+
+As other organizations and wellness professionals adopted similar frameworks, the seven pillars of self-care were born.
+
+## What Are the Seven Pillars?
+The seven pillars are essentially categories of life — core parts of the human experience. If we took self-care out of the equation, that’s all they would be: categories. What makes them powerful is the intention we bring to tending to them.
+
+They’re considered essential areas of life that need regular care, and honestly, that’s not a stretch. To live a comfortable, fulfilling, and balanced life, each pillar deserves some level of attention. The goal isn’t perfection or equal effort at all times — it’s awareness. You don’t want to stay stuck working on only one category while the others are left untouched. Instead, you want to gently nourish each one.
+
+Let’s go over each pillar and what it represents, along with some simple practices you can try.
+
+### Mental Health / Intellectual Self-Care
+This pillar, to me, is the most important one. In a recent blog I read that inspired me to write this, mental health was discussed as though it were as easy as breathing — oh, just learn more. And yes, learning counts. But what matters even more is your mental state.
+
+How is your self-talk?
+What do your thoughts sound like?
+
+That’s where truly meaningful work can happen. And while it isn’t the whole picture, there are patterns and thinking traps you can become more aware of and work through.
+
+Some practices you might try:
+- Journaling your thoughts daily, even when you’re not sure what to say
+- Gently correcting the way you speak to yourself, especially when you’re being overly self-critical
+- Trying out gratitude for size — it really can help shift your thinking
+- Learning something new about yourself so you can move through life with better discernment
+
+### Emotional Self-Care
+This one hits home for me. As a highly sensitive person who’s been through the thick of it, I deeply understand how important it is to have healthy coping mechanisms and to cultivate inner resilience. Emotional self-care is about learning how to move through challenges and setbacks with grace and humility.
+
+Some practices you can try:
+- Setting loving boundaries — you do not owe anyone your time or energy
+- Learning when to ask for help instead of pushing through alone
+- Finding a new (and healthy) coping strategy and practicing it regularly
+- Practicing mindfulness through meditation or another mindful medium
+
+### Physical Self-Care
+Physical self-care is about nourishing your body in the ways that support you best. This can include regular exercise, or simply consistent movement to keep your body limber. It also includes getting enough rest and engaging in activities that restore your energy instead of draining it.
+
+Some practices to consider:
+- Keeping a regular sleep and wake time — giving your body a rhythm can do wonders for your daily energy
+- Moving your body in a way that feels sustainable; exercise can be as light as it needs to be
+- Allowing rest days so movement doesn’t become burnout
+- Eating nourishing meals and snacks throughout the day — they don’t need to be elaborate, especially in today’s economy
+- Choosing a calming activity that brings you joy and allows you to recharge
+- Practicing hygiene when you’re able, with compassion for mental fatigue and overwhelm
+
+Hygiene is often glorified and made to sound easy, but for many people it isn’t. If it feels hard, that doesn’t mean you’re failing — it simply means this is an area that deserves gentleness and patience.
+
+### Environmental Self-Care
+Environmental self-care is often overlooked because life is demanding in the worst ways. But the spaces you keep and inhabit truly matter. They can make a significant difference in how you show up for yourself.
+
+Some practices you can try:
+- Making your workspace feel like a sanctuary
+- Decluttering with intention — not just getting rid of things, but creating space for new things to enter your life
+- Contributing to a cause if you’re able; time can be just as valuable as money
+- Creating a safe zone for yourself, especially if you’re easily overstimulated, where you can decompress and reset
+
+### Spiritual Self-Care
+Spiritual self-care is about tending to your soul through practices that give your life meaning, purpose, or direction. This doesn’t have to look one specific way. Spiritual care can help you feel more grounded and connected to something beyond yourself.
+
+Some practices to explore:
+- Taking inventory of your values regularly, knowing they will change as you evolve
+- Connecting with something bigger than yourself — nature, prayer, or belief in a higher power
+- If you’re stuck in a spiritual spiral of constant questioning, try believing in yourself first
+- If you enjoy the “woo,” tools like tarot or Lenormand can be powerful for reflection
+
+### Recreational Self-Care
+Recreational self-care is about caring for your inner child through hobbies, fun, and new experiences. Recreation gives you permission to step away from productivity and simply enjoy being alive.
+
+Some practices you might try:
+- Trying a new hobby you’ve been curious about
+- Indulging your inner child with a new “toy” — something joyful, not necessary
+- Creating a new daily ritual
+- Taking a day off and letting yourself rest without guilt
+
+### Social Self-Care
+There is such a thing as being alone too often. Social self-care focuses on staying connected and nurturing healthy, loving relationships. And if you’re stuck at home with nowhere to go — online connections absolutely count.
+
+Some ways to practice this:
+- Making a new friend
+- Smiling at a stranger
+- Going out simply to see new faces
+- Spending time with family, if that feels safe and supportive
+
+Here we are at last — the seven pillars of self-care. This framework exists to help you do more than just exist. It’s meant to help you live with intention, balance, and meaning.
+
+Take what resonates. Leave what doesn’t. Use one pillar or all of them. Create a self-care practice that actually works for you.
+
+Starting a self-care practice isn’t easy. Many of us were conditioned to believe we exist only to serve others or some greater purpose. But that isn’t true. You are allowed to take care of yourself — and I wholeheartedly encourage it.
+
+I hope this blog has helped bring some light to a complex and often difficult topic. I intentionally kept the ideas approachable so you have a gentle place to start.
+
+Let me know what you think in the comments.
+
+Brightest blessings,
+Asteria
