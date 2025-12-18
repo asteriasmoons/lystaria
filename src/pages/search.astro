@@ -38,7 +38,12 @@ const postsData = sortedPosts.map((post) => ({
           placeholder="Type to search..."
           autofocus
         />
-        <span class="search-icon">🔍</span>
+        <img
+          class="search-icon"
+          src="/icons/search.svg"
+          alt=""
+          aria-hidden="true"
+        />
       </div>
     </header>
 
@@ -151,8 +156,10 @@ const postsData = sortedPosts.map((post) => ({
       right: 1.5rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.2rem;
+      width: 20px;
+      height: 20px;
       pointer-events: none;
+      opacity: 0.8;
     }
 
     .posts-grid {
