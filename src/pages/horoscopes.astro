@@ -71,38 +71,57 @@ const today = new Date().toLocaleDateString("en-US", {
 
     <main class="horoscopes-container">
       {
-        signs.map((sign) => {
-          const data = horoscopes[sign.name];
-          return (
-            <article class="horoscope-card">
-              <div class="sign-header">
-                <span class="sign-symbol">{data.symbol}</span>
-                <h2>{sign.name}</h2>
-                <span class="sign-dates">{data.dates}</span>
-              </div>
-              <p class="description">{data.description}</p>
-              {data.mood && (
-                <div class="meta">
-                  <span>
-                    <strong>Mood:</strong> {data.mood}
-                  </span>
-                  <span>
-                    <strong>Lucky Number:</strong> {data.lucky_number}
-                  </span>
-                  <span>
-                    <strong>Lucky Color:</strong> {data.color}
-                  </span>
-                </div>
-              )}
-            </article>
-          );
-        })
+        signs.map((sign) => (
+          <article class="horoscope-card" data-sign={sign.name}>
+            <div class="sign-header">
+              <span class="sign-symbol">{sign.symbol}</span>
+              <h2>{sign.name}</h2>
+              <span class="sign-dates">{sign.dates}</span>
+            </div>
+            <p class="description">Loading today’s horoscope…</p>
+          </article>
+        ))
       }
     </main>
 
     <footer>
       <a href="/">← Back to Home</a>
     </footer>
+
+    <script>
+      async function loadHoroscopes() {
+        try {
+          const res = await fetch("/api/horoscopes.json", {
+            cache: "no-store",
+          });
+          if (!res.ok) throw new Error(`API HTTP ${res.status}`);
+          const { today, horoscopes } = await res.json();
+
+          const dateEl = document.querySelector(".date");
+          if (dateEl && today) dateEl.textContent = today;
+
+          document.querySelectorAll(".horoscope-card").forEach((card) => {
+            const sign = card.getAttribute("data-sign");
+            const descEl = card.querySelector(".description");
+            if (!sign || !descEl) return;
+
+            const data = horoscopes?.[sign];
+            descEl.textContent =
+              data?.description || "Horoscope unavailable at this time.";
+          });
+        } catch (err) {
+          console.error("Failed to load horoscopes:", err);
+          document
+            .querySelectorAll(".horoscope-card .description")
+            .forEach((el) => {
+              el.textContent = "Horoscope unavailable at this time.";
+            });
+        }
+      }
+
+      loadHoroscopes();
+    </script>
+	
   </body>
 </html>
 
