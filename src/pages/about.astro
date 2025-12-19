@@ -120,9 +120,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     .about-header h1 {
       font-size: 3rem;
       margin-bottom: 0.5rem;
+
       background: linear-gradient(90deg, #cd5afa, #5ac7fa);
       -webkit-background-clip: text;
       background-clip: text;
+
+      -webkit-text-fill-color: transparent; /* Safari/Chrome: REQUIRED */
+      color: transparent; /* Nice fallback */
     }
 
     .about-subtitle {
