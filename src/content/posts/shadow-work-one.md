@@ -1,7 +1,7 @@
 ---
 title: "What Shadow Work Can Be"
 description: "A blog post about how shadow work works."
-pubDate: 2024-12-16
+pubDate: 2025-12-16
 tags: ["shadow-work", "healing", "spirituality"]
 ---
 
