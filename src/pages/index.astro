@@ -168,11 +168,14 @@ const latestPosts = sortedPosts.slice(0, 2);
 
     @media (max-width: 768px) {
       .moon-icon {
-        width: 60px;
-        height: 60px;
+        width: 1.2em;
+        height: 1.2em;
         flex-shrink: 0;
         color: #ffffff;
         animation: glow 3s ease-in-out infinite;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
       }
 
       .moon-icon svg {
@@ -382,18 +385,18 @@ const latestPosts = sortedPosts.slice(0, 2);
     ];
 
     const ZODIAC_SIGNS = [
-      "Aries ♈",
-      "Taurus ♉",
-      "Gemini ♊",
-      "Cancer ♋",
-      "Leo ♌",
-      "Virgo ♍",
-      "Libra ♎",
-      "Scorpio ♏",
-      "Sagittarius ♐",
-      "Capricorn ♑",
-      "Aquarius ♒",
-      "Pisces ♓",
+      "Aries",
+      "Taurus",
+      "Gemini",
+      "Cancer",
+      "Leo",
+      "Virgo",
+      "Libra",
+      "Scorpio",
+      "Sagittarius",
+      "Capricorn",
+      "Aquarius",
+      "Pisces",
     ];
 
     function toJulianDay(date) {
