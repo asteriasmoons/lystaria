@@ -3,18 +3,18 @@
 const API_KEY = import.meta.env.API_NINJAS_KEY;
 
 const signs = [
-  { name: "aries", symbol: "♈", dates: "Mar 21 - Apr 19" },
-  { name: "taurus", symbol: "♉", dates: "Apr 20 - May 20" },
-  { name: "gemini", symbol: "♊", dates: "May 21 - Jun 20" },
-  { name: "cancer", symbol: "♋", dates: "Jun 21 - Jul 22" },
-  { name: "leo", symbol: "♌", dates: "Jul 23 - Aug 22" },
-  { name: "virgo", symbol: "♍", dates: "Aug 23 - Sep 22" },
-  { name: "libra", symbol: "♎", dates: "Sep 23 - Oct 22" },
-  { name: "scorpio", symbol: "♏", dates: "Oct 23 - Nov 21" },
-  { name: "sagittarius", symbol: "♐", dates: "Nov 22 - Dec 21" },
-  { name: "capricorn", symbol: "♑", dates: "Dec 22 - Jan 19" },
-  { name: "aquarius", symbol: "♒", dates: "Jan 20 - Feb 18" },
-  { name: "pisces", symbol: "♓", dates: "Feb 19 - Mar 20" },
+  { name: "aries", dates: "Mar 21 - Apr 19" },
+  { name: "taurus", dates: "Apr 20 - May 20" },
+  { name: "gemini", dates: "May 21 - Jun 20" },
+  { name: "cancer", dates: "Jun 21 - Jul 22" },
+  { name: "leo", dates: "Jul 23 - Aug 22" },
+  { name: "virgo", dates: "Aug 23 - Sep 22" },
+  { name: "libra", dates: "Sep 23 - Oct 22" },
+  { name: "scorpio", dates: "Oct 23 - Nov 21" },
+  { name: "sagittarius", dates: "Nov 22 - Dec 21" },
+  { name: "capricorn", dates: "Dec 22 - Jan 19" },
+  { name: "aquarius", dates: "Jan 20 - Feb 18" },
+  { name: "pisces", dates: "Feb 19 - Mar 20" },
 ];
 
 const horoscopes = {};
@@ -38,14 +38,12 @@ for (const sign of signs) {
     const data = await response.json();
     horoscopes[sign.name] = {
       ...data,
-      symbol: sign.symbol,
       dates: sign.dates,
     };
   } catch (error) {
     console.error(`Failed to fetch ${sign.name}:`, error);
     horoscopes[sign.name] = {
       horoscope: "Horoscope unavailable at this time.",
-      symbol: sign.symbol,
       dates: sign.dates,
     };
   }
@@ -84,7 +82,6 @@ const today = new Date().toLocaleDateString("en-US", {
           return (
             <article class="horoscope-card">
               <div class="sign-header">
-                <span class="sign-symbol">{data.symbol}</span>
                 <h2>{sign.name}</h2>
                 <span class="sign-dates">{data.dates}</span>
               </div>
@@ -120,12 +117,12 @@ const today = new Date().toLocaleDateString("en-US", {
   h1 {
     font-family: "Berkshire Swash", cursive;
     font-size: 3rem;
-    color: #c77dff;
+    color: #ffffff;
     margin-bottom: 0.5rem;
   }
 
   .date {
-    color: #9d4edd;
+    color: #ffffff;
     font-size: 1.2rem;
   }
 
@@ -160,15 +157,10 @@ const today = new Date().toLocaleDateString("en-US", {
     border-bottom: 1px solid rgba(126, 126, 255, 0.2);
   }
 
-  .sign-symbol {
-    font-size: 2rem;
-    color: #7e7eff;
-  }
-
   h2 {
     font-family: "Berkshire Swash", cursive;
     font-size: 1.5rem;
-    color: #c77dff;
+    color: #5ac7fa;
     margin: 0;
     text-transform: capitalize;
     flex-grow: 1;
@@ -176,7 +168,7 @@ const today = new Date().toLocaleDateString("en-US", {
 
   .sign-dates {
     font-size: 0.9rem;
-    color: #9d4edd;
+    color: #5ac7fa;
   }
 
   .horoscope-text {
@@ -191,7 +183,7 @@ const today = new Date().toLocaleDateString("en-US", {
   }
 
   footer a {
-    color: #c77dff;
+    color: #7e7eff;
     text-decoration: none;
     font-size: 1.1rem;
     transition: color 0.2s;
