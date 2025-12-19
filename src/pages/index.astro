@@ -104,37 +104,68 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
 
     .moon-phase {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
+      display: inline-block;
       padding: 1rem 1.5rem;
       background-color: var(--color-bg-secondary);
       border: 1px solid var(--color-border);
-      border-radius: 50px;
+      border-radius: 12px;
       margin-top: 1rem;
+      font-size: 1rem;
     }
 
-    .moon-phase {
-      display: inline-flex;
-      padding: 1.25rem 1.75rem;
+    /* Outer container */
+    #moon-phase {
+      display: inline-block;
+      padding: 1rem 1.5rem;
       background-color: var(--color-bg-secondary);
       border: 1px solid var(--color-border);
       border-radius: 12px;
       margin-top: 1rem;
     }
 
+    /* Inner wrapper */
     .moon-info-main {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
+    /* Moon icon */
     .moon-icon {
-      font-size: 2.5rem;
-      animation: glow 3s ease-in-out infinite;
-      flex-shrink: 0;
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      color: var(--color-accent-bright);
     }
 
+    .moon-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Text container */
+    .moon-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    /* Phase name text (inner span) */
+    .moon-text-group .moon-phase {
+      font-size: 1rem;
+      color: var(--color-accent-bright);
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    /* Moon details */
+    .moon-details {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    /* Glow animation */
     @keyframes glow {
       0%,
       100% {
@@ -144,49 +175,6 @@ const latestPosts = sortedPosts.slice(0, 2);
       50% {
         opacity: 0.8;
         filter: drop-shadow(0 0 20px var(--color-accent));
-      }
-    }
-
-    .moon-text-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .moon-phase {
-      font-size: 1rem;
-      color: var(--color-accent-bright);
-      letter-spacing: 0.05em;
-      font-weight: 600;
-    }
-
-    .moon-details {
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-      font-style: italic;
-    }
-
-    @media (max-width: 768px) {
-      .moon-icon {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        vertical-align: middle;
-        color: #ffffff;
-      }
-
-      .moon-icon svg {
-        width: 1em;
-        height: 1em;
-        display: block;
-      }
-
-      .moon-phase {
-        font-size: 0.9rem;
-      }
-
-      .moon-details {
-        font-size: 0.8rem;
       }
     }
 
