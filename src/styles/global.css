@@ -6,8 +6,8 @@
   --color-bg-secondary: #1a1a2e; /* Slightly lighter panels */
   --color-text: #e0e0e8;         /* Soft white for readability */
   --color-text-muted: #9a9aaa;   /* Muted text */
-  --color-accent: #7e54fb;       /* Mystical purple */
-  --color-accent-bright: #a58fff;/* Lighter purple for hovers */
+  --color-accent: #7e7eff;       /* Mystical purple */
+  --color-accent-bright: #7e7eff;/* Lighter purple for hovers */
   --color-border: #2a2a3e;       /* Subtle borders */
 }
 
