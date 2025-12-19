@@ -1,0 +1,11 @@
+{
+  "headers": [
+    {
+      "source": "/giscus-theme.css",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" }
+      ]
+    }
+  ]
+}
