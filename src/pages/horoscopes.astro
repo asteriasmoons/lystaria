@@ -1,0 +1,230 @@
+---
+// @ts-nocheck
+// Fetch horoscopes at build time from Aztro API
+const signs = [
+  { name: "aries", symbol: "♈", dates: "Mar 21 - Apr 19" },
+  { name: "taurus", symbol: "♉", dates: "Apr 20 - May 20" },
+  { name: "gemini", symbol: "♊", dates: "May 21 - Jun 20" },
+  { name: "cancer", symbol: "♋", dates: "Jun 21 - Jul 22" },
+  { name: "leo", symbol: "♌", dates: "Jul 23 - Aug 22" },
+  { name: "virgo", symbol: "♍", dates: "Aug 23 - Sep 22" },
+  { name: "libra", symbol: "♎", dates: "Sep 23 - Oct 22" },
+  { name: "scorpio", symbol: "♏", dates: "Oct 23 - Nov 21" },
+  { name: "sagittarius", symbol: "♐", dates: "Nov 22 - Dec 21" },
+  { name: "capricorn", symbol: "♑", dates: "Dec 22 - Jan 19" },
+  { name: "aquarius", symbol: "♒", dates: "Jan 20 - Feb 18" },
+  { name: "pisces", symbol: "♓", dates: "Feb 19 - Mar 20" },
+];
+
+const horoscopes = {};
+
+// Fetch horoscopes for all signs
+for (const sign of signs) {
+  try {
+    const response = await fetch(
+      `https://aztro.sameerkumar.website/?sign=${sign.name}&day=today`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await response.json();
+    horoscopes[sign.name] = {
+      ...data,
+      symbol: sign.symbol,
+      dates: sign.dates,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch ${sign.name}:`, error);
+    horoscopes[sign.name] = {
+      description: "Horoscope unavailable at this time.",
+      symbol: sign.symbol,
+      dates: sign.dates,
+    };
+  }
+}
+
+const today = new Date().toLocaleDateString("en-US", {
+  weekday: "long",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Horoscopes | Lystaria</title>
+    <meta
+      name="description"
+      content="Your daily horoscope readings for all zodiac signs"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Daily Horoscopes</h1>
+      <p class="date">{today}</p>
+    </header>
+
+    <main class="horoscopes-container">
+      {
+        signs.map((sign) => {
+          const data = horoscopes[sign.name];
+          return (
+            <article class="horoscope-card">
+              <div class="sign-header">
+                <span class="sign-symbol">{data.symbol}</span>
+                <h2>{sign.name}</h2>
+                <span class="sign-dates">{data.dates}</span>
+              </div>
+              <p class="description">{data.description}</p>
+              {data.mood && (
+                <div class="meta">
+                  <span>
+                    <strong>Mood:</strong> {data.mood}
+                  </span>
+                  <span>
+                    <strong>Lucky Number:</strong> {data.lucky_number}
+                  </span>
+                  <span>
+                    <strong>Lucky Color:</strong> {data.color}
+                  </span>
+                </div>
+              )}
+            </article>
+          );
+        })
+      }
+    </main>
+
+    <footer>
+      <a href="/">← Back to Home</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  body {
+    background: #0a0a0a;
+    color: #e0e0e0;
+    font-family: "Delius Swash Caps", cursive;
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  h1 {
+    font-family: "Berkshire Swash", cursive;
+    font-size: 3rem;
+    color: #c77dff;
+    margin-bottom: 0.5rem;
+  }
+
+  .date {
+    color: #9d4edd;
+    font-size: 1.2rem;
+  }
+
+  .horoscopes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .horoscope-card {
+    background: rgba(126, 126, 255, 0.05);
+    border: 1px solid rgba(126, 126, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition:
+      transform 0.2s,
+      border-color 0.2s;
+  }
+
+  .horoscope-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(126, 126, 255, 0.4);
+  }
+
+  .sign-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(126, 126, 255, 0.2);
+  }
+
+  .sign-symbol {
+    font-size: 2rem;
+    color: #7e7eff;
+  }
+
+  h2 {
+    font-family: "Berkshire Swash", cursive;
+    font-size: 1.5rem;
+    color: #c77dff;
+    margin: 0;
+    text-transform: capitalize;
+    flex-grow: 1;
+  }
+
+  .sign-dates {
+    font-size: 0.9rem;
+    color: #9d4edd;
+  }
+
+  .description {
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #b8b8b8;
+  }
+
+  .meta strong {
+    color: #7e7eff;
+  }
+
+  footer {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(126, 126, 255, 0.2);
+  }
+
+  footer a {
+    color: #c77dff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+  }
+
+  footer a:hover {
+    color: #7e7eff;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    .horoscopes-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
