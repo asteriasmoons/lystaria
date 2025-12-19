@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
-// Fetch horoscopes at build time from Aztro API
+const API_KEY = import.meta.env.API_NINJAS_KEY;
+
 const signs = [
   { name: "aries", symbol: "♈", dates: "Mar 21 - Apr 19" },
   { name: "taurus", symbol: "♉", dates: "Apr 20 - May 20" },
@@ -22,11 +23,18 @@ const horoscopes = {};
 for (const sign of signs) {
   try {
     const response = await fetch(
-      `https://aztro.sameerkumar.website/?sign=${sign.name}&day=today`,
+      `https://api.api-ninjas.com/v1/horoscope?zodiac=${sign.name}`,
       {
-        method: "POST",
+        headers: {
+          "X-Api-Key": API_KEY,
+        },
       }
     );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
     horoscopes[sign.name] = {
       ...data,
@@ -36,7 +44,7 @@ for (const sign of signs) {
   } catch (error) {
     console.error(`Failed to fetch ${sign.name}:`, error);
     horoscopes[sign.name] = {
-      description: "Horoscope unavailable at this time.",
+      horoscope: "Horoscope unavailable at this time.",
       symbol: sign.symbol,
       dates: sign.dates,
     };
@@ -71,57 +79,25 @@ const today = new Date().toLocaleDateString("en-US", {
 
     <main class="horoscopes-container">
       {
-        signs.map((sign) => (
-          <article class="horoscope-card" data-sign={sign.name}>
-            <div class="sign-header">
-              <span class="sign-symbol">{sign.symbol}</span>
-              <h2>{sign.name}</h2>
-              <span class="sign-dates">{sign.dates}</span>
-            </div>
-            <p class="description">Loading today’s horoscope…</p>
-          </article>
-        ))
+        signs.map((sign) => {
+          const data = horoscopes[sign.name];
+          return (
+            <article class="horoscope-card">
+              <div class="sign-header">
+                <span class="sign-symbol">{data.symbol}</span>
+                <h2>{sign.name}</h2>
+                <span class="sign-dates">{data.dates}</span>
+              </div>
+              <p class="horoscope-text">{data.horoscope}</p>
+            </article>
+          );
+        })
       }
     </main>
 
     <footer>
       <a href="/">← Back to Home</a>
     </footer>
-
-    <script>
-      async function loadHoroscopes() {
-        try {
-          const res = await fetch("/api/horoscopes.json", {
-            cache: "no-store",
-          });
-          if (!res.ok) throw new Error(`API HTTP ${res.status}`);
-          const { today, horoscopes } = await res.json();
-
-          const dateEl = document.querySelector(".date");
-          if (dateEl && today) dateEl.textContent = today;
-
-          document.querySelectorAll(".horoscope-card").forEach((card) => {
-            const sign = card.getAttribute("data-sign");
-            const descEl = card.querySelector(".description");
-            if (!sign || !descEl) return;
-
-            const data = horoscopes?.[sign];
-            descEl.textContent =
-              data?.description || "Horoscope unavailable at this time.";
-          });
-        } catch (err) {
-          console.error("Failed to load horoscopes:", err);
-          document
-            .querySelectorAll(".horoscope-card .description")
-            .forEach((el) => {
-              el.textContent = "Horoscope unavailable at this time.";
-            });
-        }
-      }
-
-      loadHoroscopes();
-    </script>
-	
   </body>
 </html>
 
@@ -203,21 +179,9 @@ const today = new Date().toLocaleDateString("en-US", {
     color: #9d4edd;
   }
 
-  .description {
-    margin-bottom: 1rem;
+  .horoscope-text {
     color: #e0e0e0;
-  }
-
-  .meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: #b8b8b8;
-  }
-
-  .meta strong {
-    color: #7e7eff;
+    line-height: 1.7;
   }
 
   footer {
