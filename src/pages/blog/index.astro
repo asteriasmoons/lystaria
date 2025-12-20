@@ -116,7 +116,6 @@ const sortedPosts = allPosts.sort(
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 2rem;
       padding-bottom: 4rem;
-      align-items: stretch;
     }
 
     .post-card {
@@ -130,10 +129,8 @@ const sortedPosts = allPosts.sort(
       border-radius: 10px;
       transition: all 0.3s ease;
       overflow: hidden;
-      height: 100%;
       display: flex;
       flex-direction: column;
-      min-height: 400px;
     }
 
     .post-card:hover {
@@ -152,8 +149,7 @@ const sortedPosts = allPosts.sort(
 
     .cover-image-wrapper {
       width: 100%;
-      height: 200px; /* Fixed height instead of aspect-ratio */
-      min-height: 200px;
+      height: 220px; /* Fixed height instead of aspect-ratio */
       flex-shrink: 0;
       overflow: hidden;
       position: relative;
