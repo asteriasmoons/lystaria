@@ -150,9 +150,10 @@ const sortedPosts = allPosts.sort(
 
     .cover-image-wrapper {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      height: 200px; /* Fixed height instead of aspect-ratio */
       overflow: hidden;
       position: relative;
+      background: rgba(0, 0, 0, 0.3); /* Subtle background if image fails */
     }
 
     .cover-image {
@@ -160,6 +161,13 @@ const sortedPosts = allPosts.sort(
       height: 100%;
       object-fit: cover;
       transition: transform 0.3s ease;
+      display: block;
+    }
+
+    /* Hide the wrapper completely if no image loads */
+    .cover-image-wrapper:has(img[src=""]),
+    .cover-image-wrapper:has(img:not([src])) {
+      display: none;
     }
 
     .post-card:hover .cover-image {
