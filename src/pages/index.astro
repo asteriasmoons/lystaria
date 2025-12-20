@@ -236,7 +236,14 @@ const latestPosts = sortedPosts.slice(0, 2);
 
     .post-card h3 {
       margin-bottom: 0.5rem;
-      color: #ffffff;
+
+      /* override the global gradient heading theme */
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      background-clip: initial !important;
+
+      -webkit-text-fill-color: #ffffff !important; /* Safari/Chrome */
+      color: #ffffff !important; /* fallback */
     }
 
     .post-date {
