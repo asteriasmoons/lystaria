@@ -223,6 +223,13 @@ a.gradient-accent:hover {
   background-image: var(--gradient-accent-hover);
 }
 
+.moon-info-main,
+.moon-info-main .moon-details,
+.moon-info-main .moon-phase {
+  font-family: 'Berkshire Swash', serif;
+}
+
+
 /* Container for content */
 .container {
   max-width: 800px;
