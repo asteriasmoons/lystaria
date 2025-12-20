@@ -142,8 +142,17 @@ const sortedPosts = allPosts.sort(
     .post-card h2 {
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
-      color: #ffffff;
       line-height: 1.3;
+
+      /* override global gradient heading theme */
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      background-clip: initial !important;
+
+      -webkit-text-fill-color: #ffffff !important; /* Safari/Chrome */
+      color: #ffffff !important; /* fallback */
+
+      display: block !important;
     }
 
     .post-date {
