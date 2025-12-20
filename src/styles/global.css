@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
 
   /* Safari consistency */
-  display: inline-block;
+  display: block;
 }
 
 /* Individual heading sizing */
