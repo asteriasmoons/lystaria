@@ -1,0 +1,181 @@
+---
+// @ts-nocheck
+// Spellcrafting Series Landing Page
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+// Get only posts tagged with "spellcrafting-series"
+const allPosts = await getCollection("posts");
+const spellcraftingPosts = allPosts
+  .filter((post) => post.data.tags?.includes("spellcrafting-series"))
+  .sort((a, b) => a.data.seriesNumber - b.data.seriesNumber); // Sort by series number
+---
+
+<BaseLayout
+  title="Spellcrafting Series | Lystaria"
+  description="A 15-part journey into the foundations of practical magic"
+  image="/banner.png"
+  type="website"
+>
+  <div class="container">
+    <header class="series-header">
+      <h1>Spellcrafting Series</h1>
+      <p class="subtitle">
+        A 15-part journey into the foundations of practical magic
+      </p>
+
+      <div class="intro">
+        <p>
+          This series breaks down the mechanics of spellwork—demystifying the
+          "how" and "why" behind crafting intentional magic. Whether you're new
+          to the craft or refining your practice, these posts offer a
+          foundational framework for understanding spells as tools of
+          transformation, not mystical secrets.
+        </p>
+      </div>
+    </header>
+
+    <div class="posts-grid">
+      {
+        spellcraftingPosts.map((post) => (
+          <article class="post-card">
+            <span class="series-badge">
+              Part {post.data.seriesNumber} of {post.data.seriesTotal}
+            </span>
+
+            <h2>{post.data.title}</h2>
+            <p class="post-description">{post.data.description}</p>
+
+            <a href={`/blog/${post.slug}`} class="read-button">
+              Read Post →
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .series-header {
+      text-align: center;
+      padding: 3rem 0 4rem;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 4rem;
+    }
+
+    .series-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: #ffffff;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: #5ac7fa;
+      margin-bottom: 2rem;
+    }
+
+    .intro {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .intro p {
+      font-size: 1.1rem;
+      color: var(--color-text-muted);
+      line-height: 1.8;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding-bottom: 4rem;
+    }
+
+    .post-card {
+      background: rgba(126, 126, 255, 0.05);
+      border: 1px solid rgba(126, 126, 255, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      transition:
+        transform 0.2s,
+        border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(126, 126, 255, 0.4);
+    }
+
+    .series-badge {
+      display: inline-block;
+      background: rgba(90, 200, 250, 0.1);
+      color: #5ac7fa;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(90, 200, 250, 0.2);
+      align-self: flex-start;
+    }
+
+    .post-card h2 {
+      font-size: 1.5rem;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: #ffffff;
+    }
+
+    .post-description {
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .read-button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: rgba(126, 126, 255, 0.1);
+      border: 1px solid rgba(126, 126, 255, 0.3);
+      border-radius: 8px;
+      color: #7e7eff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .read-button:hover {
+      background: rgba(126, 126, 255, 0.2);
+      border-color: #7e7eff;
+      transform: translateX(4px);
+    }
+
+    @media (max-width: 768px) {
+      .series-header h1 {
+        font-size: 2rem;
+      }
+
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>
