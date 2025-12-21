@@ -120,13 +120,19 @@ const spellcraftingPosts = allPosts
     }
 
     .post-card {
-      background: rgba(126, 126, 255, 0.05);
+      background: linear-gradient(
+        135deg,
+        rgba(126, 126, 255) 0%,
+        rgba(90, 200, 250) 50%,
+        rgba(10, 10, 15, 1) 100%
+      );
       border: 1px solid rgba(126, 126, 255, 0.2);
       border-radius: 12px;
       padding: 2rem;
       transition:
         transform 0.2s,
         border-color 0.2s;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
