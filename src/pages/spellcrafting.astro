@@ -36,25 +36,25 @@ const spellcraftingPosts = allPosts
 
       <!-- NEW: Email subscription form -->
       <div class="subscribe-box">
-        <h3>Get Notified</h3>
+        <h3>Subscribe</h3>
         <p>
           Subscribe to get an email when new Spellcrafting posts are published.
         </p>
 
-        <!-- PASTE YOUR BUTTONDOWN FORM CODE HERE -->
         <form
-          action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
+          action="https://buttondown.email/api/emails/embed-subscribe/asteriamoon"
           method="post"
-          class="embeddable-buttondown-form"
+          target="popupwindow"
+          class="subscribe-form"
         >
-          <label for="bd-email">Enter your email</label>
-          <input type="email" name="email" id="bd-email" />
-          <input type="submit" value="Subscribe" />
-          <p>
-            <a href="https://buttondown.com/refer/asteriamoon" target="_blank">
-              Powered by Buttondown.
-            </a>
-          </p>
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            class="email-input"
+          />
+          <input type="submit" value="Subscribe" class="submit-button" />
         </form>
       </div>
     </header>
@@ -200,7 +200,7 @@ const spellcraftingPosts = allPosts
       .posts-grid {
         grid-template-columns: 1fr;
       }
-	  
+
       .subscribe-box {
         max-width: 500px;
         margin: 3rem auto 0;
@@ -213,12 +213,12 @@ const spellcraftingPosts = allPosts
 
       .subscribe-box h3 {
         font-size: 1.5rem;
-        color: #ffffff;
+        color: #ffffff !important;
         margin-bottom: 0.5rem;
-        background: none;
-        -webkit-background-clip: initial;
-        background-clip: initial;
-        -webkit-text-fill-color: #ffffff;
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: #ffffff !important;
       }
 
       .subscribe-box p {
@@ -226,49 +226,57 @@ const spellcraftingPosts = allPosts
         margin-bottom: 1.5rem;
       }
 
-      .embeddable-buttondown-form {
-        display: flex;
+      .subscribe-form {
+        display: flex !important;
         gap: 0.5rem;
         max-width: 400px;
         margin: 0 auto;
+        align-items: stretch;
       }
 
-      .embeddable-buttondown-form input[type="email"] {
+      .email-input {
         flex: 1;
-        padding: 0.75rem 1rem;
-        background: rgba(10, 10, 15, 0.8);
-        border: 1px solid rgba(126, 126, 255, 0.3);
-        border-radius: 8px;
-        color: #ffffff;
-        font-family: inherit;
-        font-size: 1rem;
+        padding: 0.75rem 1rem !important;
+        background: rgba(10, 10, 15, 0.8) !important;
+        border: 1px solid rgba(126, 126, 255, 0.3) !important;
+        border-radius: 8px !important;
+        color: #ffffff !important;
+        font-family: inherit !important;
+        font-size: 1rem !important;
       }
 
-      .embeddable-buttondown-form input[type="email"]::placeholder {
-        color: rgba(255, 255, 255, 0.4);
+      .email-input::placeholder {
+        color: rgba(255, 255, 255, 0.4) !important;
       }
 
-      .embeddable-buttondown-form input[type="submit"] {
-        padding: 0.75rem 1.5rem;
-        background: rgba(126, 126, 255, 0.2);
-        border: 1px solid #7e7eff;
-        border-radius: 8px;
-        color: #7e7eff;
-        font-family: inherit;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
+      .submit-button {
+        padding: 0.75rem 1.5rem !important;
+        background: rgba(126, 126, 255, 0.2) !important;
+        border: 1px solid #7e7eff !important;
+        border-radius: 8px !important;
+        color: #7e7eff !important;
+        font-family: inherit !important;
+        font-size: 1rem !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        white-space: nowrap;
       }
 
-      .embeddable-buttondown-form input[type="submit"]:hover {
-        background: #7e7eff;
-        color: #0a0a0a;
+      .submit-button:hover {
+        background: #7e7eff !important;
+        color: #0a0a0a !important;
+      }
+
+      /* Hide Buttondown branding */
+      .subscribe-form ~ p,
+      .subscribe-form ~ a {
+        display: none !important;
       }
 
       @media (max-width: 600px) {
-        .embeddable-buttondown-form {
-          flex-direction: column;
+        .subscribe-form {
+          flex-direction: column !important;
         }
       }
     }
