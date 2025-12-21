@@ -212,23 +212,26 @@ const latestPosts = sortedPosts.slice(0, 2);
 
     .post-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 2rem;
-      margin-bottom: 3rem;
+      padding-bottom: 4rem;
     }
 
     .post-card {
       background: linear-gradient(
         135deg,
-        rgb(126, 126, 255) 0%,
-        rgb(90, 200, 250) 50%,
+        rgba(126, 126, 255) 0%,
+        rgba(90, 200, 250) 50%,
         rgba(10, 10, 15, 1) 100%
       );
       border: 1px solid var(--color-border);
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.2s;
+      border-color: 0.2s;
       overflow: hidden;
-      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .post-card:hover {
