@@ -63,7 +63,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="container">
         <nav class="nav">
           <a href="/" class="nav-logo">✦ Lystaria ✦</a>
-          <div class="nav-links">
+
+          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
+          </button>
+
+          <div class="nav-links" id="navLinks">
             <a href="/">Home</a>
             <a href="/blog">Blog</a>
             <a href="/horoscopes">Horoscopes</a>
@@ -101,16 +106,76 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
+      }
+
+      .menu-toggle {
+        background: none;
+        border: none;
+        color: var(--color-accent);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        color: var(--color-accent-bright);
+      }
+
+      .menu-icon {
+        display: block;
+      }
+
+      .menu-icon-img {
+        width: 24px;
+        height: 24px;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+
+      .menu-toggle:hover .menu-icon-img {
+        transform: rotate(90deg);
       }
 
       .nav-links {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 1rem;
+        background: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 1rem;
         display: flex;
-        gap: 2rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
       }
 
       .nav-links a {
         font-size: 1rem;
         letter-spacing: 0.02em;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(126, 126, 255, 0.1);
+        transform: translateX(4px);
       }
 
       /* Main content area */
@@ -152,18 +217,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         width: 16px;
         height: 16px;
       }
-
-      /* Mobile responsive */
-      @media (max-width: 768px) {
-        .nav {
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .nav-links {
-          gap: 1rem;
-        }
-      }
     </style>
+
+    <script>
+      // Menu toggle functionality
+      const menuToggle = document.getElementById("menuToggle");
+      const navLinks = document.getElementById("navLinks");
+
+      menuToggle?.addEventListener("click", () => {
+        navLinks?.classList.toggle("active");
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          !menuToggle?.contains(e.target as Node) &&
+          !navLinks?.contains(e.target as Node)
+        ) {
+          navLinks?.classList.remove("active");
+        }
+      });
+
+      // Close menu when a link is clicked
+      navLinks?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("active");
+        });
+      });
+    </script>
   </body>
 </html>
