@@ -40,21 +40,18 @@ const spellcraftingPosts = allPosts
         <p>Get notified when new Spellcrafting posts are published</p>
 
         <form
-          action="https://buttondown.email/api/emails/embed-subscribe/asteriamoon"
+          action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
           method="post"
-          target="popupwindow"
-          class="subscribe-form"
+          class="embeddable-buttondown-form"
         >
-          <div class="form-wrapper">
-            <input
-              type="email"
-              name="email"
-              placeholder="your@email.com"
-              required
-              class="email-input"
-            />
-            <button type="submit" class="submit-button"> Subscribe → </button>
-          </div>
+          <label for="bd-email">Enter your email</label>
+          <input type="email" name="email" id="bd-email" />
+          <input type="submit" value="Subscribe" />
+          <p>
+            <a href="https://buttondown.com/refer/asteriamoon" target="_blank">
+              Powered by Buttondown.
+            </a>
+          </p>
         </form>
       </div>
     </header>
