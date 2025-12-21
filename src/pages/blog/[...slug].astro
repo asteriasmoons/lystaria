@@ -36,6 +36,23 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   image="/banner.png"
   type="article"
 >
+  <!-- Schema Markup for SEO -->
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.data.title,
+      description: post.data.description,
+      author: {
+        "@type": "Person",
+        name: "Asteria",
+      },
+      datePublished: post.data.pubDate.toISOString(),
+      url: `https://lystaria.im/blog/${post.slug}`,
+    })}
+  />
+
   <article class="post-container">
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
