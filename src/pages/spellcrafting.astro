@@ -33,6 +33,30 @@ const spellcraftingPosts = allPosts
           transformation, not mystical secrets.
         </p>
       </div>
+
+      <!-- NEW: Email subscription form -->
+      <div class="subscribe-box">
+        <h3>Get Notified</h3>
+        <p>
+          Subscribe to get an email when new Spellcrafting posts are published.
+        </p>
+
+        <!-- PASTE YOUR BUTTONDOWN FORM CODE HERE -->
+        <form
+          action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
+          method="post"
+          class="embeddable-buttondown-form"
+        >
+          <label for="bd-email">Enter your email</label>
+          <input type="email" name="email" id="bd-email" />
+          <input type="submit" value="Subscribe" />
+          <p>
+            <a href="https://buttondown.com/refer/asteriamoon" target="_blank">
+              Powered by Buttondown.
+            </a>
+          </p>
+        </form>
+      </div>
     </header>
 
     <div class="posts-grid">
@@ -175,6 +199,77 @@ const spellcraftingPosts = allPosts
 
       .posts-grid {
         grid-template-columns: 1fr;
+      }
+	  
+      .subscribe-box {
+        max-width: 500px;
+        margin: 3rem auto 0;
+        padding: 2rem;
+        background: rgba(126, 126, 255, 0.05);
+        border: 1px solid rgba(126, 126, 255, 0.2);
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .subscribe-box h3 {
+        font-size: 1.5rem;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        background: none;
+        -webkit-background-clip: initial;
+        background-clip: initial;
+        -webkit-text-fill-color: #ffffff;
+      }
+
+      .subscribe-box p {
+        color: var(--color-text-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .embeddable-buttondown-form {
+        display: flex;
+        gap: 0.5rem;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .embeddable-buttondown-form input[type="email"] {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        background: rgba(10, 10, 15, 0.8);
+        border: 1px solid rgba(126, 126, 255, 0.3);
+        border-radius: 8px;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+
+      .embeddable-buttondown-form input[type="email"]::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .embeddable-buttondown-form input[type="submit"] {
+        padding: 0.75rem 1.5rem;
+        background: rgba(126, 126, 255, 0.2);
+        border: 1px solid #7e7eff;
+        border-radius: 8px;
+        color: #7e7eff;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .embeddable-buttondown-form input[type="submit"]:hover {
+        background: #7e7eff;
+        color: #0a0a0a;
+      }
+
+      @media (max-width: 600px) {
+        .embeddable-buttondown-form {
+          flex-direction: column;
+        }
       }
     }
   </style>
