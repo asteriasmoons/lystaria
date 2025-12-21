@@ -283,11 +283,29 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
 
     .read-more {
-      color: #ffffff;
-      font-size: 0.95rem;
-      font-weight: 500;
+      display: inline-block;
+      align-self: flex-start;
+
       margin-top: auto;
-      transition: color 0.3s ease;
+      padding: 0.35rem 0.9rem;
+
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+
+      color: #ffffff;
+      background: rgba(10, 10, 15, 0.75);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .post-card:hover .read-more {
+      border-color: var(--color-accent);
+      background: rgba(10, 10, 15, 0.9);
+      transform: translateY(-1px);
     }
 
     .post-card:hover .read-more {
