@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lystaria.im/sitemap-0.xml
