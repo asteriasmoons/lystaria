@@ -194,7 +194,6 @@ const spellcraftingPosts = allPosts
       max-width: 700px;
       margin: 3rem auto 0;
       padding: 2.5rem;
-
       background: linear-gradient(
         135deg,
         rgba(126, 126, 255, 0.1) 0%,
@@ -208,8 +207,6 @@ const spellcraftingPosts = allPosts
     .subscribe-box h3 {
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
-
-      /* override global gradient heading theme */
       background: none !important;
       -webkit-background-clip: initial !important;
       background-clip: initial !important;
@@ -236,15 +233,12 @@ const spellcraftingPosts = allPosts
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* Email input */
     .embeddable-buttondown-form input[type="email"] {
       width: min(460px, 100%);
       padding: 0.75rem 1rem;
-
       background: rgba(10, 10, 15, 0.6);
       border: 1px solid rgba(126, 126, 255, 0.35);
       border-radius: 999px;
-
       color: #ffffff;
       font-family: inherit;
       font-size: 0.95rem;
@@ -255,19 +249,15 @@ const spellcraftingPosts = allPosts
       border-color: #7e7eff;
     }
 
-    /* Submit button */
     .embeddable-buttondown-form input[type="submit"] {
       padding: 0.75rem 1.5rem;
-
       background: linear-gradient(135deg, #7e7eff 0%, #5ac7fa 100%);
       border: none;
       border-radius: 999px;
-
       color: #ffffff;
       font-family: inherit;
       font-size: 0.95rem;
       font-weight: 600;
-
       cursor: pointer;
       transition:
         transform 0.2s ease,
@@ -284,7 +274,6 @@ const spellcraftingPosts = allPosts
       transform: translateY(0);
     }
 
-    /* The "Powered by Buttondown" line */
     .embeddable-buttondown-form p {
       margin: 0.5rem 0 0;
       font-size: 0.9rem;
@@ -299,24 +288,22 @@ const spellcraftingPosts = allPosts
       color: rgba(90, 199, 250, 0.9);
     }
 
-    .posts-grid {
-      grid-template-columns: 1fr;
-    }
-
     /* Mobile Styles */
     @media (max-width: 768px) {
       .series-header h1 {
         font-size: 2rem;
       }
 
-      @media (max-width: 768px) {
-        .subscribe-box {
-          padding: 2rem 1.5rem;
-        }
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
 
-        .subscribe-box h3 {
-          font-size: 1.6rem;
-        }
+      .subscribe-box {
+        padding: 2rem 1.5rem;
+      }
+
+      .subscribe-box h3 {
+        font-size: 1.6rem;
       }
     }
   </style>
