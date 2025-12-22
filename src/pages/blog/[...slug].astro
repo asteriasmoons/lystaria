@@ -36,6 +36,9 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   image="/banner.png"
   type="article"
 >
+  <!-- Reading Progress Bar -->
+  <div id="progress-bar"></div>
+
   <!-- Schema Markup for SEO -->
   <script
     type="application/ld+json"
@@ -230,6 +233,17 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       margin: 3rem 0;
     }
 
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #7e7eff, #5ac8fa);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s ease;
+    }
+
     @media (max-width: 768px) {
       .post-title {
         font-size: 2rem;
@@ -240,4 +254,25 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       }
     }
   </style>
+
+  <script>
+    function updateProgressBar() {
+      const progressBar = document.getElementById("progress-bar");
+      const windowHeight = window.innerHeight;
+      const documentHeight =
+        document.documentElement.scrollHeight - windowHeight;
+      const scrolled = window.scrollY;
+      const progress = (scrolled / documentHeight) * 100;
+
+      if (progressBar) {
+        progressBar.style.width = progress + "%";
+      }
+    }
+
+    // Update on scroll
+    window.addEventListener("scroll", updateProgressBar);
+
+    // Update on page load
+    updateProgressBar();
+  </script>
 </BaseLayout>
