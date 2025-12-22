@@ -90,7 +90,7 @@ const sortedPosts = allPosts.sort(
     .container-wide {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 var(--page-pad);
     }
 
     .blog-header {
@@ -129,9 +129,8 @@ const sortedPosts = allPosts.sort(
       );
       border: 1px solid var(--color-border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 0; /* KEY: remove outer padding */
       transition: all 0.2s;
-      border-color: 0.2s;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -155,10 +154,12 @@ const sortedPosts = allPosts.sort(
     .post-media {
       position: relative;
       width: 100%;
-      height: 200px; /* consistent card rhythm */
+      height: 200px;
       overflow: hidden;
       flex-shrink: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
     }
 
     /* subtle overlay so covers blend with your theme */
@@ -181,7 +182,7 @@ const sortedPosts = allPosts.sort(
       object-fit: cover;
       display: block;
       opacity: 0.95;
-      border-radius: 6px;
+      border-radius: 0; /* KEY: remove inner rounding */
       transition:
         transform 0.35s ease,
         opacity 0.35s ease;
@@ -196,11 +197,12 @@ const sortedPosts = allPosts.sort(
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      padding: 2rem 2rem 1rem 2rem;
+      padding: var(--card-pad); /* KEY: single source of padding */
+      gap: var(--stack-gap); /* KEY: consistent spacing */
     }
 
     .post-header {
-      margin-bottom: 1rem;
+      margin-bottom: 0; /* spacing handled by gap now */
     }
 
     .post-card h2 {
@@ -226,9 +228,7 @@ const sortedPosts = allPosts.sort(
     }
 
     .post-description {
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0; /* spacing handled by gap now */
       flex-grow: 1;
     }
 
@@ -236,7 +236,7 @@ const sortedPosts = allPosts.sort(
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
-      padding: 0 2rem 2rem 2rem;
+      padding: 0 var(--card-pad) var(--card-pad) var(--card-pad); /* matches content */
     }
 
     .tag {
@@ -290,17 +290,33 @@ const sortedPosts = allPosts.sort(
       color: rgba(255, 255, 255, 0.7);
     }
 
+    /* MOBILE EXPERIENCE */
     @media (max-width: 768px) {
       .blog-header h1 {
         font-size: 2rem;
       }
 
+      .container-wide {
+        padding: 0 1rem;
+      }
+
+      .blog-header {
+        padding: 2rem 0 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+
       .posts-grid {
-        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding-bottom: 2.5rem;
       }
 
       .post-media {
-        height: 180px;
+        height: 170px;
+      }
+
+      .tag {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8rem;
       }
     }
   </style>
