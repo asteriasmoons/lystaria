@@ -1,0 +1,277 @@
+---
+// @ts-nocheck
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Check authentication
+const cookies = Astro.cookies;
+const isAuthenticated = cookies.get("admin-auth")?.value === "true";
+
+if (!isAuthenticated) {
+  return Astro.redirect("/admin");
+}
+
+// Fetch analytics data from Umami API
+const UMAMI_API_URL = import.meta.env.UMAMI_API_URL;
+const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID;
+const UMAMI_API_TOKEN = import.meta.env.UMAMI_API_TOKEN;
+
+const headers = {
+  Authorization: `Bearer ${UMAMI_API_TOKEN}`,
+  "Content-Type": "application/json",
+};
+
+// Time range: last 30 days
+const endDate = new Date().getTime();
+const startDate = endDate - 30 * 24 * 60 * 60 * 1000;
+
+let stats = {
+  pageviews: { value: 0 },
+  visitors: { value: 0 },
+  topPages: [],
+};
+
+try {
+  // Fetch website stats
+  const statsResponse = await fetch(
+    `${UMAMI_API_URL}/api/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`,
+    { headers }
+  );
+
+  if (statsResponse.ok) {
+    stats = await statsResponse.ok();
+  }
+
+  // Fetch top pages (metrics endpoint)
+  const metricsResponse = await fetch(
+    `${UMAMI_API_URL}/api/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=url`,
+    { headers }
+  );
+
+  if (metricsResponse.ok) {
+    const metricsData = await metricsResponse.json();
+    stats.topPages = metricsData.slice(0, 10);
+  }
+} catch (error) {
+  console.error("Failed to fetch analytics:", error);
+}
+---
+
+<BaseLayout
+  title="Analytics · Lystaria"
+  description="Private analytics dashboard"
+>
+  <div class="analytics-container">
+    <header class="analytics-header">
+      <h1>✦ Analytics Dashboard ✦</h1>
+      <p class="subtitle">Last 30 days</p>
+    </header>
+
+    <div class="stats-grid">
+      <!-- Total Page Views -->
+      <div class="stat-card">
+        <h2>Total Page Views</h2>
+        <p class="stat-number">
+          {stats.pageviews?.value?.toLocaleString() || 0}
+        </p>
+      </div>
+
+      <!-- Recent Visitors -->
+      <div class="stat-card">
+        <h2>Unique Visitors</h2>
+        <p class="stat-number">
+          {stats.visitors?.value?.toLocaleString() || 0}
+        </p>
+      </div>
+    </div>
+
+    <!-- Most Popular Posts -->
+    <div class="popular-posts">
+      <h2>Most Popular Pages</h2>
+      <div class="posts-list">
+        {
+          stats.topPages.length > 0 ? (
+            stats.topPages.map((page, index) => (
+              <div class="post-item">
+                <span class="post-rank">#{index + 1}</span>
+                <div class="post-info">
+                  <a href={page.x} class="post-url">
+                    {page.x}
+                  </a>
+                  <span class="post-views">
+                    {page.y.toLocaleString()} views
+                  </span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p class="no-data">No data available yet</p>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="/admin/logout" class="logout-btn">Logout</a>
+    </div>
+  </div>
+
+  <style>
+    .analytics-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .analytics-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .analytics-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #7e7eff, #5ac8fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(20, 20, 30, 0.6);
+      border: 1px solid rgba(126, 126, 255, 0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .stat-card h2 {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #7e7eff, #5ac8fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .popular-posts {
+      background: rgba(20, 20, 30, 0.6);
+      border: 1px solid rgba(126, 126, 255, 0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .popular-posts h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .post-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(10, 10, 15, 0.4);
+      border-radius: 8px;
+      border: 1px solid rgba(126, 126, 255, 0.2);
+    }
+
+    .post-rank {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #7e7eff;
+      min-width: 40px;
+    }
+
+    .post-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .post-url {
+      color: var(--color-text);
+      text-decoration: none;
+      flex: 1;
+    }
+
+    .post-url:hover {
+      color: #5ac8fa;
+    }
+
+    .post-views {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    .no-data {
+      text-align: center;
+      color: var(--color-text-muted);
+      padding: 2rem;
+    }
+
+    .actions {
+      text-align: center;
+    }
+
+    .logout-btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: rgba(126, 126, 255, 0.2);
+      border: 1px solid rgba(126, 126, 255, 0.4);
+      border-radius: 8px;
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(126, 126, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .analytics-header h1 {
+        font-size: 2rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .post-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</BaseLayout>
