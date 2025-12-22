@@ -154,7 +154,7 @@ const sortedPosts = allPosts.sort(
     .post-media {
       position: relative;
       width: 100%;
-      height: 200px;
+      aspect-ratio: 2 / 1; /* PERFECT for 1280 × 640 */
       overflow: hidden;
       flex-shrink: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -179,10 +179,10 @@ const sortedPosts = allPosts.sort(
     .post-cover {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover; /* crops gently, not aggressively */
+      object-position: center; /* safe default */
       display: block;
       opacity: 0.95;
-      border-radius: 0; /* KEY: remove inner rounding */
       transition:
         transform 0.35s ease,
         opacity 0.35s ease;
@@ -311,7 +311,7 @@ const sortedPosts = allPosts.sort(
       }
 
       .post-media {
-        height: 170px;
+        aspect-ratio: 2.5 / 1; /* subtly tighter on phones */
       }
 
       .tag {
