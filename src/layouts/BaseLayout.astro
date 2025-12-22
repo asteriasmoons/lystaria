@@ -57,6 +57,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Qwigley&family=Hachi+Maru+Pop&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7K4W4KG8M"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-L7K4W4KG8M");
+    </script>
+    
   </head>
   <body>
     <header class="site-header">
