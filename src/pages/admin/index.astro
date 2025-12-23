@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 // Simple password protection
+export const prerender = false;
 const cookies = Astro.cookies;
 const isAuthenticated = cookies.get("admin-auth")?.value === "true";
 

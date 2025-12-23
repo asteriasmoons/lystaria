@@ -80,7 +80,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <header class="site-header">
       <div class="container">
         <nav class="nav">
-          <a href="/" class="nav-logo">✦ Lystaria ✦</a>
+          <a href="/" class="nav-logo" id="siteLogo">✦ Lystaria ✦</a>
 
           <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
             <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
@@ -291,6 +291,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         link.addEventListener("click", () => {
           navLinks.classList.remove("active");
         });
+      });
+    </script>
+
+    <script is:inline>
+      document.addEventListener("DOMContentLoaded", function () {
+        const logo = document.getElementById("siteLogo");
+        if (logo) {
+          logo.addEventListener("dblclick", function (e) {
+            e.preventDefault();
+            window.location.href = "/admin";
+          });
+        }
       });
     </script>
   </body>
