@@ -7,6 +7,6 @@ import vercel from "@astrojs/vercel/serverless"; // ← ADD THIS LINE
 export default defineConfig({
   integrations: [mdx(), sitemap()],
   site: "https://lystaria.im",
-  output: "hybrid",
+  output: "static",
   adapter: vercel(),
 });
