@@ -156,12 +156,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 48px;
+  font-size: 38px;
   letter-spacing: 0.05em;
 }
 
 h2 {
-  font-size: 32px;
+  font-size: 30px;
 }
 
 h3 {
@@ -169,7 +169,7 @@ h3 {
 }
 
 h4 {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 /* Links */
