@@ -130,9 +130,9 @@ body {
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  text-shadow:
+  /* text-shadow:
     0 0 14px rgba(126, 126, 255, 0.35),
-    0 0 6px rgba(90, 199, 250, 0.25);
+    0 0 6px rgba(90, 199, 250, 0.25); */
 }
 
 /* Typography: Stable headings */
