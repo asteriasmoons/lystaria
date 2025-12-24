@@ -15,16 +15,14 @@ if (!isAuthenticated) {
 
 /* ─────────────────────────────
    UMAMI CLOUD CONFIG
-   (Your env var stays named UMAMI_API_TOKEN)
 ───────────────────────────── */
 const UMAMI_API_URL = String(import.meta.env.UMAMI_API_URL || "").trim();       // https://api.umami.is/v1
 const UMAMI_WEBSITE_ID = String(import.meta.env.UMAMI_WEBSITE_ID || "").trim(); // 0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6
-const UMAMI_API_TOKEN = String(import.meta.env.UMAMI_API_TOKEN || "").trim();   // your Cloud token (yes, TOKEN)
+const UMAMI_API_TOKEN = String(import.meta.env.UMAMI_API_TOKEN || "").trim();   // token value
 
 const base = UMAMI_API_URL.replace(/\/+$/, "");
 
 const headers = {
-  // Cloud expects this header name. We're just putting YOUR TOKEN into it.
   "x-umami-api-key": UMAMI_API_TOKEN,
   "Content-Type": "application/json",
 };
@@ -65,20 +63,23 @@ try {
   const pagesRes = await fetch(pagesUrl, { headers });
 
   if (!pagesRes.ok) {
-  const body = await pagesRes.text();
-  fetchError =
-    fetchError || `Top pages failed (${pagesRes.status}): ${body.slice(0, 120)}`;
-} else {
-  const pages = await pagesRes.json();
+    const body = await pagesRes.text();
+    fetchError =
+      fetchError || `Top pages failed (${pagesRes.status}): ${body.slice(0, 120)}`;
+  } else {
+    const pages = await pagesRes.json();
 
-  topPages = Array.isArray(pages) ? pages : [];
+    topPages = Array.isArray(pages) ? pages : [];
 
-  // POSTS ONLY -- filter by URL path, not filesystem
-  topPages = topPages.filter((p) => {
-    const path = String(p.x || "").split("?")[0].split("#")[0];
-
-    return path.startsWith("/posts/") && path !== "/posts/";
-  });
+    // POSTS ONLY -- filter by URL path, not filesystem
+    topPages = topPages.filter((p) => {
+      const path = String(p.x || "").split("?")[0].split("#")[0];
+      return path.startsWith("/posts/") && path !== "/posts/";
+    });
+  }
+} catch (err) {
+  console.error("Umami fetch error:", err);
+  fetchError = "Network / fetch error";
 }
 ---
 
