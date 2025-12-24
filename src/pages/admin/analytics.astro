@@ -37,6 +37,11 @@ try {
   );
 
   if (statsResponse.ok) {
+    console.error(
+      "Umami stats failed",
+      statsResponse.status,
+      await statsResponse.text()
+    );
     const statsData = await statsResponse.json();
     pageviews = statsData.pageviews?.value || 0;
     visitors = statsData.visitors?.value || 0;
@@ -49,6 +54,11 @@ try {
   );
 
   if (metricsResponse.ok) {
+    console.error(
+      "Umami metrics failed",
+      metricsResponse.status,
+      await metricsResponse.text()
+    );
     const metricsData = await metricsResponse.json();
     topPages = Array.isArray(metricsData) ? metricsData.slice(0, 10) : [];
   }
