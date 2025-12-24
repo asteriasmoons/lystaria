@@ -266,9 +266,18 @@ const latestPosts = sortedPosts.slice(0, 2);
       border-color: var(--color-accent);
     }
     
-.post-body {
+.post-body{
   position: relative;
-  display: flow-root;   /* KEY: stops margin-collapsing */
+  flex: 1;                 /* KEY: fill remaining height */
+  display: flex;           /* KEY: allow content to push tags down */
+  flex-direction: column;
+  min-height: 0;
+}
+
+.post-content{
+  flex: 1;                 /* KEY: takes space, tags sit at bottom */
+  display: flex;
+  flex-direction: column;
 }
 
 .post-body::before {
