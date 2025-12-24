@@ -14,21 +14,24 @@ if (!isAuthenticated) {
 }
 
 /* ─────────────────────────────
-   UMAMI CONFIG
+   UMAMI CLOUD (BASICS)
 ───────────────────────────── */
-const UMAMI_API_URL = import.meta.env.UMAMI_API_URL; // https://analytics.umami.is
-const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID; // UUID
-const UMAMI_API_TOKEN = import.meta.env.UMAMI_API_TOKEN;
+// MUST be https://api.umami.is/v1
+const UMAMI_API_URL = import.meta.env.UMAMI_API_URL;
+const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID;
+const UMAMI_API_KEY = import.meta.env.UMAMI_API_KEY;
 
-const base = (UMAMI_API_URL || "").replace(/\/+$/, "").replace(/\/api$/, "");
+// Normalize base URL
+const base = (UMAMI_API_URL || "").replace(/\/+$/, "");
 
+// Umami Cloud auth header (NOT Bearer)
 const headers = {
-  Authorization: `Bearer ${UMAMI_API_TOKEN}`,
+  "x-umami-api-key": UMAMI_API_KEY,
   "Content-Type": "application/json",
 };
 
 /* ─────────────────────────────
-   DATE RANGE
+   DATE RANGE (LAST 30 DAYS)
 ───────────────────────────── */
 const endDate = Date.now();
 const startDate = endDate - 30 * 24 * 60 * 60 * 1000;
@@ -42,12 +45,12 @@ let topPages = [];
 let fetchError = "";
 
 /* ─────────────────────────────
-   FETCH DATA
+   FETCH ANALYTICS
 ───────────────────────────── */
 try {
-  // ── Stats (totals)
+  // TOTAL STATS
   const statsRes = await fetch(
-    `${base}/api/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`,
+    `${base}/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`,
     { headers }
   );
 
@@ -59,9 +62,9 @@ try {
     visitors = Number(stats.visitors || 0);
   }
 
-  // ── Top pages (pageviews per path)
+  // TOP PAGES (BASIC METRICS)
   const pagesRes = await fetch(
-    `${base}/api/websites/${UMAMI_WEBSITE_ID}/metrics/expanded?startAt=${startDate}&endAt=${endDate}&type=path&limit=10`,
+    `${base}/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=path&limit=10`,
     { headers }
   );
 
@@ -69,6 +72,7 @@ try {
     fetchError = fetchError || `Top pages failed (${pagesRes.status})`;
   } else {
     const pages = await pagesRes.json();
+    // Each row: { x: "/path", y: visitors }
     topPages = Array.isArray(pages) ? pages : [];
   }
 } catch (err) {
@@ -77,11 +81,9 @@ try {
 }
 ---
 
-<BaseLayout
-  title="Analytics · Lystaria"
-  description="Private analytics dashboard"
->
+<BaseLayout title="Analytics · Lystaria" description="Private analytics dashboard">
   <div class="analytics-container">
+
     <header class="analytics-header">
       <h1>✦ Analytics Dashboard ✦</h1>
       <p class="subtitle">Last 30 days</p>
@@ -105,29 +107,27 @@ try {
       <h2>Most Popular Pages</h2>
 
       <div class="posts-list">
-        <!-- 🔴 ERROR DISPLAY (THIS IS THE PART YOU COULDN’T SEE BEFORE) -->
-        {fetchError && <p class="no-data">Analytics error: {fetchError}</p>}
 
-        <!-- DATA -->
-        {
-          !fetchError && topPages.length > 0 ? (
-            topPages.map((page, index) => (
-              <div class="post-item">
-                <span class="post-rank">#{index + 1}</span>
-                <div class="post-info">
-                  <a href={page.name} class="post-url">
-                    {page.name}
-                  </a>
-                  <span class="post-views">
-                    {Number(page.pageviews || 0).toLocaleString()} views
-                  </span>
-                </div>
+        {fetchError && (
+          <p class="no-data">Analytics error: {fetchError}</p>
+        )}
+
+        {!fetchError && topPages.length > 0 ? (
+          topPages.map((page, index) => (
+            <div class="post-item">
+              <span class="post-rank">#{index + 1}</span>
+              <div class="post-info">
+                <a href={page.x} class="post-url">{page.x}</a>
+                <span class="post-views">
+                  {Number(page.y || 0).toLocaleString()} visitors
+                </span>
               </div>
-            ))
-          ) : !fetchError ? (
-            <p class="no-data">No data available yet</p>
-          ) : null
-        }
+            </div>
+          ))
+        ) : !fetchError ? (
+          <p class="no-data">No data available yet</p>
+        ) : null}
+
       </div>
     </div>
 
@@ -137,24 +137,15 @@ try {
   </div>
 
   <style>
-    .analytics-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    .analytics-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
+    .analytics-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .analytics-header { text-align: center; margin-bottom: 3rem; }
     .analytics-header h1 {
       font-size: 2.5rem;
       background: linear-gradient(135deg, #7e7eff, #5ac8fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .subtitle {
-      color: var(--color-text-muted);
-    }
+    .subtitle { color: var(--color-text-muted); }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -162,8 +153,8 @@ try {
       margin-bottom: 3rem;
     }
     .stat-card {
-      background: rgba(20, 20, 30, 0.6);
-      border: 1px solid rgba(126, 126, 255, 0.3);
+      background: rgba(20,20,30,.6);
+      border: 1px solid rgba(126,126,255,.3);
       border-radius: 16px;
       padding: 2rem;
       text-align: center;
@@ -175,55 +166,31 @@ try {
       -webkit-text-fill-color: transparent;
     }
     .popular-posts {
-      background: rgba(20, 20, 30, 0.6);
-      border: 1px solid rgba(126, 126, 255, 0.3);
+      background: rgba(20,20,30,.6);
+      border: 1px solid rgba(126,126,255,.3);
       border-radius: 16px;
       padding: 2rem;
     }
-    .posts-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .posts-list { display: flex; flex-direction: column; gap: 1rem; }
     .post-item {
       display: flex;
       gap: 1rem;
       padding: 1rem;
-      background: rgba(10, 10, 15, 0.4);
+      background: rgba(10,10,15,.4);
       border-radius: 8px;
-      border: 1px solid rgba(126, 126, 255, 0.2);
+      border: 1px solid rgba(126,126,255,.2);
     }
-    .post-rank {
-      font-weight: bold;
-      color: #7e7eff;
-      min-width: 32px;
-    }
-    .post-info {
-      flex: 1;
-      display: flex;
-      justify-content: space-between;
-    }
-    .post-url {
-      color: var(--color-text);
-      text-decoration: none;
-    }
-    .post-views {
-      color: var(--color-text-muted);
-    }
-    .no-data {
-      text-align: center;
-      color: var(--color-text-muted);
-      padding: 2rem;
-    }
-    .actions {
-      text-align: center;
-      margin-top: 2rem;
-    }
+    .post-rank { font-weight: bold; color: #7e7eff; min-width: 32px; }
+    .post-info { flex: 1; display: flex; justify-content: space-between; }
+    .post-url { color: var(--color-text); text-decoration: none; }
+    .post-views { color: var(--color-text-muted); }
+    .no-data { text-align: center; color: var(--color-text-muted); padding: 2rem; }
+    .actions { text-align: center; margin-top: 2rem; }
     .logout-btn {
-      padding: 0.75rem 2rem;
+      padding: .75rem 2rem;
       border-radius: 8px;
-      border: 1px solid rgba(126, 126, 255, 0.4);
-      background: rgba(126, 126, 255, 0.2);
+      border: 1px solid rgba(126,126,255,.4);
+      background: rgba(126,126,255,.2);
       color: white;
       text-decoration: none;
     }
