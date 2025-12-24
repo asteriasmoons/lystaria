@@ -184,6 +184,9 @@ const sortedPosts = allPosts.sort(
     
     .post-body {
       position: relative;
+      flex-grow: 1;              /* KEY: stretch to fill */
+      display: flex;             /* KEY: allow inner parts to stack + stretch */
+      flex-direction: column;
     }
 
     .post-body::before {
@@ -193,12 +196,14 @@ const sortedPosts = allPosts.sort(
       background: rgba(10, 10, 15, 0.4);
       pointer-events: none;
       z-index: 0;
-   }
+      border-bottom-left-radius: 12px;   /* match your card */
+      border-bottom-right-radius: 12px;  /* match your card */
+    }
 
-     .post-body > * {
-       position: relative;
-       z-index: 1;
-   }
+    .post-body > * {
+      position: relative;
+      z-index: 1;
+    }
 
     .post-link {
       display: flex;
