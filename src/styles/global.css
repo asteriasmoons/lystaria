@@ -14,9 +14,9 @@
   --color-border: #2a2a3e; /* Subtle borders */
 
   /* Gradient variables */
-  --gradient-heading: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
-  --gradient-accent: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
-  --gradient-accent-hover: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  --gradient-heading: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  --gradient-accent-hover: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
 
   /* Glass tokens */
   --glass-bg: rgba(26, 26, 46, 0.55);
