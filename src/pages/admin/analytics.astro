@@ -14,21 +14,20 @@ if (!isAuthenticated) {
 }
 
 /* ─────────────────────────────
-   UMAMI CLOUD (BASICS)
+   UMAMI CLOUD CONFIG
+   (Your env var stays named UMAMI_API_TOKEN)
 ───────────────────────────── */
-// MUST be https://api.umami.is/v1
-const UMAMI_API_URL = import.meta.env.UMAMI_API_URL;
-const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID;
-const UMAMI_API_TOKEN = import.meta.env.UMAMI_API_TOKEN;
+const UMAMI_API_URL = String(import.meta.env.UMAMI_API_URL || "").trim();       // https://api.umami.is/v1
+const UMAMI_WEBSITE_ID = String(import.meta.env.UMAMI_WEBSITE_ID || "").trim(); // 0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6
+const UMAMI_API_TOKEN = String(import.meta.env.UMAMI_API_TOKEN || "").trim();   // your Cloud token (yes, TOKEN)
+
+const base = UMAMI_API_URL.replace(/\/+$/, "");
 
 const headers = {
+  // Cloud expects this header name. We're just putting YOUR TOKEN into it.
   "x-umami-api-key": UMAMI_API_TOKEN,
   "Content-Type": "application/json",
 };
-
-console.log("[Umami] api key present:", UMAMI_API_TOKEN.length > 0);
-console.log("[Umami] api key length:", UMAMI_API_TOKEN.length);
-console.log("[Umami] api url:", base);
 
 /* ─────────────────────────────
    DATE RANGE (LAST 30 DAYS)
@@ -48,31 +47,29 @@ let fetchError = "";
    FETCH ANALYTICS
 ───────────────────────────── */
 try {
-  // TOTAL STATS
-  const statsRes = await fetch(
-    `${base}/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`,
-    { headers }
-  );
+  // STATS
+  const statsUrl = `${base}/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`;
+  const statsRes = await fetch(statsUrl, { headers });
 
   if (!statsRes.ok) {
-    fetchError = `Stats failed (${statsRes.status})`;
+    const body = await statsRes.text();
+    fetchError = `Stats failed (${statsRes.status}): ${body.slice(0, 120)}`;
   } else {
     const stats = await statsRes.json();
     pageviews = Number(stats.pageviews || 0);
     visitors = Number(stats.visitors || 0);
   }
 
-  // TOP PAGES (BASIC METRICS)
-  const pagesRes = await fetch(
-    `${base}/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=path&limit=10`,
-    { headers }
-  );
+  // TOP PAGES (basic metrics)
+  const pagesUrl = `${base}/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=url&limit=10`;
+  const pagesRes = await fetch(pagesUrl, { headers });
 
   if (!pagesRes.ok) {
-    fetchError = fetchError || `Top pages failed (${pagesRes.status})`;
+    const body = await pagesRes.text();
+    fetchError = fetchError || `Top pages failed (${pagesRes.status}): ${body.slice(0, 120)}`;
   } else {
     const pages = await pagesRes.json();
-    // Each row: { x: "/path", y: visitors }
+    // rows: { x: "/path-or-url", y: number }
     topPages = Array.isArray(pages) ? pages : [];
   }
 } catch (err) {
@@ -83,13 +80,11 @@ try {
 
 <BaseLayout title="Analytics · Lystaria" description="Private analytics dashboard">
   <div class="analytics-container">
-
     <header class="analytics-header">
       <h1>✦ Analytics Dashboard ✦</h1>
       <p class="subtitle">Last 30 days</p>
     </header>
 
-    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card">
         <h2>Total Page Views</h2>
@@ -102,15 +97,10 @@ try {
       </div>
     </div>
 
-    <!-- TOP PAGES -->
     <div class="popular-posts">
       <h2>Most Popular Pages</h2>
-
       <div class="posts-list">
-
-        {fetchError && (
-          <p class="no-data">Analytics error: {fetchError}</p>
-        )}
+        {fetchError && <p class="no-data">Analytics error: {fetchError}</p>}
 
         {!fetchError && topPages.length > 0 ? (
           topPages.map((page, index) => (
@@ -118,16 +108,13 @@ try {
               <span class="post-rank">#{index + 1}</span>
               <div class="post-info">
                 <a href={page.x} class="post-url">{page.x}</a>
-                <span class="post-views">
-                  {Number(page.y || 0).toLocaleString()} visitors
-                </span>
+                <span class="post-views">{Number(page.y || 0).toLocaleString()}</span>
               </div>
             </div>
           ))
         ) : !fetchError ? (
           <p class="no-data">No data available yet</p>
         ) : null}
-
       </div>
     </div>
 
@@ -181,8 +168,8 @@ try {
       border: 1px solid rgba(126,126,255,.2);
     }
     .post-rank { font-weight: bold; color: #7e7eff; min-width: 32px; }
-    .post-info { flex: 1; display: flex; justify-content: space-between; }
-    .post-url { color: var(--color-text); text-decoration: none; }
+    .post-info { flex: 1; display: flex; justify-content: space-between; gap: 1rem; }
+    .post-url { color: var(--color-text); text-decoration: none; flex: 1; }
     .post-views { color: var(--color-text-muted); }
     .no-data { text-align: center; color: var(--color-text-muted); padding: 2rem; }
     .actions { text-align: center; margin-top: 2rem; }
