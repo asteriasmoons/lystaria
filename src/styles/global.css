@@ -14,7 +14,7 @@
   --color-border: #2a2a3e; /* Subtle borders */
 
   /* Gradient variables */
-  --gradient-rainbow: linear-gradient(
+  --gradient-heading: linear-gradient(
   90deg,
   #9a2dfe 10%,
   #9a2dfe 25%,
