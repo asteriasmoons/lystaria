@@ -1,19 +1,24 @@
 ---
 // @ts-nocheck
 export const prerender = false;
-
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-// Auth gate
-const isAuthenticated = Astro.cookies.get("admin-auth")?.value === "true";
+/* ─────────────────────────────
+   AUTH CHECK
+───────────────────────────── */
+const cookies = Astro.cookies;
+const isAuthenticated = cookies.get("admin-auth")?.value === "true";
+
 if (!isAuthenticated) {
   return Astro.redirect("/admin");
 }
 
-// Umami env
+/* ─────────────────────────────
+   UMAMI CONFIG
+───────────────────────────── */
 const UMAMI_API_URL = import.meta.env.UMAMI_API_URL; // https://analytics.umami.is
-const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID; // your website UUID
-const UMAMI_API_TOKEN = import.meta.env.UMAMI_API_TOKEN; // your API token
+const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID; // UUID
+const UMAMI_API_TOKEN = import.meta.env.UMAMI_API_TOKEN;
 
 const base = (UMAMI_API_URL || "").replace(/\/+$/, "").replace(/\/api$/, "");
 
@@ -22,39 +27,53 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-// last 30 days
+/* ─────────────────────────────
+   DATE RANGE
+───────────────────────────── */
 const endDate = Date.now();
 const startDate = endDate - 30 * 24 * 60 * 60 * 1000;
 
+/* ─────────────────────────────
+   STATE
+───────────────────────────── */
 let pageviews = 0;
 let visitors = 0;
 let topPages = [];
 let fetchError = "";
 
+/* ─────────────────────────────
+   FETCH DATA
+───────────────────────────── */
 try {
-  const statsUrl = `${base}/api/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`;
-  const statsResponse = await fetch(statsUrl, { headers });
+  // ── Stats (totals)
+  const statsRes = await fetch(
+    `${base}/api/websites/${UMAMI_WEBSITE_ID}/stats?startAt=${startDate}&endAt=${endDate}`,
+    { headers }
+  );
 
-  if (!statsResponse.ok) {
-    fetchError = `Stats failed: ${statsResponse.status}`;
+  if (!statsRes.ok) {
+    fetchError = `Stats failed (${statsRes.status})`;
   } else {
-    const statsData = await statsResponse.json();
-    pageviews = statsData.pageviews?.value || 0;
-    visitors = statsData.visitors?.value || 0;
+    const stats = await statsRes.json();
+    pageviews = Number(stats.pageviews || 0);
+    visitors = Number(stats.visitors || 0);
   }
 
-  const metricsUrl = `${base}/api/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=url`;
-  const metricsResponse = await fetch(metricsUrl, { headers });
+  // ── Top pages (pageviews per path)
+  const pagesRes = await fetch(
+    `${base}/api/websites/${UMAMI_WEBSITE_ID}/metrics/expanded?startAt=${startDate}&endAt=${endDate}&type=path&limit=10`,
+    { headers }
+  );
 
-  if (!metricsResponse.ok) {
-    fetchError = fetchError || `Metrics failed: ${metricsResponse.status}`;
+  if (!pagesRes.ok) {
+    fetchError = fetchError || `Top pages failed (${pagesRes.status})`;
   } else {
-    const metricsData = await metricsResponse.json();
-    topPages = Array.isArray(metricsData) ? metricsData.slice(0, 10) : [];
+    const pages = await pagesRes.json();
+    topPages = Array.isArray(pages) ? pages : [];
   }
-} catch (error) {
-  fetchError = "Network/Fetch error";
-  console.error("Failed to fetch analytics:", error);
+} catch (err) {
+  console.error("Umami fetch error:", err);
+  fetchError = "Network / fetch error";
 }
 ---
 
@@ -68,6 +87,7 @@ try {
       <p class="subtitle">Last 30 days</p>
     </header>
 
+    <!-- STATS -->
     <div class="stats-grid">
       <div class="stat-card">
         <h2>Total Page Views</h2>
@@ -80,29 +100,33 @@ try {
       </div>
     </div>
 
+    <!-- TOP PAGES -->
     <div class="popular-posts">
       <h2>Most Popular Pages</h2>
+
       <div class="posts-list">
+        <!-- 🔴 ERROR DISPLAY (THIS IS THE PART YOU COULDN’T SEE BEFORE) -->
+        {fetchError && <p class="no-data">Analytics error: {fetchError}</p>}
+
+        <!-- DATA -->
         {
-          fetchError ? (
-            <p class="no-data">Analytics error: {fetchError}</p>
-          ) : topPages.length > 0 ? (
+          !fetchError && topPages.length > 0 ? (
             topPages.map((page, index) => (
               <div class="post-item">
                 <span class="post-rank">#{index + 1}</span>
                 <div class="post-info">
-                  <a href={page.x} class="post-url">
-                    {page.x}
+                  <a href={page.name} class="post-url">
+                    {page.name}
                   </a>
                   <span class="post-views">
-                    {page.y.toLocaleString()} views
+                    {Number(page.pageviews || 0).toLocaleString()} views
                   </span>
                 </div>
               </div>
             ))
-          ) : (
+          ) : !fetchError ? (
             <p class="no-data">No data available yet</p>
-          )
+          ) : null
         }
       </div>
     </div>
@@ -124,15 +148,12 @@ try {
     }
     .analytics-header h1 {
       font-size: 2.5rem;
-      margin-bottom: 0.5rem;
       background: linear-gradient(135deg, #7e7eff, #5ac8fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
     .subtitle {
       color: var(--color-text-muted);
-      font-size: 1rem;
     }
     .stats-grid {
       display: grid;
@@ -147,31 +168,17 @@ try {
       padding: 2rem;
       text-align: center;
     }
-    .stat-card h2 {
-      font-size: 1rem;
-      color: var(--color-text-muted);
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
     .stat-number {
       font-size: 3rem;
-      font-weight: bold;
       background: linear-gradient(135deg, #7e7eff, #5ac8fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
     .popular-posts {
       background: rgba(20, 20, 30, 0.6);
       border: 1px solid rgba(126, 126, 255, 0.3);
       border-radius: 16px;
       padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    .popular-posts h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
     }
     .posts-list {
       display: flex;
@@ -180,7 +187,6 @@ try {
     }
     .post-item {
       display: flex;
-      align-items: center;
       gap: 1rem;
       padding: 1rem;
       background: rgba(10, 10, 15, 0.4);
@@ -188,29 +194,21 @@ try {
       border: 1px solid rgba(126, 126, 255, 0.2);
     }
     .post-rank {
-      font-size: 1.5rem;
       font-weight: bold;
       color: #7e7eff;
-      min-width: 40px;
+      min-width: 32px;
     }
     .post-info {
       flex: 1;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
     }
     .post-url {
       color: var(--color-text);
       text-decoration: none;
-      flex: 1;
-    }
-    .post-url:hover {
-      color: #5ac8fa;
     }
     .post-views {
       color: var(--color-text-muted);
-      font-size: 0.9rem;
     }
     .no-data {
       text-align: center;
@@ -219,32 +217,15 @@ try {
     }
     .actions {
       text-align: center;
+      margin-top: 2rem;
     }
     .logout-btn {
-      display: inline-block;
       padding: 0.75rem 2rem;
-      background: rgba(126, 126, 255, 0.2);
-      border: 1px solid rgba(126, 126, 255, 0.4);
       border-radius: 8px;
-      color: #ffffff;
+      border: 1px solid rgba(126, 126, 255, 0.4);
+      background: rgba(126, 126, 255, 0.2);
+      color: white;
       text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    .logout-btn:hover {
-      background: rgba(126, 126, 255, 0.3);
-      transform: translateY(-2px);
-    }
-    @media (max-width: 768px) {
-      .analytics-header h1 {
-        font-size: 2rem;
-      }
-      .stat-number {
-        font-size: 2rem;
-      }
-      .post-info {
-        flex-direction: column;
-        align-items: flex-start;
-      }
     }
   </style>
 </BaseLayout>
