@@ -14,12 +14,13 @@
   --color-border: #2a2a3e; /* Subtle borders */
 
   /* Gradient variables */
-  --gradient-heading: linear-gradient(
+  --gradient-rainbow: linear-gradient(
   90deg,
-  #7e7eff 0%,
-  #7e7eff 40%,
-  #38bdf8 60%,
-  #38bdf8 100%
+  #9a2dfe 0%,
+  #9a2dfe 25%,
+  #ffff5e 45%,
+  #e019d4 65%,
+  #00dbff 100%
 );
   --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
   --gradient-accent-hover: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
