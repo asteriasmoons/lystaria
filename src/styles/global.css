@@ -14,9 +14,9 @@
   --color-border: #2a2a3e; /* Subtle borders */
 
   /* Gradient variables */
-  --gradient-heading: linear-gradient(90deg, #7e7eff, #5ac7fa);
-  --gradient-accent: linear-gradient(90deg, #7e7eff, #5ac7fa);
-  --gradient-accent-hover: linear-gradient(90deg, #5ac7fa, #7e7eff);
+  --gradient-heading: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  --gradient-accent: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  --gradient-accent-hover: linear-gradient(90deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
 
   /* Glass tokens */
   --glass-bg: rgba(26, 26, 46, 0.55);
@@ -118,20 +118,32 @@ body {
   font-weight: 400;
   letter-spacing: 0.1em;
 
-  color: rgba(126, 126, 255, 0.85);
-  text-shadow: 0 0 14px rgba(126, 126, 255, 0.35),
-    0 0 2px rgba(255, 255, 255, 0.2);
+  background-image: var(--gradient-heading);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  text-shadow:
+    0 0 14px rgba(126, 126, 255, 0.35),
+    0 0 6px rgba(90, 199, 250, 0.25);
 }
 
 /* Typography: Stable headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Bilbo Swash Caps", serif;
   font-weight: 400;
+
   background-image: var(--gradient-heading);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+
+  text-shadow:
+    0 0 18px rgba(126, 126, 255, 0.35),
+    0 0 10px rgba(90, 199, 250, 0.25);
+
   line-height: 1.3;
   margin-bottom: 1rem;
   display: block;
