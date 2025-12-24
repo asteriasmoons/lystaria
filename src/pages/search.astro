@@ -50,7 +50,7 @@ const postsData = sortedPosts.map((post) => ({
     <div id="search-results" class="posts-grid"></div>
 
     <div id="no-results" class="no-results" style="display: none;">
-      <p>✨ No posts found. Try different keywords.</p>
+      <p>No posts found. Try different keywords.</p>
     </div>
 
     <div id="all-posts" class="posts-grid">
@@ -66,33 +66,34 @@ const postsData = sortedPosts.map((post) => ({
           );
 
           return (
-            <article class="post-card">
-              <a href={`/blog/${post.slug}`} class="post-link">
-                <div class="post-header">
-                  <h2>{post.data.title}</h2>
-                  <time
-                    class="post-date"
-                    datetime={post.data.pubDate.toISOString()}
-                  >
-                    {formattedDate}
-                  </time>
-                </div>
+<article class="post-card post-card--search">
+  <a href={`/blog/${post.slug}`} class="post-link">
+    <div class="post-body">
+      <div class="post-content">
+        <div class="post-header">
+          <h2>{post.data.title}</h2>
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formattedDate}
+          </time>
+        </div>
 
-                <p class="post-description">{post.data.description}</p>
+        <p class="post-description">{post.data.description}</p>
 
-                <div class="read-more">Read more →</div>
-              </a>
+        <div class="read-more">Read more →</div>
+      </div>
+    </div>
+  </a>
 
-              {post.data.tags && post.data.tags.length > 0 && (
-                <div class="post-tags">
-                  {post.data.tags.map((tag) => (
-                    <a href={`/blog/tag/${tag}`} class="tag">
-                      {tag}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </article>
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="post-tags">
+      {post.data.tags.map((tag) => (
+        <a href={`/blog/tag/${tag}`} class="tag">
+          {tag}
+        </a>
+      ))}
+    </div>
+  )}
+</article>
           );
         })
       }
@@ -165,11 +166,13 @@ const postsData = sortedPosts.map((post) => ({
 
     .post-card {
       background: linear-gradient(
-        135deg,
-        rgba(126, 126, 255) 0%,
-        rgba(90, 200, 250) 50%,
-        rgba(10, 10, 15, 1) 100%
-      );
+       150deg,
+       #9a2dfe 10%,
+       #9a2dfe 25%,
+       #f6f65a 38%,
+       #e019d4 65%,
+       #00dbff 100%
+     );
       border: 1px solid var(--color-border);
       border-radius: 8px;
       transition: all 0.3s ease;
@@ -182,6 +185,51 @@ const postsData = sortedPosts.map((post) => ({
       border-color: var(--color-accent);
       box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
     }
+    
+    .post-card--search {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Make the link act like the card body container */
+.post-card--search .post-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Overlay zone */
+.post-card--search .post-body {
+  position: relative;
+  padding: var(--card-pad);
+}
+
+.post-card--search .post-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.post-card--search .post-body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Spacing */
+.post-card--search .post-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+}
+
+/* Tags spacing stays clean */
+.post-card--search .post-tags {
+  padding: 0 var(--card-pad) var(--card-pad);
+}
 
     .post-link {
       display: flex;
