@@ -4,8 +4,8 @@
 :root {
   --color-bg: #0a0a0f; /* Deep midnight background */
   --color-bg-secondary: #1a1a2e; /* Slightly lighter panels */
-  --color-text: #e0e0e8; /* Soft white for readability */
-  --color-text-muted: #9a9aaa; /* Muted text */
+  --color-text: #ffffff; /* Soft white for readability */
+  --color-text-muted: #ffffff; /* Muted text */
 
   /* Keep your original accent variables for places that need a solid color */
   --color-accent: #7e7eff;
