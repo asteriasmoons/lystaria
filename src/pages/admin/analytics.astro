@@ -25,11 +25,9 @@ const headers = {
 const endDate = new Date().getTime();
 const startDate = endDate - 30 * 24 * 60 * 60 * 1000;
 
-let stats = {
-  pageviews: { value: 0 },
-  visitors: { value: 0 },
-  topPages: [],
-};
+let pageviews = 0;
+let visitors = 0;
+let topPages = [];
 
 try {
   // Fetch website stats
@@ -39,10 +37,12 @@ try {
   );
 
   if (statsResponse.ok) {
-    stats = await statsResponse.json();
+    const statsData = await statsResponse.json();
+    pageviews = statsData.pageviews?.value || 0;
+    visitors = statsData.visitors?.value || 0;
   }
 
-  // Fetch top pages (metrics endpoint)
+  // Fetch top pages
   const metricsResponse = await fetch(
     `${UMAMI_API_URL}/api/websites/${UMAMI_WEBSITE_ID}/metrics?startAt=${startDate}&endAt=${endDate}&type=url`,
     { headers }
@@ -50,7 +50,7 @@ try {
 
   if (metricsResponse.ok) {
     const metricsData = await metricsResponse.json();
-    stats.topPages = metricsData.slice(0, 10);
+    topPages = Array.isArray(metricsData) ? metricsData.slice(0, 10) : [];
   }
 } catch (error) {
   console.error("Failed to fetch analytics:", error);
@@ -68,30 +68,23 @@ try {
     </header>
 
     <div class="stats-grid">
-      <!-- Total Page Views -->
       <div class="stat-card">
         <h2>Total Page Views</h2>
-        <p class="stat-number">
-          {stats.pageviews?.value?.toLocaleString() || 0}
-        </p>
+        <p class="stat-number">{pageviews.toLocaleString()}</p>
       </div>
 
-      <!-- Recent Visitors -->
       <div class="stat-card">
         <h2>Unique Visitors</h2>
-        <p class="stat-number">
-          {stats.visitors?.value?.toLocaleString() || 0}
-        </p>
+        <p class="stat-number">{visitors.toLocaleString()}</p>
       </div>
     </div>
 
-    <!-- Most Popular Posts -->
     <div class="popular-posts">
       <h2>Most Popular Pages</h2>
       <div class="posts-list">
         {
-          stats.topPages.length > 0 ? (
-            stats.topPages.map((page, index) => (
+          topPages.length > 0 ? (
+            topPages.map((page, index) => (
               <div class="post-item">
                 <span class="post-rank">#{index + 1}</span>
                 <div class="post-info">
