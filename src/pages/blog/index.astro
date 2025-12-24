@@ -223,8 +223,20 @@ const sortedPosts = allPosts.sort(
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      position: relative;
+      z-index: 1;
       padding: var(--card-pad); /* KEY: single source of padding */
       gap: var(--stack-gap); /* KEY: consistent spacing */
+    }
+    
+    /* New Overlay */
+    .post-content::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.45);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .post-header {
