@@ -1,26 +1,44 @@
 ---
 // @ts-nocheck
-// Simple password protection
 export const prerender = false;
+
+// Read cookie
 const cookies = Astro.cookies;
 const isAuthenticated = cookies.get("admin-auth")?.value === "true";
 
-if (Astro.request.method === "POST") {
-  const formData = await Astro.request.formData();
-  const password = formData.get("password");
+// Read env
+const ADMIN_PASSWORD = import.meta.env.ADMIN_PASSWORD;
 
-  if (password === import.meta.env.ADMIN_PASSWORD) {
-    cookies.set("admin-auth", "true", {
-      path: "/",
-      maxAge: 60 * 60 * 24, // 24 hours
-      httpOnly: true,
-    });
-    return Astro.redirect("/admin/analytics");
-  }
-}
+// Error handling
+let errorMessage = "";
 
+// If already authed, go straight to dashboard
 if (isAuthenticated) {
   return Astro.redirect("/admin/analytics");
+}
+
+// Handle login submit
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  const password = String(formData.get("password") || "");
+
+  // If env var isn't set in Vercel Production, you'll never log in
+  if (!ADMIN_PASSWORD) {
+    errorMessage = "Server is missing ADMIN_PASSWORD (check Vercel env vars).";
+  } else if (password === ADMIN_PASSWORD) {
+    cookies.set("admin-auth", "true", {
+      // IMPORTANT: make sure cookie is sent for all admin pages
+      path: "/admin", // <-- more precise than "/"
+      maxAge: 60 * 60 * 24, // 24 hours
+      httpOnly: true,
+      secure: true, // <-- important on https
+      sameSite: "lax", // <-- prevents weird redirect/login issues
+    });
+
+    return Astro.redirect("/admin/analytics");
+  } else {
+    errorMessage = "Incorrect password.";
+  }
 }
 ---
 
@@ -61,11 +79,22 @@ if (isAuthenticated) {
         font-family: "Berkshire Swash", serif;
         font-size: 2rem;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.25rem;
         background: linear-gradient(135deg, #7e7eff, #5ac8fa);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+      }
+
+      .error {
+        text-align: center;
+        margin-bottom: 1.25rem;
+        padding: 0.75rem 1rem;
+        border-radius: 10px;
+        background: rgba(255, 100, 100, 0.12);
+        border: 1px solid rgba(255, 100, 100, 0.25);
+        color: #ffd0d0;
+        font-size: 0.95rem;
       }
 
       form {
@@ -109,6 +138,9 @@ if (isAuthenticated) {
   <body>
     <div class="login-container">
       <h1>✦ Admin Access ✦</h1>
+
+      {errorMessage && <div class="error">{errorMessage}</div>}
+
       <form method="POST">
         <input
           type="password"

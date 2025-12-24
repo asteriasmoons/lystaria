@@ -1,6 +1,13 @@
 ---
 export const prerender = false;
-const cookies = Astro.cookies;
-cookies.delete("admin-auth", { path: "/" });
+
+Astro.cookies.set("admin-auth", "false", {
+  path: "/admin",
+  httpOnly: true,
+  secure: true,
+  sameSite: "lax",
+  maxAge: 0,
+});
+
 return Astro.redirect("/admin");
 ---
