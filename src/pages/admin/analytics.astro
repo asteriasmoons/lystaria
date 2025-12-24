@@ -21,14 +21,16 @@ const UMAMI_API_URL = import.meta.env.UMAMI_API_URL;
 const UMAMI_WEBSITE_ID = import.meta.env.UMAMI_WEBSITE_ID;
 const UMAMI_API_KEY = import.meta.env.UMAMI_API_KEY;
 
-// Normalize base URL
-const base = (UMAMI_API_URL || "").replace(/\/+$/, "");
+const UMAMI_API_KEY = String(import.meta.env.UMAMI_API_KEY || "").trim();
 
-// Umami Cloud auth header (NOT Bearer)
 const headers = {
   "x-umami-api-key": UMAMI_API_KEY,
   "Content-Type": "application/json",
 };
+
+console.log("[Umami] api key present:", UMAMI_API_KEY.length > 0);
+console.log("[Umami] api key length:", UMAMI_API_KEY.length);
+console.log("[Umami] api url:", base);
 
 /* ─────────────────────────────
    DATE RANGE (LAST 30 DAYS)
