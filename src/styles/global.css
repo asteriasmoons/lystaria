@@ -141,9 +141,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
   
-  background-size: 100% 100%;
+  background-size: 60% 100%;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: 50% 50%;
 
   background-image: var(--gradient-heading);
   -webkit-background-clip: text;
