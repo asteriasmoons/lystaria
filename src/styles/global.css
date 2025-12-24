@@ -24,6 +24,9 @@
 );
   --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
   --gradient-accent-hover: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
+  
+    --heading-grad-size: 50% 100%;
+  --heading-grad-pos: 50% 50%;
 
   /* Glass tokens */
   --glass-bg: rgba(26, 26, 46, 0.55);
@@ -141,9 +144,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
   
-  background-size: 60% 100%;
+background-size: var(--heading-grad-size);
+  background-position: var(--heading-grad-pos);
   background-repeat: no-repeat;
-  background-position: 50% 50%;
 
   background-image: var(--gradient-heading);
   -webkit-background-clip: text;
