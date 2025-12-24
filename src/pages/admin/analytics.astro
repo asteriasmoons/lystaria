@@ -39,7 +39,7 @@ try {
   );
 
   if (statsResponse.ok) {
-    stats = await statsResponse.ok();
+    stats = await statsResponse.json();
   }
 
   // Fetch top pages (metrics endpoint)
