@@ -65,16 +65,20 @@ try {
   const pagesRes = await fetch(pagesUrl, { headers });
 
   if (!pagesRes.ok) {
-    const body = await pagesRes.text();
-    fetchError = fetchError || `Top pages failed (${pagesRes.status}): ${body.slice(0, 120)}`;
-  } else {
-    const pages = await pagesRes.json();
-    // rows: { x: "/path-or-url", y: number }
-    topPages = Array.isArray(pages) ? pages : [];
-  }
-} catch (err) {
-  console.error("Umami fetch error:", err);
-  fetchError = "Network / fetch error";
+  const body = await pagesRes.text();
+  fetchError =
+    fetchError || `Top pages failed (${pagesRes.status}): ${body.slice(0, 120)}`;
+} else {
+  const pages = await pagesRes.json();
+
+  topPages = Array.isArray(pages) ? pages : [];
+
+  // POSTS ONLY -- filter by URL path, not filesystem
+  topPages = topPages.filter((p) => {
+    const path = String(p.x || "").split("?")[0].split("#")[0];
+
+    return path.startsWith("/posts/") && path !== "/posts/";
+  });
 }
 ---
 
