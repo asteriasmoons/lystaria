@@ -266,11 +266,9 @@ const latestPosts = sortedPosts.slice(0, 2);
       border-color: var(--color-accent);
     }
     
-   .post-body {
+.post-body {
   position: relative;
-  display: block;          /* IMPORTANT: not flex */
-  flex: none;              /* IMPORTANT: stop any flex-grow behavior */
-  min-height: 0;           /* safe reset */
+  display: flow-root;   /* KEY: stops margin-collapsing */
 }
 
 .post-body::before {
