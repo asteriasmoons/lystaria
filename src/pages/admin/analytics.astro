@@ -74,7 +74,7 @@ try {
     // POSTS ONLY -- filter by URL path, not filesystem
     topPages = topPages.filter((p) => {
       const path = String(p.x || "").split("?")[0].split("#")[0];
-      return path.startsWith("/posts/") && path !== "/posts/";
+      return path.startsWith("/blog/") && path !== "/blog/";
     });
   }
 } catch (err) {
