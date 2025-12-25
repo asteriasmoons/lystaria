@@ -60,36 +60,39 @@ const sortedPosts = allPosts.sort(
               </div>
             )}
 
-            {/* ✅ REAL LINK: whole body is clickable (title + read more included) */}
-            <a class="post-link" href={`/blog/${post.slug}`}>
-              <div class="post-content">
-                <div class="post-header">
-                  <h2>{post.data.title}</h2>
-                  <time
-                    class="post-date"
-                    datetime={post.data.pubDate.toISOString()}
-                  >
-                    {formattedDate}
-                  </time>
+            {/* ✅ NEW: wrapper that includes BOTH the link area and the tags
+                so the overlay can cover the entire bottom area */}
+            <div class="post-lower">
+              {/* ✅ REAL LINK: whole body is clickable (title + read more included) */}
+              <a class="post-link" href={`/blog/${post.slug}`}>
+                <div class="post-content">
+                  <div class="post-header">
+                    <h2>{post.data.title}</h2>
+                    <time
+                      class="post-date"
+                      datetime={post.data.pubDate.toISOString()}
+                    >
+                      {formattedDate}
+                    </time>
+                  </div>
+
+                  <p class="post-description">{post.data.description}</p>
+
+                  <div class="read-more">Read more →</div>
                 </div>
+              </a>
 
-                <p class="post-description">{post.data.description}</p>
-
-                {/* stays a div, but it’s INSIDE the real link so it clicks */}
-                <div class="read-more">Read more →</div>
-              </div>
-            </a>
-
-            {/* ✅ Tags are OUTSIDE the big link, so they stay independently clickable */}
-            {post.data.tags && post.data.tags.length > 0 && (
-              <div class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <a href={`/blog/tag/${tag}`} class="tag">
-                    {tag}
-                  </a>
-                ))}
-              </div>
-            )}
+              {/* ✅ Tags are still outside the big link, independently clickable */}
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="post-tags">
+                  {post.data.tags.map((tag) => (
+                    <a href={`/blog/tag/${tag}`} class="tag">
+                      {tag}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </article>
         );
       })}
@@ -163,7 +166,6 @@ const sortedPosts = allPosts.sort(
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      cursor: pointer;
       height: 100%;
       min-height: 0;
     }
@@ -213,19 +215,17 @@ const sortedPosts = allPosts.sort(
       opacity: 1;
     }
 
-    /* ✅ clickable body area */
-      .post-link {
-         display: flex; /* CHANGED */
-         flex-direction: column; /* ADDED */
-         flex: 1; /* CHANGED: forces it to fill remaining card height */
-         min-height: 0; /* ADDED: prevents weird flex clipping */
-         color: inherit;
-         text-decoration: none;
-               position: relative;
+    /* ✅ NEW: lower area wrapper (this is what gets the overlay now) */
+    .post-lower {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
     }
 
-    /* ✅ overlay ONLY below image (because it's attached to the link/body area, not the image) */
-    .post-link::before {
+    /* ✅ Overlay covers the ENTIRE bottom area (link + tags), minus the image */
+    .post-lower::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -236,15 +236,29 @@ const sortedPosts = allPosts.sort(
       border-bottom-right-radius: 12px;
     }
 
-     .post-content {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        flex: 1; /* CHANGED: fill the full clickable area */
-        min-height: 0; /* ADDED */
-        padding: var(--card-pad);
-        gap: var(--stack-gap);
+    /* keep real content above overlay */
+    .post-lower > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* clickable body area */
+    .post-link {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .post-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      padding: var(--card-pad);
+      gap: var(--stack-gap);
     }
 
     .post-header {
@@ -277,7 +291,7 @@ const sortedPosts = allPosts.sort(
       flex-grow: 1;
     }
 
-    /* tags sit on the raw gradient, like your other pages */
+    /* tags sit on the overlay (still clickable; overlay can't block clicks) */
     .post-tags {
       display: flex;
       gap: 0.5rem;
