@@ -55,17 +55,20 @@ const spellcraftingPosts = allPosts
       {
         spellcraftingPosts.map((post) => (
           <article class="post-card">
-            <span class="series-badge">
-              Part {post.data.seriesNumber} of {post.data.seriesTotal}
-            </span>
+  <div class="post-body">
+    <span class="series-badge">
+      Part {post.data.seriesNumber} of {post.data.seriesTotal}
+    </span>
 
-            <h2>{post.data.title}</h2>
-            <p class="post-description">{post.data.description}</p>
+    <h2>{post.data.title}</h2>
 
-            <a href={`/blog/${post.slug}`} class="read-button">
-              Read Post →
-            </a>
-          </article>
+    <p class="post-description">{post.data.description}</p>
+
+    <a href={`/blog/${post.slug}`} class="read-button">
+      Read Post →
+    </a>
+  </div>
+</article>
         ))
       }
     </div>
@@ -111,11 +114,13 @@ const spellcraftingPosts = allPosts
 
     .post-card {
       background: linear-gradient(
-        135deg,
-        rgba(126, 126, 255) 0%,
-        rgba(90, 200, 250) 50%,
-        rgba(10, 10, 15, 1) 100%
-      );
+       150deg,
+       #9a2dfe 10%,
+       #9a2dfe 25%,
+       #f6f65a 38%,
+       #e019d4 65%,
+       #00dbff 100%
+     );
       border: 1px solid rgba(126, 126, 255, 0.2);
       border-radius: 12px;
       padding: 2rem;
@@ -131,6 +136,30 @@ const spellcraftingPosts = allPosts
       transform: translateY(-4px);
       border-color: rgba(126, 126, 255, 0.4);
     }
+    
+/* Overlay zone */
+.post-body {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap);
+  padding: var(--card-pad);
+}
+
+.post-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.post-body > * {
+  position: relative;
+  z-index: 1;
+}
 
     .series-badge {
       display: inline-block;
