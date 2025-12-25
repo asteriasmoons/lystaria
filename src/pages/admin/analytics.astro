@@ -202,20 +202,12 @@ try {
     /* ===============================
    Analytics page – heading fix
    =============================== */
-/* Analytics page: prevent "missing first letters" without changing your gradient */
 .admin-analytics h1,
-.admin-analytics h2,
-.admin-analytics h3 {
+.admin-analytics h2 {
+  background-image: var(--gradient-heading) !important;
   background-repeat: no-repeat !important;
-
-  /* Expand the painted gradient area slightly so the left edge can’t go blank */
-  background-size: 165% 100% !important;
-  background-position: 10% 50% !important;
-}
-.admin-analytics,
-.admin-analytics * {
-  transform: none;
-  filter: none;
+  background-size: 100% 100% !important;
+  background-position: left center !important;
 }
   </style>
 </BaseLayout>
