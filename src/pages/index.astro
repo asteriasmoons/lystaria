@@ -48,18 +48,7 @@ const latestPosts = sortedPosts.slice(0, 2);
             });
 
             return (
-              <article
-  class="post-card"
-  role="link"
-  tabindex="0"
-  onClick={() => (window.location.href = `/blog/${post.slug}`)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      window.location.href = `/blog/${post.slug}`;
-    }
-  }}
->
+<article class="post-card">
   {post.data.coverImage && (
     <div class="post-media">
       <img
@@ -72,6 +61,9 @@ const latestPosts = sortedPosts.slice(0, 2);
   )}
 
   <div class="post-body">
+    <!-- this is the invisible "whole card" link -->
+    <a class="card-link" href={`/blog/${post.slug}`} aria-label={`Read ${post.data.title}`}></a>
+
     <div class="post-content">
       <h3>{post.data.title}</h3>
       <p class="post-date">{formattedDate}</p>
@@ -82,12 +74,7 @@ const latestPosts = sortedPosts.slice(0, 2);
     {post.data.tags && (
       <div class="post-tags">
         {post.data.tags.slice(0, 3).map((tag) => (
-          <a
-            href={`/blog/tag/${tag}`}
-            class="tag"
-            onClick={(e) => e.stopPropagation()}
-            onKeyDown={(e) => e.stopPropagation()}
-          >
+          <a href={`/blog/tag/${tag}`} class="tag">
             {tag}
           </a>
         ))}
@@ -285,16 +272,24 @@ const latestPosts = sortedPosts.slice(0, 2);
   position: absolute;
   inset: 0;
   background: rgba(10, 10, 15, 0.4);
-  pointer-events: none;
+  pointer-events: none; /* CRITICAL */
   z-index: 0;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
 }
 
 .post-body > * {
   position: relative;
   z-index: 1;
 }
+
+.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+}
+
+.post-content { position: relative; z-index: 2; }
+ 
 
 .post-content h3,
 .post-content .post-date,
@@ -320,7 +315,6 @@ const latestPosts = sortedPosts.slice(0, 2);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* subtle overlay so covers blend with your theme */
     .post-media::after {
       content: "";
       position: absolute;
@@ -354,8 +348,6 @@ const latestPosts = sortedPosts.slice(0, 2);
     .post-card h3 {
       font-size: 2rem;
       margin-bottom: 0.5rem;
-
-      /* override the global gradient heading theme */
       background: none !important;
       -webkit-background-clip: initial !important;
       background-clip: initial !important;
@@ -382,6 +374,8 @@ const latestPosts = sortedPosts.slice(0, 2);
       gap: 0.5rem;
       flex-wrap: wrap;
       padding: 0 2rem 2rem 2rem;
+      position: relative; 
+      z-index: 3; }
     }
 
     .tag {
@@ -393,6 +387,8 @@ const latestPosts = sortedPosts.slice(0, 2);
       border: 1px solid var(--color-border);
       text-decoration: none;
       transition: all 0.3s ease;
+      position: relative;
+      z-index: 4;
     }
 
     .tag:hover {
