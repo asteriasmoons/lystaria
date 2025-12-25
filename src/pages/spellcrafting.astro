@@ -158,10 +158,14 @@ const spellcraftingPosts = allPosts
 .post-card .series-badge { margin-top: 2rem; }
 .post-card .read-button  { margin-bottom: 2rem; }
 
-    .post-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(126, 126, 255, 0.4);
-    }
+.post-body::before {
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.post-card:hover {
+  transform: none;
+}
 
     .series-badge {
       display: inline-block;
