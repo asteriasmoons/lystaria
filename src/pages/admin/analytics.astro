@@ -84,6 +84,7 @@ try {
 ---
 
 <BaseLayout title="Analytics · Lystaria" description="Private analytics dashboard">
+ <div class="admin-analytics">
   <div class="analytics-container">
     <header class="analytics-header">
       <h1>✦ Analytics Dashboard ✦</h1>
@@ -127,7 +128,8 @@ try {
       <a href="/admin/logout" class="logout-btn">Logout</a>
     </div>
   </div>
-
+ </div>
+ 
   <style>
     .analytics-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
     
@@ -196,5 +198,26 @@ try {
       color: white;
       text-decoration: none;
     }
+    
+    /* ===============================
+   Analytics page – heading fix
+   =============================== */
+.admin-analytics h1,
+.admin-analytics h2,
+.admin-analytics h3 {
+  /* keep your gradient text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  /* IMPORTANT: fix desktop clipping */
+  background-size: 100% 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+
+  /* neutralize layout interference */
+  padding: 0;
+}
   </style>
 </BaseLayout>
