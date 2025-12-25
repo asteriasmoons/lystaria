@@ -93,18 +93,18 @@ try {
 
     <div class="stats-grid">
       <div class="stat-card">
-        <h2>Total Page Views</h2>
+        <h3>Total Page Views</h3>
         <p class="stat-number">{pageviews.toLocaleString()}</p>
       </div>
 
       <div class="stat-card">
-        <h2>Unique Visitors</h2>
+        <h3>Unique Visitors</h3>
         <p class="stat-number">{visitors.toLocaleString()}</p>
       </div>
     </div>
 
     <div class="popular-posts">
-      <h2>Most Popular Pages</h2>
+      <h3>Most Popular Pages</h3>
       <div class="posts-list">
         {fetchError && <p class="no-data">Analytics error: {fetchError}</p>}
 
@@ -149,7 +149,7 @@ try {
       background: rgba(20,20,30,.6);
       border: 1px solid rgba(126,126,255,.3);
       border-radius: 12px;
-      padding: 0;
+      padding: 2rem;
       text-align: center;
     }
     
