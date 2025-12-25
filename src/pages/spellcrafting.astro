@@ -121,51 +121,47 @@ const spellcraftingPosts = allPosts
        #e019d4 65%,
        #00dbff 100%
      );
-      border: 1px solid rgba(126, 126, 255, 0.2);
-      border-radius: 12px;
-      transition:
-        transform 0.2s,
-        border-color 0.2s;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .post-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(126, 126, 255, 0.4);
-    }
-    
-
-.post-body {
-  position: relative;
-  flex: 1;
+        position: relative;
+  overflow: hidden;          /* clips the overlay to the rounded card */
+  border-radius: 12px;
+  padding: 0;                /* keep no padding on the card */
   display: flex;
   flex-direction: column;
+    }
 
-  padding: 2rem;           /* your old post-card padding lives here now */
-  gap: 1rem;
-}
 
-.post-body::before {
+/* FULL-CARD OVERLAY (fixes the leaks) */
+.post-card::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0;                  /* covers the whole card */
   background: rgba(10, 10, 15, 0.45);
   pointer-events: none;
   z-index: 0;
 }
 
-.post-body > * {
+/* everything inside sits above overlay */
+.post-card > * {
   position: relative;
   z-index: 1;
 }
 
-/* optional but usually ideal */
-.read-button {
-  margin-top: auto;
-  align-self: flex-start;
+/* put your padding on the content pieces, not the card */
+.post-card .series-badge,
+.post-card h2,
+.post-card .post-description,
+.post-card .read-button {
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
+
+.post-card .series-badge { margin-top: 2rem; }
+.post-card .read-button  { margin-bottom: 2rem; }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(126, 126, 255, 0.4);
+    }
 
     .series-badge {
       display: inline-block;
