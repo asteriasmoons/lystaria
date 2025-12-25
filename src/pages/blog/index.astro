@@ -21,94 +21,78 @@ const sortedPosts = allPosts.sort(
       <h1>The Grimoire</h1>
       <p class="blog-intro">
         This grimoire is a living record of practice, reflection, and inquiry.
-        Here, magic is approached as a language—one learned through symbolism,
+        Here, magic is approached as a language--one learned through symbolism,
         cycles, intention, and lived experience. These writings explore
         spellcraft, divination, astrology, and personal transformation not as
         spectacle, but as tools for meaning-making in an ever-changing world.
       </p>
 
       <div class="blog-note">
-      <h3>Transparency</h3>
-      <p>
-        As part of my creative and editing process, I sometimes use AI tools to
-        collaborate on refining my writing. These tools help with flow, clarity,
-        and structure, but the content itself always comes from my own thoughts,
-        experiences, and perspective. Posts created with this kind of support
-        will be clearly labeled. Transparency matters to me, and I want readers
-        to feel informed and respected here.
-      </p>
+        <h3>Transparency</h3>
+        <p>
+          As part of my creative and editing process, I sometimes use AI tools to
+          collaborate on refining my writing. These tools help with flow, clarity,
+          and structure, but the content itself always comes from my own thoughts,
+          experiences, and perspective. Posts created with this kind of support
+          will be clearly labeled. Transparency matters to me, and I want readers
+          to feel informed and respected here.
+        </p>
       </div>
-
     </header>
 
     <div class="posts-grid">
-      {
-        sortedPosts.map((post) => {
-          const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-            "en-US",
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }
-          );
+      {sortedPosts.map((post) => {
+        const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
+          "en-US",
+          { year: "numeric", month: "long", day: "numeric" }
+        );
 
-          return (
-            <article 
-            class="post-card"
-            role="link"
-            tabindex="0"
-            onClick={() => (window.location.href = `/blog/${post.slug}`)}
-  onKeyDown={(e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      window.location.href = `/blog/${post.slug}`;
-    }
-  }}
->
-  {post.data.coverImage && (
-    <div class="post-media">
-      <img
-        src={post.data.coverImage}
-        alt=""
-        loading="lazy"
-        class="post-cover"
-      />
-    </div>
-  )}
+        return (
+          <article class="post-card">
+            {post.data.coverImage && (
+              <div class="post-media">
+                <img
+                  src={post.data.coverImage}
+                  alt=""
+                  loading="lazy"
+                  class="post-cover"
+                />
+              </div>
+            )}
 
-  <div class="post-body">
-    <div class="post-content">
-      <div class="post-header">
-        <h2>{post.data.title}</h2>
-        <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-          {formattedDate}
-        </time>
-      </div>
+            {/* ✅ REAL LINK: whole body is clickable (title + read more included) */}
+            <a class="post-link" href={`/blog/${post.slug}`}>
+              <div class="post-content">
+                <div class="post-header">
+                  <h2>{post.data.title}</h2>
+                  <time
+                    class="post-date"
+                    datetime={post.data.pubDate.toISOString()}
+                  >
+                    {formattedDate}
+                  </time>
+                </div>
 
-      <p class="post-description">{post.data.description}</p>
-      <div class="read-more">Read more →</div>
-    </div>
+                <p class="post-description">{post.data.description}</p>
 
-    {post.data.tags && post.data.tags.length > 0 && (
-      <div class="post-tags">
-        {post.data.tags.map((tag) => (
-          <a
-            href={`/blog/tag/${tag}`}
-            class="tag"
-            onClick={(e) => e.stopPropagation()}
-            onKeyDown={(e) => e.stopPropagation()}
-          >
-            {tag}
-          </a>
-        ))}
-      </div>
-    )}
-  </div>
-</article>
-          );
-        })
-      }
+                {/* stays a div, but it’s INSIDE the real link so it clicks */}
+                <div class="read-more">Read more →</div>
+              </div>
+            </a>
+
+            {/* ✅ Tags are OUTSIDE the big link, so they stay independently clickable */}
+            {post.data.tags && post.data.tags.length > 0 && (
+              <div class="post-tags">
+                {post.data.tags.map((tag) => (
+                  <a href={`/blog/tag/${tag}`} class="tag">
+                    {tag}
+                  </a>
+                ))}
+              </div>
+            )}
+          </article>
+        );
+      })}
     </div>
   </div>
 
@@ -140,11 +124,11 @@ const sortedPosts = allPosts.sort(
 
     .blog-note {
       max-width: 700px;
-      margin: 3rem auto 0; /* ← ADD THIS - creates space from blog-intro */
-      padding: 2rem; /* ← ADD THIS - space inside the box */
-      border: 2px dotted rgba(126, 126, 255, 0.4); /* ← ADD THIS - dotted border */
-      border-radius: 12px; /* ← ADD THIS - rounded corners */
-      font-size: 0.75rem; /* Keep your smaller font */
+      margin: 3rem auto 0;
+      padding: 2rem;
+      border: 2px dotted rgba(126, 126, 255, 0.4);
+      border-radius: 12px;
+      font-size: 0.75rem;
       color: var(--color-text-muted);
       line-height: 1.8;
     }
@@ -163,61 +147,34 @@ const sortedPosts = allPosts.sort(
       padding-bottom: 4rem;
     }
 
-     .post-card {
+    .post-card {
       background: linear-gradient(
-       150deg,
-       #9a2dfe 10%,
-       #9a2dfe 25%,
-       #f6f65a 38%,
-       #e019d4 65%,
-       #00dbff 100%
-     );
+        150deg,
+        #9a2dfe 10%,
+        #9a2dfe 25%,
+        #f6f65a 38%,
+        #e019d4 65%,
+        #00dbff 100%
+      );
       border: 1px solid var(--color-border);
       border-radius: 12px;
-      padding: 0; /* KEY: remove outer padding */
-      transition: all 0.2s;
+      padding: 0;
+      transition: transform 0.2s ease, border-color 0.2s ease;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      cursor: pointer;
-    }
-    
-    .post-body {
-      position: relative;
-      flex-grow: 1;              /* KEY: stretch to fill */
-      display: flex;             /* KEY: allow inner parts to stack + stretch */
-      flex-direction: column;
     }
 
-    .post-body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 10, 15, 0.4);
-      pointer-events: none;
-      z-index: 0;
-      border-bottom-left-radius: 12px;   /* match your card */
-      border-bottom-right-radius: 12px;  /* match your card */
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-accent);
     }
 
-    .post-body > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .post-link {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* NEW: optional cover slot */
+    /* cover */
     .post-media {
       position: relative;
       width: 100%;
-      aspect-ratio: 2 / 1; /* PERFECT for 1280 × 640 */
+      aspect-ratio: 2 / 1;
       overflow: hidden;
       flex-shrink: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -225,7 +182,6 @@ const sortedPosts = allPosts.sort(
       border-top-right-radius: 12px;
     }
 
-    /* subtle overlay so covers blend with your theme */
     .post-media::after {
       content: "";
       position: absolute;
@@ -242,13 +198,11 @@ const sortedPosts = allPosts.sort(
     .post-cover {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* crops gently, not aggressively */
-      object-position: center; /* safe default */
+      object-fit: cover;
+      object-position: center;
       display: block;
       opacity: 0.95;
-      transition:
-        transform 0.35s ease,
-        opacity 0.35s ease;
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
 
     .post-card:hover .post-cover {
@@ -256,18 +210,39 @@ const sortedPosts = allPosts.sort(
       opacity: 1;
     }
 
+    /* ✅ clickable body area */
+    .post-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      position: relative;
+      flex-grow: 1;
+    }
+
+    /* ✅ overlay ONLY below image (because it's attached to the link/body area, not the image) */
+    .post-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.4);
+      pointer-events: none;
+      z-index: 0;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
     .post-content {
+      position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      position: relative;
-      z-index: 1;
-      padding: var(--card-pad); /* KEY: single source of padding */
-      gap: var(--stack-gap); /* KEY: consistent spacing */
+      padding: var(--card-pad);
+      gap: var(--stack-gap);
     }
 
     .post-header {
-      margin-bottom: 0; /* spacing handled by gap now */
+      margin-bottom: 0;
     }
 
     .post-card h2 {
@@ -278,7 +253,6 @@ const sortedPosts = allPosts.sort(
       background: none !important;
       -webkit-background-clip: initial !important;
       background-clip: initial !important;
-
       -webkit-text-fill-color: #ffffff !important;
       color: #ffffff !important;
 
@@ -293,15 +267,16 @@ const sortedPosts = allPosts.sort(
     }
 
     .post-description {
-      margin-bottom: 0; /* spacing handled by gap now */
+      margin-bottom: 0;
       flex-grow: 1;
     }
 
+    /* tags sit on the raw gradient, like your other pages */
     .post-tags {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
-      padding: 0 var(--card-pad) var(--card-pad) var(--card-pad); /* matches content */
+      padding: 0 var(--card-pad) var(--card-pad) var(--card-pad);
     }
 
     .tag {
@@ -324,7 +299,7 @@ const sortedPosts = allPosts.sort(
     .post-card:hover .tag {
       border-color: var(--color-accent);
     }
-    
+
     .read-more {
       display: inline-block;
       align-self: flex-start;
@@ -344,10 +319,6 @@ const sortedPosts = allPosts.sort(
       border-color: var(--color-accent);
       background: rgba(10, 10, 15, 0.9);
       transform: translateY(-1px);
-    }
-
-    .post-card:hover .read-more {
-      color: rgba(255, 255, 255, 0.7);
     }
 
     /* MOBILE EXPERIENCE */
@@ -371,7 +342,7 @@ const sortedPosts = allPosts.sort(
       }
 
       .post-media {
-        aspect-ratio: 2.5 / 1; /* subtly tighter on phones */
+        aspect-ratio: 2.5 / 1;
       }
 
       .post-cover {
