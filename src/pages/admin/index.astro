@@ -28,7 +28,7 @@ if (Astro.request.method === "POST") {
   } else if (password === ADMIN_PASSWORD) {
     cookies.set("admin-auth", "true", {
       // IMPORTANT: make sure cookie is sent for all admin pages
-      path: "/admin", // <-- more precise than "/"
+      path: "/",
       maxAge: 60 * 60 * 24, // 24 hours
       httpOnly: true,
       secure: true, // <-- important on https
