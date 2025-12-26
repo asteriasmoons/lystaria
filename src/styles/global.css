@@ -146,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
   
-  background-size: 600px auto; /* Fixed size - gradient won't stretch */
+  background-size: 400px auto; /* Fixed size - gradient won't stretch */
   background-position: center; /* Centers the gradient pattern */
   background-repeat: no-repeat;
 
