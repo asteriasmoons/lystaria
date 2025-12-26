@@ -264,18 +264,18 @@ a:hover {
     background-position: center;
   }
 
-  main h1 {
-    font-size: 28px;
+  h1 {
+    font-size: 28px !important;
   }
-  main h2 {
-    font-size: 18px;
+  h2 {
+    font-size: 18px !important;
   }
-  main h3 {
-    font-size: 13px;
+  h3 {
+    font-size: 13px !important;
   }
   main p {
-    font-size: 0.95rem;
-    line-height: 1.7;
+    font-size: 0.95rem !important;
+    line-height: 1.7 !important;
   }
   
   /* Specifically target blog post content if it has a class */
