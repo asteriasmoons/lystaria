@@ -146,8 +146,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
   
-background-size: var(--heading-grad-size);
-  background-position: var(--heading-grad-pos);
+  background-size: 600px auto; /* Fixed size - gradient won't stretch */
+  background-position: center; /* Centers the gradient pattern */
   background-repeat: no-repeat;
 
   background-image: var(--gradient-heading);
@@ -156,14 +156,11 @@ background-size: var(--heading-grad-size);
   -webkit-text-fill-color: transparent;
   color: transparent; 
 
-  /* text-shadow:
-    0 0 14px rgba(126, 126, 255, 0.35),
-    0 0 6px rgba(90, 199, 250, 0.25); */
-
   line-height: 4rem;
   margin-bottom: 1rem;
   display: block;
 }
+
 
 h1 {
   font-size: 28px;
