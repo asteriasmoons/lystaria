@@ -17,10 +17,10 @@
   --gradient-heading: linear-gradient(
         90deg,
         #9a2dfe 10%,
-        #9a2dfe 22%,
-        #f6f65a 38%,
-        #e019d4 50%,
-        #00dbff 82%,
+        #9a2dfe 18%,
+        #f6f65a 24%,
+        #e019d4 45%,
+        #00dbff 86%,
         #00dbff 100%
       );
   --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
@@ -260,7 +260,7 @@ a:hover {
 @media (max-width: 768px) {
 
   h1, h2, h3, h4, h5, h6 {
-    background-size: 400px auto; /* Keep the gradient consistent */
+    background-size: 100% 100%; /* Keep the gradient consistent */
     background-position: center;
   }
 
