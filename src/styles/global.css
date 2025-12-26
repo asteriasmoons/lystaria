@@ -264,13 +264,13 @@ a:hover {
     background-position: center;
   }
 
-  h1 {
+  main h1 {
     font-size: 28px;
   }
-  h2 {
+  main h2 {
     font-size: 18px;
   }
-  h3 {
+  main h3 {
     font-size: 13px;
   }
   main p {
