@@ -273,7 +273,15 @@ h1, h2, h3, h4, h5, h6 {
   h3 {
     font-size: 14px;
   }
-  body {
-    font-size: 10px;
+  main p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  /* Specifically target blog post content if it has a class */
+  .prose p,
+  article p {
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 }
