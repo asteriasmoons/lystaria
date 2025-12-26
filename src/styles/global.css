@@ -17,10 +17,10 @@
   --gradient-heading: linear-gradient(
         90deg,
         #9a2dfe 10%,
-        #9a2dfe 28%,
-        #f6f65a 22%,
+        #9a2dfe 20%,
+        #f6f65a 30%,
         #e019d4 60%,
-        #00dbff 72%,
+        #00dbff 80%,
         #00dbff 100%
       );
   --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
