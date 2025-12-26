@@ -14,18 +14,15 @@
   --color-border: #2a2a3e; /* Subtle borders */
 
   /* Gradient variables */
---gradient-heading: linear-gradient(
-  90deg,
-  #9a2dfe 5%,
-  #9a2dfe 22%,
-  #f6f65a 32%,
-  #e019d4 40%,
-  #e019d4 53%
-  #00dbff 68%,
-  #00dbff 75%,
-  #9a2dfe 80%
-  #f6f65a 100%
-);
+  --gradient-heading: linear-gradient(
+        120deg,
+        #9a2dfe 10%,
+        #9a2dfe 32%,
+        #f6f65a 38%,
+        #e019d4 60%,
+        #00dbff 72%,
+        #00dbff 100%
+      );
 
   --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
   --gradient-accent-hover: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
