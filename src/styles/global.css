@@ -259,8 +259,8 @@ a:hover {
 /* MOBILE CONFIGS */
 @media (max-width: 768px) {
 
-h1, h2, h3, h4, h5, h6 {
-    background-size: 100% 100%;
+  h1, h2, h3, h4, h5, h6 {
+    background-size: 400px auto; /* Keep the gradient consistent */
     background-position: center;
   }
 
@@ -268,10 +268,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 28px;
   }
   h2 {
-    font-size: 19px;
+    font-size: 18px;
   }
   h3 {
-    font-size: 14px;
+    font-size: 13px;
   }
   main p {
     font-size: 0.95rem;
