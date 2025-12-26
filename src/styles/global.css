@@ -15,11 +15,11 @@
 
   /* Gradient variables */
   --gradient-heading: linear-gradient(
-      90deg,
-      #9a2dfe 0%,
-      #f6f65a 25%,
-      #e019d4 50%,
-      #00dbff 75%,
+      130deg,
+      #9a2dfe 5%,
+      #f6f65a 15%,
+      #e019d4 55%,
+      #00dbff 80%,
       #9a2dfe 100%
    );
 
