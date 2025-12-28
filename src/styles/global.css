@@ -63,34 +63,32 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
 
+  /* IMPORTANT: use radial gradients for blob glows */
   background-image:
-    /* Top-left glow */
-    linear-gradient(
+    radial-gradient(
       900px 500px at 20% 10%,
-      rgba(126, 126, 255, 0.14),
-      transparent 55%
+      rgba(126, 126, 255, 0.18),
+      transparent 60%
     ),
-
-    /* Top-right glow */
-    linear-gradient(
+    radial-gradient(
       900px 500px at 80% 30%,
-      rgba(90, 199, 250, 0.12),
-      transparent 55%
+      rgba(90, 199, 250, 0.16),
+      transparent 60%
     ),
-
-    /* Bottom-left glow */
-    linear-gradient(
+    radial-gradient(
       900px 500px at 15% 85%,
-      rgba(218, 37, 201, 0.12),
-      transparent 60%
+      rgba(218, 37, 201, 0.14),
+      transparent 65%
     ),
-
-    /* Bottom-right glow */
-    linear-gradient(
+    radial-gradient(
       900px 500px at 85% 80%,
-      rgba(255, 255, 75, 0.08),
-      transparent 60%
+      rgba(255, 255, 75, 0.10),
+      transparent 65%
     );
+
+  /* These help ensure it paints nicely across the viewport */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Fallback if blur isn't supported */
