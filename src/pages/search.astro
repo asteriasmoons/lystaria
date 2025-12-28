@@ -66,34 +66,37 @@ const postsData = sortedPosts.map((post) => ({
           );
 
           return (
-<article class="post-card post-card--search">
-  <div class="post-body">
-    <a href={`/blog/${post.slug}`} class="post-link">
-      <div class="post-content">
-        <div class="post-header">
-          <h2>{post.data.title}</h2>
-          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-            {formattedDate}
-          </time>
-        </div>
+            <article class="post-card post-card--search">
+              <div class="post-body">
+                <a href={`/blog/${post.slug}`} class="post-link">
+                  <div class="post-content">
+                    <div class="post-header">
+                      <h2>{post.data.title}</h2>
+                      <time
+                        class="post-date"
+                        datetime={post.data.pubDate.toISOString()}
+                      >
+                        {formattedDate}
+                      </time>
+                    </div>
 
-        <p class="post-description">{post.data.description}</p>
+                    <p class="post-description">{post.data.description}</p>
 
-        <div class="read-more">Read more →</div>
-      </div>
-    </a>
+                    <div class="read-more">Read more →</div>
+                  </div>
+                </a>
 
-    {post.data.tags && post.data.tags.length > 0 && (
-      <div class="post-tags">
-        {post.data.tags.map((tag) => (
-          <a href={`/blog/tag/${tag}`} class="tag">
-            {tag}
-          </a>
-        ))}
-      </div>
-    )}
-  </div>
-</article>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="post-tags">
+                    {post.data.tags.map((tag) => (
+                      <a href={`/blog/tag/${tag}`} class="tag">
+                        {tag}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </article>
           );
         })
       }
@@ -166,13 +169,13 @@ const postsData = sortedPosts.map((post) => ({
 
     .post-card {
       background: linear-gradient(
-       150deg,
-       #9a2dfe 10%,
-       #9a2dfe 25%,
-       #f6f65a 38%,
-       #e019d4 65%,
-       #00dbff 100%
-     );
+        150deg,
+        #9a2dfe 10%,
+        #9a2dfe 25%,
+        #f6f65a 38%,
+        #e019d4 65%,
+        #00dbff 100%
+      );
       border: 1px solid var(--color-border);
       border-radius: 8px;
       transition: all 0.3s ease;
@@ -187,84 +190,96 @@ const postsData = sortedPosts.map((post) => ({
       border-color: var(--color-accent);
       box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
     }
-    
+
     .post-card--search {
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  overflow: hidden;
-}
+      background: linear-gradient(
+        150deg,
+        #9a2dfe 10%,
+        #9a2dfe 25%,
+        #f6f65a 38%,
+        #e019d4 65%,
+        #00dbff 100%
+      );
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* one unified overlay zone (covers content + tags) */
-.post-card--search .post-body {
-  position: relative;
-  padding: var(--card-pad);
-}
+    /* one unified overlay zone (covers content + tags) */
+    .post-card--search .post-body {
+      position: relative;
+      padding: var(--card-pad);
+    }
 
-.post-card--search .post-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 10, 15, 0.45);
-  pointer-events: none;
-  z-index: 0;
-  border-radius: 12px;
-}
+    .post-card--search .post-body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.45);
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 12px;
+    }
 
-.post-card--search .post-body > * {
-  position: relative;
-  z-index: 1;
-}
+    .post-card--search .post-body > * {
+      position: relative;
+      z-index: 1;
+    }
 
-/* clickable area */
-.post-card--search .post-link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
+    /* clickable area */
+    .post-card--search .post-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
 
-/* layout spacing */
-.post-card--search .post-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--stack-gap);
-}
+    /* layout spacing */
+    .post-card--search .post-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--stack-gap);
+    }
 
-/* tags sit under the same overlay, but stay clickable */
-.post-card--search .post-tags {
-  margin-top: var(--stack-gap);
-  padding: 0; /* important: avoid double padding */
-}
+    /* tags sit under the same overlay, but stay clickable */
+    .post-card--search .post-tags {
+      margin-top: var(--stack-gap);
+      padding: 0; /* important: avoid double padding */
+    }
 
-.post-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column; 
-  position: relative;
-  padding: var(--card-pad);
-}
+    .post-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: var(--card-pad);
+    }
 
-.post-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 10, 15, 0.45);
-  pointer-events: none;
-  z-index: 0;
-  border-radius: 8px; /* match card radius */
-}
+    .post-body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.45);
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 8px; /* match card radius */
+    }
 
-.post-body > * {
-  position: relative;
-  z-index: 1;
-}
+    .post-body > * {
+      position: relative;
+      z-index: 1;
+    }
 
-.post-link {
-  flex: 1;
-  flex-direction: column;
-  display: flex;       /* IMPORTANT */
-  color: inherit;
-  text-decoration: none;
-}
+    .post-link {
+      flex: 1;
+      flex-direction: column;
+      display: flex; /* IMPORTANT */
+      color: inherit;
+      text-decoration: none;
+    }
 
     .post-header {
       margin-bottom: 1rem;
@@ -300,13 +315,13 @@ const postsData = sortedPosts.map((post) => ({
       flex-grow: 1;
     }
 
-.post-tags {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  padding: 0;                 /* remove extra padding */
-  margin-top: auto;
-}
+    .post-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0; /* remove extra padding */
+      margin-top: auto;
+    }
 
     .tag {
       background-color: var(--color-bg);
