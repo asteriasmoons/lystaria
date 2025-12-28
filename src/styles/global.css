@@ -293,7 +293,15 @@ a:hover {
   h3 {
     font-size: 18px !important;
   }
-  body {
+  html, body {
     font-size: 0.95rem !important;
+    min-height: 100%;
+    background-color: var(--color-bg);
+  }
+  body {
+    background-image: var(--bg-glow);
+    background-repeat: no-repeat;
+    background-attachment: scroll; /* key change for mobile */
+    background-position: center;
   }
 }
