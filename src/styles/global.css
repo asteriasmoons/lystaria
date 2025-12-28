@@ -63,15 +63,33 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
 
-  background-image: radial-gradient(
+  background-image:
+    /* Top-left glow */
+    linear-gradient(
       900px 500px at 20% 10%,
       rgba(126, 126, 255, 0.14),
       transparent 55%
     ),
-    radial-gradient(
+
+    /* Top-right glow */
+    linear-gradient(
       900px 500px at 80% 30%,
       rgba(90, 199, 250, 0.12),
       transparent 55%
+    ),
+
+    /* Bottom-left glow */
+    linear-gradient(
+      900px 500px at 15% 85%,
+      rgba(218, 37, 201, 0.12),
+      transparent 60%
+    ),
+
+    /* Bottom-right glow */
+    linear-gradient(
+      900px 500px at 85% 80%,
+      rgba(255, 255, 75, 0.08),
+      transparent 60%
     );
 }
 
