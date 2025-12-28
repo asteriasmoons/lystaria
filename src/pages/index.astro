@@ -41,10 +41,13 @@ const latestPosts = sortedPosts.slice(0, 2);
       <div class="post-grid">
         {
           latestPosts.map((post) => {
-            const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-              "en-US",
-              { year: "numeric", month: "long", day: "numeric" }
-            );
+            const formattedDate = new Date(
+              post.data.pubDate
+            ).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
 
             return (
               <article class="post-card">
@@ -92,128 +95,131 @@ const latestPosts = sortedPosts.slice(0, 2);
   </div>
 
   <style>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
 
-.hero {
-  text-align: center;
-  padding: 3rem 0 4rem;
-  border-bottom: 1px solid var(--color-border);
-}
+    .hero {
+      text-align: center;
+      padding: 3rem 0 4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
 
-.hero h1 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-.intro {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  line-height: 1.8;
-}
+    .intro {
+      font-size: 0.75rem; /* WAS 0.9rem */
+      color: var(--color-text-muted);
+      max-width: 700px;
+      padding: 2rem; /* NEW */
+      margin: 0 auto 2rem;
+      border: 2px dotted rgba(90, 213, 254, 0.856); /* NEW */
+      border-radius: 12px; /* NEW */
+      line-height: 1.8;
+    }
 
-.moon-phase {
-  display: inline-block;
-  padding: 1.25rem 1.75rem;
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  margin-top: 1rem;
-  font-size: 1rem;
-}
+    .moon-phase {
+      display: inline-block;
+      padding: 1.25rem 1.75rem;
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
 
-/* Outer container */
-#moon-phase {
-  display: inline-block;
-  padding: 0.9rem 1.25rem;
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  margin-top: 1rem;
-}
+    /* Outer container */
+    #moon-phase {
+      display: inline-block;
+      padding: 0.9rem 1.25rem;
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
 
-/* Inner wrapper */
-.moon-info-main {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
+    /* Inner wrapper */
+    .moon-info-main {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-/* Moon icon */
-.moon-icon {
-  width: 1.6em;
-  height: 1.6em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  line-height: 1;
-}
+    /* Moon icon */
+    .moon-icon {
+      width: 1.6em;
+      height: 1.6em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 1;
+    }
 
-.moon-icon img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-}
+    .moon-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
 
-.moon-text-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+    .moon-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
 
-.moon-text-group .moon-phase {
-  font-size: 1.6rem;
-  color: var(--color-accent-bright);
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
+    .moon-text-group .moon-phase {
+      font-size: 1.6rem;
+      color: var(--color-accent-bright);
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
 
-.moon-divider {
-  color: var(--color-text-muted);
-  margin: 0 0.25rem;
-}
+    .moon-divider {
+      color: var(--color-text-muted);
+      margin: 0 0.25rem;
+    }
 
-.moon-details {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-}
+    .moon-details {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+    }
 
-/* Featured posts section */
-.featured-posts {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 0;
-}
+    /* Featured posts section */
+    .featured-posts {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 0;
+    }
 
-.featured-posts h2 {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 3rem;
-}
+    .featured-posts h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
 
-.post-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
 
-/* =========================
+    /* =========================
    HOMEPAGE POST CARDS -- CLEAN (FIXED OVERLAY)
    ========================= */
 
-.post-card {
-  background: linear-gradient(
+    .post-card {
+      background: linear-gradient(
         150deg,
         #9a2dfe 10%,
         #9a2dfe 32%,
@@ -222,215 +228,225 @@ const latestPosts = sortedPosts.slice(0, 2);
         #00dbff 72%,
         #00dbff 100%
       );
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 0;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 0;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
 
-/* ✅ THE FIX: overlay belongs to the CARD, not post-content */
-.post-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 240px; /* starts EXACTLY below the image */
-  bottom: 0;  /* covers ALL the rest (including tags area) */
-  background: rgba(10, 10, 15, 0.45);
-  pointer-events: none;
-  z-index: 0;
-}
+    /* ✅ THE FIX: overlay belongs to the CARD, not post-content */
+    .post-card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 240px; /* starts EXACTLY below the image */
+      bottom: 0; /* covers ALL the rest (including tags area) */
+      background: rgba(10, 10, 15, 0.45);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* keep everything above the overlay */
-.post-card > * {
-  position: relative;
-  z-index: 1;
-}
+    /* keep everything above the overlay */
+    .post-card > * {
+      position: relative;
+      z-index: 1;
+    }
 
-.post-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-accent);
-}
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-accent);
+    }
 
-.post-media {
-  position: relative;
-  width: 100%;
-  height: 240px;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
+    .post-media {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
-.post-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    rgba(126, 126, 255, 0.14),
-    rgba(90, 200, 250, 0.1),
-    rgba(10, 10, 15, 0.22)
-  );
-}
+    .post-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        135deg,
+        rgba(126, 126, 255, 0.14),
+        rgba(90, 200, 250, 0.1),
+        rgba(10, 10, 15, 0.22)
+      );
+    }
 
-.post-cover {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  opacity: 0.95;
-  transition: transform 0.35s ease, opacity 0.35s ease;
-}
+    .post-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.95;
+      transition:
+        transform 0.35s ease,
+        opacity 0.35s ease;
+    }
 
-.post-card:hover .post-cover {
-  transform: scale(1.03);
-  opacity: 1;
-}
+    .post-card:hover .post-cover {
+      transform: scale(1.03);
+      opacity: 1;
+    }
 
-.post-link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
+    .post-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
 
-/* You did not have this defined, but you DO need it */
-.post-content {
-  padding: 1.75rem 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+    /* You did not have this defined, but you DO need it */
+    .post-content {
+      padding: 1.75rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
 
-/* Override global gradient headings for card titles */
-.post-content h3 {
-  font-size: 1.8rem;
-  margin: 0;
-  background: none !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  -webkit-text-fill-color: #ffffff !important;
-  color: #ffffff !important;
-  line-height: 1.2;
-}
+    /* Override global gradient headings for card titles */
+    .post-content h3 {
+      font-size: 1.8rem;
+      margin: 0;
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      background-clip: initial !important;
+      -webkit-text-fill-color: #ffffff !important;
+      color: #ffffff !important;
+      line-height: 1.2;
+    }
 
-.post-date {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  font-style: italic;
-}
+    .post-date {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
 
-.post-description {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
-}
+    .post-description {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+    }
 
-.read-more {
-  display: inline-block;
-  align-self: flex-start;
-  margin-top: auto;
-  padding: 0.35rem 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-  background: rgba(10, 10, 15, 0.75);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
+    .read-more {
+      display: inline-block;
+      align-self: flex-start;
+      margin-top: auto;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      background: rgba(10, 10, 15, 0.75);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
 
-.post-card:hover .read-more {
-  border-color: var(--color-accent);
-  background: rgba(10, 10, 15, 0.9);
-  transform: translateY(-1px);
-}
+    .post-card:hover .read-more {
+      border-color: var(--color-accent);
+      background: rgba(10, 10, 15, 0.9);
+      transform: translateY(-1px);
+    }
 
-/* Tags (separate from big link) */
-.post-tags {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  padding: 0 1.75rem 1.5rem;
-}
+    /* Tags (separate from big link) */
+    .post-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0 1.75rem 1.5rem;
+    }
 
-.tag {
-  background-color: var(--color-bg);
-  color: var(--color-accent);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  border: 1px solid var(--color-border);
-  text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
-  position: relative;
-  z-index: 2; /* above overlay */
-}
+    .tag {
+      background-color: var(--color-bg);
+      color: var(--color-accent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      border: 1px solid var(--color-border);
+      text-decoration: none;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+      position: relative;
+      z-index: 2; /* above overlay */
+    }
 
-.tag:hover {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-  transform: translateY(-2px);
-}
+    .tag:hover {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+      transform: translateY(-2px);
+    }
 
-.view-all {
-  text-align: center;
-}
+    .view-all {
+      text-align: center;
+    }
 
-.view-all-link {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-accent);
-  border-radius: 50px;
-  color: var(--color-accent-bright);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
+    .view-all-link {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-accent);
+      border-radius: 50px;
+      color: var(--color-accent-bright);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
 
-.view-all-link:hover {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-  transform: translateY(-2px);
-}
+    .view-all-link:hover {
+      background-color: var(--color-accent);
+      color: var(--color-bg);
+      transform: translateY(-2px);
+    }
 
-/* MOBILE CONFIGS */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
+    /* MOBILE CONFIGS */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
 
-  .intro {
-    font-size: 0.9rem;
-  }
+      .intro {
+        font-size: 0.9rem;
+      }
 
-  .post-grid {
-    grid-template-columns: 1fr;
-  }
+      .post-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .post-media {
-    height: 200px;
-  }
+      .post-media {
+        height: 200px;
+      }
 
-  /* overlay start must match mobile image height */
-  .post-card::after {
-    top: 200px;
-  }
+      /* overlay start must match mobile image height */
+      .post-card::after {
+        top: 200px;
+      }
 
-  .post-content {
-    padding: 1.25rem 1.25rem;
-  }
+      .post-content {
+        padding: 1.25rem 1.25rem;
+      }
 
-  .post-tags {
-    padding: 0 1.25rem 1.25rem;
-  }
-}
+      .post-tags {
+        padding: 0 1.25rem 1.25rem;
+      }
+    }
   </style>
 
   <script>
