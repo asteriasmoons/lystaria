@@ -13,21 +13,37 @@
 
   --color-border: #2a2a3e; /* Subtle borders */
 
+  --bg-glow:
+    radial-gradient(900px 500px at 20% 10%, rgba(126,126,255,0.18), transparent 60%),
+    radial-gradient(900px 500px at 80% 30%, rgba(90,199,250,0.16), transparent 60%),
+    radial-gradient(900px 500px at 15% 85%, rgba(218,37,201,0.14), transparent 65%),
+    radial-gradient(900px 500px at 85% 80%, rgba(255,255,75,0.10), transparent 65%);
+
   /* Gradient variables */
   --gradient-heading: linear-gradient(
-        90deg,
-        #9a2dfe 10%,
-        #9a2dfe 32%,
-        #f6f65a 38%,
-        #e019d4 60%,
-        #00dbff 72%,
-        #00dbff 100%
-      );
-  --gradient-accent: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
-  --gradient-accent-hover: linear-gradient(45deg, #a78bfa 0%, #5ac7fa 55%, #7e7eff 100%);
-  
+    90deg,
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 100%
+  );
+  --gradient-accent: linear-gradient(
+    45deg,
+    #a78bfa 0%,
+    #5ac7fa 55%,
+    #7e7eff 100%
+  );
+  --gradient-accent-hover: linear-gradient(
+    45deg,
+    #a78bfa 0%,
+    #5ac7fa 55%,
+    #7e7eff 100%
+  );
+
   /* Heading Gradient Sizes */
-    --heading-grad-size: 30% 100%;
+  --heading-grad-size: 30% 100%;
   --heading-grad-pos: 50% 50%;
 
   /* Glass tokens */
@@ -57,36 +73,12 @@
 
 body {
   background-color: var(--color-bg);
+  background-image: var(--bg-glow);
   color: var(--color-text);
   font-family: "Hachi Maru Pop", sans-serif;
   line-height: 1.7;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
-
-  /* IMPORTANT: use radial gradients for blob glows */
-  background-image:
-    radial-gradient(
-      900px 500px at 20% 10%,
-      rgba(126, 126, 255, 0.18),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 80% 30%,
-      rgba(90, 199, 250, 0.16),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 15% 85%,
-      rgba(218, 37, 201, 0.14),
-      transparent 65%
-    ),
-    radial-gradient(
-      900px 500px at 85% 80%,
-      rgba(255, 255, 75, 0.10),
-      transparent 65%
-    );
-
-  /* These help ensure it paints nicely across the viewport */
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -132,13 +124,17 @@ body {
 }
 
 .site-header {
-  position: sticky; /* ← CHANGE FROM relative */
+  position: sticky;
   top: 0;
-  background: var(--color-bg); /* ← ADD THIS */
   z-index: 9999;
-  padding: 1rem 0; /* ← ADD THIS */
-  border-bottom: 1px solid var(--color-border); /* ← ADD THIS */
+  background-color: rgba(10, 10, 15, 0.7);
+  background-image: var(--bg-glow);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 
 .nav-logo {
   font-family: "Berkshire Swash", serif;
@@ -158,10 +154,15 @@ body {
 }
 
 /* Typography: Stable headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
-  
+
   background-size: 400px auto; /* Fixed size - gradient won't stretch */
   background-position: center; /* Centers the gradient pattern */
   background-repeat: no-repeat;
@@ -170,13 +171,12 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: transparent; 
+  color: transparent;
 
   line-height: 4rem;
   margin-bottom: 1rem;
   display: block;
 }
-
 
 h1 {
   font-size: 28px;
@@ -274,8 +274,12 @@ a:hover {
 
 /* MOBILE CONFIGS */
 @media (max-width: 768px) {
-
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     background-size: 100% 100%; /* Keep the gradient consistent */
     background-position: center;
   }
