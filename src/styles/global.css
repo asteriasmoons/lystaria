@@ -40,6 +40,16 @@
     #00dbff 100%
   );
 
+    --overlay-gradient-accent: linear-gradient(
+    45deg,
+    #7e7effb9 10%,
+    #7e7effb9 32%,
+    #f6f65a8f 38%,
+    #e019d3a6 60%,
+    #00ddffae 72%,
+    #00dbffae 100%
+  );
+
   --gradient-accent-hover: linear-gradient(
     45deg,
     #7e7eff 10%,
