@@ -93,9 +93,13 @@ import Layout from "../layouts/Layout.astro";
       padding: 0 1rem;
     }
 
-	.chat-intro h2 {
-		display: block
-	}
+    .chat-intro h2 {
+      display: block; /* Override inline-block */
+      text-align: center;
+      margin: 0 auto 1rem; /* Center with auto margins */
+      font-size: 2rem;
+      line-height: 1.2;
+    }
 
     .intro-note {
       max-width: 700px;
