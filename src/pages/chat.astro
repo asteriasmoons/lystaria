@@ -18,69 +18,68 @@ import Layout from "../layouts/Layout.astro";
         disabled link sharing. Thanks for stopping by.
       </p>
     </section>
-    <!-- Nickname Entry (shows first time) -->
-    <div id="nicknamePrompt" class="nickname-prompt">
-      <div class="prompt-content">
-        <h2>Enter the chat</h2>
-        <input
-          type="text"
-          id="nicknameInput"
-          placeholder="Choose a nickname..."
-          maxlength="20"
-          autocomplete="off"
-        />
-        <button id="enterChat">Enter</button>
-        <p class="hint">
-          Messages auto-delete after 12 hours • 5 second slow mode
-        </p>
-      </div>
+  </div>
+  <!-- Nickname Entry (shows first time) -->
+  <div id="nicknamePrompt" class="nickname-prompt">
+    <div class="prompt-content">
+      <h2>Enter the chat</h2>
+      <input
+        type="text"
+        id="nicknameInput"
+        placeholder="Choose a nickname..."
+        maxlength="20"
+        autocomplete="off"
+      />
+      <button id="enterChat">Enter</button>
+      <p class="hint">
+        Messages auto-delete after 12 hours • 5 second slow mode
+      </p>
     </div>
+  </div>
 
-    <!-- Chat Area (hidden until nickname set) -->
-    <div id="chatArea" class="chat-area" style="display: none;">
-      <div class="chat-wrapper">
-        <div class="chat-header">
-          <h1>Live Chat</h1>
-          <div class="online-counter">
-            <span class="pulse-dot"></span>
-            <span id="onlineCount">— online</span>
+  <!-- Chat Area (hidden until nickname set) -->
+  <div id="chatArea" class="chat-area" style="display: none;">
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <h1>Live Chat</h1>
+        <div class="online-counter">
+          <span class="pulse-dot"></span>
+          <span id="onlineCount">— online</span>
 
-            <button id="adminButton" class="admin-btn" type="button"
-              >Admin</button
-            >
-            <button id="leaveButton" class="leave-btn" type="button"
-              >Leave</button
-            >
-          </div>
+          <button id="adminButton" class="admin-btn" type="button">Admin</button
+          >
+          <button id="leaveButton" class="leave-btn" type="button">Leave</button
+          >
         </div>
+      </div>
 
-        <div class="messages-container" id="messagesContainer">
-          <div class="loading">Loading messages...</div>
+      <div class="messages-container" id="messagesContainer">
+        <div class="loading">Loading messages...</div>
+      </div>
+
+      <div class="input-area">
+        <div class="cooldown-bar" id="cooldownBar"></div>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            maxlength="500"
+            autocomplete="off"
+            disabled
+          />
+          <button id="sendButton" disabled>Send</button>
         </div>
-
-        <div class="input-area">
-          <div class="cooldown-bar" id="cooldownBar"></div>
-          <div class="input-wrapper">
-            <input
-              type="text"
-              id="messageInput"
-              placeholder="Type a message..."
-              maxlength="500"
-              autocomplete="off"
-              disabled
-            />
-            <button id="sendButton" disabled>Send</button>
-          </div>
-          <div class="input-hints">
-            <span id="cooldownText"></span>
-            <span class="nickname-display"
-              >Chatting as <strong id="currentNickname"></strong></span
-            >
-          </div>
+        <div class="input-hints">
+          <span id="cooldownText"></span>
+          <span class="nickname-display"
+            >Chatting as <strong id="currentNickname"></strong></span
+          >
         </div>
       </div>
     </div>
   </div>
+
   <style>
     /* =========================
      Chat Page Styles (Lystaria)
@@ -113,11 +112,10 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .chat-intro h2 {
+      text-align: center;
+      margin: 0 0 1rem;
       font-size: 2rem;
-      margin-bottom: 1.5rem;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
     }
 
     .intro-note {
