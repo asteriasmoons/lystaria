@@ -347,20 +347,51 @@ import Layout from "../layouts/Layout.astro";
     }
 
     /* Message Styles */
+    /* Container - just layout, NO bubble */
     .message {
       display: flex;
       gap: 0.5rem;
+      padding: 0; /* Remove padding */
+      border-radius: 0; /* Remove border-radius */
+      background: transparent; /* Remove background */
+      border: none;
+      box-shadow: none; /* Remove shadow */
+      color: inherit;
+      transition: none;
+      animation: fadeIn 0.25s ease-in;
+    }
+
+    /* THIS is the bubble */
+    .message-content {
+      flex: 1;
+      min-width: 0;
+      /* BUBBLE STYLING HERE */
       padding: 0.75rem 0.9rem;
       border-radius: 12px;
-      /* bubble */
       background: var(--gradient-accent);
-      border: 1px solid rgba(111, 45, 254, 0.4); 
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+      border: 1px solid rgba(154, 45, 254, 0.3);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
       transition:
         transform 0.15s ease,
-        background 0.15s ease,
-        border-color 0.15s ease;
-      animation: fadeIn 0.25s ease-in;
+        box-shadow 0.15s ease;
+    }
+
+    .message:hover .message-content {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .message-nickname {
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.15;
+      color: rgba(146, 115, 255, 0.95);
+      font-weight: 600;
+    }
+
+    .message-timestamp {
+      font-size: 0.78rem;
+      color: rgba(146, 115, 255, 0.6); /* Purple, not white */
     }
 
     /* .message:hover {
@@ -384,29 +415,11 @@ import Layout from "../layouts/Layout.astro";
       display: none;
     }
 
-    /* .message-content {
-      flex: 1;
-      min-width: 0;
-    } */
-
     .message-header {
       display: flex;
       align-items: baseline;
       gap: 0.5rem;
       margin-bottom: 0.2rem;
-    }
-
-    .message-nickname {
-      font-family: inherit;
-      font-size: 0.95rem;
-      line-height: 1.15;
-      color: rgba(146, 115, 255, 0.95);
-      font-weight: 600;
-    }
-
-    .message-timestamp {
-      font-size: 0.78rem;
-      color: rgba(146, 115, 255, 0.95);
     }
 
     .message-text {
