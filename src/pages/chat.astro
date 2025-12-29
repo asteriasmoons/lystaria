@@ -31,6 +31,11 @@ import Layout from "../layouts/Layout.astro";
         <div class="online-counter">
           <span class="pulse-dot"></span>
           <span id="onlineCount">— online</span>
+
+          <button id="adminButton" class="admin-btn" type="button">Admin</button
+          >
+          <button id="leaveButton" class="leave-btn" type="button">Leave</button
+          >
         </div>
       </div>
 
@@ -247,6 +252,23 @@ import Layout from "../layouts/Layout.astro";
       animation: pulse 2s ease-in-out infinite;
     }
 
+    .admin-btn,
+    .leave-btn {
+      margin-left: 0.6rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 10, 15, 0.25);
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .admin-btn:hover,
+    .leave-btn:hover {
+      background: rgba(10, 10, 15, 0.35);
+    }
+
     @keyframes pulse {
       0%,
       100% {
@@ -299,7 +321,7 @@ import Layout from "../layouts/Layout.astro";
     /* Message Styles */
     .message {
       display: flex;
-      gap: 0.9rem;
+      gap: 0.5rem;
       padding: 0.65rem 0.75rem;
       border-radius: 10px;
       transition: background 0.15s ease;
@@ -322,21 +344,7 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .message-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-
-      background: var(--gradient-accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--color-text);
-
-      flex-shrink: 0;
-      text-transform: uppercase;
+      display: none;
     }
 
     .message-content {
@@ -632,6 +640,8 @@ import Layout from "../layouts/Layout.astro";
     const onlineCountSpan = document.getElementById(
       "onlineCount"
     ) as HTMLSpanElement;
+    const adminBtn = document.getElementById("adminButton");
+    const leaveBtn = document.getElementById("leaveButton");
 
     // Check if nickname exists
     if (nickname) {
@@ -838,6 +848,27 @@ import Layout from "../layouts/Layout.astro";
           location.reload();
         }
       }
+    });
+
+    // Admin button (visible)
+    adminBtn?.addEventListener("click", () => {
+      const key = prompt("Enter admin key:");
+      if (key === "lystaria-admin-2024") {
+        localStorage.setItem("chatAdminKey", key);
+        alert("Admin mode activated. Reloading…");
+        location.reload();
+      } else if (key) {
+        alert("Nope.");
+      }
+    });
+
+    // Leave button (clear nickname + return to prompt)
+    leaveBtn?.addEventListener("click", () => {
+      localStorage.removeItem("chatNickname");
+      localStorage.removeItem("chatAdminKey");
+
+      // simplest reliable reset:
+      location.reload();
     });
   </script>
 </BaseLayout>
