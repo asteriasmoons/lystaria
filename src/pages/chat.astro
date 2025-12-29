@@ -137,7 +137,6 @@ import Layout from "../layouts/Layout.astro";
       justify-content: center;
       align-items: center;
       z-index: 1000;
-
       -webkit-backdrop-filter: blur(var(--glass-blur));
       backdrop-filter: blur(var(--glass-blur));
     }
@@ -157,13 +156,11 @@ import Layout from "../layouts/Layout.astro";
       margin: 0 0 1.25rem 0;
       font-family: "Berkshire Swash", serif;
       font-weight: 400;
-
       background-image: var(--gradient-heading);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
-
       font-size: 1.8rem;
       line-height: 1.2;
     }
@@ -171,11 +168,9 @@ import Layout from "../layouts/Layout.astro";
     .prompt-content input {
       width: 100%;
       padding: 0.95rem 1rem;
-
       background: rgba(10, 10, 15, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 1rem;
       margin-bottom: 1rem;
@@ -198,16 +193,13 @@ import Layout from "../layouts/Layout.astro";
     .prompt-content button {
       width: 100%;
       padding: 0.95rem 1rem;
-
       background: var(--gradient-accent);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-
       transition:
         transform 0.2s,
         box-shadow 0.2s,
@@ -243,12 +235,9 @@ import Layout from "../layouts/Layout.astro";
       border: 1px solid var(--glass-border);
       border-radius: 12px;
       box-shadow: var(--glass-shadow-soft);
-
       -webkit-backdrop-filter: blur(var(--glass-blur));
       backdrop-filter: blur(var(--glass-blur));
-
       overflow: hidden;
-
       /* Layout fix: app-panel behavior */
       display: flex;
       flex-direction: column;
@@ -260,7 +249,6 @@ import Layout from "../layouts/Layout.astro";
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 1.25rem;
-
       background: rgba(10, 10, 15, 0.35);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -269,13 +257,11 @@ import Layout from "../layouts/Layout.astro";
       margin: 0;
       font-family: "Berkshire Swash", serif;
       font-weight: 400;
-
       background-image: var(--gradient-heading);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
-
       font-size: 1.55rem;
       line-height: 1.2;
     }
@@ -329,14 +315,11 @@ import Layout from "../layouts/Layout.astro";
       /* Layout fix: fill remaining space */
       flex: 1;
       min-height: 0;
-
       overflow-y: auto;
       padding: 1.25rem;
-
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-
       background: rgba(10, 10, 15, 0.18);
     }
 
@@ -369,8 +352,13 @@ import Layout from "../layouts/Layout.astro";
       gap: 0.5rem;
       padding: 0.65rem 0.75rem;
       border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03); /* message bubble */
       transition: background 0.15s ease;
       animation: fadeIn 0.25s ease-in;
+    }
+
+    .message:hover {
+      background: rgba(255, 255, 255, 0.055);
     }
 
     @keyframes fadeIn {
@@ -405,11 +393,11 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .message-nickname {
-      font-family: "Berkshire Swash", serif;
-      font-weight: 400;
-      color: var(--color-text);
-      font-size: 1.05rem;
+      font-family: inherit;
+      font-size: 0.95rem;
       line-height: 1.15;
+      color: rgba(146, 115, 255, 0.95);
+      font-weight: 600;
     }
 
     .message-timestamp {
@@ -418,7 +406,7 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .message-text {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgb(255, 255, 255);
       line-height: 1.45;
       word-wrap: break-word;
       font-size: 0.95rem;
@@ -436,10 +424,9 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .delete-btn {
-      background: rgba(218, 37, 201, 0.1);
-      border: 1px solid rgba(218, 37, 201, 0.35);
+      background: var(--overlay-gradient-accent);
+      border: none;
       color: rgba(255, 255, 255, 0.9);
-
       padding: 0.35rem 0.6rem;
       border-radius: 8px;
       font-size: 0.78rem;
@@ -468,7 +455,6 @@ import Layout from "../layouts/Layout.astro";
       background: var(--gradient-accent);
       border-radius: 2px;
       margin-bottom: 0.75rem;
-
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.1s linear;
@@ -483,14 +469,11 @@ import Layout from "../layouts/Layout.astro";
     .input-wrapper input {
       flex: 1;
       padding: 0.85rem 1rem;
-
       background: rgba(10, 10, 15, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 0.95rem;
-
       transition:
         border-color 0.2s,
         box-shadow 0.2s,
@@ -520,7 +503,7 @@ import Layout from "../layouts/Layout.astro";
       border-radius: 10px;
       overflow: hidden;
       color: var(--color-text);
-	  font: inherit;
+      font: inherit;
       font-size: 0.95rem;
       cursor: pointer;
       position: relative;
@@ -568,40 +551,59 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .nickname-display {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(146, 115, 255, 0.95);
     }
 
     .nickname-display strong {
-      color: var(--color-accent);
+      color: rgba(146, 115, 255, 0.95);
       font-weight: 600;
     }
 
     .system-message {
       text-align: center;
       font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.55);
-      font-style: italic;
+      color: rgb(255, 255, 255);
       padding: 0.25rem 0;
     }
 
     .system-delete {
-      margin-left: 0.5rem;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-left: 0.6rem;
+      /* sizing */
+      min-width: 72px;
+      height: 28px;
+      padding: 0 0.75rem;
+      /* layout */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      /* visuals */
+      background: var(--overlay-gradient-accent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: none;
       border-radius: 999px;
-      width: 22px;
-      height: 22px;
-      line-height: 20px;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.65);
+      /* text */
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
       cursor: pointer;
-      font: inherit;
-      padding: 0;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
     }
 
     .system-delete:hover {
-      background: rgba(10, 10, 15, 0.25);
-      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .system-delete:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.18);
     }
 
     /* Admin modal */
