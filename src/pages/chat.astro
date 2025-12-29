@@ -602,7 +602,7 @@ import Layout from "../layouts/Layout.astro";
   </style>
 
   <script>
-	// @ts-nocheck 
+    // @ts-nocheck
     import { initializeApp } from "firebase/app";
     import {
       getDatabase,
@@ -925,11 +925,25 @@ import Layout from "../layouts/Layout.astro";
     });
 
     // Admin button (visible)
+    function updateAdminButton() {
+      if (!adminBtn) return;
+      adminBtn.textContent = isAdminSession() ? "Exit Admin" : "Admin";
+    }
+
+    updateAdminButton();
+
     adminBtn?.addEventListener("click", () => {
+      if (isAdminSession()) {
+        localStorage.removeItem("chatAdminKey");
+        alert("Admin mode turned off.");
+        location.reload();
+        return;
+      }
+
       const key = prompt("Enter admin key:");
       if (key && key === ADMIN_SECRET) {
         localStorage.setItem("chatAdminKey", key);
-        alert("Admin mode activated. Reloading…");
+        alert("Admin mode activated.");
         location.reload();
       } else if (key) {
         alert("Nope.");
