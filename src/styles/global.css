@@ -219,20 +219,20 @@ background-clip:text */
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 1.75rem;   /* 28px - Your anchor size */
   letter-spacing: 0.05em;
 }
 
 h2 {
-  font-size: 26px;
+  font-size: 1.5rem;    /* 24px - Clear step down */
 }
 
 h3 {
-  font-size: 17px;
+  font-size: 1.25rem;   /* 20px - Clear step down */
 }
 
 h4 {
-  font-size: 15px;
+  font-size: 1.125rem;  /* 18px - Still bigger than body text */
 }
 
 /* Links */
