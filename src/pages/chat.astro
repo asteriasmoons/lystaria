@@ -681,8 +681,66 @@ import Layout from "../layouts/Layout.astro";
       color: rgba(255, 255, 255, 0.92);
     }
 
+    /* =========================
+   DELETE MODAL – BUTTONS
+   ========================= */
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-actions button {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      padding: 0.55rem 1.25rem;
+
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+
+      color: var(--color-text);
+      background: rgba(10, 10, 15, 0.35);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.2s ease;
+    }
+
+    /* Cancel button – soft glass */
+    #deleteCancelBtn {
+      background: rgba(10, 10, 15, 0.35);
+    }
+
+    #deleteCancelBtn:hover {
+      background: rgba(10, 10, 15, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* Delete button – gradient danger */
+    #deleteConfirmBtn {
+	  background: var(--bg-glow)
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    #deleteConfirmBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    #deleteConfirmBtn:active,
+    #deleteCancelBtn:active {
+      transform: translateY(0);
+      opacity: 0.95;
+    }
+
     /* ========================
-		MOBILE
+		MOBILE MOBILE MOBILE
 	   ======================= */
     @media (max-width: 768px) {
       .chat-area {
