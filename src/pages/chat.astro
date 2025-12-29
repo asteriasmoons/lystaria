@@ -302,7 +302,7 @@ import Layout from "../layouts/Layout.astro";
       margin-left: 0.6rem;
       padding: 0.35rem 0.6rem;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: none;
       background: var(--overlay-gradient-accent);
       color: rgba(255, 255, 255, 0.8);
       cursor: pointer;
@@ -512,21 +512,33 @@ import Layout from "../layouts/Layout.astro";
       color: rgba(255, 255, 255, 0.45);
     }
 
-	/* SEND BUTTON!! */
+    /* SEND BUTTON!! */
     .input-wrapper button {
       padding: 0.85rem 1.25rem;
       background: var(--overlay-gradient-accent);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
       color: var(--color-text);
       font-weight: 600;
       font-size: 0.95rem;
       cursor: pointer;
+      position: relative;
       transition:
         transform 0.15s ease,
         box-shadow 0.15s ease,
         opacity 0.2s;
       white-space: nowrap;
+    }
+
+    /* Clean “border” ring INSIDE the button (no bleed) */
+    .input-wrapper button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
     }
 
     .input-wrapper button:hover:not(:disabled) {
@@ -724,7 +736,7 @@ import Layout from "../layouts/Layout.astro";
 
     /* Delete button – gradient danger */
     #deleteConfirmBtn {
-	  background: var(--gradient-accent);
+      background: var(--gradient-accent);
       border-color: rgba(31, 26, 59, 0.25);
     }
 
