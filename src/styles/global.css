@@ -205,11 +205,11 @@ h6 {
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  overflow: visible;
+  overflow: visible !important;
 
-  line-height: 1.15;
+  line-height: 1.2 !important;
   margin: 0 0 1rem;
-  display: block;
+  display: inline-block;
 
   /* prevent first/last letter shaving with Berkshire Swash + background-clip:text */
   padding-inline: 0.28em;
