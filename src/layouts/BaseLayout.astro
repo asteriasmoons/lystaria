@@ -27,7 +27,7 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph / Facebook / Discord -->
+    <!-- Open Graph -->
     <meta property="og:type" content={type} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -73,12 +73,13 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       gtag("config", "G-L7K4W4KG8M");
     </script>
 
-    <!-- UMAMI ANALYTICS -->
+    <!-- Umami -->
     <script
       defer
       src="https://cloud.umami.is/script.js"
       data-website-id="0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6"></script>
   </head>
+
   <body>
     <header class="site-header">
       <div class="container">
@@ -104,7 +105,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
                 </a>
               )
             }
-            <!-- Temporary test links - delete these later -->
             <a href="#">Test Link 1</a>
             <a href="#">Test Link 2</a>
             <a href="#">Test Link 3</a>
@@ -125,195 +125,64 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         <p>© 2025 Lystaria · Crafted with moonlight and code</p>
         <div class="footer-links">
           <a href="/rss.xml" target="_blank" rel="noopener" class="rss-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"
-              ></path>
-            </svg>
             RSS Feed
           </a>
         </div>
       </div>
     </footer>
 
+    <!-- TOAST CONTAINER -->
+    <div id="toast" class="toast" aria-live="polite"></div>
+
     <style>
-      /* Navigation + Header Styles */
-      .nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-      }
-
-      .menu-toggle {
-        background: none;
-        border: none;
-        color: var(--color-accent);
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-        transition: color 0.3s ease;
-        position: relative;
-        z-index: 10001;
-      }
-
-      .menu-toggle:hover {
-        color: var(--color-accent-bright);
-      }
-
-      .menu-icon {
-        display: block;
-      }
-
-      .menu-icon-img {
-        width: 24px;
-        height: 24px;
-        display: block;
-        transition: transform 0.3s ease;
-      }
-
-      .menu-toggle:hover .menu-icon-img {
-        transform: rotate(90deg);
-      }
-
-      .nav-links {
+      /* Toast */
+      .toast {
         position: fixed;
-        top: 4rem;
-        right: 2rem;
-        margin-top: 1rem;
-        background-color: rgba(26, 26, 46, 0.58);
-        background-image: var(--bg-glow);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-blend-mode: overlay;
-        border: 1px solid var(--color-border);
-        border-radius: 12px;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        min-width: 200px;
-        max-height: 400px;
-        overflow-y: auto;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(20px);
         opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-        z-index: 10000;
-        -webkit-backdrop-filter: blur(14px);
+        pointer-events: none;
+        background: rgba(10, 10, 15, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+        line-height: 1.35;
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transition:
+          opacity 0.15s ease,
+          transform 0.15s ease;
+        z-index: 20000;
       }
 
-      /* Custom scrollbar for nav dropdown */
-      .nav-links::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .nav-links::-webkit-scrollbar-track {
-        background: rgba(10, 10, 15, 0.5);
-        border-radius: 4px;
-      }
-
-      .nav-links::-webkit-scrollbar-thumb {
-        background: rgba(126, 126, 255, 0.5);
-        border-radius: 4px;
-      }
-
-      .nav-links::-webkit-scrollbar-thumb:hover {
-        background: rgba(126, 126, 255, 0.7);
-      }
-
-      .nav-links.active {
+      .toast.show {
         opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-
-      .nav-links a {
-        font-size: 1.2rem;
-        letter-spacing: 0.02em;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        background-image: var(--gradient-heading);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-        transition: opacity 0.25s ease;
-      }
-
-      .nav-links a:hover {
-        opacity: 0.85;
-      }
-
-      /* Main content area */
-      main {
-        min-height: calc(100vh - 200px);
-        padding: 4rem 0;
-      }
-
-      /* Footer Styles */
-      .site-footer {
-        border-top: 1px solid var(--color-border);
-        padding: 2rem 0;
-        text-align: center;
-        color: var(--color-text-muted);
-        font-size: 0.9rem;
-      }
-
-      .footer-links {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-      }
-
-      .rss-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--color-accent);
-        font-size: 0.9rem;
-        transition: color 0.3s ease;
-      }
-
-      .rss-link:hover {
-        color: var(--color-accent-bright);
-      }
-
-      .rss-link svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      @media (max-width: 768px) {
-        .nav-links {
-          top: 3.75rem; /* slightly tighter than 4rem */
-          right: 1rem;
-          left: 1rem; /* makes it responsive */
-          min-width: unset;
-          width: auto;
-          max-width: 480px;
-
-          max-height: min(60vh, 420px);
-          overflow-y: auto;
-
-          /* keep your perfected paint */
-          background-color: rgba(26, 26, 46, 0.58);
-          background-image: var(--bg-glow);
-          background-repeat: no-repeat;
-          background-attachment: scroll; /* match the mobile background rule */
-          background-blend-mode: overlay;
-
-          -webkit-backdrop-filter: blur(14px);
-          backdrop-filter: blur(14px);
-        }
+        transform: translateX(-50%) translateY(0);
       }
     </style>
 
+    <!-- TOAST SCRIPT -->
+    <script is:inline>
+      // @ts-nocheck
+      window.showToast = function (message, ms = 1800) {
+        const el = document.getElementById("toast");
+        if (!el) return;
+        el.textContent = String(message ?? "");
+        el.classList.add("show");
+        clearTimeout(el._toastTimer);
+        el._toastTimer = setTimeout(() => {
+          el.classList.remove("show");
+        }, ms);
+      };
+    </script>
+
+    <!-- EXISTING NAV JS -->
     <script>
-      // Menu toggle functionality
+      // @ts-nocheck 
       const menuToggle = document.getElementById("menuToggle");
       const navLinks = document.getElementById("navLinks");
 
@@ -321,17 +190,16 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         navLinks?.classList.toggle("active");
       });
 
-      // Close menu when clicking outside
       document.addEventListener("click", (e) => {
-        if (
-          !menuToggle?.contains(e.target as Node) &&
-          !navLinks?.contains(e.target as Node)
-        ) {
+        const target = e.target;
+
+        if (!(target instanceof Node)) return;
+
+        if (!menuToggle?.contains(target) && !navLinks?.contains(target)) {
           navLinks?.classList.remove("active");
         }
       });
 
-      // Close menu when a link is clicked
       navLinks?.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
           navLinks.classList.remove("active");

@@ -592,6 +592,95 @@ import Layout from "../layouts/Layout.astro";
       color: rgba(255, 255, 255, 0.85);
     }
 
+    /* Admin modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 30000;
+    }
+
+    .modal.is-open {
+      display: block;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .modal-card {
+      position: relative;
+      width: min(92vw, 420px);
+      margin: 14vh auto 0;
+      padding: 1.25rem 1.25rem 1rem;
+
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: var(--glass-shadow);
+    }
+
+    .modal-title {
+      margin: 0 0 0.35rem 0;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .modal-subtitle {
+      margin: 0 0 0.9rem 0;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 0.85rem 0.95rem;
+
+      background: rgba(10, 10, 15, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+
+      color: var(--color-text);
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: rgba(126, 126, 255, 0.6);
+      box-shadow: 0 0 0 3px rgba(126, 126, 255, 0.16);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .modal-btn {
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .modal-btn.secondary {
+      background: rgba(10, 10, 15, 0.25);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .modal-btn.primary {
+      background: var(--gradient-accent);
+      color: rgba(255, 255, 255, 0.92);
+    }
+
     /* ========================
 		MOBILE
 	   ======================= */
@@ -645,6 +734,40 @@ import Layout from "../layouts/Layout.astro";
       }
     }
   </style>
+
+  <!-- Admin Modal -->
+  <div id="adminModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+
+    <div
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="adminModalTitle"
+    >
+      <h3 id="adminModalTitle" class="modal-title">Admin Mode</h3>
+      <p class="modal-subtitle">
+        Enter your admin key to enable admin controls.
+      </p>
+
+      <input
+        id="adminKeyInput"
+        class="modal-input"
+        type="password"
+        placeholder="Admin key..."
+        autocomplete="off"
+      />
+
+      <div class="modal-actions">
+        <button id="adminCancelBtn" type="button" class="modal-btn secondary"
+          >Cancel</button
+        >
+        <button id="adminConfirmBtn" type="button" class="modal-btn primary"
+          >Unlock</button
+        >
+      </div>
+    </div>
+  </div>
 
   <script>
     // @ts-nocheck
@@ -701,6 +824,12 @@ import Layout from "../layouts/Layout.astro";
     const adminBtn = document.getElementById("adminButton");
     const leaveBtn = document.getElementById("leaveButton");
 
+    // Admin modal DOM (custom prompt replacement)
+    const adminModal = document.getElementById("adminModal");
+    const adminKeyInput = document.getElementById("adminKeyInput");
+    const adminCancelBtn = document.getElementById("adminCancelBtn");
+    const adminConfirmBtn = document.getElementById("adminConfirmBtn");
+
     // Check if nickname exists
     if (nickname) {
       showChat();
@@ -719,6 +848,58 @@ import Layout from "../layouts/Layout.astro";
         text
       );
     }
+
+    // ===== Admin Modal Helpers =====
+    function openAdminModal() {
+      if (!adminModal) return;
+      adminModal.classList.add("is-open");
+      adminModal.setAttribute("aria-hidden", "false");
+
+      if (adminKeyInput) {
+        adminKeyInput.value = "";
+        adminKeyInput.focus();
+      }
+    }
+
+    function closeAdminModal() {
+      if (!adminModal) return;
+      adminModal.classList.remove("is-open");
+      adminModal.setAttribute("aria-hidden", "true");
+    }
+
+    function submitAdminKey() {
+      const key = String(adminKeyInput?.value || "").trim();
+      if (!key) return;
+
+      if (key === ADMIN_SECRET) {
+        localStorage.setItem("chatAdminKey", key);
+        if (window.showToast) window.showToast("Admin mode activated.");
+        closeAdminModal();
+        location.reload();
+      } else {
+        if (window.showToast) window.showToast("Nope.");
+        if (adminKeyInput) adminKeyInput.value = "";
+        adminKeyInput?.focus();
+      }
+    }
+
+    adminCancelBtn?.addEventListener("click", closeAdminModal);
+    adminConfirmBtn?.addEventListener("click", submitAdminKey);
+
+    adminKeyInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") submitAdminKey();
+      if (e.key === "Escape") closeAdminModal();
+    });
+
+    adminModal?.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.dataset.close === "true") closeAdminModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAdminModal();
+    });
 
     // Enter chat
     enterChatBtn?.addEventListener("click", handleEnterChat);
@@ -785,9 +966,11 @@ import Layout from "../layouts/Layout.astro";
       const text = (messageInput?.value || "").trim();
       if (!text) return;
 
-	  // LINK FILTER
+      // LINK FILTER
       if (containsLink(text)) {
-        alert("Links are disabled in this chat.");
+        if (window.showToast)
+          window.showToast("Links are disabled in this chat.");
+        else alert("Links are disabled in this chat.");
         return;
       }
 
@@ -934,21 +1117,21 @@ import Layout from "../layouts/Layout.astro";
         : "";
 
       messageEl.innerHTML = `
-      <div class="message-content">
-        <div class="message-header">
-          <span class="message-nickname">${escapeHtml(message.nickname)}</span>
-          <span class="message-timestamp">${timestamp}</span>
-        </div>
-        <div class="message-text">${escapeHtml(message.text)}</div>
+    <div class="message-content">
+      <div class="message-header">
+        <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+        <span class="message-timestamp">${timestamp}</span>
       </div>
-      ${
-        isAdmin
-          ? `<div class="message-actions">
-               <button class="delete-btn" data-id="${message.id}">Delete</button>
-             </div>`
-          : ""
-      }
-    `;
+      <div class="message-text">${escapeHtml(message.text)}</div>
+    </div>
+    ${
+      isAdmin
+        ? `<div class="message-actions">
+             <button class="delete-btn" data-id="${message.id}">Delete</button>
+           </div>`
+        : ""
+    }
+  `;
 
       // Add delete handler for admin
       if (isAdmin) {
@@ -969,18 +1152,6 @@ import Layout from "../layouts/Layout.astro";
       return div.innerHTML;
     }
 
-    // Admin mode easter egg - Ctrl+Shift+A
-    document.addEventListener("keydown", (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "A") {
-        const key = prompt("Enter admin key:");
-        if (key && key === ADMIN_SECRET) {
-          localStorage.setItem("chatAdminKey", key);
-          alert("Admin mode activated! Reloading…");
-          location.reload();
-        }
-      }
-    });
-
     // Admin button (visible)
     function updateAdminButton() {
       if (!adminBtn) return;
@@ -992,18 +1163,26 @@ import Layout from "../layouts/Layout.astro";
     adminBtn?.addEventListener("click", () => {
       if (isAdminSession()) {
         localStorage.removeItem("chatAdminKey");
-        alert("Admin mode turned off.");
+        if (window.showToast) window.showToast("Admin mode turned off.");
+        else alert("Admin mode turned off.");
         location.reload();
         return;
       }
 
-      const key = prompt("Enter admin key:");
-      if (key && key === ADMIN_SECRET) {
-        localStorage.setItem("chatAdminKey", key);
-        alert("Admin mode activated.");
-        location.reload();
-      } else if (key) {
-        alert("Nope.");
+      openAdminModal();
+    });
+
+    // Ctrl+Shift+A opens modal or exits admin
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "A") {
+        if (isAdminSession()) {
+          localStorage.removeItem("chatAdminKey");
+          if (window.showToast) window.showToast("Admin mode turned off.");
+          else alert("Admin mode turned off.");
+          location.reload();
+        } else {
+          openAdminModal();
+        }
       }
     });
 
