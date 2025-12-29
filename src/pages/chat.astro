@@ -602,6 +602,7 @@ import Layout from "../layouts/Layout.astro";
   </style>
 
   <script>
+	// @ts-nocheck 
     import { initializeApp } from "firebase/app";
     import {
       getDatabase,
@@ -636,40 +637,22 @@ import Layout from "../layouts/Layout.astro";
     let lastMessageTime = 0;
     const COOLDOWN_MS = 5000; // 5 seconds
     const MESSAGE_LIFETIME_MS = 12 * 60 * 60 * 1000; // 12 hours
+
     const ADMIN_KEY = localStorage.getItem("chatAdminKey") || "";
+    const ADMIN_SECRET = import.meta.env.PUBLIC_CHAT_ADMIN_KEY || "";
 
     // DOM elements
-    const nicknamePrompt = document.getElementById(
-      "nicknamePrompt"
-    ) as HTMLDivElement;
-    const chatArea = document.getElementById("chatArea") as HTMLDivElement;
-    const nicknameInput = document.getElementById(
-      "nicknameInput"
-    ) as HTMLInputElement;
-    const enterChatBtn = document.getElementById(
-      "enterChat"
-    ) as HTMLButtonElement;
-    const messagesContainer = document.getElementById(
-      "messagesContainer"
-    ) as HTMLDivElement;
-    const messageInput = document.getElementById(
-      "messageInput"
-    ) as HTMLInputElement;
-    const sendButton = document.getElementById(
-      "sendButton"
-    ) as HTMLButtonElement;
-    const cooldownBar = document.getElementById(
-      "cooldownBar"
-    ) as HTMLDivElement;
-    const cooldownText = document.getElementById(
-      "cooldownText"
-    ) as HTMLSpanElement;
-    const currentNicknameSpan = document.getElementById(
-      "currentNickname"
-    ) as HTMLSpanElement;
-    const onlineCountSpan = document.getElementById(
-      "onlineCount"
-    ) as HTMLSpanElement;
+    const nicknamePrompt = document.getElementById("nicknamePrompt");
+    const chatArea = document.getElementById("chatArea");
+    const nicknameInput = document.getElementById("nicknameInput");
+    const enterChatBtn = document.getElementById("enterChat");
+    const messagesContainer = document.getElementById("messagesContainer");
+    const messageInput = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const cooldownBar = document.getElementById("cooldownBar");
+    const cooldownText = document.getElementById("cooldownText");
+    const currentNicknameSpan = document.getElementById("currentNickname");
+    const onlineCountSpan = document.getElementById("onlineCount");
     const adminBtn = document.getElementById("adminButton");
     const leaveBtn = document.getElementById("leaveButton");
 
@@ -682,14 +665,18 @@ import Layout from "../layouts/Layout.astro";
       return new Date().toISOString().split("T")[0];
     }
 
+    function isAdminSession() {
+      return Boolean(ADMIN_SECRET) && ADMIN_KEY === ADMIN_SECRET;
+    }
+
     // Enter chat
-    enterChatBtn.addEventListener("click", handleEnterChat);
-    nicknameInput.addEventListener("keypress", (e) => {
+    enterChatBtn?.addEventListener("click", handleEnterChat);
+    nicknameInput?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") handleEnterChat();
     });
 
     function handleEnterChat() {
-      const inputNickname = nicknameInput.value.trim();
+      const inputNickname = (nicknameInput?.value || "").trim();
 
       if (inputNickname.length < 2) {
         alert("Nickname must be at least 2 characters");
@@ -722,30 +709,29 @@ import Layout from "../layouts/Layout.astro";
     }
 
     function showChat() {
-      nicknamePrompt.style.display = "none";
-      chatArea.style.display = "block";
-      currentNicknameSpan.textContent = nickname;
-      messageInput.disabled = false;
-      sendButton.disabled = false;
+      if (nicknamePrompt) nicknamePrompt.style.display = "none";
+      if (chatArea) chatArea.style.display = "block";
+      if (currentNicknameSpan) currentNicknameSpan.textContent = nickname;
+      if (messageInput) messageInput.disabled = false;
+      if (sendButton) sendButton.disabled = false;
 
       // Listen for messages
       listenForMessages();
 
       // Focus input
-      messageInput.focus();
+      messageInput?.focus();
     }
 
     // Send message
-    sendButton.addEventListener("click", sendMessage);
-    messageInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter" && !sendButton.disabled) {
+    sendButton?.addEventListener("click", sendMessage);
+    messageInput?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" && !sendButton?.disabled) {
         sendMessage();
       }
     });
 
     function sendMessage() {
-      const text = messageInput.value.trim();
-
+      const text = (messageInput?.value || "").trim();
       if (!text) return;
 
       // Check cooldown
@@ -756,7 +742,9 @@ import Layout from "../layouts/Layout.astro";
         const remaining = Math.ceil(
           (COOLDOWN_MS - timeSinceLastMessage) / 1000
         );
-        cooldownText.textContent = `Wait ${remaining}s before sending another message`;
+        if (cooldownText) {
+          cooldownText.textContent = `Wait ${remaining}s before sending another message`;
+        }
         return;
       }
 
@@ -771,7 +759,7 @@ import Layout from "../layouts/Layout.astro";
       });
 
       // Clear input
-      messageInput.value = "";
+      if (messageInput) messageInput.value = "";
       lastMessageTime = now;
 
       // Start cooldown
@@ -779,26 +767,26 @@ import Layout from "../layouts/Layout.astro";
     }
 
     function startCooldown() {
-      sendButton.disabled = true;
-      messageInput.disabled = true;
+      if (sendButton) sendButton.disabled = true;
+      if (messageInput) messageInput.disabled = true;
 
       let remaining = COOLDOWN_MS / 1000;
-      cooldownText.textContent = `Wait ${remaining}s...`;
+      if (cooldownText) cooldownText.textContent = `Wait ${remaining}s...`;
 
       // Animate cooldown bar
-      cooldownBar.style.transform = "scaleX(1)";
+      if (cooldownBar) cooldownBar.style.transform = "scaleX(1)";
 
       const interval = setInterval(() => {
         remaining--;
         if (remaining > 0) {
-          cooldownText.textContent = `Wait ${remaining}s...`;
+          if (cooldownText) cooldownText.textContent = `Wait ${remaining}s...`;
         } else {
-          cooldownText.textContent = "";
-          sendButton.disabled = false;
-          messageInput.disabled = false;
-          cooldownBar.style.transform = "scaleX(0)";
+          if (cooldownText) cooldownText.textContent = "";
+          if (sendButton) sendButton.disabled = false;
+          if (messageInput) messageInput.disabled = false;
+          if (cooldownBar) cooldownBar.style.transform = "scaleX(0)";
           clearInterval(interval);
-          messageInput.focus();
+          messageInput?.focus();
         }
       }, 1000);
     }
@@ -808,9 +796,11 @@ import Layout from "../layouts/Layout.astro";
       const messagesQuery = query(messagesRef, orderByChild("timestamp"));
 
       onValue(messagesQuery, (snapshot) => {
+        if (!messagesContainer) return;
+
         messagesContainer.innerHTML = "";
 
-        const messages: any[] = [];
+        const messages = [];
         const now = Date.now();
 
         snapshot.forEach((childSnapshot) => {
@@ -831,8 +821,10 @@ import Layout from "../layouts/Layout.astro";
         });
 
         // Update online count (rough estimate)
-        const uniqueNicknames = new Set(messages.map((m) => m.nickname));
-        onlineCountSpan.textContent = `${Math.max(1, uniqueNicknames.size)} online`;
+        if (onlineCountSpan) {
+          const uniqueNicknames = new Set(messages.map((m) => m.nickname));
+          onlineCountSpan.textContent = `${Math.max(1, uniqueNicknames.size)} online`;
+        }
 
         // Render messages
         messages.forEach(renderMessage);
@@ -842,9 +834,9 @@ import Layout from "../layouts/Layout.astro";
       });
     }
 
-    // RENDER MESSAGES FUNCTION START
-    function renderMessage(message: any) {
-      const isAdmin = ADMIN_KEY === "lystaria-admin-2024";
+    // Render messages
+    function renderMessage(message) {
+      const isAdmin = isAdminSession();
 
       // System message rendering (admin can delete)
       if (message.nickname === "system") {
@@ -870,7 +862,7 @@ import Layout from "../layouts/Layout.astro";
           systemEl.appendChild(deleteBtn);
         }
 
-        messagesContainer.appendChild(systemEl);
+        messagesContainer?.appendChild(systemEl);
         return;
       }
 
@@ -885,21 +877,21 @@ import Layout from "../layouts/Layout.astro";
         : "";
 
       messageEl.innerHTML = `
-    <div class="message-content">
-      <div class="message-header">
-        <span class="message-nickname">${escapeHtml(message.nickname)}</span>
-        <span class="message-timestamp">${timestamp}</span>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+          <span class="message-timestamp">${timestamp}</span>
+        </div>
+        <div class="message-text">${escapeHtml(message.text)}</div>
       </div>
-      <div class="message-text">${escapeHtml(message.text)}</div>
-    </div>
-    ${
-      isAdmin
-        ? `<div class="message-actions">
-             <button class="delete-btn" data-id="${message.id}">Delete</button>
-           </div>`
-        : ""
-    }
-  `;
+      ${
+        isAdmin
+          ? `<div class="message-actions">
+               <button class="delete-btn" data-id="${message.id}">Delete</button>
+             </div>`
+          : ""
+      }
+    `;
 
       // Add delete handler for admin
       if (isAdmin) {
@@ -911,14 +903,12 @@ import Layout from "../layouts/Layout.astro";
         });
       }
 
-      messagesContainer.appendChild(messageEl);
+      messagesContainer?.appendChild(messageEl);
     }
 
-    // RENDER MESSAGES FUNCTION STOP
-
-    function escapeHtml(text: string): string {
+    function escapeHtml(text) {
       const div = document.createElement("div");
-      div.textContent = text;
+      div.textContent = String(text ?? "");
       return div.innerHTML;
     }
 
@@ -926,9 +916,9 @@ import Layout from "../layouts/Layout.astro";
     document.addEventListener("keydown", (e) => {
       if (e.ctrlKey && e.shiftKey && e.key === "A") {
         const key = prompt("Enter admin key:");
-        if (key === "lystaria-admin-2024") {
+        if (key && key === ADMIN_SECRET) {
           localStorage.setItem("chatAdminKey", key);
-          alert("Admin mode activated! Reload to see delete buttons.");
+          alert("Admin mode activated! Reloading…");
           location.reload();
         }
       }
@@ -937,7 +927,7 @@ import Layout from "../layouts/Layout.astro";
     // Admin button (visible)
     adminBtn?.addEventListener("click", () => {
       const key = prompt("Enter admin key:");
-      if (key === "lystaria-admin-2024") {
+      if (key && key === ADMIN_SECRET) {
         localStorage.setItem("chatAdminKey", key);
         alert("Admin mode activated. Reloading…");
         location.reload();
