@@ -1,0 +1,676 @@
+---
+// @ts-nocheck 
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Chat - Lystaria">
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>Live Chat</h1>
+      <div class="online-counter">
+        <span class="pulse-dot"></span>
+        <span id="onlineCount">— online</span>
+      </div>
+    </div>
+
+    <!-- Nickname Entry (shows first time) -->
+    <div id="nicknamePrompt" class="nickname-prompt">
+      <div class="prompt-content">
+        <h2>Enter the chat</h2>
+        <input
+          type="text"
+          id="nicknameInput"
+          placeholder="Choose a nickname..."
+          maxlength="20"
+          autocomplete="off"
+        />
+        <button id="enterChat">Enter</button>
+        <p class="hint">
+          Messages auto-delete after 12 hours • 5 second slow mode
+        </p>
+      </div>
+    </div>
+
+    <!-- Chat Area (hidden until nickname set) -->
+    <div id="chatArea" class="chat-area" style="display: none;">
+      <div class="messages-container" id="messagesContainer">
+        <div class="loading">Loading messages...</div>
+      </div>
+
+      <div class="input-area">
+        <div class="cooldown-bar" id="cooldownBar"></div>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type a message..."
+            maxlength="500"
+            autocomplete="off"
+            disabled
+          />
+          <button id="sendButton" disabled>Send</button>
+        </div>
+        <div class="input-hints">
+          <span id="cooldownText"></span>
+          <span class="nickname-display"
+            >Chatting as <strong id="currentNickname"></strong></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .chat-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    min-height: calc(100vh - 200px);
+  }
+
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(158, 45, 254, 0.2);
+  }
+
+  .chat-header h1 {
+    font-size: 2rem;
+    margin: 0;
+    background: linear-gradient(135deg, #9a2dfe, #00dbff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .online-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #00dbff;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Nickname Prompt */
+  .nickname-prompt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+  }
+
+  .prompt-content {
+    background: rgba(20, 20, 30, 0.6);
+    border: 1px solid rgba(158, 45, 254, 0.3);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+  }
+
+  .prompt-content h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+
+  .prompt-content input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(158, 45, 254, 0.5);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+  }
+
+  .prompt-content input:focus {
+    outline: none;
+    border-color: #9a2dfe;
+    box-shadow: 0 0 0 3px rgba(154, 45, 254, 0.2);
+  }
+
+  .prompt-content button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #9a2dfe, #7e7eff);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .prompt-content button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(154, 45, 254, 0.4);
+  }
+
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Chat Area */
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 300px);
+    min-height: 500px;
+  }
+
+  .messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(20, 20, 30, 0.4);
+    border: 1px solid rgba(158, 45, 254, 0.2);
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .loading {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 2rem;
+  }
+
+  /* Message Styles (Discord-inspired) */
+  .message {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.1s;
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .message:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #9a2dfe, #00dbff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .message-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .message-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .message-nickname {
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .message-timestamp {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .message-text {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+
+  .message-actions {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .message:hover .message-actions {
+    opacity: 1;
+  }
+
+  .delete-btn {
+    background: rgba(255, 50, 50, 0.2);
+    border: 1px solid rgba(255, 50, 50, 0.4);
+    color: #ff5050;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .delete-btn:hover {
+    background: rgba(255, 50, 50, 0.3);
+    border-color: #ff5050;
+  }
+
+  /* Input Area */
+  .input-area {
+    background: rgba(20, 20, 30, 0.6);
+    border: 1px solid rgba(158, 45, 254, 0.2);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 1rem;
+  }
+
+  .cooldown-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #9a2dfe, #00dbff);
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.1s linear;
+  }
+
+  .input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .input-wrapper input {
+    flex: 1;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(158, 45, 254, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  .input-wrapper input:focus {
+    outline: none;
+    border-color: #9a2dfe;
+  }
+
+  .input-wrapper input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .input-wrapper button {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #9a2dfe, #7e7eff);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .input-wrapper button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(154, 45, 254, 0.4);
+  }
+
+  .input-wrapper button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .input-hints {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  #cooldownText {
+    color: #00dbff;
+  }
+
+  .nickname-display strong {
+    color: #9a2dfe;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .chat-header {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .prompt-content {
+      padding: 2rem 1.5rem;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  import { initializeApp } from "firebase/app";
+  import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    remove,
+    serverTimestamp,
+    query,
+    orderByChild,
+  } from "firebase/database";
+  import { filterProfanity } from "././utils/profanityFilter";
+
+  // Firebase config from environment variables
+  const firebaseConfig = {
+    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+    databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
+    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const messagesRef = ref(database, "messages");
+
+  // State
+  let nickname = localStorage.getItem("chatNickname") || "";
+  let lastMessageTime = 0;
+  const COOLDOWN_MS = 5000; // 5 seconds
+  const MESSAGE_LIFETIME_MS = 12 * 60 * 60 * 1000; // 12 hours
+  const ADMIN_KEY = localStorage.getItem("chatAdminKey") || "";
+
+  // DOM elements
+  const nicknamePrompt = document.getElementById(
+    "nicknamePrompt"
+  ) as HTMLDivElement;
+  const chatArea = document.getElementById("chatArea") as HTMLDivElement;
+  const nicknameInput = document.getElementById(
+    "nicknameInput"
+  ) as HTMLInputElement;
+  const enterChatBtn = document.getElementById(
+    "enterChat"
+  ) as HTMLButtonElement;
+  const messagesContainer = document.getElementById(
+    "messagesContainer"
+  ) as HTMLDivElement;
+  const messageInput = document.getElementById(
+    "messageInput"
+  ) as HTMLInputElement;
+  const sendButton = document.getElementById("sendButton") as HTMLButtonElement;
+  const cooldownBar = document.getElementById("cooldownBar") as HTMLDivElement;
+  const cooldownText = document.getElementById(
+    "cooldownText"
+  ) as HTMLSpanElement;
+  const currentNicknameSpan = document.getElementById(
+    "currentNickname"
+  ) as HTMLSpanElement;
+  const onlineCountSpan = document.getElementById(
+    "onlineCount"
+  ) as HTMLSpanElement;
+
+  // Check if nickname exists
+  if (nickname) {
+    showChat();
+  }
+
+  // Enter chat
+  enterChatBtn.addEventListener("click", handleEnterChat);
+  nicknameInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleEnterChat();
+  });
+
+  function handleEnterChat() {
+    const inputNickname = nicknameInput.value.trim();
+
+    if (inputNickname.length < 2) {
+      alert("Nickname must be at least 2 characters");
+      return;
+    }
+
+    if (inputNickname.length > 20) {
+      alert("Nickname must be 20 characters or less");
+      return;
+    }
+
+    nickname = inputNickname;
+    localStorage.setItem("chatNickname", nickname);
+    showChat();
+  }
+
+  function showChat() {
+    nicknamePrompt.style.display = "none";
+    chatArea.style.display = "flex";
+    currentNicknameSpan.textContent = nickname;
+    messageInput.disabled = false;
+    sendButton.disabled = false;
+
+    // Listen for messages
+    listenForMessages();
+
+    // Focus input
+    messageInput.focus();
+  }
+
+  // Send message
+  sendButton.addEventListener("click", sendMessage);
+  messageInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !sendButton.disabled) {
+      sendMessage();
+    }
+  });
+
+  function sendMessage() {
+    const text = messageInput.value.trim();
+
+    if (!text) return;
+
+    // Check cooldown
+    const now = Date.now();
+    const timeSinceLastMessage = now - lastMessageTime;
+
+    if (timeSinceLastMessage < COOLDOWN_MS) {
+      const remaining = Math.ceil((COOLDOWN_MS - timeSinceLastMessage) / 1000);
+      cooldownText.textContent = `Wait ${remaining}s before sending another message`;
+      return;
+    }
+
+    // Filter profanity
+    const filteredText = filterProfanity(text);
+
+    // Send to Firebase
+    push(messagesRef, {
+      text: filteredText,
+      nickname: nickname,
+      timestamp: serverTimestamp(),
+    });
+
+    // Clear input
+    messageInput.value = "";
+    lastMessageTime = now;
+
+    // Start cooldown
+    startCooldown();
+  }
+
+  function startCooldown() {
+    sendButton.disabled = true;
+    messageInput.disabled = true;
+
+    let remaining = COOLDOWN_MS / 1000;
+    cooldownText.textContent = `Wait ${remaining}s...`;
+
+    // Animate cooldown bar
+    cooldownBar.style.transform = "scaleX(1)";
+
+    const interval = setInterval(() => {
+      remaining--;
+      if (remaining > 0) {
+        cooldownText.textContent = `Wait ${remaining}s...`;
+      } else {
+        cooldownText.textContent = "";
+        sendButton.disabled = false;
+        messageInput.disabled = false;
+        cooldownBar.style.transform = "scaleX(0)";
+        clearInterval(interval);
+        messageInput.focus();
+      }
+    }, 1000);
+  }
+
+  // Listen for messages
+  function listenForMessages() {
+    const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+
+    onValue(messagesQuery, (snapshot) => {
+      messagesContainer.innerHTML = "";
+
+      const messages: any[] = [];
+      const now = Date.now();
+
+      snapshot.forEach((childSnapshot) => {
+        const messageData = childSnapshot.val();
+        const messageId = childSnapshot.key;
+        const messageTime = messageData.timestamp || 0;
+
+        // Delete old messages
+        if (now - messageTime > MESSAGE_LIFETIME_MS) {
+          remove(ref(database, `messages/${messageId}`));
+          return;
+        }
+
+        messages.push({
+          id: messageId,
+          ...messageData,
+        });
+      });
+
+      // Update online count (rough estimate)
+      onlineCountSpan.textContent = `${Math.max(1, messages.length > 0 ? Math.ceil(messages.length / 10) : 1)} online`;
+
+      // Render messages
+      messages.forEach(renderMessage);
+
+      // Scroll to bottom
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+  }
+
+  function renderMessage(message: any) {
+    const messageEl = document.createElement("div");
+    messageEl.className = "message";
+
+    const avatar = message.nickname.charAt(0).toUpperCase();
+    const timestamp = message.timestamp
+      ? new Date(message.timestamp).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : "";
+
+    const isAdmin = ADMIN_KEY === "lystaria-admin-2024"; // Check if user is admin
+
+    messageEl.innerHTML = `
+      <div class="message-avatar">${avatar}</div>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+          <span class="message-timestamp">${timestamp}</span>
+        </div>
+        <div class="message-text">${escapeHtml(message.text)}</div>
+      </div>
+      ${isAdmin ? `<div class="message-actions"><button class="delete-btn" data-id="${message.id}">Delete</button></div>` : ""}
+    `;
+
+    // Add delete handler for admin
+    if (isAdmin) {
+      const deleteBtn = messageEl.querySelector(".delete-btn");
+      deleteBtn?.addEventListener("click", () => {
+        if (confirm("Delete this message?")) {
+          remove(ref(database, `messages/${message.id}`));
+        }
+      });
+    }
+
+    messagesContainer.appendChild(messageEl);
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Admin mode easter egg
+  // Press Ctrl+Shift+A and type admin key
+  let adminKeyBuffer = "";
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === "A") {
+      const key = prompt("Enter admin key:");
+      if (key === "lystaria-admin-2024") {
+        localStorage.setItem("chatAdminKey", key);
+        alert("Admin mode activated! You can now delete messages.");
+        location.reload();
+      }
+    }
+  });
+</script>
