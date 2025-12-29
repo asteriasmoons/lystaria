@@ -5,74 +5,78 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <BaseLayout title="Chat - Lystaria">
-  <!-- Page intro -->
-  <section class="chat-intro">
-    <h2>The Lystaria Chat</h2>
-    <p class="intro-note">
-      Welcome to the Lystaria chat. Remember the old chat rooms you could find
-      on websites? Yup, thats exactly what is here. Please feel free to think
-      out loud here but with some discernment about your language and what you
-      share. My blogs are not just meant to be read but to be experienced and
-      thats what this space allows you to do. For everyones safety, I have
-      disabled link sharing. Thanks for stopping by.
-    </p>
-  </section>
-  <!-- Nickname Entry (shows first time) -->
-  <div id="nicknamePrompt" class="nickname-prompt">
-    <div class="prompt-content">
-      <h2>Enter the chat</h2>
-      <input
-        type="text"
-        id="nicknameInput"
-        placeholder="Choose a nickname..."
-        maxlength="20"
-        autocomplete="off"
-      />
-      <button id="enterChat">Enter</button>
-      <p class="hint">
-        Messages auto-delete after 12 hours • 5 second slow mode
+  <div class="container">
+    <!-- Page intro -->
+    <section class="chat-intro">
+      <h2>The Lystaria Chat</h2>
+      <p class="intro-note">
+        Welcome to the Lystaria chat. Remember the old chat rooms you could find
+        on websites? Yup, thats exactly what is here. Please feel free to think
+        out loud here but with some discernment about your language and what you
+        share. My blogs are not just meant to be read but to be experienced and
+        thats what this space allows you to do. For everyones safety, I have
+        disabled link sharing. Thanks for stopping by.
       </p>
+    </section>
+    <!-- Nickname Entry (shows first time) -->
+    <div id="nicknamePrompt" class="nickname-prompt">
+      <div class="prompt-content">
+        <h2>Enter the chat</h2>
+        <input
+          type="text"
+          id="nicknameInput"
+          placeholder="Choose a nickname..."
+          maxlength="20"
+          autocomplete="off"
+        />
+        <button id="enterChat">Enter</button>
+        <p class="hint">
+          Messages auto-delete after 12 hours • 5 second slow mode
+        </p>
+      </div>
     </div>
-  </div>
 
-  <!-- Chat Area (hidden until nickname set) -->
-  <div id="chatArea" class="chat-area" style="display: none;">
-    <div class="chat-wrapper">
-      <div class="chat-header">
-        <h1>Live Chat</h1>
-        <div class="online-counter">
-          <span class="pulse-dot"></span>
-          <span id="onlineCount">— online</span>
+    <!-- Chat Area (hidden until nickname set) -->
+    <div id="chatArea" class="chat-area" style="display: none;">
+      <div class="chat-wrapper">
+        <div class="chat-header">
+          <h1>Live Chat</h1>
+          <div class="online-counter">
+            <span class="pulse-dot"></span>
+            <span id="onlineCount">— online</span>
 
-          <button id="adminButton" class="admin-btn" type="button">Admin</button
-          >
-          <button id="leaveButton" class="leave-btn" type="button">Leave</button
-          >
+            <button id="adminButton" class="admin-btn" type="button"
+              >Admin</button
+            >
+            <button id="leaveButton" class="leave-btn" type="button"
+              >Leave</button
+            >
+          </div>
         </div>
-      </div>
 
-      <div class="messages-container" id="messagesContainer">
-        <div class="loading">Loading messages...</div>
-      </div>
-
-      <div class="input-area">
-        <div class="cooldown-bar" id="cooldownBar"></div>
-        <div class="input-wrapper">
-          <input
-            type="text"
-            id="messageInput"
-            placeholder="Type a message..."
-            maxlength="500"
-            autocomplete="off"
-            disabled
-          />
-          <button id="sendButton" disabled>Send</button>
+        <div class="messages-container" id="messagesContainer">
+          <div class="loading">Loading messages...</div>
         </div>
-        <div class="input-hints">
-          <span id="cooldownText"></span>
-          <span class="nickname-display"
-            >Chatting as <strong id="currentNickname"></strong></span
-          >
+
+        <div class="input-area">
+          <div class="cooldown-bar" id="cooldownBar"></div>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="messageInput"
+              placeholder="Type a message..."
+              maxlength="500"
+              autocomplete="off"
+              disabled
+            />
+            <button id="sendButton" disabled>Send</button>
+          </div>
+          <div class="input-hints">
+            <span id="cooldownText"></span>
+            <span class="nickname-display"
+              >Chatting as <strong id="currentNickname"></strong></span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -85,7 +89,7 @@ import Layout from "../layouts/Layout.astro";
      ========================= */
 
     /* Safety: ensure this page inherits your global background if anything overrides it */
-    :global(body) {
+    /* :global(body) {
       background-color: var(--color-bg);
       background-image: var(--bg-glow);
       background-repeat: no-repeat;
@@ -94,6 +98,12 @@ import Layout from "../layouts/Layout.astro";
 
     :global(main) {
       background: transparent;
+    } */
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
     .chat-intro {
