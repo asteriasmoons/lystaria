@@ -31,7 +31,7 @@
   );
 
   --gradient-accent: linear-gradient(
-    90deg,
+    45deg,
     #7e7eff 10%,
     #7e7eff 32%,
     #f6f65a 38%,
@@ -42,9 +42,12 @@
 
   --gradient-accent-hover: linear-gradient(
     45deg,
-    #a78bfa 0%,
-    #5ac7fa 55%,
-    #7e7eff 100%
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 100%
   );
 
   /* Heading Gradient Sizes */
