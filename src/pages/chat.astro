@@ -735,6 +735,19 @@ import Layout from "../layouts/Layout.astro";
     }
   </style>
 
+  <!-- DELETE MODAL -->
+  <div id="deleteModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-card">
+      <h3>Delete message?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="deleteCancelBtn">Cancel</button>
+        <button id="deleteConfirmBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Admin Modal -->
   <div id="adminModal" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="true"></div>
@@ -806,6 +819,8 @@ import Layout from "../layouts/Layout.astro";
     const COOLDOWN_MS = 5000; // 5 seconds
     const MESSAGE_LIFETIME_MS = 12 * 60 * 60 * 1000; // 12 hours
 
+    let pendingDeleteMessageId = null;
+
     const ADMIN_KEY = localStorage.getItem("chatAdminKey") || "";
     const ADMIN_SECRET = import.meta.env.PUBLIC_CHAT_ADMIN_KEY || "";
 
@@ -829,6 +844,11 @@ import Layout from "../layouts/Layout.astro";
     const adminKeyInput = document.getElementById("adminKeyInput");
     const adminCancelBtn = document.getElementById("adminCancelBtn");
     const adminConfirmBtn = document.getElementById("adminConfirmBtn");
+
+    // Delete modal DOM (custom confirm replacement)
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteConfirmBtn = document.getElementById("deleteConfirmBtn");
+    const deleteCancelBtn = document.getElementById("deleteCancelBtn");
 
     // Check if nickname exists
     if (nickname) {
@@ -873,11 +893,11 @@ import Layout from "../layouts/Layout.astro";
 
       if (key === ADMIN_SECRET) {
         localStorage.setItem("chatAdminKey", key);
-        if (window.showToast) window.showToast("Admin mode activated.");
+        window.showToast?.("Admin mode activated.");
         closeAdminModal();
         location.reload();
       } else {
-        if (window.showToast) window.showToast("Nope.");
+        window.showToast?.("Nope.");
         if (adminKeyInput) adminKeyInput.value = "";
         adminKeyInput?.focus();
       }
@@ -897,8 +917,46 @@ import Layout from "../layouts/Layout.astro";
       if (target.dataset.close === "true") closeAdminModal();
     });
 
+    // ===== Delete Modal Helpers =====
+    function openDeleteModal(messageId) {
+      pendingDeleteMessageId = messageId;
+      if (!deleteModal) return;
+
+      deleteModal.classList.add("is-open");
+      deleteModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteMessageId = null;
+      if (!deleteModal) return;
+
+      deleteModal.classList.remove("is-open");
+      deleteModal.setAttribute("aria-hidden", "true");
+    }
+
+    function confirmDelete() {
+      if (!pendingDeleteMessageId) return;
+
+      remove(ref(database, `messages/${pendingDeleteMessageId}`));
+      closeDeleteModal();
+      window.showToast?.("Message deleted.");
+    }
+
+    deleteCancelBtn?.addEventListener("click", closeDeleteModal);
+    deleteConfirmBtn?.addEventListener("click", confirmDelete);
+
+    deleteModal?.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.dataset.close === "true") closeDeleteModal();
+    });
+
+    // Global Escape closes any open modal
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAdminModal();
+      if (e.key === "Escape") {
+        closeAdminModal();
+        closeDeleteModal();
+      }
     });
 
     // Enter chat
@@ -968,9 +1026,9 @@ import Layout from "../layouts/Layout.astro";
 
       // LINK FILTER
       if (containsLink(text)) {
-        if (window.showToast)
-          window.showToast("Links are disabled in this chat.");
-        else alert("Links are disabled in this chat.");
+        window.showToast?.(
+          "Links are disabled in this chat to prevent any harmful intent. Thank you for respecting that."
+        );
         return;
       }
 
@@ -1094,9 +1152,7 @@ import Layout from "../layouts/Layout.astro";
           deleteBtn.textContent = "×";
 
           deleteBtn.addEventListener("click", () => {
-            if (confirm("Delete this system message?")) {
-              remove(ref(database, `messages/${message.id}`));
-            }
+            openDeleteModal(message.id);
           });
 
           systemEl.appendChild(deleteBtn);
@@ -1117,29 +1173,27 @@ import Layout from "../layouts/Layout.astro";
         : "";
 
       messageEl.innerHTML = `
-    <div class="message-content">
-      <div class="message-header">
-        <span class="message-nickname">${escapeHtml(message.nickname)}</span>
-        <span class="message-timestamp">${timestamp}</span>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+          <span class="message-timestamp">${timestamp}</span>
+        </div>
+        <div class="message-text">${escapeHtml(message.text)}</div>
       </div>
-      <div class="message-text">${escapeHtml(message.text)}</div>
-    </div>
-    ${
-      isAdmin
-        ? `<div class="message-actions">
-             <button class="delete-btn" data-id="${message.id}">Delete</button>
-           </div>`
-        : ""
-    }
-  `;
+      ${
+        isAdmin
+          ? `<div class="message-actions">
+               <button class="delete-btn" data-id="${message.id}">Delete</button>
+             </div>`
+          : ""
+      }
+    `;
 
       // Add delete handler for admin
       if (isAdmin) {
         const deleteBtn = messageEl.querySelector(".delete-btn");
         deleteBtn?.addEventListener("click", () => {
-          if (confirm("Delete this message?")) {
-            remove(ref(database, `messages/${message.id}`));
-          }
+          openDeleteModal(message.id);
         });
       }
 
@@ -1163,8 +1217,7 @@ import Layout from "../layouts/Layout.astro";
     adminBtn?.addEventListener("click", () => {
       if (isAdminSession()) {
         localStorage.removeItem("chatAdminKey");
-        if (window.showToast) window.showToast("Admin mode turned off.");
-        else alert("Admin mode turned off.");
+        window.showToast?.("Admin mode turned off.");
         location.reload();
         return;
       }
@@ -1177,8 +1230,7 @@ import Layout from "../layouts/Layout.astro";
       if (e.ctrlKey && e.shiftKey && e.key === "A") {
         if (isAdminSession()) {
           localStorage.removeItem("chatAdminKey");
-          if (window.showToast) window.showToast("Admin mode turned off.");
-          else alert("Admin mode turned off.");
+          window.showToast?.("Admin mode turned off.");
           location.reload();
         } else {
           openAdminModal();
