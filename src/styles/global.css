@@ -195,8 +195,8 @@ h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
 
-  background-size: 400px auto; /* Fixed size - gradient won't stretch */
-  background-position: center; /* Centers the gradient pattern */
+  background-size: 200% auto; /* Percentage instead of fixed pixels */
+  background-position: center;
   background-repeat: no-repeat;
 
   background-image: var(--gradient-heading);
@@ -211,7 +211,8 @@ h6 {
   margin: 0 0 1rem;
   display: inline-block;
 
-  /* prevent first/last letter shaving with Berkshire Swash + background-clip:text */
+  /* prevent first/last letter shaving with Berkshire Swash + 
+background-clip:text */
   padding-inline: 0.28em;
   margin-inline: -0.28em;
   padding-block: 0.12em;

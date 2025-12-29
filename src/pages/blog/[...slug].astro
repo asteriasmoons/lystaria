@@ -158,22 +158,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       font-size: 1.5rem;
       margin: 1.75rem 0 0.75rem;
     }
-
-    .post-content :global(h1),
-    .post-content :global(h2),
-    .post-content :global(h3),
-    .post-content :global(h4),
-    .post-content :global(h5),
-    .post-content :global(h6) {
-      line-height: 1.2 !important; /* override the global 4rem */
-      overflow: visible !important;
-
-      /* prevents decorative font clipping, especially first/last letter */
-      padding-inline: 0.2em !important;
-      margin-inline: -0.2em !important;
-      padding-block: 0.08em !important;
-    }
-
+    
     .post-content :global(p) {
       margin-bottom: 1.5rem;
       color: var(--color-text);
