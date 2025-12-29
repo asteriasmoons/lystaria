@@ -347,31 +347,28 @@ import Layout from "../layouts/Layout.astro";
     }
 
     /* Message Styles */
-    /* Container - just layout, NO bubble */
+    /* Container - ONLY layout, NO bubble styling */
     .message {
-	  flex: 1;
-      min-width: 0;
-      /* BUBBLE STYLING HERE */
-      padding: 0.75rem 0.9rem;
-      border-radius: 12px;
-      background: var(--gradient-accent) !important;
-      border: 1px solid rgba(154, 45, 254, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-      transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-    } 
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0;
+      background: transparent;
+      border: none;
+      animation: fadeIn 0.25s ease-in;
+    }
 
-    /* THIS is the bubble */
+    /* THIS is the actual bubble - ONLY place with gradient */
     .message-content {
       flex: 1;
       min-width: 0;
-      /* BUBBLE STYLING HERE */
-      padding: 0.75rem 0.9rem;
+
+      /* Bubble styling */
+      padding: 0.5rem 0.75rem; /* Smaller padding */
       border-radius: 12px;
-      background: var(--gradient-accent);
+      background: var(--overlay-gradient-accent);
       border: 1px solid rgba(154, 45, 254, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
       transition:
         transform 0.15s ease,
         box-shadow 0.15s ease;
@@ -379,20 +376,34 @@ import Layout from "../layouts/Layout.astro";
 
     .message:hover .message-content {
       transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .message-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
     }
 
     .message-nickname {
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.9rem; /* Smaller */
       line-height: 1.15;
       color: rgba(146, 115, 255, 0.95);
       font-weight: 600;
     }
 
     .message-timestamp {
-      font-size: 0.78rem;
-      color: rgba(146, 115, 255, 0.6); /* Purple, not white */
+      font-size: 0.75rem; /* Smaller */
+      color: rgba(146, 115, 255, 0.6);
+    }
+
+    .message-text {
+      color: rgb(255, 255, 255);
+      line-height: 1.4;
+      word-wrap: break-word;
+      font-size: 0.9rem; /* Smaller */
     }
 
     /* .message:hover {
@@ -414,20 +425,6 @@ import Layout from "../layouts/Layout.astro";
 
     .message-avatar {
       display: none;
-    }
-
-    .message-header {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .message-text {
-      color: rgb(255, 255, 255);
-      line-height: 1.45;
-      word-wrap: break-word;
-      font-size: 0.95rem;
     }
 
     .message-actions {
@@ -578,7 +575,7 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .system-message {
-	  flex: 1;
+      flex: 1;
       min-width: 0;
       /* BUBBLE STYLING HERE */
       padding: 0.75rem 0.9rem;
