@@ -350,16 +350,26 @@ import Layout from "../layouts/Layout.astro";
     .message {
       display: flex;
       gap: 0.5rem;
-      padding: 0.65rem 0.75rem;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.03); /* message bubble */
-      transition: background 0.15s ease;
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      /* bubble */
+      background: var(--gradient-accent);
+      border: none;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+      /* stop inherited white */
+      color: rgba(255, 255, 255, 0.82);
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
       animation: fadeIn 0.25s ease-in;
     }
 
-    .message:hover {
-      background: rgba(255, 255, 255, 0.055);
-    }
+    /* .message:hover {
+      background: rgba(10, 10, 15, 0.38);
+      border-color: rgba(126, 126, 255, 0.18);
+      transform: translateY(-1px);
+    } */
 
     @keyframes fadeIn {
       from {
@@ -370,10 +380,6 @@ import Layout from "../layouts/Layout.astro";
         opacity: 1;
         transform: translateY(0);
       }
-    }
-
-    .message:hover {
-      background: rgba(255, 255, 255, 0.03);
     }
 
     .message-avatar {
