@@ -1,9 +1,10 @@
 ---
 // @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Chat - Lystaria">
+<BaseLayout title="Chat - Lystaria">
   <!-- Nickname Entry (shows first time) -->
   <div id="nicknamePrompt" class="nickname-prompt">
     <div class="prompt-content">
@@ -59,7 +60,6 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </div>
   </div>
-</Layout>
 
 <style>
   :global(body) {
@@ -760,3 +760,4 @@ import Layout from "../layouts/Layout.astro";
     }
   });
 </script>
+</BaseLayout>
