@@ -211,10 +211,10 @@ h6 {
   margin: 0 0 1rem;
   display: block;
 
-  /* safety buffer for fancy glyphs */
-  padding-inline: 0.2em;
-  margin-inline: -0.2em;
-  padding-block: 0.08em;
+  /* prevent first/last letter shaving with Berkshire Swash + background-clip:text */
+  padding-inline: 0.28em;
+  margin-inline: -0.28em;
+  padding-block: 0.12em;
 }
 
 h1 {
