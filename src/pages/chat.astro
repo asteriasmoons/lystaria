@@ -527,7 +527,29 @@ import Layout from "../layouts/Layout.astro";
       padding: 0.25rem 0;
     }
 
-    /* Mobile */
+    .system-delete {
+      margin-left: 0.5rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      width: 22px;
+      height: 22px;
+      line-height: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.65);
+      cursor: pointer;
+      font: inherit;
+      padding: 0;
+    }
+
+    .system-delete:hover {
+      background: rgba(10, 10, 15, 0.25);
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* ========================
+		MOBILE
+	   ======================= */
     @media (max-width: 768px) {
       .chat-area {
         padding: 1.25rem 0.9rem;
@@ -656,6 +678,10 @@ import Layout from "../layouts/Layout.astro";
       showChat();
     }
 
+    function getTodayKey() {
+      return new Date().toISOString().split("T")[0];
+    }
+
     // Enter chat
     enterChatBtn.addEventListener("click", handleEnterChat);
     nicknameInput.addEventListener("keypress", (e) => {
@@ -677,7 +703,22 @@ import Layout from "../layouts/Layout.astro";
 
       nickname = inputNickname;
       localStorage.setItem("chatNickname", nickname);
+
       showChat();
+
+      // Post "entered" only once per day
+      const today = getTodayKey();
+      const lastJoinDate = localStorage.getItem("lastJoinDate");
+
+      if (lastJoinDate !== today) {
+        push(messagesRef, {
+          text: `${nickname} entered the chat`,
+          nickname: "system",
+          timestamp: serverTimestamp(),
+        });
+
+        localStorage.setItem("lastJoinDate", today);
+      }
     }
 
     function showChat() {
@@ -689,13 +730,6 @@ import Layout from "../layouts/Layout.astro";
 
       // Listen for messages
       listenForMessages();
-
-      // System join message
-      push(messagesRef, {
-        text: `${nickname} entered the chat`,
-        nickname: "system",
-        timestamp: serverTimestamp(),
-      });
 
       // Focus input
       messageInput.focus();
@@ -808,12 +842,34 @@ import Layout from "../layouts/Layout.astro";
       });
     }
 
+    // RENDER MESSAGES FUNCTION START
     function renderMessage(message: any) {
-      // System message rendering
+      const isAdmin = ADMIN_KEY === "lystaria-admin-2024";
+
+      // System message rendering (admin can delete)
       if (message.nickname === "system") {
         const systemEl = document.createElement("div");
         systemEl.className = "system-message";
-        systemEl.textContent = message.text;
+
+        const textEl = document.createElement("span");
+        textEl.textContent = message.text;
+        systemEl.appendChild(textEl);
+
+        if (isAdmin && message.id) {
+          const deleteBtn = document.createElement("button");
+          deleteBtn.type = "button";
+          deleteBtn.className = "system-delete";
+          deleteBtn.textContent = "×";
+
+          deleteBtn.addEventListener("click", () => {
+            if (confirm("Delete this system message?")) {
+              remove(ref(database, `messages/${message.id}`));
+            }
+          });
+
+          systemEl.appendChild(deleteBtn);
+        }
+
         messagesContainer.appendChild(systemEl);
         return;
       }
@@ -828,24 +884,22 @@ import Layout from "../layouts/Layout.astro";
           })
         : "";
 
-      const isAdmin = ADMIN_KEY === "lystaria-admin-2024";
-
       messageEl.innerHTML = `
-  <div class="message-content">
-    <div class="message-header">
-      <span class="message-nickname">${escapeHtml(message.nickname)}</span>
-      <span class="message-timestamp">${timestamp}</span>
+    <div class="message-content">
+      <div class="message-header">
+        <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+        <span class="message-timestamp">${timestamp}</span>
+      </div>
+      <div class="message-text">${escapeHtml(message.text)}</div>
     </div>
-    <div class="message-text">${escapeHtml(message.text)}</div>
-  </div>
-  ${
-    isAdmin
-      ? `<div class="message-actions">
-           <button class="delete-btn" data-id="${message.id}">Delete</button>
-         </div>`
-      : ""
-  }
-`;
+    ${
+      isAdmin
+        ? `<div class="message-actions">
+             <button class="delete-btn" data-id="${message.id}">Delete</button>
+           </div>`
+        : ""
+    }
+  `;
 
       // Add delete handler for admin
       if (isAdmin) {
@@ -859,6 +913,8 @@ import Layout from "../layouts/Layout.astro";
 
       messagesContainer.appendChild(messageEl);
     }
+
+    // RENDER MESSAGES FUNCTION STOP
 
     function escapeHtml(text: string): string {
       const div = document.createElement("div");
