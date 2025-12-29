@@ -81,24 +81,6 @@ import Layout from "../layouts/Layout.astro";
   </div>
 
   <style is:global>
-    /* =========================
-     Chat Page Styles (Lystaria)
-     - Uses your global tokens + fonts
-     - No hard-coded “discord app” palette
-     ========================= */
-
-    /* Safety: ensure this page inherits your global background if anything overrides it */
-    /* :global(body) {
-      background-color: var(--color-bg);
-      background-image: var(--bg-glow);
-      background-repeat: no-repeat;
-      background-attachment: scroll;
-    }
-
-    :global(main) {
-      background: transparent;
-    } */
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -110,6 +92,10 @@ import Layout from "../layouts/Layout.astro";
       margin: 2rem auto 1.25rem;
       padding: 0 1rem;
     }
+
+	.chat-intro h2 {
+		display: block
+	}
 
     .intro-note {
       max-width: 700px;
