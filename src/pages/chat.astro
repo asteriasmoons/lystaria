@@ -1,38 +1,38 @@
 ---
-// @ts-nocheck 
+// @ts-nocheck
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Chat - Lystaria">
-  <div class="chat-container">
-    <div class="chat-header">
-      <h1>Live Chat</h1>
-      <div class="online-counter">
-        <span class="pulse-dot"></span>
-        <span id="onlineCount">— online</span>
-      </div>
+  <!-- Nickname Entry (shows first time) -->
+  <div id="nicknamePrompt" class="nickname-prompt">
+    <div class="prompt-content">
+      <h2>Enter the chat</h2>
+      <input
+        type="text"
+        id="nicknameInput"
+        placeholder="Choose a nickname..."
+        maxlength="20"
+        autocomplete="off"
+      />
+      <button id="enterChat">Enter</button>
+      <p class="hint">
+        Messages auto-delete after 12 hours • 5 second slow mode
+      </p>
     </div>
+  </div>
 
-    <!-- Nickname Entry (shows first time) -->
-    <div id="nicknamePrompt" class="nickname-prompt">
-      <div class="prompt-content">
-        <h2>Enter the chat</h2>
-        <input
-          type="text"
-          id="nicknameInput"
-          placeholder="Choose a nickname..."
-          maxlength="20"
-          autocomplete="off"
-        />
-        <button id="enterChat">Enter</button>
-        <p class="hint">
-          Messages auto-delete after 12 hours • 5 second slow mode
-        </p>
+  <!-- Chat Area (hidden until nickname set) -->
+  <div id="chatArea" class="chat-area" style="display: none;">
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <h1>Live Chat</h1>
+        <div class="online-counter">
+          <span class="pulse-dot"></span>
+          <span id="onlineCount">— online</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Chat Area (hidden until nickname set) -->
-    <div id="chatArea" class="chat-area" style="display: none;">
       <div class="messages-container" id="messagesContainer">
         <div class="loading">Loading messages...</div>
       </div>
@@ -62,26 +62,112 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <style>
-  .chat-container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-    min-height: calc(100vh - 200px);
+  /* Nickname Prompt - centered overlay */
+  .nickname-prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .prompt-content {
+    background: rgba(15, 15, 25, 0.95);
+    border: 1px solid rgba(158, 45, 254, 0.3);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .prompt-content h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    font-size: 1.8rem;
+  }
+
+  .prompt-content input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(80, 45, 254, 0.5);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+
+  .prompt-content input:focus {
+    outline: none;
+    border-color: #6f2dfe;
+    box-shadow: 0 0 0 3px rgba(154, 45, 254, 0.2);
+  }
+
+  .prompt-content button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #2db8fe, #7e7eff);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .prompt-content button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(97, 45, 254, 0.5);
+  }
+
+  .hint {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Chat Area - fits inside your existing layout */
+  .chat-area {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .chat-wrapper {
+    background: rgba(15, 15, 25, 0.8);
+    border: 1px solid rgba(158, 45, 254, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
   }
 
   .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid rgba(158, 45, 254, 0.2);
+    background: rgba(0, 0, 0, 0.3);
   }
 
   .chat-header h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0;
-    background: linear-gradient(135deg, #9a2dfe, #00dbff);
+    background: linear-gradient(135deg, #652dfe, #00dbff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -113,93 +199,32 @@ import Layout from "../layouts/Layout.astro";
     }
   }
 
-  /* Nickname Prompt */
-  .nickname-prompt {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-  }
-
-  .prompt-content {
-    background: rgba(20, 20, 30, 0.6);
-    border: 1px solid rgba(158, 45, 254, 0.3);
-    border-radius: 12px;
-    padding: 3rem;
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-    backdrop-filter: blur(10px);
-  }
-
-  .prompt-content h2 {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    color: #fff;
-  }
-
-  .prompt-content input {
-    width: 100%;
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(158, 45, 254, 0.5);
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-  }
-
-  .prompt-content input:focus {
-    outline: none;
-    border-color: #9a2dfe;
-    box-shadow: 0 0 0 3px rgba(154, 45, 254, 0.2);
-  }
-
-  .prompt-content button {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #9a2dfe, #7e7eff);
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      transform 0.2s,
-      box-shadow 0.2s;
-  }
-
-  .prompt-content button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(154, 45, 254, 0.4);
-  }
-
-  .hint {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  /* Chat Area */
-  .chat-area {
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 300px);
-    min-height: 500px;
-  }
-
+  /* Messages Container - Discord style */
   .messages-container {
-    flex: 1;
+    height: 500px;
     overflow-y: auto;
-    padding: 1rem;
-    background: rgba(20, 20, 30, 0.4);
-    border: 1px solid rgba(158, 45, 254, 0.2);
-    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .messages-container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .messages-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .messages-container::-webkit-scrollbar-thumb {
+    background: rgba(158, 45, 254, 0.4);
+    border-radius: 4px;
+  }
+
+  .messages-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(158, 45, 254, 0.6);
   }
 
   .loading {
@@ -208,11 +233,11 @@ import Layout from "../layouts/Layout.astro";
     padding: 2rem;
   }
 
-  /* Message Styles (Discord-inspired) */
+  /* Message Styles - Discord-inspired */
   .message {
     display: flex;
-    gap: 0.75rem;
-    padding: 0.5rem;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
     border-radius: 4px;
     transition: background 0.1s;
     animation: fadeIn 0.3s ease-in;
@@ -230,14 +255,14 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .message:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.03);
   }
 
   .message-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #9a2dfe, #00dbff);
+    background: linear-gradient(135deg, #612dfe, #00dbff);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,6 +270,7 @@ import Layout from "../layouts/Layout.astro";
     font-size: 1.1rem;
     color: #fff;
     flex-shrink: 0;
+    text-transform: uppercase;
   }
 
   .message-content {
@@ -262,17 +288,19 @@ import Layout from "../layouts/Layout.astro";
   .message-nickname {
     font-weight: 600;
     color: #fff;
+    font-size: 0.95rem;
   }
 
   .message-timestamp {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.4);
   }
 
   .message-text {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.4;
     word-wrap: break-word;
+    font-size: 0.95rem;
   }
 
   .message-actions {
@@ -286,33 +314,31 @@ import Layout from "../layouts/Layout.astro";
 
   .delete-btn {
     background: rgba(255, 50, 50, 0.2);
-    border: 1px solid rgba(255, 50, 50, 0.4);
-    color: #ff5050;
+    border: 1px solid rgba(234, 50, 255, 0.4);
+    color: #fc50ff;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   .delete-btn:hover {
     background: rgba(255, 50, 50, 0.3);
-    border-color: #ff5050;
+    border-color: #ff50ee;
   }
 
-  /* Input Area */
+  /* Input Area - Discord style */
   .input-area {
-    background: rgba(20, 20, 30, 0.6);
-    border: 1px solid rgba(158, 45, 254, 0.2);
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-    padding: 1rem;
+    padding: 1.25rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(158, 45, 254, 0.2);
   }
 
   .cooldown-bar {
-    height: 3px;
-    background: linear-gradient(90deg, #9a2dfe, #00dbff);
-    border-radius: 3px;
+    height: 2px;
+    background: linear-gradient(90deg, #682dfe, #00dbff);
+    border-radius: 2px;
     margin-bottom: 0.75rem;
     transform: scaleX(0);
     transform-origin: left;
@@ -321,22 +347,25 @@ import Layout from "../layouts/Layout.astro";
 
   .input-wrapper {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    align-items: center;
   }
 
   .input-wrapper input {
     flex: 1;
-    padding: 0.75rem;
-    background: rgba(0, 0, 0, 0.4);
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(158, 45, 254, 0.3);
     border-radius: 8px;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
   }
 
   .input-wrapper input:focus {
     outline: none;
-    border-color: #9a2dfe;
+    border-color: #652dfe;
+    box-shadow: 0 0 0 2px rgba(154, 45, 254, 0.2);
   }
 
   .input-wrapper input:disabled {
@@ -344,20 +373,26 @@ import Layout from "../layouts/Layout.astro";
     cursor: not-allowed;
   }
 
+  .input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
   .input-wrapper button {
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #9a2dfe, #7e7eff);
+    background: linear-gradient(135deg, #2dcafe, #7e7eff);
     border: none;
     border-radius: 8px;
     color: #fff;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
   }
 
   .input-wrapper button:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(154, 45, 254, 0.4);
+    box-shadow: 0 4px 12px rgba(154, 45, 254, 0.5);
   }
 
   .input-wrapper button:disabled {
@@ -369,35 +404,69 @@ import Layout from "../layouts/Layout.astro";
   .input-hints {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-top: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.5);
   }
 
   #cooldownText {
     color: #00dbff;
+    font-weight: 500;
+  }
+
+  .nickname-display {
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .nickname-display strong {
-    color: #9a2dfe;
+    color: #6c2dfe;
+    font-weight: 600;
   }
 
   /* Mobile responsive */
   @media (max-width: 768px) {
-    .chat-header {
-      flex-direction: column;
-      gap: 0.5rem;
-      align-items: flex-start;
+    .chat-area {
+      padding: 1rem 0.5rem;
     }
 
     .prompt-content {
       padding: 2rem 1.5rem;
     }
 
+    .chat-header {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .chat-header h1 {
+      font-size: 1.3rem;
+    }
+
+    .messages-container {
+      height: 400px;
+    }
+
     .message-avatar {
       width: 32px;
       height: 32px;
       font-size: 0.9rem;
+    }
+
+    .input-wrapper {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-wrapper button {
+      width: 100%;
+    }
+
+    .input-hints {
+      flex-direction: column;
+      gap: 0.25rem;
+      align-items: flex-start;
     }
   }
 </style>
@@ -499,7 +568,7 @@ import Layout from "../layouts/Layout.astro";
 
   function showChat() {
     nicknamePrompt.style.display = "none";
-    chatArea.style.display = "flex";
+    chatArea.style.display = "block";
     currentNicknameSpan.textContent = nickname;
     messageInput.disabled = false;
     sendButton.disabled = false;
@@ -605,7 +674,8 @@ import Layout from "../layouts/Layout.astro";
       });
 
       // Update online count (rough estimate)
-      onlineCountSpan.textContent = `${Math.max(1, messages.length > 0 ? Math.ceil(messages.length / 10) : 1)} online`;
+      const uniqueNicknames = new Set(messages.map((m) => m.nickname));
+      onlineCountSpan.textContent = `${Math.max(1, uniqueNicknames.size)} online`;
 
       // Render messages
       messages.forEach(renderMessage);
@@ -627,7 +697,7 @@ import Layout from "../layouts/Layout.astro";
         })
       : "";
 
-    const isAdmin = ADMIN_KEY === "lystaria-admin-2024"; // Check if user is admin
+    const isAdmin = ADMIN_KEY === "lystaria-admin-2024";
 
     messageEl.innerHTML = `
       <div class="message-avatar">${avatar}</div>
@@ -660,15 +730,13 @@ import Layout from "../layouts/Layout.astro";
     return div.innerHTML;
   }
 
-  // Admin mode easter egg
-  // Press Ctrl+Shift+A and type admin key
-  let adminKeyBuffer = "";
+  // Admin mode easter egg - Ctrl+Shift+A
   document.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.shiftKey && e.key === "A") {
       const key = prompt("Enter admin key:");
       if (key === "lystaria-admin-2024") {
         localStorage.setItem("chatAdminKey", key);
-        alert("Admin mode activated! You can now delete messages.");
+        alert("Admin mode activated! Reload to see delete buttons.");
         location.reload();
       }
     }
