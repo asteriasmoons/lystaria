@@ -714,6 +714,12 @@ import Layout from "../layouts/Layout.astro";
       return Boolean(ADMIN_SECRET) && ADMIN_KEY === ADMIN_SECRET;
     }
 
+    function containsLink(text) {
+      return /\b(?:https?:\/\/|www\.|[a-z0-9-]+\.(?:com|net|org|io|co|gg|me|dev|app|xyz|link|site|edu|gov)\b)/i.test(
+        text
+      );
+    }
+
     // Enter chat
     enterChatBtn?.addEventListener("click", handleEnterChat);
     nicknameInput?.addEventListener("keypress", (e) => {
@@ -778,6 +784,12 @@ import Layout from "../layouts/Layout.astro";
     function sendMessage() {
       const text = (messageInput?.value || "").trim();
       if (!text) return;
+
+	  // LINK FILTER
+      if (containsLink(text)) {
+        alert("Links are disabled in this chat.");
+        return;
+      }
 
       // Check cooldown
       const now = Date.now();
