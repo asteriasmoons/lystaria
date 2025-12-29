@@ -13,11 +13,26 @@
 
   --color-border: #2a2a3e; /* Subtle borders */
 
-  --bg-glow:
-    radial-gradient(900px 500px at 20% 10%, rgba(126,126,255,0.18), transparent 60%),
-    radial-gradient(900px 500px at 80% 30%, rgba(90,199,250,0.16), transparent 60%),
-    radial-gradient(900px 500px at 15% 85%, rgba(218,37,201,0.14), transparent 65%),
-    radial-gradient(900px 500px at 85% 80%, rgba(255,255,75,0.10), transparent 65%);
+  --bg-glow: radial-gradient(
+      900px 500px at 20% 10%,
+      rgba(126, 126, 255, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 80% 30%,
+      rgba(90, 199, 250, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 15% 85%,
+      rgba(218, 37, 201, 0.14),
+      transparent 65%
+    ),
+    radial-gradient(
+      900px 500px at 85% 80%,
+      rgba(255, 255, 75, 0.1),
+      transparent 65%
+    );
 
   /* Gradient variables */
   --gradient-heading: linear-gradient(
@@ -40,7 +55,7 @@
     #00dbff 100%
   );
 
-    --overlay-gradient-accent: linear-gradient(
+  --overlay-gradient-accent: linear-gradient(
     45deg,
     #7e7effb9 10%,
     #7e7effb9 32%,
@@ -153,7 +168,6 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-
 .nav-logo {
   font-family: "Berkshire Swash", serif;
   font-size: 1.5rem;
@@ -191,9 +205,16 @@ h6 {
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  line-height: 4rem;
-  margin-bottom: 1rem;
+  overflow: visible;
+
+  line-height: 1.15;
+  margin: 0 0 1rem;
   display: block;
+
+  /* safety buffer for fancy glyphs */
+  padding-inline: 0.2em;
+  margin-inline: -0.2em;
+  padding-block: 0.08em;
 }
 
 h1 {
@@ -311,7 +332,8 @@ a:hover {
   h3 {
     font-size: 18px !important;
   }
-  html, body {
+  html,
+  body {
     font-size: 0.95rem !important;
     min-height: 100%;
     background-color: var(--color-bg);
