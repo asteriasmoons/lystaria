@@ -728,7 +728,7 @@ import Layout from "../layouts/Layout.astro";
 
     /* Cancel button – soft glass */
     #deleteCancelBtn {
-      background: var(--gradient-accent);
+      background: var(--overlay-gradient-accent);
     }
 
     #deleteCancelBtn:hover {
@@ -738,7 +738,7 @@ import Layout from "../layouts/Layout.astro";
 
     /* Delete button – gradient danger */
     #deleteConfirmBtn {
-      background: var(--gradient-accent);
+      background: var(--overlay-gradient-accent);
       border-color: rgba(31, 26, 59, 0.25);
     }
 
@@ -1221,7 +1221,7 @@ import Layout from "../layouts/Layout.astro";
           const deleteBtn = document.createElement("button");
           deleteBtn.type = "button";
           deleteBtn.className = "system-delete";
-          deleteBtn.textContent = "×";
+          deleteBtn.textContent = "Delete";
 
           deleteBtn.addEventListener("click", () => {
             openDeleteModal(message.id);
