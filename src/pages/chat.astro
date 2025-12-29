@@ -356,7 +356,7 @@ import Layout from "../layouts/Layout.astro";
       /* background: transparent; /* Remove background */
       /* border: none;
       box-shadow: none; /* Remove shadow */
-      /*color: inherit;
+      /* color: inherit;
       transition: none;
       animation: fadeIn 0.25s ease-in;
     } */
@@ -577,10 +577,17 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .system-message {
-      text-align: center;
-      font-size: 0.85rem;
-      /* color: rgb(255, 255, 255); */
-      padding: 0.25rem 0;
+	  flex: 1;
+      min-width: 0;
+      /* BUBBLE STYLING HERE */
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      background: var(--gradient-accent);
+      border: 1px solid rgba(154, 45, 254, 0.3);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     .system-delete {
