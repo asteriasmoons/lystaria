@@ -519,6 +519,14 @@ import Layout from "../layouts/Layout.astro";
       font-weight: 600;
     }
 
+    .system-message {
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+      font-style: italic;
+      padding: 0.25rem 0;
+    }
+
     /* Mobile */
     @media (max-width: 768px) {
       .chat-area {
@@ -682,6 +690,13 @@ import Layout from "../layouts/Layout.astro";
       // Listen for messages
       listenForMessages();
 
+      // System join message
+      push(messagesRef, {
+        text: `${nickname} entered the chat`,
+        nickname: "system",
+        timestamp: serverTimestamp(),
+      });
+
       // Focus input
       messageInput.focus();
     }
@@ -794,10 +809,18 @@ import Layout from "../layouts/Layout.astro";
     }
 
     function renderMessage(message: any) {
+      // System message rendering
+      if (message.nickname === "system") {
+        const systemEl = document.createElement("div");
+        systemEl.className = "system-message";
+        systemEl.textContent = message.text;
+        messagesContainer.appendChild(systemEl);
+        return;
+      }
+
       const messageEl = document.createElement("div");
       messageEl.className = "message";
 
-      const avatar = message.nickname.charAt(0).toUpperCase();
       const timestamp = message.timestamp
         ? new Date(message.timestamp).toLocaleTimeString([], {
             hour: "2-digit",
@@ -808,16 +831,21 @@ import Layout from "../layouts/Layout.astro";
       const isAdmin = ADMIN_KEY === "lystaria-admin-2024";
 
       messageEl.innerHTML = `
-      <div class="message-avatar">${avatar}</div>
-      <div class="message-content">
-        <div class="message-header">
-          <span class="message-nickname">${escapeHtml(message.nickname)}</span>
-          <span class="message-timestamp">${timestamp}</span>
-        </div>
-        <div class="message-text">${escapeHtml(message.text)}</div>
-      </div>
-      ${isAdmin ? `<div class="message-actions"><button class="delete-btn" data-id="${message.id}">Delete</button></div>` : ""}
-    `;
+  <div class="message-content">
+    <div class="message-header">
+      <span class="message-nickname">${escapeHtml(message.nickname)}</span>
+      <span class="message-timestamp">${timestamp}</span>
+    </div>
+    <div class="message-text">${escapeHtml(message.text)}</div>
+  </div>
+  ${
+    isAdmin
+      ? `<div class="message-actions">
+           <button class="delete-btn" data-id="${message.id}">Delete</button>
+         </div>`
+      : ""
+  }
+`;
 
       // Add delete handler for admin
       if (isAdmin) {
@@ -864,10 +892,17 @@ import Layout from "../layouts/Layout.astro";
 
     // Leave button (clear nickname + return to prompt)
     leaveBtn?.addEventListener("click", () => {
+      if (nickname) {
+        push(messagesRef, {
+          text: `${nickname} left the chat`,
+          nickname: "system",
+          timestamp: serverTimestamp(),
+        });
+      }
+
       localStorage.removeItem("chatNickname");
       localStorage.removeItem("chatAdminKey");
 
-      // simplest reliable reset:
       location.reload();
     });
   </script>
