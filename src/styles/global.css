@@ -13,11 +13,26 @@
 
   --color-border: #2a2a3e; /* Subtle borders */
 
-  --bg-glow:
-    radial-gradient(900px 500px at 20% 10%, rgba(126,126,255,0.18), transparent 60%),
-    radial-gradient(900px 500px at 80% 30%, rgba(90,199,250,0.16), transparent 60%),
-    radial-gradient(900px 500px at 15% 85%, rgba(218,37,201,0.14), transparent 65%),
-    radial-gradient(900px 500px at 85% 80%, rgba(255,255,75,0.10), transparent 65%);
+  --bg-glow: radial-gradient(
+      900px 500px at 20% 10%,
+      rgba(126, 126, 255, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 80% 30%,
+      rgba(90, 199, 250, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 15% 85%,
+      rgba(218, 37, 201, 0.14),
+      transparent 65%
+    ),
+    radial-gradient(
+      900px 500px at 85% 80%,
+      rgba(255, 255, 75, 0.1),
+      transparent 65%
+    );
 
   /* Gradient variables */
   --gradient-heading: linear-gradient(
@@ -29,17 +44,35 @@
     #00dbff 72%,
     #00dbff 100%
   );
+
   --gradient-accent: linear-gradient(
     45deg,
-    #a78bfa 0%,
-    #5ac7fa 55%,
-    #7e7eff 100%
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 100%
   );
+
+  --overlay-gradient-accent: linear-gradient(
+    45deg,
+    #7e7effb9 10%,
+    #7e7effb9 32%,
+    #f6f65a8f 38%,
+    #e019d3a6 60%,
+    #00ddffae 72%,
+    #00dbffae 100%
+  );
+
   --gradient-accent-hover: linear-gradient(
     45deg,
-    #a78bfa 0%,
-    #5ac7fa 55%,
-    #7e7eff 100%
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 100%
   );
 
   /* Heading Gradient Sizes */
@@ -135,7 +168,6 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-
 .nav-logo {
   font-family: "Berkshire Swash", serif;
   font-size: 1.5rem;
@@ -163,8 +195,8 @@ h6 {
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
 
-  background-size: 400px auto; /* Fixed size - gradient won't stretch */
-  background-position: center; /* Centers the gradient pattern */
+  background-size: 200% auto; /* Percentage instead of fixed pixels */
+  background-position: center;
   background-repeat: no-repeat;
 
   background-image: var(--gradient-heading);
@@ -173,26 +205,34 @@ h6 {
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  line-height: 4rem;
-  margin-bottom: 1rem;
-  display: block;
+  overflow: visible !important;
+
+  line-height: 1.2 !important;
+  margin: 0 0 1rem;
+  display: inline-block;
+
+  /* prevent first/last letter shaving with Berkshire Swash + 
+background-clip:text */
+  padding-inline: 0.28em;
+  margin-inline: -0.28em;
+  padding-block: 0.12em;
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 1.75rem;   /* 28px - Your anchor size */
   letter-spacing: 0.05em;
 }
 
 h2 {
-  font-size: 26px;
+  font-size: 1.5rem;    /* 24px - Clear step down */
 }
 
 h3 {
-  font-size: 17px;
+  font-size: 1.25rem;   /* 20px - Clear step down */
 }
 
 h4 {
-  font-size: 15px;
+  font-size: 1.125rem;  /* 18px - Still bigger than body text */
 }
 
 /* Links */
@@ -293,7 +333,8 @@ a:hover {
   h3 {
     font-size: 18px !important;
   }
-  html, body {
+  html,
+  body {
     font-size: 0.95rem !important;
     min-height: 100%;
     background-color: var(--color-bg);

@@ -80,25 +80,7 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </div>
 
-  <style>
-    /* =========================
-     Chat Page Styles (Lystaria)
-     - Uses your global tokens + fonts
-     - No hard-coded “discord app” palette
-     ========================= */
-
-    /* Safety: ensure this page inherits your global background if anything overrides it */
-    /* :global(body) {
-      background-color: var(--color-bg);
-      background-image: var(--bg-glow);
-      background-repeat: no-repeat;
-      background-attachment: scroll;
-    }
-
-    :global(main) {
-      background: transparent;
-    } */
-
+  <style is:global>
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -109,13 +91,16 @@ import Layout from "../layouts/Layout.astro";
       max-width: 800px;
       margin: 2rem auto 1.25rem;
       padding: 0 1rem;
+      text-align: center; /* This centers the h2 */
     }
 
     .chat-intro h2 {
-      text-align: center;
-      margin: 0 0 1rem;
-      font-size: 2rem;
-      line-height: 1.2;
+	  font-size: 2rem;
+      /* All the gradient stuff is already inherited from global.css */
+      /* Just fix the centering */
+      /* display: block; */
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .intro-note {
@@ -137,7 +122,6 @@ import Layout from "../layouts/Layout.astro";
       justify-content: center;
       align-items: center;
       z-index: 1000;
-
       -webkit-backdrop-filter: blur(var(--glass-blur));
       backdrop-filter: blur(var(--glass-blur));
     }
@@ -157,13 +141,11 @@ import Layout from "../layouts/Layout.astro";
       margin: 0 0 1.25rem 0;
       font-family: "Berkshire Swash", serif;
       font-weight: 400;
-
       background-image: var(--gradient-heading);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
-
       font-size: 1.8rem;
       line-height: 1.2;
     }
@@ -171,11 +153,9 @@ import Layout from "../layouts/Layout.astro";
     .prompt-content input {
       width: 100%;
       padding: 0.95rem 1rem;
-
       background: rgba(10, 10, 15, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 1rem;
       margin-bottom: 1rem;
@@ -198,16 +178,13 @@ import Layout from "../layouts/Layout.astro";
     .prompt-content button {
       width: 100%;
       padding: 0.95rem 1rem;
-
       background: var(--gradient-accent);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-
       transition:
         transform 0.2s,
         box-shadow 0.2s,
@@ -243,12 +220,9 @@ import Layout from "../layouts/Layout.astro";
       border: 1px solid var(--glass-border);
       border-radius: 12px;
       box-shadow: var(--glass-shadow-soft);
-
       -webkit-backdrop-filter: blur(var(--glass-blur));
       backdrop-filter: blur(var(--glass-blur));
-
       overflow: hidden;
-
       /* Layout fix: app-panel behavior */
       display: flex;
       flex-direction: column;
@@ -260,7 +234,6 @@ import Layout from "../layouts/Layout.astro";
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 1.25rem;
-
       background: rgba(10, 10, 15, 0.35);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -269,13 +242,11 @@ import Layout from "../layouts/Layout.astro";
       margin: 0;
       font-family: "Berkshire Swash", serif;
       font-weight: 400;
-
       background-image: var(--gradient-heading);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
-
       font-size: 1.55rem;
       line-height: 1.2;
     }
@@ -302,8 +273,8 @@ import Layout from "../layouts/Layout.astro";
       margin-left: 0.6rem;
       padding: 0.35rem 0.6rem;
       border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(10, 10, 15, 0.25);
+      border: none;
+      background: var(--overlay-gradient-accent);
       color: rgba(255, 255, 255, 0.8);
       cursor: pointer;
       font: inherit;
@@ -329,14 +300,11 @@ import Layout from "../layouts/Layout.astro";
       /* Layout fix: fill remaining space */
       flex: 1;
       min-height: 0;
-
       overflow-y: auto;
       padding: 1.25rem;
-
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-
       background: rgba(10, 10, 15, 0.18);
     }
 
@@ -363,14 +331,88 @@ import Layout from "../layouts/Layout.astro";
       padding: 2rem 1rem;
     }
 
-    /* Message Styles */
+    /* Message container - flex row */
     .message {
       display: flex;
-      gap: 0.5rem;
-      padding: 0.65rem 0.75rem;
-      border-radius: 10px;
-      transition: background 0.15s ease;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0;
+      background: transparent;
+      border: none;
       animation: fadeIn 0.25s ease-in;
+      width: 100%; /* Container is full width */
+    }
+
+    /* Message bubble - COMPACT, not full width */
+    .message-content {
+      /* Remove flex: 1 - that's what's making it stretch */
+      max-width: 80%; /* Max 70% of container width */
+      min-width: 0;
+
+      /* Bubble styling */
+      padding: 0.5rem 0.75rem;
+      border-radius: 12px;
+      background: var(--overlay-gradient-accent);
+      border: none;
+      /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .message:hover .message-content {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    .message-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .message-nickname {
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.15;
+      color: rgba(7, 7, 7, 0.95);
+      font-weight: 600;
+    }
+    .message-timestamp {
+      font-size: 0.75rem;
+      color: rgb(2, 2, 2);
+    }
+
+    .message-text {
+      color: rgb(255, 255, 255);
+      line-height: 1.4;
+      word-wrap: break-word;
+      font-size: 0.9rem;
+    }
+
+    /* System message - small centered text, NO bubble */
+    .system-message {
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(146, 115, 255, 0.6);
+      padding: 0.35rem 0.5rem;
+      margin: 0.5rem auto;
+      background: transparent !important; /* Force no background */
+      border: none !important;
+      box-shadow: none !important;
+      font-style: italic;
+      max-width: fit-content;
+    }
+
+    /* Delete button positioning */
+    .message-actions {
+      opacity: 0;
+      transition: opacity 0.2s;
+      align-self: flex-start;
+      padding-top: 0.5rem;
+    }
+
+    .message:hover .message-actions {
+      opacity: 1;
     }
 
     @keyframes fadeIn {
@@ -384,62 +426,14 @@ import Layout from "../layouts/Layout.astro";
       }
     }
 
-    .message:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-
     .message-avatar {
       display: none;
     }
 
-    .message-content {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .message-header {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .message-nickname {
-      font-family: "Berkshire Swash", serif;
-      font-weight: 400;
-      color: var(--color-text);
-      font-size: 1.05rem;
-      line-height: 1.15;
-    }
-
-    .message-timestamp {
-      font-size: 0.78rem;
-      color: rgba(255, 255, 255, 0.45);
-    }
-
-    .message-text {
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.45;
-      word-wrap: break-word;
-      font-size: 0.95rem;
-    }
-
-    .message-actions {
-      opacity: 0;
-      transition: opacity 0.2s;
-      align-self: flex-start;
-      padding-top: 0.1rem;
-    }
-
-    .message:hover .message-actions {
-      opacity: 1;
-    }
-
     .delete-btn {
-      background: rgba(218, 37, 201, 0.1);
-      border: 1px solid rgba(218, 37, 201, 0.35);
+      background: var(--overlay-gradient-accent);
+      border: none;
       color: rgba(255, 255, 255, 0.9);
-
       padding: 0.35rem 0.6rem;
       border-radius: 8px;
       font-size: 0.78rem;
@@ -468,7 +462,6 @@ import Layout from "../layouts/Layout.astro";
       background: var(--gradient-accent);
       border-radius: 2px;
       margin-bottom: 0.75rem;
-
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.1s linear;
@@ -483,14 +476,11 @@ import Layout from "../layouts/Layout.astro";
     .input-wrapper input {
       flex: 1;
       padding: 0.85rem 1rem;
-
       background: rgba(10, 10, 15, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-
       color: var(--color-text);
       font-size: 0.95rem;
-
       transition:
         border-color 0.2s,
         box-shadow 0.2s,
@@ -512,21 +502,33 @@ import Layout from "../layouts/Layout.astro";
       color: rgba(255, 255, 255, 0.45);
     }
 
+    /* SEND BUTTON!! */
     .input-wrapper button {
       padding: 0.85rem 1.25rem;
-      background: var(--gradient-accent);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--overlay-gradient-accent);
+      border: none;
       border-radius: 10px;
-
+      overflow: hidden;
       color: var(--color-text);
-      font-weight: 600;
+      font: inherit;
       font-size: 0.95rem;
       cursor: pointer;
+      position: relative;
       transition:
         transform 0.15s ease,
         box-shadow 0.15s ease,
         opacity 0.2s;
       white-space: nowrap;
+    }
+
+    /* Clean “border” ring INSIDE the button (no bleed) */
+    .input-wrapper button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
     }
 
     .input-wrapper button:hover:not(:disabled) {
@@ -556,44 +558,203 @@ import Layout from "../layouts/Layout.astro";
     }
 
     .nickname-display {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(146, 115, 255, 0.95);
     }
 
     .nickname-display strong {
-      color: var(--color-accent);
+      color: rgba(146, 115, 255, 0.95);
       font-weight: 600;
     }
 
-    .system-message {
-      text-align: center;
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.55);
-      font-style: italic;
-      padding: 0.25rem 0;
-    }
-
     .system-delete {
-      margin-left: 0.5rem;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-left: 0.6rem;
+      /* sizing */
+      min-width: 72px;
+      height: 28px;
+      padding: 0 0.75rem;
+      /* layout */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      /* visuals */
+      background: var(--overlay-gradient-accent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: none;
       border-radius: 999px;
-      width: 22px;
-      height: 22px;
-      line-height: 20px;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.65);
+      /* text */
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
       cursor: pointer;
-      font: inherit;
-      padding: 0;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
     }
 
     .system-delete:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .system-delete:active {
+      transform: translateY(0);
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* Admin modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 30000;
+    }
+
+    .modal.is-open {
+      display: block;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .modal-card {
+      position: relative;
+      width: min(92vw, 420px);
+      margin: 14vh auto 0;
+      padding: 1.25rem 1.25rem 1rem;
+
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: var(--glass-shadow);
+    }
+
+    .modal-title {
+      margin: 0 0 0.35rem 0;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .modal-subtitle {
+      margin: 0 0 0.9rem 0;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 0.85rem 0.95rem;
+
+      background: rgba(10, 10, 15, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+
+      color: var(--color-text);
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: rgba(126, 126, 255, 0.6);
+      box-shadow: 0 0 0 3px rgba(126, 126, 255, 0.16);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      margin-top: 0.9rem;
+    }
+
+    .modal-btn {
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .modal-btn.secondary {
       background: rgba(10, 10, 15, 0.25);
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .modal-btn.primary {
+      background: var(--gradient-accent);
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    /* =========================
+   DELETE MODAL – BUTTONS
+   ========================= */
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-actions button {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      padding: 0.55rem 1.25rem;
+
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+
+      color: var(--color-text);
+      background: rgba(10, 10, 15, 0.35);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.2s ease;
+    }
+
+    /* Cancel button – soft glass */
+    #deleteCancelBtn {
+      background: var(--overlay-gradient-accent);
+    }
+
+    #deleteCancelBtn:hover {
+      background: rgba(10, 10, 15, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* Delete button – gradient danger */
+    #deleteConfirmBtn {
+      background: var(--overlay-gradient-accent);
+      border-color: rgba(31, 26, 59, 0.25);
+    }
+
+    #deleteConfirmBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    #deleteConfirmBtn:active,
+    #deleteCancelBtn:active {
+      transform: translateY(0);
+      opacity: 0.95;
     }
 
     /* ========================
-		MOBILE
+		MOBILE MOBILE MOBILE
 	   ======================= */
     @media (max-width: 768px) {
       .chat-area {
@@ -646,6 +807,53 @@ import Layout from "../layouts/Layout.astro";
     }
   </style>
 
+  <!-- DELETE MODAL -->
+  <div id="deleteModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-card">
+      <h3>Delete message?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="deleteCancelBtn">Cancel</button>
+        <button id="deleteConfirmBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Modal -->
+  <div id="adminModal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+
+    <div
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="adminModalTitle"
+    >
+      <h3 id="adminModalTitle" class="modal-title">Admin Mode</h3>
+      <p class="modal-subtitle">
+        Enter your admin key to enable admin controls.
+      </p>
+
+      <input
+        id="adminKeyInput"
+        class="modal-input"
+        type="password"
+        placeholder="Admin key..."
+        autocomplete="off"
+      />
+
+      <div class="modal-actions">
+        <button id="adminCancelBtn" type="button" class="modal-btn secondary"
+          >Cancel</button
+        >
+        <button id="adminConfirmBtn" type="button" class="modal-btn primary"
+          >Unlock</button
+        >
+      </div>
+    </div>
+  </div>
+
   <script>
     // @ts-nocheck
     import { initializeApp } from "firebase/app";
@@ -683,6 +891,8 @@ import Layout from "../layouts/Layout.astro";
     const COOLDOWN_MS = 5000; // 5 seconds
     const MESSAGE_LIFETIME_MS = 12 * 60 * 60 * 1000; // 12 hours
 
+    let pendingDeleteMessageId = null;
+
     const ADMIN_KEY = localStorage.getItem("chatAdminKey") || "";
     const ADMIN_SECRET = import.meta.env.PUBLIC_CHAT_ADMIN_KEY || "";
 
@@ -701,6 +911,17 @@ import Layout from "../layouts/Layout.astro";
     const adminBtn = document.getElementById("adminButton");
     const leaveBtn = document.getElementById("leaveButton");
 
+    // Admin modal DOM (custom prompt replacement)
+    const adminModal = document.getElementById("adminModal");
+    const adminKeyInput = document.getElementById("adminKeyInput");
+    const adminCancelBtn = document.getElementById("adminCancelBtn");
+    const adminConfirmBtn = document.getElementById("adminConfirmBtn");
+
+    // Delete modal DOM (custom confirm replacement)
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteConfirmBtn = document.getElementById("deleteConfirmBtn");
+    const deleteCancelBtn = document.getElementById("deleteCancelBtn");
+
     // Check if nickname exists
     if (nickname) {
       showChat();
@@ -713,6 +934,102 @@ import Layout from "../layouts/Layout.astro";
     function isAdminSession() {
       return Boolean(ADMIN_SECRET) && ADMIN_KEY === ADMIN_SECRET;
     }
+
+    function containsLink(text) {
+      return /\b(?:https?:\/\/|www\.|[a-z0-9-]+\.(?:com|net|org|io|co|gg|me|dev|app|xyz|link|site|edu|gov)\b)/i.test(
+        text
+      );
+    }
+
+    // ===== Admin Modal Helpers =====
+    function openAdminModal() {
+      if (!adminModal) return;
+      adminModal.classList.add("is-open");
+      adminModal.setAttribute("aria-hidden", "false");
+
+      if (adminKeyInput) {
+        adminKeyInput.value = "";
+        adminKeyInput.focus();
+      }
+    }
+
+    function closeAdminModal() {
+      if (!adminModal) return;
+      adminModal.classList.remove("is-open");
+      adminModal.setAttribute("aria-hidden", "true");
+    }
+
+    function submitAdminKey() {
+      const key = String(adminKeyInput?.value || "").trim();
+      if (!key) return;
+
+      if (key === ADMIN_SECRET) {
+        localStorage.setItem("chatAdminKey", key);
+        window.showToast?.("Admin mode activated.");
+        closeAdminModal();
+        location.reload();
+      } else {
+        window.showToast?.("Nope.");
+        if (adminKeyInput) adminKeyInput.value = "";
+        adminKeyInput?.focus();
+      }
+    }
+
+    adminCancelBtn?.addEventListener("click", closeAdminModal);
+    adminConfirmBtn?.addEventListener("click", submitAdminKey);
+
+    adminKeyInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") submitAdminKey();
+      if (e.key === "Escape") closeAdminModal();
+    });
+
+    adminModal?.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.dataset.close === "true") closeAdminModal();
+    });
+
+    // ===== Delete Modal Helpers =====
+    function openDeleteModal(messageId) {
+      pendingDeleteMessageId = messageId;
+      if (!deleteModal) return;
+
+      deleteModal.classList.add("is-open");
+      deleteModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteMessageId = null;
+      if (!deleteModal) return;
+
+      deleteModal.classList.remove("is-open");
+      deleteModal.setAttribute("aria-hidden", "true");
+    }
+
+    function confirmDelete() {
+      if (!pendingDeleteMessageId) return;
+
+      remove(ref(database, `messages/${pendingDeleteMessageId}`));
+      closeDeleteModal();
+      window.showToast?.("Message deleted.");
+    }
+
+    deleteCancelBtn?.addEventListener("click", closeDeleteModal);
+    deleteConfirmBtn?.addEventListener("click", confirmDelete);
+
+    deleteModal?.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.dataset.close === "true") closeDeleteModal();
+    });
+
+    // Global Escape closes any open modal
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeAdminModal();
+        closeDeleteModal();
+      }
+    });
 
     // Enter chat
     enterChatBtn?.addEventListener("click", handleEnterChat);
@@ -778,6 +1095,14 @@ import Layout from "../layouts/Layout.astro";
     function sendMessage() {
       const text = (messageInput?.value || "").trim();
       if (!text) return;
+
+      // LINK FILTER
+      if (containsLink(text)) {
+        window.showToast?.(
+          "Links are disabled in this chat to prevent any harmful intent. Thank you for respecting that."
+        );
+        return;
+      }
 
       // Check cooldown
       const now = Date.now();
@@ -896,12 +1221,10 @@ import Layout from "../layouts/Layout.astro";
           const deleteBtn = document.createElement("button");
           deleteBtn.type = "button";
           deleteBtn.className = "system-delete";
-          deleteBtn.textContent = "×";
+          deleteBtn.textContent = "Delete";
 
           deleteBtn.addEventListener("click", () => {
-            if (confirm("Delete this system message?")) {
-              remove(ref(database, `messages/${message.id}`));
-            }
+            openDeleteModal(message.id);
           });
 
           systemEl.appendChild(deleteBtn);
@@ -942,9 +1265,7 @@ import Layout from "../layouts/Layout.astro";
       if (isAdmin) {
         const deleteBtn = messageEl.querySelector(".delete-btn");
         deleteBtn?.addEventListener("click", () => {
-          if (confirm("Delete this message?")) {
-            remove(ref(database, `messages/${message.id}`));
-          }
+          openDeleteModal(message.id);
         });
       }
 
@@ -957,18 +1278,6 @@ import Layout from "../layouts/Layout.astro";
       return div.innerHTML;
     }
 
-    // Admin mode easter egg - Ctrl+Shift+A
-    document.addEventListener("keydown", (e) => {
-      if (e.ctrlKey && e.shiftKey && e.key === "A") {
-        const key = prompt("Enter admin key:");
-        if (key && key === ADMIN_SECRET) {
-          localStorage.setItem("chatAdminKey", key);
-          alert("Admin mode activated! Reloading…");
-          location.reload();
-        }
-      }
-    });
-
     // Admin button (visible)
     function updateAdminButton() {
       if (!adminBtn) return;
@@ -980,18 +1289,24 @@ import Layout from "../layouts/Layout.astro";
     adminBtn?.addEventListener("click", () => {
       if (isAdminSession()) {
         localStorage.removeItem("chatAdminKey");
-        alert("Admin mode turned off.");
+        window.showToast?.("Admin mode turned off.");
         location.reload();
         return;
       }
 
-      const key = prompt("Enter admin key:");
-      if (key && key === ADMIN_SECRET) {
-        localStorage.setItem("chatAdminKey", key);
-        alert("Admin mode activated.");
-        location.reload();
-      } else if (key) {
-        alert("Nope.");
+      openAdminModal();
+    });
+
+    // Ctrl+Shift+A opens modal or exits admin
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === "A") {
+        if (isAdminSession()) {
+          localStorage.removeItem("chatAdminKey");
+          window.showToast?.("Admin mode turned off.");
+          location.reload();
+        } else {
+          openAdminModal();
+        }
       }
     });
 
