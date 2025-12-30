@@ -159,7 +159,7 @@ body {
   font-family: "Berkshire Swash", serif;
   text-decoration: none;
   background: var(--gradient-heading);
-  background-size: 80% auto;
+  background-size: 25% auto;
   background-poisition: 0% 50%;
   -webkit-background-clip: text;
   background-clip: text;
