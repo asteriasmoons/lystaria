@@ -124,18 +124,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     .avatar-container {
-      margin-top: 2rem;
-      width: 100%;
+      margin: 2rem auto; /* Changed: added auto to center it */
+      width: 300px; /* Changed: match the image size */
+      height: 300px; /* Added: needs to be square for circle */
       border-radius: 50%;
       overflow: hidden;
       border: 1px solid var(--color-border);
     }
 
     .avatar-image {
-      width: 300px;
-      height: 300px;
-      display: block;
-      object-fit: contain;
+      width: 100%; /* Changed: fill the container */
+      height: 100%; /* Changed: fill the container */
+      object-fit: cover;
+      display: block; /* Added: removes tiny gap at bottom */
     }
 
     .about-text {
