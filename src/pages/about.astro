@@ -15,8 +15,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <header class="about-header">
         <h1>About</h1>
         <p class="about-subtitle">The person behind the grimoire</p>
-        <div class="banner-container">
-          <img src="/banner.png" alt="Decorative banner" class="banner-image" />
+        <div class="avatar-container">
+          <img src="/asteria.png" alt="Avatar" class="avatar-image" />
         </div>
       </header>
 
@@ -123,7 +123,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       font-style: italic;
     }
 
-    .banner-container {
+    .avatar-container {
       margin-top: 2rem;
       width: 100%;
       border-radius: 8px;
@@ -135,6 +135,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       width: 100%;
       height: auto;
       display: block;
+      border-radius: 50%;
       object-fit: contain;
     }
 
