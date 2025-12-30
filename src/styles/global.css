@@ -143,7 +143,7 @@ body {
   text-decoration: none;
   /* Gradient text */
   background: var(--gradient-heading);
-  background-size: 550% auto;
+  background-size: 670% auto;
   background-position: center;
   -webkit-background-clip: text;
   background-clip: text;
