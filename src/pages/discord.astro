@@ -28,25 +28,6 @@ const pageDescription = "Join our diverse community on Discord";
 
     <GradientDivider />
 
-    <!-- Discord Widget Section -->
-    <section class="widget-section">
-      <!-- Discord Server Widget Embed -->
-      <!-- CUSTOMIZE THIS: Replace YOUR_SERVER_ID with your actual Discord server ID -->
-      <!-- To get your server ID: Server Settings → Widget → Enable Widget → Copy Server ID -->
-      <div class="widget-container">
-        <iframe
-          src="https://discord.com/widget?id=1367981386862034954&theme=dark"
-          width="350"
-          height="500"
-          allowtransparency="true"
-          frameborder="0"
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-          title="Discord Server Widget"></iframe>
-      </div>
-    </section>
-
-    <GradientDivider />
-
     <!-- Invite Button Section -->
     <section class="invite-section">
       <h3>Ready to Join?</h3>
@@ -56,35 +37,42 @@ const pageDescription = "Join our diverse community on Discord";
       </p>
 
       <!-- Discord Invite Button -->
-      <!-- CUSTOMIZE THIS: Replace YOUR_INVITE_LINK with your actual Discord invite URL -->
-      <!-- To create an invite: Right-click your server → Invite People → Create custom link -->
-      <a
-        href="https://discord.gg/aggfkxkBjW"
-        class="discord-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <svg
-          class="discord-icon"
-          width="24"
-          height="24"
-          viewBox="0 0 127.14 96.36"
-          fill="currentColor"
-        >
-          <!-- Discord logo SVG path -->
-          <path
-            d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"
-          ></path>
-        </svg>
-        Join Discord Server
-      </a>
+      <!-- CUSTOMIZE THIS: Replace YOUR_INVITE_LINK with your actual Discord 
+invite URL -->
+      <!-- To create an invite: Right-click your server → Invite People → Create 
+custom link -->
 
-      <!-- Additional helpful info -->
-      <p class="invite-info">
-        By joining, you agree to follow our community guidelines and Discord's
-        Terms of Service.
-      </p>
+      href="https://discord.gg/aggfkxkBjW" class="discord-button"
+      target="_blank" rel="noopener noreferrer" >
+      <svg
+        class="discord-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 127.14 96.36"
+        fill="currentColor"
+      >
+        <!-- Discord logo SVG path -->
+        <path
+          d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.
+83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,
+0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,
+32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.
+91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.
+66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.
+25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,
+65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.
+84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,
+11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"
+        ></path>
+      </svg>
+      Join Discord Server
     </section>
+
+    <!-- Additional helpful info -->
+    <p class="invite-info">
+      By joining, you agree to follow our community guidelines and Discord's
+      Terms of Service.
+    </p>
   </div>
 </BaseLayout>
 
@@ -131,31 +119,6 @@ const pageDescription = "Join our diverse community on Discord";
     border-radius: 8px; /* This won't work with border-image unfortunately */
     font-size: 0.85rem;
     color: #ffffff;
-  }
-
-  /* ====================================
-     WIDGET SECTION
-     ==================================== */
-  .widget-section {
-    margin: 4rem 0; /* Vertical spacing */
-    text-align: center;
-  }
-
-  /* Container for Discord widget iframe */
-  .widget-container {
-    display: inline-block; /* Centers the widget */
-    border-radius: 12px; /* Rounded corners */
-    overflow: hidden; /* Clip iframe to rounded corners */
-    box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.5),
-      /* Main shadow */ 0 0 20px rgba(90, 200, 250, 0.2); /* Subtle cyan glow */
-    margin-bottom: 1.5rem;
-  }
-
-  /* Style the embedded iframe */
-  .widget-container iframe {
-    display: block; /* Removes bottom gap */
-    border: 2px solid rgba(126, 126, 255, 0.3); /* Purple border */
   }
 
   /* ====================================
@@ -243,19 +206,6 @@ const pageDescription = "Join our diverse community on Discord";
     /* Smaller subtitle */
     .subtitle {
       font-size: 0.95rem;
-    }
-
-    /* Stack widget better on mobile */
-    .widget-container iframe {
-      width: 100%;
-      max-width: 350px;
-      height: 500px;
-    }
-
-    /* Smaller section headings */
-    .widget-section h3,
-    .invite-section h3 {
-      font-size: 1.5rem;
     }
 
     /* Adjust button padding on mobile */
