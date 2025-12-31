@@ -2,6 +2,7 @@
 // @ts-nocheck
 // About page
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from '../components/GradientDivider.astro'
 ---
 
 <BaseLayout
@@ -16,16 +17,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <h1>About Asteria</h1>
         <p class="about-subtitle">The person behind the grimoire</p>
         <div class="avatar-container">
-          <img src="/asteria.PNG" alt="Avatar" class="avatar-image" />
+          <img src="/asteria.jpeg" alt="Avatar" class="avatar-image" />
         </div>
       </header>
 
       <div class="about-text">
+      <GradientDivider />
         <p>
           Hi, I'm <strong>Asteria</strong> — a creative, intuitive, deeply analytical
           soul who lives at the intersection of design, technology, healing, and self-discovery.
         </p>
-
+     <GradientDivider />
         <p>
           I'm a developer-in-training, digital graphic designer, and shadow work
           mentor with a love for turning complex ideas into visually beautiful,
@@ -34,7 +36,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           code, my work is rooted in one core value: making things feel clearer,
           softer, and more empowering for the people who encounter them.
         </p>
-
+      <GradientDivider />
         <p>
           Creativity has always been my language. I express it through design,
           writing, systems, and symbolic work like tarot and spiritual
@@ -43,7 +45,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           surface-level, "good vibes only" way, but in a real, honest, sometimes
           messy way that leads to genuine growth.
         </p>
-
+     <GradientDivider />
         <p>
           I'm also a magickal practitioner, though my relationship with my
           practice has evolved over time. After stepping away for a few years,
@@ -53,7 +55,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           have to be grand or dramatic; sometimes it's simply showing up, paying
           attention, and choosing yourself again.
         </p>
-
+     <GradientDivider />
         <p>
           Living with multiple chronic physical and mental health conditions has
           shaped how I move through the world. It's taught me patience,
@@ -63,7 +65,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           productivity; I care about sustainable creativity, realistic routines,
           and systems that support real humans.
         </p>
-
+     <GradientDivider />
         <p>
           I describe myself as confrontational but thoughtful — I ask hard
           questions, challenge assumptions (including my own), and enjoy digging
@@ -73,7 +75,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           and self-development, and I thrive when I can connect ideas across
           different disciplines.
         </p>
-
+     <GradientDivider />
         <p>
           At home, I share life with my fiancé, Jordan, who has been my partner
           for over five years, along with our loving dog Chip. I'm more drawn to
@@ -81,7 +83,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           organizing thoughts, or planning the kind of life that feels aligned
           rather than overwhelming.
         </p>
-
+     <GradientDivider />
         <p>
           At my core, I'm someone who believes that <em
             >clarity is healing, creativity is sacred, and self-understanding is
@@ -90,12 +92,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           matter — for myself first, and eventually for others who resonate with
           the way I see the world.
         </p>
-
+    <GradientDivider />
         <p class="closing">
           If you're someone who values depth, honesty, aesthetics, and growth
           that actually sticks — you'll probably feel right at home here.
         </p>
-
+    <GradientDivider />
         <div class="signature">
           <p>Asteria</p>
         </div>
@@ -113,7 +115,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     .about-header {
       text-align: center;
       padding: 3rem 0;
-      border-bottom: 1px solid var(--color-border);
+      /* border-bottom: 1px solid var(--color-border); */
       margin-bottom: 3rem;
     }
 
@@ -166,14 +168,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       font-size: 1.15rem;
       margin-top: 2rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--color-border);
+      /* border-top: 1px solid var(--color-border); */
     }
 
     .signature {
       text-align: center;
       margin-top: 3rem;
       padding-top: 2rem;
-      border-top: 1px solid var(--color-border);
+      /* border-top: 1px solid var(--color-border); */
     }
 
     .signature p {
@@ -189,6 +191,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       .about-text {
         font-size: 1rem;
+      }
+       .about-content {
+         padding: 0 1rem 4rem;
       }
     }
   </style>

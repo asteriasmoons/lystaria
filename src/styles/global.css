@@ -136,25 +136,42 @@ body {
   }
 }
 
-/* Header / Nav */
-.site-header a,
+/* Header */
+.site-header a {
+  font-family: "Berkshire Swash", serif;
+  text-decoration: none;
+  /* Gradient text */
+  background: var(--gradient-heading);
+  background-size: 125% auto;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: opacity 0.25s ease;
+}
+.site-header a:hover {
+  opacity: 0.8;
+}
+
+/* Nav Links */
 .nav a {
   font-family: "Berkshire Swash", serif;
-  color: rgba(126, 126, 255, 0.75);
   text-decoration: none;
-
-  text-shadow: 0 0 12px rgba(126, 126, 255, 0.25),
-    0 0 2px rgba(255, 255, 255, 0.15);
-
-  transition: opacity 0.25s ease, text-shadow 0.25s ease;
+  background: var(--gradient-heading);
+  background-size: 30% auto;
+  background-poisition: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  transition: opacity 0.25s ease;
 }
-
-.site-header a:hover,
+  
 .nav a:hover {
-  opacity: 1;
-  text-shadow: 0 0 16px rgba(126, 126, 255, 0.45),
-    0 0 4px rgba(255, 255, 255, 0.25);
+  opacity: 0.8;
 }
+
 
 .site-header {
   position: sticky;
