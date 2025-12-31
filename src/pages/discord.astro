@@ -149,37 +149,13 @@ const pageDescription = "Join our diverse community on Discord";
     max-width: 700px;
     margin: 0 auto;
     padding: 2rem;
-    border-radius: 14px;
-
+    border-radius: 10px;
     /* Matches your overall dark/glass vibe */
-    background: rgba(0, 0, 0, 0.22);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
+    background: var(--overlay-gradient-accent);
     /* Subtle depth */
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.06) inset,
       0 10px 30px rgba(0, 0, 0, 0.35);
-  }
-
-  /* Rounded gradient border that works (uses your global gradient variable) */
-  .highlights-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    padding: 2px;
-    border-radius: inherit;
-
-    background: var(--overlay-gradient-accent);
-
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-
-    pointer-events: none;
-    opacity: 0.95;
   }
 
   /* Title */
