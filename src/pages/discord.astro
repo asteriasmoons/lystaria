@@ -1,5 +1,5 @@
 ---
-// @ts-nocheck 
+// @ts-nocheck
 // Import your base layout (handles nav, footer, fonts, meta tags)
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GradientDivider from "../components/GradientDivider.astro";
@@ -25,8 +25,30 @@ const pageDescription = "Join our diverse community on Discord";
     <!-- INFO ABOUT THE SERVER -->
     <section class="server-info">
       <p class="description">
-        <strong>Lystaria is not just a support server—its a shared ecosystem.</strong> It brings together bot support, reading circles, reflective and wellness-focused practices, developer conversations, and social spaces for people who dont fit neatly into one box. Built on curiosity, creativity, and mutual respect, Lystaria is designed to grow with the people who inhabit it.
+        <strong
+          >Lystaria is not just a support server—its a shared ecosystem.</strong
+        > It brings together bot support, reading circles, reflective and wellness-focused
+        practices, developer conversations, and social spaces for people who dont
+        fit neatly into one box. Built on curiosity, creativity, and mutual respect,
+        Lystaria is designed to grow with the people who inhabit it.
       </p>
+    </section>
+
+    <GradientDivider />
+
+    <!-- HIGHLIGHTS CARD -->
+    <section class="highlights">
+      <div class="highlights-card">
+        <h3 class="highlights-title">What Lives Here</h3>
+
+        <ul class="highlights-list">
+          <li>Bot support and thoughtful tool-building</li>
+          <li>Reading circles and shared literary exploration</li>
+          <li>Wellness-focused reflection and journaling spaces</li>
+          <li>Developer conversations and learning together</li>
+          <li>Calm, respectful social spaces for connection</li>
+        </ul>
+      </div>
     </section>
 
     <GradientDivider />
@@ -111,6 +133,80 @@ const pageDescription = "Join our diverse community on Discord";
     border-radius: 8px; /* This won't work with border-image unfortunately */
     font-size: 0.85rem;
     color: #ffffff;
+  }
+
+  /* ====================================
+   HIGHLIGHTS CARD
+   ==================================== */
+  .highlights {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  /* Card container */
+  .highlights-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 14px;
+
+    /* Matches your overall dark/glass vibe */
+    background: rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Subtle depth */
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Rounded gradient border that works (uses your global gradient variable) */
+  .highlights-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+
+    background: var(--overlay-gradient-accent);
+
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+  /* Title */
+  .highlights-title {
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* List */
+  .highlights-list {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.2rem;
+
+    display: grid;
+    gap: 0.65rem;
+
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  /* Make bullets subtle and on-brand without hardcoding colors */
+  .highlights-list li::marker {
+    color: currentColor;
+    opacity: 0.65;
   }
 
   /* ====================================
@@ -205,6 +301,14 @@ const pageDescription = "Join our diverse community on Discord";
     .discord-button {
       padding: 0.9rem 1.5rem;
       font-size: 1rem;
+    }
+
+    .highlights-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .highlights-list {
+      padding-left: 1.1rem;
     }
   }
 </style>
