@@ -12,6 +12,10 @@
   --color-accent-bright: #7e7eff;
 
   --color-border: #2a2a3e; /* Subtle borders */
+  
+
+  --bold-text-color: #e019d4;   /* your pink */
+  --italic-text-color: #00dbff; /* your blue */
 
   --bg-glow: radial-gradient(
       900px 500px at 20% 10%,
@@ -114,6 +118,18 @@ body {
   -webkit-font-smoothing: antialiased;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+strong,
+b {
+  font-weight: 600;
+  color: var(--bold-text-color);
+}
+
+em,
+i {
+  font-style: italic;
+  color: var(--italic-text-color);
 }
 
 /* Fallback if blur isn't supported */
