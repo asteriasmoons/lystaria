@@ -33,7 +33,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
 <BaseLayout
   title={post.data.title + " · Lystaria"}
   description={post.data.description}
-  image="/banner.png"
+  image={post.data.coverImage || "/banner.png"}
   type="article"
 >
   <!-- Reading Progress Bar -->
@@ -158,7 +158,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       font-size: 1.5rem;
       margin: 1.75rem 0 0.75rem;
     }
-    
+
     .post-content :global(p) {
       margin-bottom: 1.5rem;
       color: var(--color-text);
