@@ -119,7 +119,9 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     </header>
 
     <main>
-      <slot />
+      <div class="page">
+        <slot />
+      </div>
     </main>
 
     <footer class="site-footer">
@@ -251,7 +253,14 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       /* Main content area */
       main {
         min-height: calc(100vh - 200px);
-        padding: 4rem 0;
+        padding: 0;
+      }
+
+      /* Universal page wrapper (matches the Discord page feel) */
+      .page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
       }
 
       /* Footer Styles */
