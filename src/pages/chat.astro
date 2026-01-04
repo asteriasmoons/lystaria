@@ -81,33 +81,43 @@ import Layout from "../layouts/Layout.astro";
   </div>
 
   <style is:global>
+    :root {
+      --space-1: 0.5rem;
+      --space-2: 0.75rem;
+      --space-3: 1rem;
+      --space-4: 1.25rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+      --space-7: 2.5rem;
+      --space-8: 3rem;
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
+    /* Centered intro block */
     .chat-intro {
       max-width: 800px;
-      margin: 2rem auto 1.25rem;
-      padding: 0 1rem;
-      text-align: center; /* This centers the h2 */
+      margin: var(--space-6) auto var(--space-4);
+      padding: 0; /* container already provides side padding */
+      text-align: center;
     }
 
+    /* h2 doesn't need auto margins to center text */
     .chat-intro h2 {
-	  font-size: 2rem;
-      /* All the gradient stuff is already inherited from global.css */
-      /* Just fix the centering */
-      /* display: block; */
-      margin-left: auto;
-      margin-right: auto;
+      font-size: 2rem;
+      margin: 0; /* let the parent control vertical rhythm */
     }
 
     .intro-note {
       max-width: 700px;
-      margin: 3rem auto 0;
-      padding: 2rem;
-      border: 2px dotted rgba(243, 90, 254, 0.856);
+      margin: var(--space-6) auto 0;
+      padding: var(--space-6);
+      border: 2px dotted transparent;
+      border-image: var(--gradient-accent) 1;
       border-radius: 12px;
       font-size: 0.75rem;
       color: #ffffff;
@@ -211,7 +221,7 @@ import Layout from "../layouts/Layout.astro";
     .chat-area {
       max-width: 800px;
       margin: 0 auto;
-      padding: 2rem 1rem;
+      padding: var(--space-6) var(--space-3);
     }
 
     .chat-wrapper {
@@ -228,14 +238,12 @@ import Layout from "../layouts/Layout.astro";
       flex-direction: column;
       height: min(72vh, 720px);
     }
- 
+
     .chat-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 1.25rem;
-      background: rgba(10, 10, 15, 0.35);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: var(--space-4);
     }
 
     .chat-header h1 {
@@ -270,7 +278,7 @@ import Layout from "../layouts/Layout.astro";
 
     .admin-btn,
     .leave-btn {
-      margin-left: 0.6rem;
+      margin-left: var(--space-2);
       padding: 0.35rem 0.6rem;
       border-radius: 10px;
       border: none;
@@ -395,7 +403,7 @@ import Layout from "../layouts/Layout.astro";
       font-size: 0.8rem;
       color: rgba(146, 115, 255, 0.6);
       padding: 0.35rem 0.5rem;
-      margin: 0.5rem auto;
+      margin: var(--space-2) auto;
       background: transparent !important; /* Force no background */
       border: none !important;
       box-shadow: none !important;
@@ -452,7 +460,7 @@ import Layout from "../layouts/Layout.astro";
 
     /* Input Area */
     .input-area {
-      padding: 1rem 1.25rem;
+      padding: var(--space-4);
       background: rgba(10, 10, 15, 0.35);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -461,7 +469,7 @@ import Layout from "../layouts/Layout.astro";
       height: 2px;
       background: var(--gradient-accent);
       border-radius: 2px;
-      margin-bottom: 0.75rem;
+      margin-bottom: var(--space-3);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.1s linear;
@@ -547,7 +555,7 @@ import Layout from "../layouts/Layout.astro";
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.6rem;
+      margin-top: var(--space-2);
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.6);
     }
@@ -758,11 +766,11 @@ import Layout from "../layouts/Layout.astro";
 	   ======================= */
     @media (max-width: 768px) {
       .chat-area {
-        padding: 1.25rem 0.9rem;
+        padding: var(--space-5) 0;
       }
 
       .prompt-content {
-        padding: 1.75rem 1.25rem;
+        padding: var(--space-6) var(--space-4);
       }
 
       .chat-wrapper {
@@ -773,10 +781,15 @@ import Layout from "../layouts/Layout.astro";
         flex-direction: column;
         gap: 0.6rem;
         align-items: flex-start;
+        padding: var(--space-4);
       }
 
       .chat-header h1 {
         font-size: 1.45rem;
+      }
+
+      .messages-container {
+        padding: var(--space-4);
       }
 
       .message-avatar {
@@ -793,6 +806,10 @@ import Layout from "../layouts/Layout.astro";
         flex-direction: column;
         gap: 0.55rem;
         align-items: stretch;
+      }
+
+      .input-area {
+        padding: var(--space-4);
       }
 
       .input-wrapper button {
