@@ -101,12 +101,14 @@ const latestPosts = sortedPosts.slice(0, 2);
       padding: 0 2rem;
     }
 
-    .hero {
-      text-align: center;
-      padding: 3rem 0 4rem;
-      gap: 1.5rem;
-      /* border-bottom: 1px solid var(--color-border); */
-    }
+.hero {
+  text-align: center;
+  padding: 3rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
 
     .hero h1 {
       font-size: 2rem;
@@ -116,18 +118,18 @@ const latestPosts = sortedPosts.slice(0, 2);
       -webkit-text-fill-color: transparent;
     }
 
-    .intro {
-    max-width: 700px;
-    margin: 0;
-    padding: 2rem;
-    border: 2px dotted transparent; /* Set to transparent */
-    border-image: var(--gradient-accent) 1; /* Add this */
-    border-radius: 8px; /* This won't work with border-image unfortunately */
-    font-size: 0.85rem;
-    color: #ffffff;
-    }
+.intro {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 2px dotted transparent;
+  border-image: var(--gradient-accent) 1;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
 
-    .moon-phase {
+    /* .moon-phase {
       display: inline-block;
       padding: 1.25rem 1.75rem;
       background-color: var(--color-bg-secondary);
@@ -135,17 +137,17 @@ const latestPosts = sortedPosts.slice(0, 2);
       border-radius: 12px;
       margin-top: 1rem;
       font-size: 1rem;
-    }
+    } */
 
     /* Outer container */
-    #moon-phase {
-      display: inline-block;
-      padding: 0.9rem 1.25rem;
-      background-color: var(--color-bg-secondary);
-      border: 1px solid var(--color-border);
-      border-radius: 12px;
-      margin-top: 1rem;
-    }
+#moon-phase {
+  display: inline-block;
+  padding: 0.9rem 1.25rem;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  margin-top: 0; /* IMPORTANT: let .hero gap control spacing */
+}
 
     /* Inner wrapper */
     .moon-info-main {
@@ -196,17 +198,17 @@ const latestPosts = sortedPosts.slice(0, 2);
     }
 
     /* Featured posts section */
-    .featured-posts {
-      text-align: center;
-      max-width: 1200px;
-      margin: 0;
-      padding: 4rem 0;
-    }
+.featured-posts {
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
 
-    .featured-posts h2 {
-      font-size: 2rem;
-      margin-bottom: 3rem;
-    }
+.featured-posts h2 {
+  font-size: 2rem;
+  margin: 0 0 2rem;
+}
 
     .post-grid {
       display: grid;
@@ -425,9 +427,10 @@ const latestPosts = sortedPosts.slice(0, 2);
         font-size: 2rem;
       }
 
-      .intro {
-        font-size: 0.9rem;
-      }
+  .intro {
+    padding: 1.5rem;
+    font-size: 0.9rem;
+  }
 
       .post-grid {
         grid-template-columns: 1fr;
