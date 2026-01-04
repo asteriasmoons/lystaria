@@ -774,7 +774,7 @@ import Layout from "../layouts/Layout.astro";
       }
 
       .chat-wrapper {
-        height: min(65vh, 600px); /* Reduced from 74vh/680px */
+        height: clamp(420px, 52dvh, 520px);
       }
 
       .chat-header {
@@ -809,7 +809,7 @@ import Layout from "../layouts/Layout.astro";
       }
 
       .input-area {
-        padding: var(--space-4);
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
       }
 
       .input-wrapper button {
