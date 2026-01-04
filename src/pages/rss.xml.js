@@ -1,12 +1,60 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
+function normalizePubDate(input) {
+  if (!input) return new Date();
+
+  // If it's already a Date, normalize midnight -> noon
+  if (input instanceof Date) {
+    if (
+      input.getHours() === 0 &&
+      input.getMinutes() === 0 &&
+      input.getSeconds() === 0 &&
+      input.getMilliseconds() === 0
+    ) {
+      return new Date(
+        input.getFullYear(),
+        input.getMonth(),
+        input.getDate(),
+        12,
+        0,
+        0,
+        0
+      );
+    }
+    return input;
+  }
+
+  const s = String(input).trim();
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    const [y, m, d] = s.split("-").map(Number);
+    return new Date(y, m - 1, d, 12, 0, 0, 0);
+  }
+
+  const dt = new Date(s);
+  if (isNaN(dt.getTime())) return new Date();
+
+  if (
+    dt.getHours() === 0 &&
+    dt.getMinutes() === 0 &&
+    dt.getSeconds() === 0 &&
+    dt.getMilliseconds() === 0
+  ) {
+    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0);
+  }
+
+  return dt;
+}
+
 export async function GET(context) {
   const posts = await getCollection("posts");
 
   // Sort posts by date (newest first)
   const sortedPosts = posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) =>
+      normalizePubDate(b.data.pubDate).valueOf() -
+      normalizePubDate(a.data.pubDate).valueOf()
   );
 
   // Helper function to detect image type from file extension
@@ -39,7 +87,7 @@ export async function GET(context) {
 
       return {
         title: post.data.title,
-        pubDate: post.data.pubDate,
+        pubDate: normalizePubDate(post.data.pubDate),
         description: post.data.description,
         link: `/blog/${post.slug}/`,
         categories: post.data.tags || [],
