@@ -52,9 +52,7 @@ export async function GET(context) {
 
   // Sort posts by date (newest first)
   const sortedPosts = posts.sort(
-    (a, b) =>
-      normalizePubDate(b.data.pubDate).valueOf() -
-      normalizePubDate(a.data.pubDate).valueOf()
+    (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
   );
 
   // Helper function to detect image type from file extension

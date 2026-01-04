@@ -1,81 +1,93 @@
 // src/content/config.ts
 import { defineCollection, z } from "astro:content";
 
-/**
- * Normalize a frontmatter date so date-only strings (YYYY-MM-DD) become
- * a local-noon Date, avoiding 00:00:00 timestamps that can break RSS watchers.
- */
-function normalizeDate(input: unknown): Date {
-  if (!input) return new Date();
+function parseTimeString(input: string): { h: number; m: number } | null {
+  const s = input.trim().toLowerCase();
 
-  // If it's already a Date, normalize midnight -> noon
-  if (input instanceof Date) {
-    if (
-      input.getHours() === 0 &&
-      input.getMinutes() === 0 &&
-      input.getSeconds() === 0 &&
-      input.getMilliseconds() === 0
-    ) {
-      return new Date(
-        input.getFullYear(),
-        input.getMonth(),
-        input.getDate(),
-        12,
-        0,
-        0,
-        0
-      );
+  // 24h: "19:04"
+  const m24 = s.match(/^(\d{1,2}):(\d{2})$/);
+  if (m24) {
+    const h = Number(m24[1]);
+    const m = Number(m24[2]);
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return { h, m };
+    return null;
+  }
+
+  // 12h: "7:04 pm" or "7:04pm"
+  const m12 = s.match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/);
+  if (m12) {
+    let h = Number(m12[1]);
+    const m = Number(m12[2]);
+    const ampm = m12[3];
+    if (h < 1 || h > 12 || m < 0 || m > 59) return null;
+    if (ampm === "pm" && h !== 12) h += 12;
+    if (ampm === "am" && h === 12) h = 0;
+    return { h, m };
+  }
+
+  // IMPORTANT for your choice C:
+  // We do NOT accept "7:04" without AM/PM here.
+  return null;
+}
+
+function buildPublishDate(pubDateRaw: unknown, pubTimeRaw?: unknown): Date {
+  // Expect pubDate as YYYY-MM-DD (string) or Date
+  let y: number, mo: number, d: number;
+
+  if (pubDateRaw instanceof Date) {
+    y = pubDateRaw.getFullYear();
+    mo = pubDateRaw.getMonth() + 1;
+    d = pubDateRaw.getDate();
+  } else {
+    const s = String(pubDateRaw ?? "").trim();
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) {
+      const dt = new Date(s);
+      return isNaN(dt.getTime()) ? new Date() : dt;
     }
-    return input;
+    y = Number(m[1]);
+    mo = Number(m[2]);
+    d = Number(m[3]);
   }
 
-  const s = String(input).trim();
+  // Default to noon (safe, not 00:00:00)
+  let hour = 12;
+  let minute = 0;
 
-  // If it's exactly YYYY-MM-DD, force local noon
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-    const [y, m, d] = s.split("-").map(Number);
-    return new Date(y, m - 1, d, 12, 0, 0, 0);
+  if (pubTimeRaw != null) {
+    const parsed = parseTimeString(String(pubTimeRaw));
+    if (parsed) {
+      hour = parsed.h;
+      minute = parsed.m;
+    }
   }
 
-  // Otherwise try parsing normally (ISO strings with time, etc.)
-  const dt = new Date(s);
-  if (isNaN(dt.getTime())) return new Date();
-
-  // If parsing results in midnight, also normalize to noon
-  if (
-    dt.getHours() === 0 &&
-    dt.getMinutes() === 0 &&
-    dt.getSeconds() === 0 &&
-    dt.getMilliseconds() === 0
-  ) {
-    return new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12, 0, 0, 0);
-  }
-
-  return dt;
+  return new Date(y, mo - 1, d, hour, minute, 0, 0);
 }
 
 const postsCollection = defineCollection({
   type: "content",
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string(),
 
-    // Accept string or Date and normalize to Date (local noon if date-only)
-    pubDate: z
-      .union([z.string(), z.date()])
-      .transform((val) => normalizeDate(val)),
+      // CHANGED: accept date-only string too
+      pubDate: z.union([z.string(), z.date()]),
 
-    // Optional, same normalization
-    updatedDate: z
-      .union([z.string(), z.date()])
-      .optional()
-      .transform((val) => (val == null ? undefined : normalizeDate(val))),
+      // ADDED: optional human time
+      pubTime: z.string().optional(),
 
-    tags: z.array(z.string()).optional(),
-    coverImage: z.string().optional(),
-    seriesNumber: z.number().optional(),
-    seriesTotal: z.number().optional(),
-  }),
+      updatedDate: z.coerce.date().optional(),
+      tags: z.array(z.string()).optional(),
+      coverImage: z.string().optional(),
+      seriesNumber: z.number().optional(),
+      seriesTotal: z.number().optional(),
+    })
+    .transform((data) => ({
+      ...data,
+      pubDate: buildPublishDate(data.pubDate, data.pubTime),
+    })),
 });
 
 export const collections = {
