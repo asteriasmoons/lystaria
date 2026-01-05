@@ -337,6 +337,14 @@ a:hover {
   padding: 0 2rem;
 }
 
+/* Use this class on any long-text blocks (intros, descriptions, blog headers) */
+.prose {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 /* =========================================================
    POST CARDS SYSTEM (Global)
    Goal: Blog cards are the universal standard everywhere
