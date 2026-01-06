@@ -6,6 +6,8 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Comments from "../../components/Comments.astro";
 
+export const prerender = true;
+
 // Generate a page for each blog post
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
