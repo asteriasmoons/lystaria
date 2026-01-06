@@ -93,7 +93,21 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     <script
       defer
       src="https://cloud.umami.is/script.js"
-      data-website-id="0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6"></script>
+      data-website-id="0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6"
+    ></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/firebase-messaging-sw.js")
+          .then((registration) => {
+            console.log("Service Worker registered:", registration);
+          })
+          .catch((error) => {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+    </script>
   </head>
   <body>
     <header class="site-header">
