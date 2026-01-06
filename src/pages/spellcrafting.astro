@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 // Get only posts tagged with "spellcrafting-series"
 const allPosts = await getCollection("posts");
 const spellcraftingPosts = allPosts
-  .filter((post) => post.data.tags?.includes("spellcrafting-series"))
+  .filter((post) => post.data.series === "spellcrafting")
   .sort((a, b) => a.data.seriesNumber - b.data.seriesNumber); // Sort by series number
 ---
 
