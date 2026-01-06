@@ -609,118 +609,255 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
   </script>
 
   <script>
+    // @ts-nocheck 
     import { initializeApp } from "firebase/app";
     import { getDatabase, ref, set } from "firebase/database";
     import { getMessaging, getToken } from "firebase/messaging";
 
-    const actionBtn = document.getElementById(
-      "enable-notifications-btn"
-    ) as HTMLButtonElement;
-    const description = document.querySelector(
-      ".notification-description"
-    ) as HTMLElement;
+    // Run AFTER the DOM exists so querySelector doesn't return null.
+    window.addEventListener("DOMContentLoaded", () => {
+      const actionBtn = document.getElementById(
+        "enable-notifications-btn"
+      ) as HTMLButtonElement | null;
 
-    // Initialize Firebase directly here for messaging
-    const firebaseConfig = {
-      apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
-      authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
-      databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
-    };
+      const description = document.querySelector(
+        ".notification-description"
+      ) as HTMLElement | null;
 
-    let app;
-    try {
-      app = initializeApp(firebaseConfig, "notifications-app");
-    } catch {
-      app = initializeApp(firebaseConfig);
-    }
+      if (!actionBtn || !description) return;
 
-    const db = getDatabase(app);
+      // ---------- Helpers ----------
+      const hasNotificationAPI = () =>
+        typeof window !== "undefined" && "Notification" in window;
 
-    const isSubscribed =
-      localStorage.getItem("notificationsEnabled") === "true";
+      const isStandalone = () =>
+        window.matchMedia?.("(display-mode: standalone)")?.matches ||
+        // iOS legacy standalone flag
+        // @ts-ignore
+        window.navigator.standalone === true;
 
-    if (isSubscribed && actionBtn && description) {
-      actionBtn.textContent = "Notifications Enabled";
-      actionBtn.classList.add("enabled");
-      actionBtn.disabled = true;
-      description.textContent =
-        "You'll be notified when new posts are published";
-    }
+      const setUI = (opts: {
+        buttonText: string;
+        disabled?: boolean;
+        enabledClass?: boolean;
+        descriptionText?: string;
+      }) => {
+        actionBtn.textContent = opts.buttonText;
+        actionBtn.disabled = Boolean(opts.disabled);
 
-    actionBtn?.addEventListener("click", async () => {
-      if (isSubscribed) return;
+        if (opts.enabledClass) actionBtn.classList.add("enabled");
+        else actionBtn.classList.remove("enabled");
 
-      actionBtn.disabled = true;
-      actionBtn.textContent = "Requesting...";
+        if (typeof opts.descriptionText === "string") {
+          description.textContent = opts.descriptionText;
+        }
+      };
 
+      const safePermission = (): NotificationPermission | "unsupported" => {
+        if (!hasNotificationAPI()) return "unsupported";
+        return Notification.permission;
+      };
+
+      // ---------- Firebase config ----------
+      const firebaseConfig = {
+        apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+        authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+        storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+        databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
+      };
+
+      let app;
       try {
-        // Check if service worker is registered
-        if (!("serviceWorker" in navigator)) {
-          throw new Error("Service Worker not supported");
+        app = initializeApp(firebaseConfig, "notifications-app");
+      } catch {
+        app = initializeApp(firebaseConfig);
+      }
+
+      const db = getDatabase(app);
+
+      // ---------- Initial UI state (do NOT trust localStorage alone) ----------
+      const localFlag = localStorage.getItem("notificationsEnabled") === "true";
+      const permissionNow = safePermission();
+
+      // If localStorage says enabled but permission isn't granted, unstick it.
+      if (localFlag && permissionNow !== "granted") {
+        localStorage.removeItem("notificationsEnabled");
+      }
+
+      // Refresh after potential cleanup
+      const isSubscribed =
+        localStorage.getItem("notificationsEnabled") === "true";
+      const permission = safePermission();
+
+      if (permission === "unsupported") {
+        setUI({
+          buttonText: "Not Supported",
+          disabled: true,
+          enabledClass: false,
+          descriptionText:
+            "Notifications aren’t available in this browser context on iOS. Add to Home Screen and open from the app icon.",
+        });
+      } else if (permission === "denied") {
+        setUI({
+          buttonText: "Notifications Blocked",
+          disabled: false,
+          enabledClass: false,
+          descriptionText:
+            "Notifications are blocked for this web app. To reset: enable in iOS Settings → Notifications, or delete the Home Screen icon and add it again.",
+        });
+      } else if (isSubscribed && permission === "granted") {
+        setUI({
+          buttonText: "Notifications Enabled",
+          disabled: true,
+          enabledClass: true,
+          descriptionText: "You'll be notified when new posts are published",
+        });
+      } else {
+        // permission === "default" OR subscribed=false
+        setUI({
+          buttonText: "Enable Notifications",
+          disabled: false,
+          enabledClass: false,
+          descriptionText: "Turn on notifications for new posts.",
+        });
+      }
+
+      // ---------- Click handler ----------
+      actionBtn.addEventListener("click", async () => {
+        // Re-check each click (don’t rely on initial vars)
+        const permissionOnClick = safePermission();
+        const subscribedOnClick =
+          localStorage.getItem("notificationsEnabled") === "true";
+
+        if (subscribedOnClick && permissionOnClick === "granted") return;
+
+        // iOS-first rule: require installed PWA context
+        if (!isStandalone()) {
+          setUI({
+            buttonText: "Install Required",
+            disabled: false,
+            enabledClass: false,
+            descriptionText:
+              "On iPhone/iPad, you must Add to Home Screen and open from the Home Screen icon before enabling notifications.",
+          });
+          return;
         }
 
-        // Wait for service worker to be ready
-        const registration = await navigator.serviceWorker.ready;
-        console.log("Service worker ready:", registration);
+        // Must exist before calling Notification.requestPermission()
+        if (!hasNotificationAPI()) {
+          setUI({
+            buttonText: "Not Supported",
+            disabled: false,
+            enabledClass: false,
+            descriptionText:
+              "Notifications aren’t available in this browser context. Please use the installed Home Screen app.",
+          });
+          return;
+        }
 
-        // Initialize messaging with the registration
-        const messaging = getMessaging(app);
-        console.log("Messaging initialized");
+        // If already denied, browsers won't re-prompt
+        if (Notification.permission === "denied") {
+          setUI({
+            buttonText: "Notifications Blocked",
+            disabled: false,
+            enabledClass: false,
+            descriptionText:
+              "iOS won’t re-ask once blocked. Enable in iOS Settings → Notifications, or delete the Home Screen icon and add it again.",
+          });
+          return;
+        }
 
-        // Request permission
-        const permission = await Notification.requestPermission();
-        console.log("Permission:", permission);
+        setUI({
+          buttonText: "Requesting...",
+          disabled: true,
+          enabledClass: false,
+          descriptionText: "Requesting permission…",
+        });
 
-        if (permission === "granted") {
+        try {
+          // Service Worker required
+          if (!("serviceWorker" in navigator)) {
+            throw new Error("Service Worker not supported");
+          }
+
+          // Register the FCM service worker explicitly (don’t rely on .ready)
+          const registration = await navigator.serviceWorker.register(
+            "/firebase-messaging-sw.js"
+          );
+
+          // Some browsers need it active/ready
+          await navigator.serviceWorker.ready;
+
+          const messaging = getMessaging(app);
+
+          // Request permission (must be user-initiated — this click is good)
+          const permission = await Notification.requestPermission();
+
+          if (permission !== "granted") {
+            setUI({
+              buttonText:
+                permission === "denied"
+                  ? "Permission Blocked"
+                  : "Permission Not Granted",
+              disabled: false,
+              enabledClass: false,
+              descriptionText:
+                permission === "denied"
+                  ? "Notifications are blocked. Enable them in iOS Settings → Notifications, or delete/re-add the Home Screen app."
+                  : "Permission wasn’t granted. You can try again anytime.",
+            });
+            return;
+          }
+
           const token = await getToken(messaging, {
             vapidKey: import.meta.env.PUBLIC_FIREBASE_VAPID_KEY,
             serviceWorkerRegistration: registration,
           });
-          console.log("Token:", token);
 
-          if (token) {
-            const tokenRef = ref(
-              db,
-              `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
-            );
+          if (!token) throw new Error("No token received");
 
-            await set(tokenRef, {
-              token: token,
-              subscribedAt: Date.now(),
-              device: "iOS",
-            });
+          const tokenRef = ref(
+            db,
+            `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
+          );
 
-            localStorage.setItem("notificationsEnabled", "true");
-            actionBtn.textContent = "Notifications Enabled";
-            actionBtn.classList.add("enabled");
-            description.textContent =
-              "You'll be notified when new posts are published";
+          await set(tokenRef, {
+            token,
+            subscribedAt: Date.now(),
+            device: "iOS",
+          });
 
-            setTimeout(() => {
-              document
-                .getElementById("notificationPopup")
-                ?.classList.remove("active");
-            }, 2000);
-          } else {
-            throw new Error("No token received");
-          }
-        } else {
-          actionBtn.textContent = "Permission Denied";
-          actionBtn.disabled = false;
-          description.textContent = "You denied notifications";
+          localStorage.setItem("notificationsEnabled", "true");
+
+          setUI({
+            buttonText: "Notifications Enabled",
+            disabled: true,
+            enabledClass: true,
+            descriptionText: "You'll be notified when new posts are published",
+          });
+
+          setTimeout(() => {
+            document
+              .getElementById("notificationPopup")
+              ?.classList.remove("active");
+          }, 2000);
+        } catch (error) {
+          console.error("Full error:", error);
+
+          setUI({
+            buttonText: "Error",
+            disabled: false,
+            enabledClass: false,
+            descriptionText:
+              error instanceof Error
+                ? error.message
+                : "Something went wrong enabling notifications.",
+          });
         }
-      } catch (error) {
-        console.error("Full error:", error);
-        actionBtn.textContent = "Error";
-        actionBtn.disabled = false;
-        if (description && error instanceof Error) {
-          description.textContent = error.message;
-        }
-      }
+      });
     });
   </script>
 
