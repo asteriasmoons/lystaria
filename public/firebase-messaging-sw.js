@@ -7,12 +7,12 @@ importScripts(
 
 // Replace with YOUR actual Firebase values (can't use env vars in service workers)
 firebase.initializeApp({
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyDkAO8lpkJ1husFl67OAs8zFpHUqmhfDQw",
+  authDomain: "lystaria-chat.firebaseapp.com",
+  projectId: "lystaria-chat",
+  storageBucket: "ystaria-chat.firebasestorage.app",
+  messagingSenderId: "157751563622",
+  appId: "1:157751563622:web:6034f54ec665d3129a64a7",
 });
 
 const messaging = firebase.messaging();
