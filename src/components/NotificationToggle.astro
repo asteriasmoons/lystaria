@@ -2,13 +2,109 @@
 // No props
 ---
 
-<button id="enable-notifications" class="notify-btn">
-  <img
-    src="/icons/bell.svg"
-    alt="Enable notifications"
-    class="notify-icon-img"
-  />
-</button>
+<div class="notification-wrapper">
+  <button
+    id="notification-trigger"
+    class="notify-btn"
+    aria-label="Notifications"
+  >
+    <img src="/icons/bell.svg" alt="" class="notify-icon-img" />
+  </button>
+
+  <div id="notification-popup" class="notification-popup">
+    <h3>Notifications</h3>
+    <p id="notification-description" class="notification-description">
+      Get notified when new posts are published
+    </p>
+    <button id="enable-notifications" class="notification-action-btn">
+      Turn On Notifications
+    </button>
+  </div>
+</div>
+
+<style>
+  .notification-wrapper {
+    position: relative;
+  }
+
+  .notify-btn {
+    /* Use same styling as your nav toggle */
+  }
+
+  .notification-popup {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: #1a1a1a;
+    border: 1px solid rgba(126, 126, 255, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    min-width: 280px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    z-index: 1000;
+  }
+
+  .notification-popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .notification-popup h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.125rem;
+    color: #fff;
+    font-family: "Berkshire Swash", cursive;
+  }
+
+  .notification-description {
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  .notification-action-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7e7eff 0%, #5ac8fa 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      transform 0.2s,
+      opacity 0.2s;
+  }
+
+  .notification-action-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .notification-action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .notification-action-btn.enabled {
+    background: #2d2d2d;
+    color: #5ac8fa;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .notification-popup {
+      right: -1rem;
+      min-width: 260px;
+    }
+  }
+</style>
 
 <script>
   import { requestNotificationPermission } from "../lib/firebase-messaging";
@@ -28,24 +124,46 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  const button = document.getElementById(
+  const trigger = document.getElementById(
+    "notification-trigger"
+  ) as HTMLButtonElement;
+  const popup = document.getElementById("notification-popup") as HTMLElement;
+  const actionBtn = document.getElementById(
     "enable-notifications"
   ) as HTMLButtonElement;
+  const description = document.getElementById(
+    "notification-description"
+  ) as HTMLElement;
 
   // Check if already subscribed
   const isSubscribed = localStorage.getItem("notificationsEnabled") === "true";
 
   if (isSubscribed) {
-    button.classList.add("enabled");
+    actionBtn.textContent = "Notifications Enabled";
+    actionBtn.classList.add("enabled");
+    actionBtn.disabled = true;
+    description.textContent = "You'll be notified when new posts are published";
   }
 
-  button.addEventListener("click", async () => {
-    if (isSubscribed) {
-      // Already enabled - do nothing (or add disable logic later)
-      return;
-    }
+  // Toggle popup
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.classList.toggle("show");
+  });
 
-    button.disabled = true;
+  // Close popup when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!popup.contains(e.target as Node) && e.target !== trigger) {
+      popup.classList.remove("show");
+    }
+  });
+
+  // Enable notifications
+  actionBtn.addEventListener("click", async () => {
+    if (isSubscribed) return;
+
+    actionBtn.disabled = true;
+    actionBtn.textContent = "Requesting...";
 
     const token = await requestNotificationPermission();
 
@@ -63,11 +181,21 @@
       });
 
       localStorage.setItem("notificationsEnabled", "true");
-      button.classList.add("enabled");
-      button.disabled = false;
+      actionBtn.textContent = "Notifications Enabled";
+      actionBtn.classList.add("enabled");
+      description.textContent =
+        "You'll be notified when new posts are published";
+
+      // Close popup after 2 seconds
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 2000);
     } else {
       // Permission denied
-      button.disabled = false;
+      actionBtn.textContent = "Permission Denied";
+      actionBtn.disabled = false;
+      description.textContent =
+        "Please enable notifications in your browser settings";
     }
   });
 </script>

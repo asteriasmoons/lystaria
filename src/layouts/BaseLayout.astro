@@ -148,331 +148,547 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
           </div>
         </nav>
       </div>
+
+      <!-- Notification Popup (matches nav-links style) -->
+      <div class="notification-popup" id="notificationPopup">
+        <h3 class="notification-title">Notifications</h3>
+        <p class="notification-description">
+          Get notified when new posts are published
+        </p>
+        <button id="enable-notifications-btn" class="notification-action-btn">
+          Turn On Notifications
+        </button>
+      </div>
     </header>
+  </body>
 
-    <main>
-      <div class="page">
-        <slot />
+  <main>
+    <div class="page">
+      <slot />
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Lystaria · Crafted with moonlight and code</p>
+      <div class="footer-links">
+        <a href="/rss.xml" target="_blank" rel="noopener" class="rss-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"
+            ></path>
+          </svg>
+          RSS Feed
+        </a>
       </div>
-    </main>
+    </div>
+  </footer>
+  <style>
+    /* Navigation + Header Styles */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
 
-    <footer class="site-footer">
-      <div class="container">
-        <p>© 2025 Lystaria · Crafted with moonlight and code</p>
-        <div class="footer-links">
-          <a href="/rss.xml" target="_blank" rel="noopener" class="rss-link">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"
-              ></path>
-            </svg>
-            RSS Feed
-          </a>
-        </div>
-      </div>
-    </footer>
-    <style>
-      /* Navigation + Header Styles */
-      .nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
+    .nav-actions {
+      display: flex;
+      align-items: right;
+      gap: 0.5rem; /* adjust spacing - try 0.25rem or 0.75rem */
+    }
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 10001;
+    }
+
+    .menu-icon {
+      display: block;
+    }
+
+    .menu-icon-img {
+      width: 24px;
+      height: 24px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-toggle:hover .menu-icon-img {
+      transform: rotate(90deg);
+    }
+
+    .notify-btn {
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 10001;
+    }
+
+    .notify-icon-img {
+      width: 24px;
+      height: 24px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .notify-btn:hover .notify-icon-img {
+      transform: rotate(90deg);
+    }
+
+    /* Notification Popup (matches nav-links exactly) */
+    .notification-popup {
+      position: fixed;
+      top: 4rem;
+      right: 2rem;
+      margin-top: 1rem;
+      background-color: rgba(26, 26, 46, 0.58);
+      background-image: var(--bg-glow);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 280px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    .notification-popup.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .notification-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-family: "Berkshire Swash", cursive;
+      background-image: var(--gradient-heading);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .notification-description {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    .notification-action-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #7e7eff 0%, #5ac8fa 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.25s ease;
+      font-family: inherit;
+    }
+
+    .notification-action-btn:hover {
+      opacity: 0.85;
+    }
+
+    .notification-action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .notification-action-btn.enabled {
+      background: rgba(90, 200, 250, 0.2);
+      color: #5ac8fa;
+    }
+
+    @media (max-width: 920px) {
+      .notification-popup {
+        top: 3.75rem;
+        right: 1rem;
+        left: 1rem;
+        min-width: unset;
+        width: auto;
+        max-width: 480px;
+        background-attachment: scroll;
       }
+    }
 
-      .nav-actions {
-        display: flex;
-        align-items: right;
-        gap: 0.5rem; /* adjust spacing - try 0.25rem or 0.75rem */
+    .nav-links {
+      position: fixed;
+      top: 4rem;
+      right: 2rem;
+      margin-top: 1rem;
+      background-color: rgba(26, 26, 46, 0.58);
+      background-image: var(--bg-glow);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-blend-mode: overlay;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    /* Custom scrollbar for nav dropdown */
+    .nav-links::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .nav-links::-webkit-scrollbar-track {
+      background: rgba(10, 10, 15, 0.5);
+      border-radius: 4px;
+    }
+
+    .nav-links::-webkit-scrollbar-thumb {
+      background: rgba(126, 126, 255, 0.5);
+      border-radius: 4px;
+    }
+
+    .nav-links::-webkit-scrollbar-thumb:hover {
+      background: rgba(126, 126, 255, 0.7);
+    }
+
+    .nav-links.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-links a {
+      font-size: 1.2rem;
+      letter-spacing: 0.02em;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background-image: var(--gradient-heading);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      transition: opacity 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.85;
+    }
+
+    /* Main content area */
+    main {
+      min-height: calc(100vh - 200px);
+      padding: 2.25rem 0;
+    }
+
+    @media (max-width: 920px) {
+      main {
+        padding: 1.75rem 0;
       }
+    }
 
-      .menu-toggle {
-        background: none;
-        border: none;
-        color: var(--color-accent);
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-        transition: color 0.3s ease;
-        position: relative;
-        z-index: 10001;
-      }
+    /* Universal page wrapper (matches the Discord page feel) */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
 
-      .menu-icon {
-        display: block;
-      }
+    /* Footer Styles */
+    .site-footer {
+      border-top: 1px solid var(--color-border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
 
-      .menu-icon-img {
-        width: 24px;
-        height: 24px;
-        display: block;
-        transition: transform 0.3s ease;
-      }
+    .footer-links {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
 
-      .menu-toggle:hover .menu-icon-img {
-        transform: rotate(90deg);
-      }
+    .rss-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-accent);
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
 
-      .notify-btn {
-        background: none;
-        border: none;
-        color: var(--color-accent);
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-        transition: color 0.3s ease;
-        position: relative;
-        z-index: 10001;
-      }
+    .rss-link:hover {
+      color: var(--color-accent-bright);
+    }
 
-      .notify-icon-img {
-        width: 24px;
-        height: 24px;
-        display: block;
-        transition: transform 0.3s ease;
-      }
+    .rss-link svg {
+      width: 16px;
+      height: 16px;
+    }
 
-      .notify-btn:hover .notify-icon-img {
-        transform: rotate(90deg);
-      }
+    /* === Global Toast === */
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
 
+      background: rgba(10, 10, 15, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      line-height: 1.35;
+
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+
+      transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
+      z-index: 20000;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 920px) {
       .nav-links {
-        position: fixed;
-        top: 4rem;
-        right: 2rem;
-        margin-top: 1rem;
+        top: 3.75rem; /* slightly tighter than 4rem */
+        right: 1rem;
+        left: 1rem; /* makes it responsive */
+        min-width: unset;
+        width: auto;
+        max-width: 480px;
+
+        max-height: min(60vh, 420px);
+        overflow-y: auto;
+
+        /* keep your perfected paint */
         background-color: rgba(26, 26, 46, 0.58);
         background-image: var(--bg-glow);
         background-repeat: no-repeat;
-        background-attachment: fixed;
+        background-attachment: scroll; /* match the mobile background rule */
         background-blend-mode: overlay;
-        border: 1px solid var(--color-border);
-        border-radius: 12px;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        min-width: 200px;
-        max-height: 400px;
-        overflow-y: auto;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-        z-index: 10000;
+
         -webkit-backdrop-filter: blur(14px);
         backdrop-filter: blur(14px);
       }
+    }
+  </style>
 
-      /* Custom scrollbar for nav dropdown */
-      .nav-links::-webkit-scrollbar {
-        width: 8px;
+  <script>
+    // Menu toggle functionality
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle?.addEventListener("click", () => {
+      navLinks?.classList.toggle("active");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        !menuToggle?.contains(e.target as Node) &&
+        !navLinks?.contains(e.target as Node)
+      ) {
+        navLinks?.classList.remove("active");
       }
+    });
 
-      .nav-links::-webkit-scrollbar-track {
-        background: rgba(10, 10, 15, 0.5);
-        border-radius: 4px;
-      }
-
-      .nav-links::-webkit-scrollbar-thumb {
-        background: rgba(126, 126, 255, 0.5);
-        border-radius: 4px;
-      }
-
-      .nav-links::-webkit-scrollbar-thumb:hover {
-        background: rgba(126, 126, 255, 0.7);
-      }
-
-      .nav-links.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-
-      .nav-links a {
-        font-size: 1.2rem;
-        letter-spacing: 0.02em;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        background-image: var(--gradient-heading);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-        transition: opacity 0.25s ease;
-      }
-
-      .nav-links a:hover {
-        opacity: 0.85;
-      }
-
-      /* Main content area */
-      main {
-        min-height: calc(100vh - 200px);
-        padding: 2.25rem 0;
-      }
-
-      @media (max-width: 920px) {
-        main {
-          padding: 1.75rem 0;
-        }
-      }
-
-      /* Universal page wrapper (matches the Discord page feel) */
-      .page {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem 1.5rem;
-      }
-
-      /* Footer Styles */
-      .site-footer {
-        border-top: 1px solid var(--color-border);
-        padding: 2rem 0;
-        text-align: center;
-        color: var(--color-text-muted);
-        font-size: 0.9rem;
-      }
-
-      .footer-links {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-      }
-
-      .rss-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--color-accent);
-        font-size: 0.9rem;
-        transition: color 0.3s ease;
-      }
-
-      .rss-link:hover {
-        color: var(--color-accent-bright);
-      }
-
-      .rss-link svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      /* === Global Toast === */
-      #toast {
-        position: fixed;
-        left: 50%;
-        bottom: 24px;
-        transform: translateX(-50%) translateY(20px);
-        opacity: 0;
-        pointer-events: none;
-
-        background: rgba(10, 10, 15, 0.78);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 0.95rem;
-        line-height: 1.35;
-
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-        -webkit-backdrop-filter: blur(14px);
-        backdrop-filter: blur(14px);
-
-        transition:
-          opacity 0.15s ease,
-          transform 0.15s ease;
-        z-index: 20000;
-      }
-
-      #toast.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      @media (max-width: 920px) {
-        .nav-links {
-          top: 3.75rem; /* slightly tighter than 4rem */
-          right: 1rem;
-          left: 1rem; /* makes it responsive */
-          min-width: unset;
-          width: auto;
-          max-width: 480px;
-
-          max-height: min(60vh, 420px);
-          overflow-y: auto;
-
-          /* keep your perfected paint */
-          background-color: rgba(26, 26, 46, 0.58);
-          background-image: var(--bg-glow);
-          background-repeat: no-repeat;
-          background-attachment: scroll; /* match the mobile background rule */
-          background-blend-mode: overlay;
-
-          -webkit-backdrop-filter: blur(14px);
-          backdrop-filter: blur(14px);
-        }
-      }
-    </style>
-
-    <script>
-      // Menu toggle functionality
-      const menuToggle = document.getElementById("menuToggle");
-      const navLinks = document.getElementById("navLinks");
-
-      menuToggle?.addEventListener("click", () => {
-        navLinks?.classList.toggle("active");
+    // Close menu when a link is clicked
+    navLinks?.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
       });
+    });
 
-      // Close menu when clicking outside
-      document.addEventListener("click", (e) => {
-        if (
-          !menuToggle?.contains(e.target as Node) &&
-          !navLinks?.contains(e.target as Node)
-        ) {
-          navLinks?.classList.remove("active");
-        }
-      });
+    // Notification toggle functionality
+    const notifyBtn = document.getElementById("enable-notifications");
+    const notificationPopup = document.getElementById("notificationPopup");
 
-      // Close menu when a link is clicked
-      navLinks?.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          navLinks.classList.remove("active");
+    notifyBtn?.addEventListener("click", () => {
+      notificationPopup?.classList.toggle("active");
+      // Close nav menu if open
+      navLinks?.classList.remove("active");
+    });
+
+    // Close notification popup when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        !notifyBtn?.contains(e.target as Node) &&
+        !notificationPopup?.contains(e.target as Node)
+      ) {
+        notificationPopup?.classList.remove("active");
+      }
+    });
+  </script>
+
+  <script is:inline>
+    document.addEventListener("DOMContentLoaded", function () {
+      const logo = document.getElementById("siteLogo");
+      if (logo) {
+        logo.addEventListener("dblclick", function (e) {
+          e.preventDefault();
+          window.location.href = "/admin";
         });
-      });
-    </script>
+      }
+    });
+  </script>
 
-    <script is:inline>
-      document.addEventListener("DOMContentLoaded", function () {
-        const logo = document.getElementById("siteLogo");
-        if (logo) {
-          logo.addEventListener("dblclick", function (e) {
-            e.preventDefault();
-            window.location.href = "/admin";
+  <script is:inline>
+    window.showToast = function (message, ms = 1800) {
+      const el = document.getElementById("toast");
+      if (!el) return;
+
+      el.textContent = String(message ?? "");
+      el.classList.add("show");
+
+      clearTimeout(el._toastTimer);
+      el._toastTimer = setTimeout(() => {
+        el.classList.remove("show");
+      }, ms);
+    };
+  </script>
+
+  <div id="toast" aria-live="polite"></div>
+
+  <script>
+    import { initializeApp } from "firebase/app";
+    import { getDatabase, ref, set } from "firebase/database";
+    import { getMessaging, getToken } from "firebase/messaging";
+
+    const firebaseConfig = {
+      apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+      authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+      databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const messaging = getMessaging(app);
+
+    const actionBtn = document.getElementById(
+      "enable-notifications-btn"
+    ) as HTMLButtonElement;
+    const description = document.querySelector(
+      ".notification-description"
+    ) as HTMLElement;
+
+    // Check if already subscribed
+    const isSubscribed =
+      localStorage.getItem("notificationsEnabled") === "true";
+
+    if (isSubscribed) {
+      actionBtn.textContent = "Notifications Enabled";
+      actionBtn.classList.add("enabled");
+      actionBtn.disabled = true;
+      description.textContent =
+        "You'll be notified when new posts are published";
+    }
+
+    // Enable notifications
+    actionBtn?.addEventListener("click", async () => {
+      if (isSubscribed) return;
+
+      actionBtn.disabled = true;
+      actionBtn.textContent = "Requesting...";
+
+      try {
+        const permission = await Notification.requestPermission();
+
+        if (permission === "granted") {
+          const token = await getToken(messaging, {
+            vapidKey: import.meta.env.PUBLIC_FIREBASE_VAPID_KEY,
           });
+
+          if (token) {
+            // Save token to Firebase
+            const tokenRef = ref(
+              db,
+              `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
+            );
+
+            await set(tokenRef, {
+              token: token,
+              subscribedAt: Date.now(),
+              device: "iOS",
+            });
+
+            localStorage.setItem("notificationsEnabled", "true");
+            actionBtn.textContent = "Notifications Enabled";
+            actionBtn.classList.add("enabled");
+            description.textContent =
+              "You'll be notified when new posts are published";
+
+            // Close popup after 2 seconds
+            setTimeout(() => {
+              document
+                .getElementById("notificationPopup")
+                ?.classList.remove("active");
+            }, 2000);
+          }
+        } else {
+          actionBtn.textContent = "Permission Denied";
+          actionBtn.disabled = false;
+          description.textContent =
+            "Enable notifications in your browser settings";
         }
-      });
-    </script>
-
-    <script is:inline>
-      window.showToast = function (message, ms = 1800) {
-        const el = document.getElementById("toast");
-        if (!el) return;
-
-        el.textContent = String(message ?? "");
-        el.classList.add("show");
-
-        clearTimeout(el._toastTimer);
-        el._toastTimer = setTimeout(() => {
-          el.classList.remove("show");
-        }, ms);
-      };
-    </script>
-
-    <div id="toast" aria-live="polite"></div>
-    <InstallPrompt />
+      } catch (error) {
+        console.error("Notification error:", error);
+        actionBtn.textContent = "Error";
+        actionBtn.disabled = false;
+      }
+    });
+  </script>
   </body>
 </html>
