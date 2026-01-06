@@ -1,15 +1,14 @@
 ---
 // @ts-nocheck
-// Zodiac Series Landing Page
+// Zodiac Series Landing Page (section-based spacing)
 import BaseLayout from "../layouts/BaseLayout.astro";
-import GradientDivider from "../components/GradientDivider.astro";
 import { getCollection } from "astro:content";
 
-// Get only posts tagged with "zodiac-series"
 const allPosts = await getCollection("posts");
+
 const zodiacPosts = allPosts
   .filter((post) => post.data.tags?.includes("zodiac-series"))
-  .sort((a, b) => a.data.seriesNumber - b.data.seriesNumber); // Sort by series number
+  .sort((a, b) => (a.data.seriesNumber ?? 9999) - (b.data.seriesNumber ?? 9999));
 ---
 
 <BaseLayout
@@ -20,99 +19,144 @@ const zodiacPosts = allPosts
 >
   <div class="container">
     <header class="series-header">
-      <h1>Zodiac Series</h1>
-      <p class="subtitle">
-        A grounded exploration of the twelve zodiac archetypes
-      </p>
+      <section class="series-section series-hero">
+        <h1>Zodiac Series</h1>
+        <p class="subtitle">A grounded exploration of the twelve zodiac archetypes</p>
+      </section>
 
-      <div class="intro">
-        <p class="desc">
-          The zodiac is more than personality traits or prediction. Each sign is
-          an archetype -- a pattern of energy, emotion, instinct, and expression
-          that shows up in real life. This series explores each zodiac sign in a
-          practical, grounded way, helping you understand how the signs move
-          through relationships, habits, emotional patterns, and personal growth.
-          These entries are built for clarity, self-awareness, and intentional
-          living.
-        </p>
-      </div>
+      <section class="series-section series-intro">
+        <div class="intro-box">
+          <p>
+            The zodiac is more than personality traits or prediction. Each sign is an archetype:
+            a pattern of energy, emotion, instinct, and expression that shows up in real life.
+          </p>
+          <p>
+            This series explores each sign in a practical, grounded way, focusing on themes,
+            emotional patterns, shadow edges, strengths, and the kind of personal magic that pairs
+            naturally with that energy.
+          </p>
+          <p>
+            These posts are built for clarity, self-awareness, and intentional living.
+          </p>
+        </div>
+      </section>
 
-      <div class="subscribe-box">
-        <h3>Subscribe</h3>
-        <p>Get notified when new Zodiac posts are published</p>
+      <section class="series-section series-subscribe">
+        <div class="subscribe-box">
+          <h3>Subscribe</h3>
+          <p>Get notified when new Zodiac posts are published</p>
 
-        <form
-          action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
-          method="post"
-          class="embeddable-buttondown-form"
-        >
-          <label for="bd-email">Enter your email</label>
-          <input type="email" name="email" id="bd-email" />
-          <input type="submit" value="Subscribe" />
-        </form>
-      </div>
+          <form
+            action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
+            method="post"
+            class="embeddable-buttondown-form"
+          >
+            <label for="bd-email">Enter your email</label>
+            <input type="email" name="email" id="bd-email" />
+            <input type="submit" value="Subscribe" />
+          </form>
+        </div>
+      </section>
     </header>
-    
-    <GradientDivider />
 
-    <div class="posts-grid">
+    <section class="series-posts">
       {
-        zodiacPosts.map((post) => (
-          <article class="post-card">
-            <div class="post-body">
-              <span class="series-badge">
-                Part {post.data.seriesNumber} of {post.data.seriesTotal}
-              </span>
+        zodiacPosts.length === 0 ? (
+          <div class="empty-state">
+            <h2>No Zodiac posts yet</h2>
+            <p>
+              This page is ready. As soon as you publish your first entry with the tag
+              <span class="mono">zodiac-series</span>, it will show up here automatically.
+            </p>
+          </div>
+        ) : (
+          <div class="posts-grid">
+            {zodiacPosts.map((post) => (
+              <article class="post-card">
+                <div class="post-body">
+                  <span class="series-badge">
+                    Part {post.data.seriesNumber} of {post.data.seriesTotal}
+                  </span>
 
-              <h2>{post.data.title}</h2>
+                  <h2>{post.data.title}</h2>
 
-              <p class="post-description">{post.data.description}</p>
+                  <p class="post-description">{post.data.description}</p>
 
-              <a href={`/blog/${post.slug}`} class="read-button">
-                Read Post →
-              </a>
-            </div>
-          </article>
-        ))
+                  <a href={`/blog/${post.slug}`} class="read-button">
+                    Read Post →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
       }
-    </div>
+    </section>
   </div>
 
   <style>
+    /* =========================
+       HEADER + SECTION SPACING
+       ========================= */
+
     .series-header {
       text-align: center;
       padding: 3rem 0 4rem;
-      border-bottom: none;
-      /* margin-bottom: 2.8rem; */
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* This is the "proper spacing": sections own the rhythm */
+    .series-section {
+      /* Use padding, not child margins */
+      padding-block: 0;
+    }
+
+    /* Vertical rhythm between sections (no gap, no child margins) */
+    .series-header > .series-section + .series-section {
+      margin-top: 2.5rem;
+    }
+
+    /* Stop default p/h margins from fighting your layout */
+    .series-header :where(h1, h2, h3, p) {
+      margin: 0;
     }
 
     .subtitle {
       font-size: 1rem;
       color: #5ac7fa;
-      margin-bottom: 0.9rem;
     }
 
-    .intro {
+    /* Intro box (your dotted gradient border style) */
+    .intro-box {
       max-width: 700px;
       margin: 0 auto;
-    }
-
-    .desc {
-      max-width: 700px;
-      margin: 3rem auto 0;
       padding: 2rem;
-      border: 2px dotted transparent; /* Set to transparent */
-      border-image: var(--gradient-accent) 1; /* Add this */
-      border-radius: 8px; /* This won't work with border-image unfortunately */
+      border: 2px dotted transparent;
+      border-image: var(--gradient-accent) 1;
       font-size: 0.85rem;
       color: #ffffff;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    /* Now we add paragraph spacing INSIDE the intro box only */
+    .intro-box p + p {
+      margin-top: 1rem;
+    }
+
+    /* =========================
+       POSTS GRID + CARDS
+       ========================= */
+
+    .series-posts {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
     }
 
     .posts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 2rem;
-      padding-bottom: 4rem;
     }
 
     .post-card {
@@ -125,31 +169,28 @@ const zodiacPosts = allPosts
         #00dbff 100%
       );
       position: relative;
-      overflow: hidden; /* clips the overlay to the rounded card */
+      overflow: hidden;
       border-radius: 12px;
-      padding: 0; /* keep no padding on the card */
+      padding: 0;
       display: flex;
       flex-direction: column;
       background-clip: padding-box;
     }
 
-    /* FULL-CARD OVERLAY (fixes the leaks) */
     .post-card::before {
       content: "";
       position: absolute;
-      inset: 0; /* covers the whole card */
+      inset: 0;
       background: rgba(10, 10, 15, 0.45);
       pointer-events: none;
       z-index: 0;
     }
 
-    /* everything inside sits above overlay */
     .post-card > * {
       position: relative;
       z-index: 1;
     }
 
-    /* put your padding on the content pieces, not the card */
     .post-card .series-badge,
     .post-card h2,
     .post-card .post-description,
@@ -165,13 +206,9 @@ const zodiacPosts = allPosts
       margin-bottom: 2rem;
     }
 
-    .post-body::before {
-      border-radius: 0 0 12px 12px;
-      overflow: hidden;
-    }
-
-    .post-card:hover {
-      transform: none;
+    /* Reset default heading/paragraph margins inside cards */
+    .post-card :where(h2, p) {
+      margin: 0;
     }
 
     .series-badge {
@@ -181,7 +218,6 @@ const zodiacPosts = allPosts
       padding: 0.5rem 1rem;
       border-radius: 20px;
       font-size: 0.85rem;
-      margin-bottom: 1rem;
       border: 1px solid rgba(90, 200, 250, 0.2);
       align-self: flex-start;
     }
@@ -189,11 +225,13 @@ const zodiacPosts = allPosts
     .post-card h2 {
       font-size: 1.5rem;
       color: #ffffff;
-      margin-bottom: 1rem;
       background: none;
       -webkit-background-clip: initial;
       background-clip: initial;
       -webkit-text-fill-color: #ffffff;
+      margin-top: 1rem; /* local, controlled */
+      margin-bottom: 1rem; /* local, controlled */
+      line-height: 1.25;
     }
 
     .post-description {
@@ -222,10 +260,13 @@ const zodiacPosts = allPosts
       transform: translateX(4px);
     }
 
-    /* Subscribe box should be styled on ALL screen sizes */
+    /* =========================
+       SUBSCRIBE BOX
+       ========================= */
+
     .subscribe-box {
       max-width: 700px;
-      margin: 3rem auto 0;
+      margin: 0 auto;
       padding: 2.5rem;
       background: linear-gradient(
         135deg,
@@ -237,9 +278,12 @@ const zodiacPosts = allPosts
       text-align: center;
     }
 
+    .subscribe-box :where(h3, p) {
+      margin: 0;
+    }
+
     .subscribe-box h3 {
       font-size: 1.8rem;
-      /* margin-bottom: 0.5rem; */
       background: none !important;
       -webkit-background-clip: initial !important;
       background-clip: initial !important;
@@ -249,11 +293,11 @@ const zodiacPosts = allPosts
 
     .subscribe-box p {
       color: rgba(255, 255, 255, 0.75);
-      /* margin-bottom: 1.25rem; */
+      margin-top: 0.75rem; /* local, controlled */
+      margin-bottom: 1.25rem; /* local, controlled */
       font-size: 1rem;
     }
 
-    /* Target the ACTUAL Buttondown form class */
     .embeddable-buttondown-form {
       display: flex;
       flex-direction: column;
@@ -292,9 +336,7 @@ const zodiacPosts = allPosts
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
     }
 
@@ -307,37 +349,29 @@ const zodiacPosts = allPosts
       transform: translateY(0);
     }
 
-    .embeddable-buttondown-form p {
-      margin: 0.5rem 0 0;
-      font-size: 0.9rem;
-    }
+    /* =========================
+       MOBILE
+       ========================= */
 
-    .embeddable-buttondown-form p a {
-      color: rgba(126, 126, 255, 0.75);
-      text-decoration: none;
-    }
-
-    .embeddable-buttondown-form p a:hover {
-      color: rgba(90, 199, 250, 0.9);
-    }
-
-    /* Mobile Styles */
     @media (max-width: 768px) {
-      .series-header h1 {
-        font-size: 2rem;
-        border-bottom: none;
+      .series-header {
+        padding: 2.5rem 0 3.25rem;
+      }
+
+      .series-header > .series-section + .series-section {
+        margin-top: 2rem;
+      }
+
+      .subscribe-box {
+        padding: 2rem 1.5rem;
+      }
+
+      .subscribe-box h3 {
+        font-size: 1.6rem;
       }
 
       .posts-grid {
         grid-template-columns: 1fr;
-      }
-
-      .subscribe-box {
-         padding: 2rem 1.5rem;
-      }
-
-      .subscribe-box h3 {
-        font-size: 1.4rem;
       }
     }
   </style>
