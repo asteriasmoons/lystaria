@@ -609,9 +609,9 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
   </script>
 
   <script>
-    import { db, messaging } from "../lib/firebase";
-    import { ref, set } from "firebase/database";
-    import { getToken } from "firebase/messaging";
+    import { initializeApp } from "firebase/app";
+    import { getDatabase, ref, set } from "firebase/database";
+    import { getMessaging, getToken } from "firebase/messaging";
 
     const actionBtn = document.getElementById(
       "enable-notifications-btn"
@@ -619,6 +619,26 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     const description = document.querySelector(
       ".notification-description"
     ) as HTMLElement;
+
+    // Initialize Firebase directly here for messaging
+    const firebaseConfig = {
+      apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+      authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+      databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
+    };
+
+    let app;
+    try {
+      app = initializeApp(firebaseConfig, "notifications-app");
+    } catch {
+      app = initializeApp(firebaseConfig);
+    }
+
+    const db = getDatabase(app);
 
     const isSubscribed =
       localStorage.getItem("notificationsEnabled") === "true";
@@ -634,24 +654,33 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     actionBtn?.addEventListener("click", async () => {
       if (isSubscribed) return;
 
-      if (!messaging) {
-        actionBtn.textContent = "Not Supported";
-        actionBtn.disabled = true;
-        if (description)
-          description.textContent = "Notifications not supported";
-        return;
-      }
-
       actionBtn.disabled = true;
       actionBtn.textContent = "Requesting...";
 
       try {
+        // Check if service worker is registered
+        if (!("serviceWorker" in navigator)) {
+          throw new Error("Service Worker not supported");
+        }
+
+        // Wait for service worker to be ready
+        const registration = await navigator.serviceWorker.ready;
+        console.log("Service worker ready:", registration);
+
+        // Initialize messaging with the registration
+        const messaging = getMessaging(app);
+        console.log("Messaging initialized");
+
+        // Request permission
         const permission = await Notification.requestPermission();
+        console.log("Permission:", permission);
 
         if (permission === "granted") {
           const token = await getToken(messaging, {
             vapidKey: import.meta.env.PUBLIC_FIREBASE_VAPID_KEY,
+            serviceWorkerRegistration: registration,
           });
+          console.log("Token:", token);
 
           if (token) {
             const tokenRef = ref(
@@ -682,9 +711,10 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         } else {
           actionBtn.textContent = "Permission Denied";
           actionBtn.disabled = false;
-          description.textContent = "Enable notifications in browser settings";
+          description.textContent = "You denied notifications";
         }
       } catch (error) {
+        console.error("Full error:", error);
         actionBtn.textContent = "Error";
         actionBtn.disabled = false;
         if (description && error instanceof Error) {
@@ -695,5 +725,4 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
   </script>
 
   <div id="toast" aria-live="polite"></div>
-</body>
 </html>

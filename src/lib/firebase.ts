@@ -1,6 +1,5 @@
 import { initializeApp, getApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -20,13 +19,4 @@ try {
 }
 
 export const db = getDatabase(app);
-
-let messagingInstance: any = null;
-try {
-  messagingInstance = getMessaging(app);
-} catch (e) {
-  console.error("Messaging not supported:", e);
-}
-
-export const messaging = messagingInstance;
 export { app };
