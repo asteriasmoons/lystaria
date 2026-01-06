@@ -25,6 +25,13 @@ function initAdmin() {
   });
 }
 
+export const GET: APIRoute = async () => {
+  return new Response(
+    JSON.stringify({ ok: true, route: "/api/push/send.json" }),
+    { status: 200, headers: { "content-type": "application/json" } }
+  );
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     initAdmin();
