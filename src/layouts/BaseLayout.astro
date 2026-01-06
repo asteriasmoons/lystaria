@@ -102,16 +102,22 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         <nav class="nav">
           <a href="/" class="nav-logo" id="siteLogo">✦ Lystaria ✦</a>
 
-          <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-            <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
-          </button>
-          <button
-            id="enable-notifications"
-            class="notify-btn"
-            aria-label="Notify Button"
-          >
-            <img src="/icons/bell.svg" alt="notify" class="notify-icon-img" />
-          </button>
+          <div class="nav-actions">
+            <button
+              class="menu-toggle"
+              id="menuToggle"
+              aria-label="Toggle menu"
+            >
+              <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
+            </button>
+            <button
+              id="enable-notifications"
+              class="notify-btn"
+              aria-label="Notify Button"
+            >
+              <img src="/icons/bell.svg" alt="notify" class="notify-icon-img" />
+            </button>
+          </div>
 
           <div class="nav-links" id="navLinks">
             <a href="/">Home</a>
@@ -172,6 +178,12 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         justify-content: space-between;
         align-items: center;
         position: relative;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: right;
+        gap: 0.5rem; /* adjust spacing - try 0.25rem or 0.75rem */
       }
 
       .menu-toggle {
