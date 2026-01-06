@@ -2,6 +2,7 @@
 // @ts-nocheck
 // Zodiac Series Landing Page
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
 import { getCollection } from "astro:content";
 
 // Get only posts tagged with "zodiac-series"
@@ -51,6 +52,8 @@ const zodiacPosts = allPosts
         </form>
       </div>
     </header>
+    
+    <GradientDivider />
 
     <div class="posts-grid">
       {
@@ -79,8 +82,8 @@ const zodiacPosts = allPosts
     .series-header {
       text-align: center;
       padding: 3rem 0 4rem;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 4rem;
+      border-bottom: none;
+      margin-bottom: 2.8rem;
     }
 
     .subtitle {
