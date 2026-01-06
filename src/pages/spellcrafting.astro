@@ -25,7 +25,7 @@ const spellcraftingPosts = allPosts
       </p>
 
       <div class="intro">
-        <p>
+        <p class="desc">
           This series breaks down the mechanics of spellwork—demystifying the
           "how" and "why" behind crafting intentional magic. Whether you're new
           to the craft or refining your practice, these posts offer a
@@ -93,11 +93,22 @@ const spellcraftingPosts = allPosts
       margin: 0 auto;
     }
 
-    .intro p {
+    /* .intro p {
       font-size: 0.9rem;
       color: var(--color-text-muted);
       line-height: 1.8;
-    }
+    } */
+    
+    .desc {
+      max-width: 700px;
+      margin: 3rem auto 0;
+      padding: 2rem;
+      border: 2px dotted transparent; /* Set to transparent */
+      border-image: var(--gradient-accent) 1; /* Add this */
+      border-radius: 8px; /* This won't work with border-image unfortunately */
+      font-size: 0.85rem;
+      color: #ffffff;
+    } 
 
     .posts-grid {
       display: grid;
