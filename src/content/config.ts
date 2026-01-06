@@ -81,6 +81,7 @@ const postsCollection = defineCollection({
       updatedDate: z.coerce.date().optional(),
       tags: z.array(z.string()).optional(),
       coverImage: z.string().optional(),
+      series: z.enum(["spellcrafting", "zodiac"]).optional(),
       seriesNumber: z.number().optional(),
       seriesTotal: z.number().optional(),
     })
