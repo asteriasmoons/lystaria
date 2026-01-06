@@ -68,7 +68,7 @@ jobs:
           set -e
           TITLE="${{ steps.meta.outputs.title }}"
           SLUG="${{ steps.meta.outputs.slug }}"
-          URL="/posts/${SLUG}"
+          URL="/blog/${SLUG}"
 
           curl -sS -X POST "${{ secrets.PUSH_WEBHOOK_URL }}" \
             -H "content-type: application/json" \
