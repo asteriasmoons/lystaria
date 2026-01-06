@@ -1,7 +1,7 @@
 <div class="gradient-divider"></div><style>
   .gradient-divider {
     height: 2px;
-    margin: 3rem auto;
+    margin: 2rem auto;
     max-width: 500px;
     border-radius: 2px;
     background: linear-gradient(
@@ -26,6 +26,12 @@
     }
     50% {
       background-position: 100% 0%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .divider {
+      margin: 1.5rem auto; /* mobile */
     }
   }
 </style>

@@ -253,7 +253,13 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       /* Main content area */
       main {
         min-height: calc(100vh - 200px);
-        padding: 0;
+        padding: 2.25rem 0;
+      }
+
+      @media (max-width: 768px) {
+        main {
+          padding: 1.75rem 0;
+        }
       }
 
       /* Universal page wrapper (matches the Discord page feel) */
