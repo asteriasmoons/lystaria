@@ -1,0 +1,73 @@
+---
+// No props
+---
+
+<button id="enable-notifications" class="notify-btn">
+  <img
+    src="/icons/bell.svg"
+    alt="Enable notifications"
+    class="notify-icon-img"
+  />
+</button>
+
+<script>
+  import { requestNotificationPermission } from "../lib/firebase-messaging";
+  import { getDatabase, ref, set } from "firebase/database";
+  import { initializeApp } from "firebase/app";
+
+  const firebaseConfig = {
+    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+    databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const button = document.getElementById(
+    "enable-notifications"
+  ) as HTMLButtonElement;
+
+  // Check if already subscribed
+  const isSubscribed = localStorage.getItem("notificationsEnabled") === "true";
+
+  if (isSubscribed) {
+    button.classList.add("enabled");
+  }
+
+  button.addEventListener("click", async () => {
+    if (isSubscribed) {
+      // Already enabled - do nothing (or add disable logic later)
+      return;
+    }
+
+    button.disabled = true;
+
+    const token = await requestNotificationPermission();
+
+    if (token) {
+      // Save token to Firebase
+      const tokenRef = ref(
+        db,
+        `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
+      );
+
+      await set(tokenRef, {
+        token: token,
+        subscribedAt: Date.now(),
+        device: "iOS",
+      });
+
+      localStorage.setItem("notificationsEnabled", "true");
+      button.classList.add("enabled");
+      button.disabled = false;
+    } else {
+      // Permission denied
+      button.disabled = false;
+    }
+  });
+</script>

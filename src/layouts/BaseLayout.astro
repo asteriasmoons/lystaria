@@ -105,6 +105,13 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
           <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
             <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
           </button>
+          <button
+            id="enable-notifications"
+            class="notify-btn"
+            aria-label="Notify Button"
+          >
+            <img src="/icons/bell.svg" alt="notify" class="notify-icon-img" />
+          </button>
 
           <div class="nav-links" id="navLinks">
             <a href="/">Home</a>
@@ -179,10 +186,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         z-index: 10001;
       }
 
-      .menu-toggle:hover {
-        color: var(--color-accent-bright);
-      }
-
       .menu-icon {
         display: block;
       }
@@ -195,6 +198,29 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       }
 
       .menu-toggle:hover .menu-icon-img {
+        transform: rotate(90deg);
+      }
+
+      .notify-btn {
+        background: none;
+        border: none;
+        color: var(--color-accent);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition: color 0.3s ease;
+        position: relative;
+        z-index: 10001;
+      }
+
+      .notify-icon-img {
+        width: 24px;
+        height: 24px;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+
+      .notify-btn:hover .notify-icon-img {
         transform: rotate(90deg);
       }
 

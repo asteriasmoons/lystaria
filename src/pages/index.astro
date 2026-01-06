@@ -3,6 +3,7 @@
 // Homepage
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GradientDivider from "../components/GradientDivider.astro";
+import NotificationToggle from "../components/NotificationToggle.astro";
 import { getCollection } from "astro:content";
 
 // Get all posts, sorted by date (newest first)
@@ -24,6 +25,7 @@ const latestPosts = sortedPosts.slice(0, 2);
   <div class="home">
     <section class="hero">
       <h1>Welcome to Lystaria</h1>
+      <NotificationToggle />
       <p class="intro">
         Where the mystical meets the mundane. A space for exploring the magic
         woven into everyday life--through personal growth, mental wellness, and
