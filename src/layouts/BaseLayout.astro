@@ -2,6 +2,7 @@
 // BaseLayout.astro - The wrapper for all pages
 // The original one
 import "../styles/global.css";
+import InstallPrompt from "../components/InstallPrompt.astro";
 
 const {
   title = "Lystaria",
@@ -53,6 +54,21 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       title="Lystaria RSS Feed"
       href="/rss.xml"
     />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- iOS-specific meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Lystaria" />
+    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+
+    <!-- Theme color for iOS -->
+    <meta name="theme-color" content="#7E7EFF" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -419,5 +435,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     </script>
 
     <div id="toast" aria-live="polite"></div>
+    <InstallPrompt />
   </body>
 </html>
