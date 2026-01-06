@@ -12,7 +12,6 @@ const firebaseConfig = {
   databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-// Initialize Firebase only once
 let app;
 try {
   app = getApp();
@@ -21,5 +20,13 @@ try {
 }
 
 export const db = getDatabase(app);
-export const messaging = getMessaging(app);
+
+let messagingInstance: any = null;
+try {
+  messagingInstance = getMessaging(app);
+} catch (e) {
+  console.error("Messaging not supported:", e);
+}
+
+export const messaging = messagingInstance;
 export { app };
