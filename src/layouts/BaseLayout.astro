@@ -2,7 +2,6 @@
 // BaseLayout.astro - The wrapper for all pages
 // The original one
 import "../styles/global.css";
-import InstallPrompt from "../components/InstallPrompt.astro";
 
 const {
   title = "Lystaria",
@@ -597,25 +596,10 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
   </script>
 
   <div id="toast" aria-live="polite"></div>
-
   <script>
-    import { initializeApp } from "firebase/app";
-    import { getDatabase, ref, set } from "firebase/database";
-    import { getMessaging, getToken } from "firebase/messaging";
-
-    const firebaseConfig = {
-      apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
-      authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
-      databaseURL: import.meta.env.PUBLIC_FIREBASE_DATABASE_URL,
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const messaging = getMessaging(app);
+    import { db, messaging } from "../lib/firebase";
+    import { ref, set } from "firebase/database";
+    import { getToken } from "firebase/messaging";
 
     const actionBtn = document.getElementById(
       "enable-notifications-btn"
@@ -624,7 +608,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       ".notification-description"
     ) as HTMLElement;
 
-    // Check if already subscribed
     const isSubscribed =
       localStorage.getItem("notificationsEnabled") === "true";
 
@@ -636,7 +619,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         "You'll be notified when new posts are published";
     }
 
-    // Enable notifications
     actionBtn?.addEventListener("click", async () => {
       if (isSubscribed) return;
 
@@ -652,7 +634,8 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
           });
 
           if (token) {
-            // Save token to Firebase
+            console.log("Got token:", token);
+
             const tokenRef = ref(
               db,
               `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
@@ -664,13 +647,14 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
               device: "iOS",
             });
 
+            console.log("Token saved successfully");
+
             localStorage.setItem("notificationsEnabled", "true");
             actionBtn.textContent = "Notifications Enabled";
             actionBtn.classList.add("enabled");
             description.textContent =
               "You'll be notified when new posts are published";
 
-            // Close popup after 2 seconds
             setTimeout(() => {
               document
                 .getElementById("notificationPopup")
@@ -685,10 +669,11 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         }
       } catch (error) {
         console.error("Notification error:", error);
-        actionBtn.textContent = "Error";
+        actionBtn.textContent =
+          "Error: " +
+          (error instanceof Error ? error.message : "Unknown error");
         actionBtn.disabled = false;
       }
     });
   </script>
-  </body>
 </html>
