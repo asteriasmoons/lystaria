@@ -1,9 +1,11 @@
 <div class="gradient-divider"></div>
 
-<style>
+<style is:global>
   .gradient-divider {
+    display: block;
+    width: 100%;
     height: 2px;
-    margin: var(--divider-margin, 2rem) auto; /* default roomy */
+    margin: var(--divider-margin, 2rem) auto;
     max-width: 500px;
     border-radius: 2px;
     background: linear-gradient(
@@ -19,21 +21,17 @@
     );
     background-size: 200% 100%;
     animation: shimmer 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.12));
   }
 
   @keyframes shimmer {
-    0%,
-    100% {
-      background-position: 0% 0%;
-    }
-    50% {
-      background-position: 100% 0%;
-    }
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 0%; }
   }
 
   @media (max-width: 768px) {
     .gradient-divider {
-      margin: var(--divider-margin-mobile, 1.75rem) auto; /* default roomy mobile */
+      margin: var(--divider-margin-mobile, 1.75rem) auto;
     }
   }
 </style>
