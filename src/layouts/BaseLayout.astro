@@ -93,8 +93,7 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     <script
       defer
       src="https://cloud.umami.is/script.js"
-      data-website-id="0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6"
-    ></script>
+      data-website-id="0d899bcd-ac0f-4ef8-8ee7-f3988c9baaf6"></script>
 
     <script>
       if ("serviceWorker" in navigator) {
@@ -609,7 +608,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
     };
   </script>
 
-  <div id="toast" aria-live="polite"></div>
   <script>
     import { db, messaging } from "../lib/firebase";
     import { ref, set } from "firebase/database";
@@ -622,72 +620,87 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
       ".notification-description"
     ) as HTMLElement;
 
-    const isSubscribed =
-      localStorage.getItem("notificationsEnabled") === "true";
+    // Check if notifications are supported
+    if (!("Notification" in window)) {
+      if (actionBtn) {
+        actionBtn.textContent = "Not Supported";
+        actionBtn.disabled = true;
+      }
+      if (description) {
+        description.textContent =
+          "Notifications are not supported in this browser";
+      }
+    } else {
+      const isSubscribed =
+        localStorage.getItem("notificationsEnabled") === "true";
 
-    if (isSubscribed) {
-      actionBtn.textContent = "Notifications Enabled";
-      actionBtn.classList.add("enabled");
-      actionBtn.disabled = true;
-      description.textContent =
-        "You'll be notified when new posts are published";
-    }
+      if (isSubscribed && actionBtn && description) {
+        actionBtn.textContent = "Notifications Enabled";
+        actionBtn.classList.add("enabled");
+        actionBtn.disabled = true;
+        description.textContent =
+          "You'll be notified when new posts are published";
+      }
 
-    actionBtn?.addEventListener("click", async () => {
-      if (isSubscribed) return;
+      actionBtn?.addEventListener("click", async () => {
+        if (isSubscribed) return;
 
-      actionBtn.disabled = true;
-      actionBtn.textContent = "Requesting...";
+        actionBtn.disabled = true;
+        actionBtn.textContent = "Requesting...";
 
-      try {
-        const permission = await Notification.requestPermission();
+        try {
+          const permission = await Notification.requestPermission();
 
-        if (permission === "granted") {
-          const token = await getToken(messaging, {
-            vapidKey: import.meta.env.PUBLIC_FIREBASE_VAPID_KEY,
-          });
-
-          if (token) {
-            console.log("Got token:", token);
-
-            const tokenRef = ref(
-              db,
-              `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
-            );
-
-            await set(tokenRef, {
-              token: token,
-              subscribedAt: Date.now(),
-              device: "iOS",
+          if (permission === "granted") {
+            const token = await getToken(messaging, {
+              vapidKey: import.meta.env.PUBLIC_FIREBASE_VAPID_KEY,
             });
 
-            console.log("Token saved successfully");
+            if (token) {
+              console.log("Got token:", token);
 
-            localStorage.setItem("notificationsEnabled", "true");
-            actionBtn.textContent = "Notifications Enabled";
-            actionBtn.classList.add("enabled");
+              const tokenRef = ref(
+                db,
+                `push-tokens/${token.replace(/[.#$[\]]/g, "_")}`
+              );
+
+              await set(tokenRef, {
+                token: token,
+                subscribedAt: Date.now(),
+                device: "iOS",
+              });
+
+              console.log("Token saved successfully");
+
+              localStorage.setItem("notificationsEnabled", "true");
+              actionBtn.textContent = "Notifications Enabled";
+              actionBtn.classList.add("enabled");
+              description.textContent =
+                "You'll be notified when new posts are published";
+
+              setTimeout(() => {
+                document
+                  .getElementById("notificationPopup")
+                  ?.classList.remove("active");
+              }, 2000);
+            }
+          } else {
+            actionBtn.textContent = "Permission Denied";
+            actionBtn.disabled = false;
             description.textContent =
-              "You'll be notified when new posts are published";
-
-            setTimeout(() => {
-              document
-                .getElementById("notificationPopup")
-                ?.classList.remove("active");
-            }, 2000);
+              "Enable notifications in your browser settings";
           }
-        } else {
-          actionBtn.textContent = "Permission Denied";
+        } catch (error) {
+          console.error("Notification error:", error);
+          actionBtn.textContent = "Error";
           actionBtn.disabled = false;
-          description.textContent =
-            "Enable notifications in your browser settings";
+          if (description) {
+            description.textContent = "Could not enable notifications";
+          }
         }
-      } catch (error) {
-        console.error("Notification error:", error);
-        actionBtn.textContent =
-          "Error: " +
-          (error instanceof Error ? error.message : "Unknown error");
-        actionBtn.disabled = false;
-      }
-    });
+      });
+    }
   </script>
+  <div id="toast" aria-live="polite"></div>
+</body>
 </html>
