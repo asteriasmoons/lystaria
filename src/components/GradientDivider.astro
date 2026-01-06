@@ -1,7 +1,9 @@
-<div class="gradient-divider"></div><style>
+<div class="gradient-divider"></div>
+
+<style>
   .gradient-divider {
     height: 2px;
-    margin: 1.5rem auto;
+    margin: var(--divider-margin, 2rem) auto; /* default roomy */
     max-width: 500px;
     border-radius: 2px;
     background: linear-gradient(
@@ -28,9 +30,10 @@
       background-position: 100% 0%;
     }
   }
+
   @media (max-width: 768px) {
     .gradient-divider {
-      margin: 1.25rem auto;
+      margin: var(--divider-margin-mobile, 1.75rem) auto; /* default roomy mobile */
     }
   }
 </style>
