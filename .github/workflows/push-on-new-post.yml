@@ -3,6 +3,8 @@ name: Push notification on new blog post
 on:
   push:
     branches: ["main"]
+    paths:
+      - "src/content/posts/**"
 
 jobs:
   notify:
@@ -14,26 +16,30 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Find changed post file
+      - name: Detect changed post file
         id: changed
         shell: bash
         run: |
           set -e
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-          POST_FILE=$(echo "$CHANGED_FILES" | grep -E '^src/content/posts/.*\.(md|mdx)$' | head -n 1 || true)
-          echo "post_file=$POST_FILE" >> $GITHUB_OUTPUT
+          echo "Changed files:"
+          git diff --name-only HEAD~1 HEAD || true
 
-      - name: Exit if no post changed
-        if: steps.changed.outputs.post_file == ''
-        run: echo "No post file changed. Exiting."
+          FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^src/content/posts/.*\.(md|mdx)$' | head -n 1 || true)
+          echo "Detected post file: $FILE"
+
+          if [ -z "$FILE" ]; then
+            echo "No post change detected (should be rare since paths filter is set)."
+            exit 0
+          fi
+
+          echo "file=$FILE" >> $GITHUB_OUTPUT
 
       - name: Extract title + slug
-        if: steps.changed.outputs.post_file != ''
         id: meta
         shell: bash
         run: |
           set -e
-          FILE="${{ steps.changed.outputs.post_file }}"
+          FILE="${{ steps.changed.outputs.file }}"
 
           TITLE=$(awk '
             BEGIN{FS=":"}
@@ -43,6 +49,7 @@ jobs:
               print $0;
               exit
             }' "$FILE")
+
           if [ -z "$TITLE" ]; then TITLE="New post"; fi
 
           SLUG=$(awk '
@@ -53,24 +60,41 @@ jobs:
               print $0;
               exit
             }' "$FILE")
+
           if [ -z "$SLUG" ]; then
             BASE=$(basename "$FILE")
             SLUG="${BASE%.*}"
           fi
 
+          echo "TITLE=$TITLE"
+          echo "SLUG=$SLUG"
+
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
 
-      - name: Call push webhook
-        if: steps.changed.outputs.post_file != ''
+      - name: Call push webhook (print response)
         shell: bash
         run: |
           set -e
+
           TITLE="${{ steps.meta.outputs.title }}"
           SLUG="${{ steps.meta.outputs.slug }}"
           URL="/blog/${SLUG}"
 
-          curl -sS -X POST "${{ secrets.PUSH_WEBHOOK_URL }}" \
+          echo "Calling webhook:"
+          echo "URL: ${{ secrets.PUSH_WEBHOOK_URL }}"
+          echo "Payload URL: $URL"
+          echo "Title: $TITLE"
+
+          RESP=$(curl -sS -w "\nHTTP_STATUS:%{http_code}\n" -X POST "${{ secrets.PUSH_WEBHOOK_URL }}" \
             -H "content-type: application/json" \
             -H "authorization: Bearer ${{ secrets.PUSH_WEBHOOK_SECRET }}" \
-            -d "{\"title\":\"${TITLE}\",\"message\":\"A new post is live.\",\"url\":\"${URL}\"}"
+            -d "{\"title\":\"${TITLE}\",\"message\":\"A new post is live.\",\"url\":\"${URL}\"}")
+
+          echo "$RESP"
+
+          STATUS=$(echo "$RESP" | sed -n 's/HTTP_STATUS://p')
+          if [ "$STATUS" != "200" ]; then
+            echo "Webhook call failed with status $STATUS"
+            exit 1
+          fi
