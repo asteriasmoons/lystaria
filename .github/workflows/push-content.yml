@@ -1,4 +1,4 @@
-name: Push on new content
+name: Push notifications
 
 on:
   push:
@@ -14,8 +14,53 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
+      - name: Get changed files (robust)
+        id: changes
+        run: |
+          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          echo "Changed files:"
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
+      # -------- SEND PUSH FOR UPDATES.ASTRO (direct, no Node script) --------
+      - name: Send push for updates page (if changed)
+        env:
+          PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
+          PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
+        run: |
+          echo "$CHANGED_FILES" | grep -q "^src/pages/updates\.astro$" || exit 0
+
+          # Extract title + message from PUSH_META block
+          TITLE=$(awk '
+            /PUSH_META/{f=1;next}
+            /PUSH_META_END/{f=0}
+            f && $0 ~ /title:/ { sub(/^.*title:[[:space:]]*/, "", $0); print; exit }
+          ' src/pages/updates.astro)
+
+          MESSAGE=$(awk '
+            /PUSH_META/{f=1;next}
+            /PUSH_META_END/{f=0}
+            f && $0 ~ /message:/ { sub(/^.*message:[[:space:]]*/, "", $0); print; exit }
+          ' src/pages/updates.astro)
+
+          # Fallbacks if not found
+          [ -z "$TITLE" ] && TITLE="New update"
+          [ -z "$MESSAGE" ] && MESSAGE="A new update is live. Tap to read."
+
+          echo "Sending updates push:"
+          echo "TITLE=$TITLE"
+          echo "MESSAGE=$MESSAGE"
+
+          curl -sS -X POST "$PUSH_WEBHOOK_URL" \
+            -H "content-type: application/json" \
+            -H "authorization: Bearer $PUSH_WEBHOOK_SECRET" \
+            --data "{\"title\":\"$TITLE\",\"message\":\"$MESSAGE\",\"url\":\"/updates\"}"
+
+      # -------- SEND PUSH FOR POSTS (Node script) --------
       - name: Use Node 22
         uses: actions/setup-node@v4
         with:
@@ -24,13 +69,7 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Collect changed files (robust)
-        run: |
-          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-      - name: Send push notifications
+      - name: Send push notifications for posts (if changed)
         env:
           PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
           PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
