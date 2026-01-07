@@ -28,7 +28,7 @@ const horoscopes = await getCachedHoroscopes(async () => {
     const timeout = setTimeout(() => controller.abort(), ms);
 
     try {
-      const res = await fetch(url, { ...options, signal: controller.signal });
+   const res = await fetch(url, Object.assign({}, options, { signal: controller.signal }));
       return res;
     } finally {
       clearTimeout(timeout);
