@@ -16,5 +16,8 @@
     "astro": "^5.16.6",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0"
+  },
+    "engines": {
+      "node": "22.x"
+    }
   }
-}
