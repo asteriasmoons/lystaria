@@ -84,6 +84,7 @@ const postsCollection = defineCollection({
       series: z.enum(["spellcrafting", "zodiac"]).optional(),
       seriesNumber: z.number().optional(),
       seriesTotal: z.number().optional(),
+      pushMessage: z.string().optional(),
     })
     .transform((data) => ({
       ...data,
