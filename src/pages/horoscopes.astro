@@ -41,7 +41,7 @@ const horoscopes = await getCachedHoroscopes(async () => {
         `https://api.api-ninjas.com/v1/horoscope?zodiac=${sign.name}`,
         {
           headers: {
-            "X-Api-Key": API_KEY,
+            'X-Api-Key': API_KEY,
           },
         }
       );
