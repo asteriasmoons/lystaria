@@ -26,10 +26,10 @@ function initAdmin() {
 }
 
 export const GET: APIRoute = async () => {
-  return new Response(
-    JSON.stringify({ ok: true, route: "/api/push/send.json" }),
-    { status: 200, headers: { "content-type": "application/json" } }
-  );
+  return new Response(JSON.stringify({ ok: true, route: "/api/push/send.json" }), {
+    status: 200,
+    headers: { "content-type": "application/json" },
+  });
 };
 
 export const POST: APIRoute = async ({ request }) => {
@@ -66,32 +66,16 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Send to all tokens (batch). If you exceed limits later, we can chunk.
+    // ✅ DATA-ONLY payload (prevents the extra auto-notification)
+    // Your service worker will read: payload.data.title / payload.data.message / payload.data.url
     const res = await admin.messaging().sendEachForMulticast({
       tokens,
-      notification: { title, body: message },
-      data: { url },
+      data: {
+        title,
+        message,
+        url,
+      },
     });
-
-    // Optional: prune dead tokens
-    const invalid: string[] = [];
-    res.responses.forEach((r, i) => {
-      if (!r.success) {
-        const code = (r.error as any)?.code || "";
-        if (
-          code.includes("registration-token-not-registered") ||
-          code.includes("invalid-registration-token")
-        ) {
-          invalid.push(tokens[i]);
-        }
-      }
-    });
-
-    if (invalid.length) {
-      // Your token keys are sanitized versions of token strings.
-      // We can remove by scanning keys and matching token values.
-      // For now, keep it simple: leave them. If you want cleanup, I’ll add it.
-    }
 
     return new Response(
       JSON.stringify({
