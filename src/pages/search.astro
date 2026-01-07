@@ -26,7 +26,7 @@ const postsData = sortedPosts.map((post) => ({
   image="/banner.png"
   type="website"
 >
-  <div class="container-wide search-page">
+  <section class="search-hero search-page">
     <header class="search-header">
       <h1>Search the Grimoire</h1>
       <p class="search-intro">Find posts by title, description, or tags</p>
@@ -46,13 +46,17 @@ const postsData = sortedPosts.map((post) => ({
         />
       </div>
     </header>
+  </section>
 
+  <section class="search-results">
     <div id="search-results" class="posts-grid" style="display: none;"></div>
 
     <div id="no-results" class="no-results" style="display: none;">
       <p>No posts found. Try different keywords.</p>
     </div>
+  </section>
 
+  <section class="search-all">
     <div id="all-posts" class="posts-grid">
       {
         sortedPosts.map((post) => {
@@ -101,231 +105,299 @@ const postsData = sortedPosts.map((post) => ({
         })
       }
     </div>
-  </div>
+  </section>
 
-  <style is:global>
-    /* variables scoped to this page wrapper */
-    .search-page {
-      --card-radius: 12px;
-      --card-pad: 1.25rem;
-      --stack-gap: 0.75rem;
+<style is:global>
+  /* KEEP THE IS GLOBAL */
+  /* variables scoped to this page wrapper */
+  .search-page {
+    --card-radius: 12px;
+    --card-pad: 1.25rem;
+    --stack-gap: 0.75rem;
+  }
+
+  /* =========================
+     NEW SECTION HOOKS (added in markup)
+     ========================= */
+
+  .search-page.search-hero,
+  .search-page.search-results,
+  .search-page.search-all {
+    width: 100%;
+  }
+
+  /* give the top section breathing room without crushing sides */
+  .search-page.search-hero {
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  /* results area spacing */
+  .search-page.search-results {
+    padding-bottom: 1.5rem;
+  }
+
+  /* all-posts area spacing */
+  .search-page.search-all {
+    padding-bottom: 4rem;
+  }
+
+  /* =========================
+     HEADER + SEARCH BOX
+     ========================= */
+
+  .search-page .search-header {
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 3rem;
+  }
+
+  .search-page .search-intro {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .search-page .search-box {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .search-page #search-input {
+    width: 100%;
+    /*
+      This padding is intentional:
+      - right padding (3rem) keeps your typed text from going underneath the icon
+      - left padding (1.5rem) keeps text comfy from the edge
+    */
+    padding: 1rem 3rem 1rem 1.5rem;
+    background-color: var(--color-bg-secondary);
+    border: 2px solid var(--color-border);
+    border-radius: 50px;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-family: "Berkshire Swash", serif;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-page #search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .search-page #search-input::placeholder {
+    color: var(--bold-text-color);
+  }
+
+  .search-page .search-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+
+  /* =========================
+     GRID
+     ========================= */
+
+  .search-page .posts-grid {
+    display: grid;
+    /*
+      You asked about two pixel values:
+      minmax(280px, 320px) = cards stay between 280 and 320px wide.
+      If you want them to expand more on wide screens, increase 320px or switch max to 1fr.
+    */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+
+    /* centers the grid tracks when there are fewer columns than available space */
+    justify-content: center;
+
+    /* prevents cards from shrinking weirdly */
+    width: 100%;
+  }
+
+  /* =========================
+     SEARCH PAGE POST CARDS (specific to this page)
+     ========================= */
+
+  .search-page .post-card {
+    background: linear-gradient(
+      150deg,
+      #7e7eff 10%,
+      #7e7eff 25%,
+      #f6f65a 38%,
+      #e019d4 65%,
+      #00dbff 100%
+    );
+    background-clip: padding-box;
+    border: 1px solid var(--color-border);
+    border-radius: var(--card-radius);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-page .post-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-accent);
+    box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
+  }
+
+  .search-page .post-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stack-gap);
+  }
+
+  .search-page .post-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: var(--card-pad);
+  }
+
+  .search-page .post-body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.45);
+    pointer-events: none;
+    z-index: 0;
+    border-radius: var(--card-radius);
+  }
+
+  .search-page .post-body > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-page .post-link {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .search-page .post-header {
+    margin-bottom: 0.25rem;
+  }
+
+  .search-page .post-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    display: block !important;
+  }
+
+  .search-page .post-date {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .search-page .post-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+  }
+
+  .search-page .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: var(--stack-gap);
+  }
+
+  .search-page .tag {
+    background-color: var(--color-bg);
+    color: var(--color-accent);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-page .tag:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    transform: translateY(-2px);
+  }
+
+  .search-page .read-more {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: auto;
+    transition: color 0.3s ease;
+  }
+
+  .search-page .post-card:hover .read-more {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .search-page .no-results {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+  }
+
+  /* =========================
+     MOBILE SETTINGS
+     ========================= */
+  @media (max-width: 1100px) {
+    .search-page.search-hero {
+      padding-top: 1.5rem;
+      padding-bottom: 2rem;
     }
 
-    .search-page.container-wide {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem 4rem;
+    .search-page .search-header h1 {
+      font-size: 2rem;
     }
 
-    .search-page .search-header {
-      text-align: center;
-      padding: 3rem 0;
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 4rem;
-    }
-
-    .search-page .search-intro {
-      color: var(--color-text-muted);
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-
-    .search-page .search-box {
-      position: relative;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .search-page #search-input {
-      width: 100%;
-      padding: 1rem 3rem 1rem 1.5rem;
-      background-color: var(--color-bg-secondary);
-      border: 2px solid var(--color-border);
-      border-radius: 50px;
-      color: var(--color-text);
-      font-size: 1rem;
-      font-family: "Delius Swash Caps", cursive;
-      transition: border-color 0.3s ease;
-    }
-
-    .search-page #search-input:focus {
-      outline: none;
-      border-color: var(--color-accent);
-    }
-
-    .search-page #search-input::placeholder {
-      color: var(--color-text-muted);
-    }
-
-    .search-page .search-icon {
-      position: absolute;
-      right: 1.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px;
-      height: 20px;
-      pointer-events: none;
-      opacity: 0.8;
-    }
-
+    /*
+      You asked if grid-template-columns: 1fr should be more "specific":
+      - 1fr is the correct mobile rule when you want ONE full-width column.
+      - If you want a single centered "max-width" column, we can use min(620px, 100%)
+    */
     .search-page .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
-      gap: 2rem;
-      justify-content: center;
+      grid-template-columns: 1fr;
     }
 
-    .search-page .post-card {
-      background: linear-gradient(
-        150deg,
-        #7e7eff 10%,
-        #7e7eff 25%,
-        #f6f65a 38%,
-        #e019d4 65%,
-        #00dbff 100%
-      );
-      background-clip: padding-box;
-      border: 1px solid var(--color-border);
-      border-radius: var(--card-radius);
-      transition: all 0.3s ease;
-      overflow: hidden;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+    /* reduce card inner padding a bit so content isn't squished */
+    .search-page {
+      --card-pad: 1rem;
     }
 
-    .search-page .post-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--color-accent);
-      box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
+    /* make sure the icon doesn't feel tight on small widths */
+    .search-page #search-input {
+      padding-right: 2.75rem;
     }
-
-    .search-page .post-content {
-      display: flex;
-      flex-direction: column;
-      gap: var(--stack-gap);
-    }
-
-    .search-page .post-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      padding: var(--card-pad);
-    }
-
-    .search-page .post-body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 10, 15, 0.45);
-      pointer-events: none;
-      z-index: 0;
-      border-radius: var(--card-radius);
-    }
-
-    .search-page .post-body > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .search-page .post-link {
-      flex: 1;
-      flex-direction: column;
-      display: flex;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .search-page .post-header {
-      margin-bottom: 0.25rem;
-    }
-
-    .search-page .post-card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-      /* override global gradient heading theme */
-      background: none !important;
-      -webkit-background-clip: initial !important;
-      background-clip: initial !important;
-      -webkit-text-fill-color: #ffffff !important;
-      color: #ffffff !important;
-
-      display: block !important;
-    }
-
-    .search-page .post-date {
-      display: block;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-      font-style: italic;
-    }
-
-    .search-page .post-description {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      margin-bottom: 0.25rem;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.7;
-    }
-
-    .search-page .post-tags {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      padding: 0;
-      margin-top: var(--stack-gap);
-    }
-
-    .search-page .tag {
-      background-color: var(--color-bg);
-      color: var(--color-accent);
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      border: 1px solid var(--color-border);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .search-page .tag:hover {
-      background-color: var(--color-accent);
-      color: var(--color-bg);
-      transform: translateY(-2px);
-    }
-
-    .search-page .read-more {
-      color: #ffffff;
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-top: auto;
-      transition: color 0.3s ease;
-    }
-
-    .search-page .post-card:hover .read-more {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .search-page .no-results {
-      text-align: center;
-      padding: 4rem 0;
-      color: var(--color-text-muted);
-      font-size: 1.2rem;
-    }
-
-    @media (max-width: 920px) {
-      .search-page .search-header h1 {
-        font-size: 2rem;
-      }
-
-      .search-page .posts-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  }
+</style>
 
   <script define:vars={{ postsData }}>
     const searchInput = document.getElementById("search-input");
