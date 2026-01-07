@@ -24,10 +24,10 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Collect changed files
+      - name: Collect changed files (robust)
         run: |
           echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          git diff --name-only HEAD~1 HEAD >> $GITHUB_ENV
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Send push notifications
