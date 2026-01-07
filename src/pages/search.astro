@@ -116,6 +116,10 @@ const postsData = sortedPosts.map((post) => ({
     --card-radius: 12px;
     --card-pad: 1.25rem;
     --stack-gap: 0.75rem;
+
+    /* 👇 ADDITION: tiny left/right padding for this page only */
+    /* gives breathing room without acting like a container */
+    padding-inline: 1.25rem;
   }
 
   /* =========================
@@ -158,10 +162,10 @@ const postsData = sortedPosts.map((post) => ({
     margin-bottom: 2rem;
   }
 
-   .search-page .search-box {
-      position: relative;
-      max-width: 900px;
-      margin: 0 auto 3rem;
+  .search-page .search-box {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto 3rem;
   }
 
   .search-page #search-input {
@@ -204,21 +208,11 @@ const postsData = sortedPosts.map((post) => ({
   /* =========================
      GRID
      ========================= */
-
   .search-page .posts-grid {
     display: grid;
-    /*
-      You asked about two pixel values:
-      minmax(280px, 320px) = cards stay between 280 and 320px wide.
-      If you want them to expand more on wide screens, increase 320px or switch max to 1fr.
-    */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-
-    /* centers the grid tracks when there are fewer columns than available space */
     justify-content: center;
-
-    /* prevents cards from shrinking weirdly */
     width: 100%;
   }
 
@@ -368,6 +362,12 @@ const postsData = sortedPosts.map((post) => ({
      MOBILE SETTINGS
      ========================= */
   @media (max-width: 1100px) {
+    .search-page {
+      /* 👇 slightly tighter padding on smaller screens */
+      padding-inline: 1rem;
+      --card-pad: 1rem;
+    }
+
     .search-page.search-hero {
       padding-top: 1.5rem;
       padding-bottom: 2rem;
@@ -377,21 +377,10 @@ const postsData = sortedPosts.map((post) => ({
       font-size: 2rem;
     }
 
-    /*
-      You asked if grid-template-columns: 1fr should be more "specific":
-      - 1fr is the correct mobile rule when you want ONE full-width column.
-      - If you want a single centered "max-width" column, we can use min(620px, 100%)
-    */
     .search-page .posts-grid {
       grid-template-columns: 1fr;
     }
 
-    /* reduce card inner padding a bit so content isn't squished */
-    .search-page {
-      --card-pad: 1rem;
-    }
-
-    /* make sure the icon doesn't feel tight on small widths */
     .search-page #search-input {
       padding-right: 2.75rem;
     }
