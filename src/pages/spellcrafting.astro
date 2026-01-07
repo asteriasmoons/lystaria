@@ -17,40 +17,45 @@ const spellcraftingPosts = allPosts
   image="/banner.png"
   type="website"
 >
-  <div class="container">
+  <section class="series-hero">
     <header class="series-header">
       <h1>Spellcrafting Series</h1>
       <p class="subtitle">
         A 15-part journey into the foundations of practical magic
       </p>
-
-      <div class="intro">
-        <p class="desc">
-          This series breaks down the mechanics of spellwork—demystifying the
-          "how" and "why" behind crafting intentional magic. Whether you're new
-          to the craft or refining your practice, these posts offer a
-          foundational framework for understanding spells as tools of
-          transformation, not mystical secrets.
-        </p>
-      </div>
-
-      <!-- NEW: Email subscription form -->
-      <div class="subscribe-box">
-        <h3>Subscribe</h3>
-        <p>Get notified when new Spellcrafting posts are published</p>
-
-        <form
-          action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
-          method="post"
-          class="embeddable-buttondown-form"
-        >
-          <label for="bd-email">Enter your email</label>
-          <input type="email" name="email" id="bd-email" />
-          <input type="submit" value="Subscribe" />
-        </form>
-      </div>
     </header>
+  </section>
 
+  <section class="series-intro">
+    <div class="intro">
+      <p class="desc">
+        This series breaks down the mechanics of spellwork--demystifying the
+        "how" and "why" behind crafting intentional magic. Whether you're new
+        to the craft or refining your practice, these posts offer a
+        foundational framework for understanding spells as tools of
+        transformation, not mystical secrets.
+      </p>
+    </div>
+  </section>
+
+  <section class="series-subscribe">
+    <div class="subscribe-box">
+      <h3>Subscribe</h3>
+      <p>Get notified when new Spellcrafting posts are published</p>
+
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
+        method="post"
+        class="embeddable-buttondown-form"
+      >
+        <label for="bd-email">Enter your email</label>
+        <input type="email" name="email" id="bd-email" />
+        <input type="submit" value="Subscribe" />
+      </form>
+    </div>
+  </section>
+
+  <section class="series-posts">
     <div class="posts-grid">
       {
         spellcraftingPosts.map((post) => (
@@ -72,268 +77,295 @@ const spellcraftingPosts = allPosts
         ))
       }
     </div>
-  </div>
+  </section>
 
-  <style>
-    .series-header {
-      text-align: center;
-      /* padding: 3rem 0 4rem; */
-      border-bottom: 1px solid var(--color-border);
-      margin-bottom: 4rem;
-    }
+<style>
+  /* SECTION WRAPPERS (these exist in your new markup) */
+  .series-hero,
+  .series-intro,
+  .series-subscribe,
+  .series-posts {
+    width: 100%;
+  }
 
-    .subtitle {
-      font-size: 1rem;
-      color: #5ac7fa;
-      margin-bottom: 0.9rem;
-    }
+  .series-hero {
+    margin-bottom: 2rem;
+  }
 
-    .intro {
-      max-width: 900px;
-      margin: 0 auto;
+  .series-intro {
+    margin-bottom: 2rem;
+  }
+
+  .series-subscribe {
+    margin-bottom: 3rem;
+  }
+
+  .series-posts {
+    margin-bottom: 4rem;
+  }
+
+  /* HEADER (still exists) */
+  .series-header {
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #5ac7fa;
+    margin-bottom: 0.9rem;
+  }
+
+  /* INTRO (still exists) */
+  .intro {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .desc {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2rem;
+    border: 2px dotted transparent;
+    border-image: var(--gradient-accent) 1;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  /* POSTS GRID (still exists) */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  /* CARD (still exists) */
+  .post-card {
+    background: linear-gradient(
+      150deg,
+      #7e7eff 10%,
+      #7e7eff 25%,
+      #f6f65a 38%,
+      #e019d4 65%,
+      #00dbff 100%
+    );
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-clip: padding-box;
+  }
+
+  /* FULL-CARD OVERLAY */
+  .post-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.45);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .post-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* CONTENT WRAPPER (exists: .post-body) */
+  .post-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* put your padding on the content pieces, not the card */
+  .post-card .series-badge,
+  .post-card h2,
+  .post-card .post-description,
+  .post-card .read-button {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .post-card .series-badge {
+    margin-top: 2rem;
+  }
+
+  .post-card .read-button {
+    margin-bottom: 2rem;
+  }
+
+  .post-card:hover {
+    transform: none;
+  }
+
+  .series-badge {
+    display: inline-block;
+    background: rgba(90, 200, 250, 0.1);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(90, 200, 250, 0.2);
+    align-self: flex-start;
+  }
+
+  .post-card h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #ffffff;
+  }
+
+  .post-description {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .read-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(126, 126, 255, 0.1);
+    border: 1px solid rgba(126, 126, 255, 0.3);
+    border-radius: 8px;
+    color: #7e7eff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .read-button:hover {
+    background: rgba(126, 126, 255, 0.2);
+    border-color: #7e7eff;
+    transform: translateX(4px);
+  }
+
+  /* SUBSCRIBE BOX (still exists) */
+  .subscribe-box {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(126, 126, 255, 0.1) 0%,
+      rgba(90, 200, 250, 0.06) 100%
+    );
+    border: 1px solid rgba(126, 126, 255, 0.25);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .subscribe-box h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  .subscribe-box p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+  }
+
+  /* BUTTONDOWN FORM (still exists) */
+  .embeddable-buttondown-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .embeddable-buttondown-form label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .embeddable-buttondown-form input[type="email"] {
+    width: min(460px, 100%);
+    padding: 0.75rem 1rem;
+    background: rgba(10, 10, 15, 0.6);
+    border: 1px solid rgba(126, 126, 255, 0.35);
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  .embeddable-buttondown-form input[type="email"]:focus {
+    border-color: #7e7eff;
+  }
+
+  .embeddable-buttondown-form input[type="submit"] {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #7e7eff 0%, #5ac7fa 100%);
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
+  }
+
+  .embeddable-buttondown-form input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
+  }
+
+  .embeddable-buttondown-form input[type="submit"]:active {
+    transform: translateY(0);
+  }
+
+  .embeddable-buttondown-form p {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+  }
+
+  .embeddable-buttondown-form p a {
+    color: rgba(126, 126, 255, 0.75);
+    text-decoration: none;
+  }
+
+  .embeddable-buttondown-form p a:hover {
+    color: rgba(90, 199, 250, 0.9);
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 1100px) {
+    .series-header h1 {
+      font-size: 2rem;
     }
-    
-    .desc {
-      max-width: 900px;
-      margin: 3rem auto 0;
-      padding: 2rem;
-      border: 2px dotted transparent; /* Set to transparent */
-      border-image: var(--gradient-accent) 1; /* Add this */
-      border-radius: 8px; /* This won't work with border-image unfortunately */
-      font-size: 0.85rem;
-      color: #ffffff;
-    } 
 
     .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      padding-bottom: 4rem;
+      grid-template-columns: 1fr;
     }
 
-    .post-card {
-      background: linear-gradient(
-        150deg,
-        #7e7eff 10%,
-        #7e7eff 25%,
-        #f6f65a 38%,
-        #e019d4 65%,
-        #00dbff 100%
-      );
-      position: relative;
-      overflow: hidden; /* clips the overlay to the rounded card */
-      border-radius: 12px;
-      padding: 0; /* keep no padding on the card */
-      display: flex;
-      flex-direction: column;
-      background-clip: padding-box;
-    }
-
-    /* FULL-CARD OVERLAY (fixes the leaks) */
-    .post-card::before {
-      content: "";
-      position: absolute;
-      inset: 0; /* covers the whole card */
-      background: rgba(10, 10, 15, 0.45);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* everything inside sits above overlay */
-    .post-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* put your padding on the content pieces, not the card */
-    .post-card .series-badge,
-    .post-card h2,
-    .post-card .post-description,
-    .post-card .read-button {
-      margin-left: 2rem;
-      margin-right: 2rem;
-    }
-
-    .post-card .series-badge {
-      margin-top: 2rem;
-    }
-    .post-card .read-button {
-      margin-bottom: 2rem;
-    }
-
-    .post-body::before {
-      border-radius: 0 0 12px 12px;
-      overflow: hidden;
-    }
-
-    .post-card:hover {
-      transform: none;
-    }
-
-    .series-badge {
-      display: inline-block;
-      background: rgba(90, 200, 250, 0.1);
-      color: #ffffff;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(90, 200, 250, 0.2);
-      align-self: flex-start;
-    }
-
-    .post-card h2 {
-      font-size: 1.5rem;
-      color: #ffffff;
-      margin-bottom: 1rem;
-      background: none;
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      -webkit-text-fill-color: #ffffff;
-    }
-
-    .post-description {
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
-    .read-button {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: rgba(126, 126, 255, 0.1);
-      border: 1px solid rgba(126, 126, 255, 0.3);
-      border-radius: 8px;
-      color: #7e7eff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      align-self: flex-start;
-    }
-
-    .read-button:hover {
-      background: rgba(126, 126, 255, 0.2);
-      border-color: #7e7eff;
-      transform: translateX(4px);
-    }
-
-    /* Subscribe box should be styled on ALL screen sizes */
     .subscribe-box {
-      max-width: 900px;
-      margin: 3rem auto 0;
-      padding: 2.5rem;
-      background: linear-gradient(
-        135deg,
-        rgba(126, 126, 255, 0.1) 0%,
-        rgba(90, 200, 250, 0.06) 100%
-      );
-      border: 1px solid rgba(126, 126, 255, 0.25);
-      border-radius: 16px;
-      text-align: center;
+      padding: 2rem 1.5rem;
     }
 
     .subscribe-box h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      background: none !important;
-      -webkit-background-clip: initial !important;
-      background-clip: initial !important;
-      -webkit-text-fill-color: #ffffff !important;
-      color: #ffffff !important;
+      font-size: 1.6rem;
     }
-
-    .subscribe-box p {
-      color: rgba(255, 255, 255, 0.75);
-      margin-bottom: 1.25rem;
-      font-size: 1rem;
-    }
-
-    /* Target the ACTUAL Buttondown form class */
-    .embeddable-buttondown-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .embeddable-buttondown-form label {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .embeddable-buttondown-form input[type="email"] {
-      width: min(460px, 100%);
-      padding: 0.75rem 1rem;
-      background: rgba(10, 10, 15, 0.6);
-      border: 1px solid rgba(126, 126, 255, 0.35);
-      border-radius: 999px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .embeddable-buttondown-form input[type="email"]:focus {
-      border-color: #7e7eff;
-    }
-
-    .embeddable-buttondown-form input[type="submit"] {
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(135deg, #7e7eff 0%, #5ac7fa 100%);
-      border: none;
-      border-radius: 999px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
-    }
-
-    .embeddable-buttondown-form input[type="submit"]:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
-    }
-
-    .embeddable-buttondown-form input[type="submit"]:active {
-      transform: translateY(0);
-    }
-
-    .embeddable-buttondown-form p {
-      margin: 0.5rem 0 0;
-      font-size: 0.9rem;
-    }
-
-    .embeddable-buttondown-form p a {
-      color: rgba(126, 126, 255, 0.75);
-      text-decoration: none;
-    }
-
-    .embeddable-buttondown-form p a:hover {
-      color: rgba(90, 199, 250, 0.9);
-    }
-
-    /* Mobile Styles */
-    @media (max-width: 1100px) {
-      .series-header h1 {
-        font-size: 2rem;
-      }
-
-      .posts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .subscribe-box {
-        padding: 2rem 1.5rem;
-      }
-
-      .subscribe-box h3 {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+  }
+</style>
 </BaseLayout>
