@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
 
 const pageTitle = "Updates";
 
@@ -30,7 +31,10 @@ const pageTitle = "Updates";
   <section class="updates-entry">
     <h2 class="updates-title">Latest</h2>
 
-    <p class="updates-body">Latest Update: Doing a site overhaul because I dont want pages to look so narrow on mobile and posting another Zodiac in the zodiac series today. Stay tuned.</p>
+    <p class="updates-body">
+      Latest Update: Doing a site overhaul because I dont want pages to look so narrow
+      on mobile and posting another Zodiac in the zodiac series today. Stay tuned.
+    </p>
 
     <div class="meta-row">
       <span class="meta-label">Published</span>
@@ -54,79 +58,74 @@ const pageTitle = "Updates";
     </div>
   </section>
 
-<style>
-  .page-header {
-    max-width: 900px;
-    margin: 0 auto 1.5rem;
-    text-align: center;
-  }
-
-  .page-subtitle {
-    max-width: 900px;
-    margin: 0.75rem auto 0;
-    opacity: 0.9;
-    line-height: 1.6;
-  }
-
-  .updates-title {
-    margin: 0 0 0.75rem;
-  }
-
-  .updates-body {
-    margin: 0 0 1rem;
-    line-height: 1.7;
-  }
-
-  /* ✅ renamed to match your new markup */
-  .updates-entry {
-    max-width: 700px;
-    margin: 3rem auto 0;
-    padding: 2rem;
-    border: 2px dotted transparent;
-    border-image: var(--gradient-accent) 1;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    color: #ffffff;
-  }
-
-  .meta-row {
-    display: flex;
-    gap: 0.75rem;
-    opacity: 0.9;
-    font-size: 0.95rem;
-  }
-
-  .meta-label {
-    opacity: 0.8;
-  }
-
-  /* ✅ these exist in your markup */
-  .meta-value {
-    opacity: 0.85;
-  }
-
-  /* =========================
-     MOBILE
-     ========================= */
-  @media (max-width: 1100px) {
+  <style>
     .page-header {
-      margin-bottom: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
     }
 
     .page-subtitle {
-      font-size: 0.95rem;
+      max-width: 900px;
+      margin: 0.75rem auto 0;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .updates-title {
+      margin: 0 0 0.75rem;
+    }
+
+    .updates-body {
+      margin: 0 0 1rem;
+      line-height: 1.7;
     }
 
     .updates-entry {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      font-size: 0.85rem; /* keep readable */
+      max-width: 700px;
+      margin: 3rem auto 0;
+      padding: 2rem;
+      border: 2px dotted transparent;
+      border-image: var(--gradient-accent) 1;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #ffffff;
     }
 
     .meta-row {
-      font-size: 0.9rem;
-      flex-wrap: wrap; /* prevents awkward squeezing */
+      display: flex;
+      gap: 0.75rem;
+      opacity: 0.9;
+      font-size: 0.95rem;
     }
-  }
-</style>
+
+    .meta-label {
+      opacity: 0.8;
+    }
+
+    .meta-value {
+      opacity: 0.85;
+    }
+
+    @media (max-width: 1100px) {
+      .page-header {
+        margin-bottom: 1.25rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .updates-entry {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        font-size: 0.85rem;
+      }
+
+      .meta-row {
+        font-size: 0.9rem;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
 </BaseLayout>
