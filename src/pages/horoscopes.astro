@@ -216,10 +216,11 @@ const today = new Date().toLocaleDateString("en-US", {
       .horoscope-header h1 {
         font-size: 2rem;
       }
-
+      
       .horoscopes-container {
-        grid-template-columns: 1fr;
-      }
+        grid-template-columns: min(520px, 100%);
+        justify-content: center;
+     }
     }
   </style>
 </BaseLayout>
