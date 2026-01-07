@@ -23,9 +23,9 @@ const pageTitle = "Updates";
 
     <div class="gradient-divider"></div>
 
-    <section class="post-card">
-      <h2 class="post-title">Latest</h2>
-      <p class="post-body">
+    <section class="updates-box">
+      <h2 class="updates-title">Latest</h2>
+      <p class="updates-body">
         Write your newest announcement here. You can replace this section each time,
         or append new entries below.
       </p>
@@ -36,15 +36,6 @@ const pageTitle = "Updates";
       </div>
     </section>
 
-    <section class="post-card">
-      <h2 class="post-title">Archive</h2>
-      <ul class="updates-list">
-        <li>
-          <span class="updates-date">January 5, 2026</span>
-          <span class="updates-text">Initial push notification system added.</span>
-        </li>
-      </ul>
-    </section>
   </main>
 
   <style>
@@ -61,21 +52,26 @@ const pageTitle = "Updates";
       line-height: 1.6;
     }
 
-    .post-card {
-      max-width: 900px;
-      margin: 1.25rem auto;
-      padding: 1.25rem 1.25rem;
-    }
-
-    .post-title {
+    .updates-title {
       margin: 0 0 0.75rem;
     }
 
-    .post-body {
+    .updates-body {
       margin: 0 0 1rem;
       line-height: 1.7;
     }
-
+    
+    .updates-box {
+       max-width: 700px;
+       margin: 3rem auto 0;
+       padding: 2rem;
+       border: 2px dotted transparent; /* Set to transparent */
+       border-image: var(--gradient-accent) 1; /* Add this */
+       border-radius: 8px; /* This won't work with border-image unfortunately */
+       font-size: 0.85rem;
+       color: #ffffff;
+    }
+      
     .meta-row {
       display: flex;
       gap: 0.75rem;
@@ -85,14 +81,6 @@ const pageTitle = "Updates";
 
     .meta-label {
       opacity: 0.8;
-    }
-
-    .updates-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 0.75rem;
     }
 
     .updates-date {
