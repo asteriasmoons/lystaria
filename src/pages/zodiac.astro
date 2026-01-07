@@ -18,369 +18,375 @@ const zodiacPosts = allPosts
   image="/banner.png"
   type="website"
 >
-  <div class="container">
+  <section class="series-hero">
     <header class="series-header">
-      <section class="series-section series-hero">
-        <h1>Zodiac Series</h1>
-        <p class="subtitle">A grounded exploration of the twelve zodiac archetypes</p>
-      </section>
-
-      <section class="series-section series-intro">
-        <div class="intro-box">
-          <p>
-            The zodiac is more than personality traits or prediction. Each sign is an archetype:
-            a pattern of energy, emotion, instinct, and expression that shows up in real life.
-          </p>
-          <p>
-            This series explores each sign in a practical, grounded way, focusing on themes,
-            emotional patterns, shadow edges, strengths, and the kind of personal magic that pairs
-            naturally with that energy.
-          </p>
-          <p>
-            These posts are built for clarity, self-awareness, and intentional living.
-          </p>
-        </div>
-      </section>
-
-      <section class="series-section series-subscribe">
-        <div class="subscribe-box">
-          <h3>Subscribe</h3>
-          <p>Get notified when new Zodiac posts are published</p>
-
-          <form
-            action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
-            method="post"
-            class="embeddable-buttondown-form"
-          >
-            <label for="bd-email">Enter your email</label>
-            <input type="email" name="email" id="bd-email" />
-            <input type="submit" value="Subscribe" />
-          </form>
-        </div>
-      </section>
+      <h1>Zodiac Series</h1>
+      <p class="subtitle">A grounded exploration of the twelve zodiac archetypes</p>
     </header>
-    
-    <GradientDivider />
+  </section>
 
-    <section class="series-posts">
-      {
-        zodiacPosts.length === 0 ? (
-          <div class="empty-state">
-            <h2>No Zodiac posts yet</h2>
-            <p>
-              This page is ready. As soon as you publish your first entry with the tag
-              <span class="mono">zodiac-series</span>, it will show up here automatically.
-            </p>
-          </div>
-        ) : (
-          <div class="posts-grid">
-            {zodiacPosts.map((post) => (
-              <article class="post-card">
-                <div class="post-body">
-                  <span class="series-badge">
-                    Part {post.data.seriesNumber} of {post.data.seriesTotal}
-                  </span>
+  <section class="series-intro">
+    <div class="intro-box">
+      <p>
+        The zodiac is more than personality traits or prediction. Each sign is an archetype:
+        a pattern of energy, emotion, instinct, and expression that shows up in real life.
+      </p>
+      <p>
+        This series explores each sign in a practical, grounded way, focusing on themes,
+        emotional patterns, shadow edges, strengths, and the kind of personal magic that pairs
+        naturally with that energy.
+      </p>
+      <p>These posts are built for clarity, self-awareness, and intentional living.</p>
+    </div>
+  </section>
 
-                  <h2>{post.data.title}</h2>
+  <section class="series-subscribe">
+    <div class="subscribe-box">
+      <h3>Subscribe</h3>
+      <p>Get notified when new Zodiac posts are published</p>
 
-                  <p class="post-description">{post.data.description}</p>
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
+        method="post"
+        class="embeddable-buttondown-form"
+      >
+        <label for="bd-email">Enter your email</label>
+        <input type="email" name="email" id="bd-email" />
+        <input type="submit" value="Subscribe" />
+      </form>
+    </div>
+  </section>
 
-                  <a href={`/blog/${post.slug}`} class="read-button">
-                    Read Post →
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-        )
-      }
-    </section>
-  </div>
+  <GradientDivider />
 
-  <style>
-    /* =========================
-       HEADER + SECTION SPACING
-       ========================= */
+  <section class="series-posts">
+    {
+      zodiacPosts.length === 0 ? (
+        <div class="empty-state">
+          <h2>No Zodiac posts yet</h2>
+          <p>
+            This page is ready. As soon as you publish your first entry with the tag
+            <span class="mono">zodiac-series</span>, it will show up here automatically.
+          </p>
+        </div>
+      ) : (
+        <div class="posts-grid">
+          {zodiacPosts.map((post) => (
+            <article class="post-card">
+              <div class="post-body">
+                <span class="series-badge">
+                  Part {post.data.seriesNumber} of {post.data.seriesTotal}
+                </span>
 
-    .series-header {
-      text-align: center;
-      padding: 3rem 0 4rem;
-      border-bottom: none;
+                <h2>{post.data.title}</h2>
+
+                <p class="post-description">{post.data.description}</p>
+
+                <a href={`/blog/${post.slug}`} class="read-button">
+                  Read Post →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+<style>
+  /* =========================
+     SECTION WRAPPERS (EXIST NOW)
+     ========================= */
+
+  .series-hero,
+  .series-intro,
+  .series-subscribe,
+  .series-posts {
+    width: 100%;
+  }
+
+  /* Give sections a consistent rhythm (replaces dead .series-section rules) */
+  .series-hero {
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .series-intro {
+    padding-bottom: 2.5rem;
+  }
+
+  .series-subscribe {
+    padding-bottom: 2.5rem;
+  }
+
+  /* =========================
+     HEADER + INTRO
+     ========================= */
+
+  .series-header {
+    text-align: center;
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .series-header :where(h1, h2, h3, p) {
+    margin: 0;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #5ac7fa;
+    margin-top: 0.9rem;
+  }
+
+  .intro-box {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    border: 2px dotted transparent;
+    border-image: var(--gradient-accent) 1;
+    font-size: 0.85rem;
+    color: #ffffff;
+    line-height: 1.8;
+    text-align: left;
+  }
+
+  .intro-box p + p {
+    margin-top: 1rem;
+  }
+
+  /* =========================
+     POSTS GRID + CARDS
+     ========================= */
+
+  .series-posts {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    background: linear-gradient(
+      150deg,
+      #7e7eff 10%,
+      #7e7eff 32%,
+      #f6f65a 38%,
+      #e019d4 60%,
+      #00dbff 72%,
+      #00dbff 100%
+    );
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-clip: padding-box;
+  }
+
+  .post-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.45);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .post-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .post-card .series-badge,
+  .post-card h2,
+  .post-card .post-description,
+  .post-card .read-button {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .post-card .series-badge {
+    margin-top: 2rem;
+  }
+
+  .post-card .read-button {
+    margin-bottom: 2rem;
+  }
+
+  .post-card :where(h2, p) {
+    margin: 0;
+  }
+
+  .series-badge {
+    display: inline-block;
+    background: rgba(90, 200, 250, 0.1);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(90, 200, 250, 0.2);
+    align-self: flex-start;
+  }
+
+  .post-card h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #ffffff;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .post-description {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+  }
+
+  .read-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(126, 126, 255, 0.1);
+    border: 1px solid rgba(126, 126, 255, 0.3);
+    border-radius: 8px;
+    color: #7e7eff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+  }
+
+  .read-button:hover {
+    background: rgba(126, 126, 255, 0.2);
+    border-color: #7e7eff;
+    transform: translateX(4px);
+  }
+
+  /* =========================
+     SUBSCRIBE BOX
+     ========================= */
+
+  .subscribe-box {
+    max-width: 900px;
+    margin: 0 auto; /* put centering back */
+    padding: 2.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(126, 126, 255, 0.1) 0%,
+      rgba(90, 200, 250, 0.06) 100%
+    );
+    border: 1px solid rgba(126, 126, 255, 0.25);
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .subscribe-box :where(h3, p) {
+    margin: 0;
+  }
+
+  .subscribe-box h3 {
+    font-size: 1.8rem;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  .subscribe-box p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .embeddable-buttondown-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .embeddable-buttondown-form label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .embeddable-buttondown-form input[type="email"] {
+    width: min(460px, 100%);
+    padding: 0.75rem 1rem;
+    background: rgba(10, 10, 15, 0.6);
+    border: 1px solid rgba(126, 126, 255, 0.35);
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  .embeddable-buttondown-form input[type="email"]:focus {
+    border-color: #7e7eff;
+  }
+
+  .embeddable-buttondown-form input[type="submit"] {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #7e7eff 0%, #5ac7fa 100%);
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
+  }
+
+  .embeddable-buttondown-form input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
+  }
+
+  .embeddable-buttondown-form input[type="submit"]:active {
+    transform: translateY(0);
+  }
+
+  /* =========================
+     MOBILE
+     ========================= */
+
+  @media (max-width: 1100px) {
+    .series-hero {
+      padding-top: 1.5rem;
+      padding-bottom: 2rem;
     }
 
-    /* This is the "proper spacing": sections own the rhythm */
-    .series-section {
-      /* Use padding, not child margins */
-      padding-block: 0;
+    .series-intro,
+    .series-subscribe {
+      padding-bottom: 2rem;
     }
-
-    /* Vertical rhythm between sections (no gap, no child margins) */
-    .series-header > .series-section + .series-section {
-      margin-top: 2.5rem;
-    }
-
-    /* Stop default p/h margins from fighting your layout */
-    .series-header :where(h1, h2, h3, p) {
-      margin: 0;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      color: #5ac7fa;
-    }
-
-    /* Intro box (your dotted gradient border style) */
-    .intro-box {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 2rem;
-      border: 2px dotted transparent;
-      border-image: var(--gradient-accent) 1;
-      font-size: 0.85rem;
-      color: #ffffff;
-      line-height: 1.8;
-      text-align: left;
-    }
-
-    /* Now we add paragraph spacing INSIDE the intro box only */
-    .intro-box p + p {
-      margin-top: 1rem;
-    }
-
-    /* =========================
-       POSTS GRID + CARDS
-       ========================= */
-
-    .series-posts {
-      padding-top: 4rem;
-      padding-bottom: 4rem;
-    }
-
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .post-card {
-      background: linear-gradient(
-    150deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
-      );
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      background-clip: padding-box;
-    }
-
-    .post-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 10, 15, 0.45);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .post-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .post-card .series-badge,
-    .post-card h2,
-    .post-card .post-description,
-    .post-card .read-button {
-      margin-left: 2rem;
-      margin-right: 2rem;
-    }
-
-    .post-card .series-badge {
-      margin-top: 2rem;
-    }
-    .post-card .read-button {
-      margin-bottom: 2rem;
-    }
-
-    /* Reset default heading/paragraph margins inside cards */
-    .post-card :where(h2, p) {
-      margin: 0;
-    }
-
-    .series-badge {
-      display: inline-block;
-      background: rgba(90, 200, 250, 0.1);
-      color: #ffffff;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      border: 1px solid rgba(90, 200, 250, 0.2);
-      align-self: flex-start;
-    }
-
-    .post-card h2 {
-      font-size: 1.5rem;
-      color: #ffffff;
-      background: none;
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      -webkit-text-fill-color: #ffffff;
-      margin-top: 1rem; /* local, controlled */
-      margin-bottom: 1rem; /* local, controlled */
-      line-height: 1.25;
-    }
-
-    .post-description {
-      color: var(--color-text-muted);
-      line-height: 1.7;
-      margin-bottom: 2rem;
-      flex-grow: 1;
-    }
-
-    .read-button {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: rgba(126, 126, 255, 0.1);
-      border: 1px solid rgba(126, 126, 255, 0.3);
-      border-radius: 8px;
-      color: #7e7eff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      align-self: flex-start;
-    }
-
-    .read-button:hover {
-      background: rgba(126, 126, 255, 0.2);
-      border-color: #7e7eff;
-      transform: translateX(4px);
-    }
-
-    /* =========================
-       SUBSCRIBE BOX
-       ========================= */
 
     .subscribe-box {
-      max-width: 700px;
-      /* margin: 0 auto; */
-      padding: 2.5rem;
-      background: linear-gradient(
-        135deg,
-        rgba(126, 126, 255, 0.1) 0%,
-        rgba(90, 200, 250, 0.06) 100%
-      );
-      border: 1px solid rgba(126, 126, 255, 0.25);
-      border-radius: 16px;
-      text-align: center;
-    }
-
-    .subscribe-box :where(h3, p) {
-      margin: 0;
+      padding: 2rem 1.5rem;
     }
 
     .subscribe-box h3 {
-      font-size: 1.8rem;
-      background: none !important;
-      -webkit-background-clip: initial !important;
-      background-clip: initial !important;
-      -webkit-text-fill-color: #ffffff !important;
-      color: #ffffff !important;
+      font-size: 1.6rem;
     }
 
-    .subscribe-box p {
-      color: rgba(255, 255, 255, 0.75);
-      margin-top: 0.75rem; /* local, controlled */
-      margin-bottom: 1.25rem; /* local, controlled */
-      font-size: 1rem;
+    .posts-grid {
+      grid-template-columns: 1fr;
     }
-
-    .embeddable-buttondown-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .embeddable-buttondown-form label {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .embeddable-buttondown-form input[type="email"] {
-      width: min(460px, 100%);
-      padding: 0.75rem 1rem;
-      background: rgba(10, 10, 15, 0.6);
-      border: 1px solid rgba(126, 126, 255, 0.35);
-      border-radius: 999px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .embeddable-buttondown-form input[type="email"]:focus {
-      border-color: #7e7eff;
-    }
-
-    .embeddable-buttondown-form input[type="submit"] {
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(135deg, #7e7eff 0%, #5ac7fa 100%);
-      border: none;
-      border-radius: 999px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
-    }
-
-    .embeddable-buttondown-form input[type="submit"]:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
-    }
-
-    .embeddable-buttondown-form input[type="submit"]:active {
-      transform: translateY(0);
-    }
-
-    /* =========================
-       MOBILE
-       ========================= */
-
-    @media (max-width: 768px) {
-      .series-header {
-        padding: 2.5rem 0 3.25rem;
-      }
-      
-      .post-card .post-description {
-        margin-bottom: 2rem;
-      }
-
-      .series-header > .series-section + .series-section {
-        margin-top: 2rem;
-      }
-
-      .subscribe-box {
-        padding: 2rem 1.5rem;
-      }
-
-      .subscribe-box h3 {
-        font-size: 1.6rem;
-      }
-
-      .posts-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  }
+</style>
 </BaseLayout>
