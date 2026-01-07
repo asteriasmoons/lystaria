@@ -16,25 +16,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed files (robust)
-        id: changes
+      - name: Show commit + changed files
         run: |
-          echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
+          echo "before: ${{ github.event.before }}"
+          echo "sha:    ${{ github.sha }}"
           echo "Changed files:"
           git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
-      # -------- SEND PUSH FOR UPDATES.ASTRO (direct, no Node script) --------
       - name: Send push for updates page (if changed)
         env:
           PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
           PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
         run: |
-          echo "$CHANGED_FILES" | grep -q "^src/pages/updates\.astro$" || exit 0
+          set -e
 
-          # Extract title + message from PUSH_META block
+          # If updates.astro didn't change, do nothing
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "^src/pages/updates\.astro$" || exit 0
+
+          # Extract title + message from PUSH_META block (recommended)
           TITLE=$(awk '
             /PUSH_META/{f=1;next}
             /PUSH_META_END/{f=0}
@@ -47,20 +46,24 @@ jobs:
             f && $0 ~ /message:/ { sub(/^.*message:[[:space:]]*/, "", $0); print; exit }
           ' src/pages/updates.astro)
 
-          # Fallbacks if not found
+          # Fallbacks
           [ -z "$TITLE" ] && TITLE="New update"
           [ -z "$MESSAGE" ] && MESSAGE="A new update is live. Tap to read."
 
-          echo "Sending updates push:"
+          echo "Sending updates push..."
           echo "TITLE=$TITLE"
           echo "MESSAGE=$MESSAGE"
 
-          curl -sS -X POST "$PUSH_WEBHOOK_URL" \
+          # Escape quotes/backslashes for JSON safety
+          esc() { printf '%s' "$1" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read())[1:-1])'; }
+          TITLE_ESC=$(esc "$TITLE")
+          MESSAGE_ESC=$(esc "$MESSAGE")
+
+          curl -i -sS -X POST "$PUSH_WEBHOOK_URL" \
             -H "content-type: application/json" \
             -H "authorization: Bearer $PUSH_WEBHOOK_SECRET" \
-            --data "{\"title\":\"$TITLE\",\"message\":\"$MESSAGE\",\"url\":\"/updates\"}"
+            --data "{\"title\":\"$TITLE_ESC\",\"message\":\"$MESSAGE_ESC\",\"url\":\"/updates\"}"
 
-      # -------- SEND PUSH FOR POSTS (Node script) --------
       - name: Use Node 22
         uses: actions/setup-node@v4
         with:
@@ -73,5 +76,8 @@ jobs:
         env:
           PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
           PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
-          CHANGED_FILES: ${{ env.CHANGED_FILES }}
-        run: node scripts/push-from-changes.mjs
+          CHANGED_FILES: ${{ github.event.before }}..${{ github.sha }}
+        run: |
+          # Provide your script a list of changed files (more reliable than HEAD~1)
+          export CHANGED_FILES="$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
+          node scripts/push-from-changes.mjs
