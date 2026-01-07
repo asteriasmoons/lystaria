@@ -101,6 +101,6 @@ const updates = defineCollection({
 });
 
 export const collections = {
-  posts,
+  posts: postsCollection,
   updates,
 };
