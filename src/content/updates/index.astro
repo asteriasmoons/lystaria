@@ -1,0 +1,30 @@
+---
+export const prerender = true;
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const updates = await getCollection("updates");
+const sorted = updates.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Updates">
+  <main class="container">
+    <h1>Updates</h1>
+
+    <div class="post-list">
+      {sorted.map((u) => (
+        <a class="post-card" href={`/updates/${u.slug}`}>
+          <h2>{u.data.title}</h2>
+          <p>
+            {u.data.pubDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
+        </a>
+      ))}
+    </div>
+  </main>
+</BaseLayout>

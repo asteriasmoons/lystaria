@@ -91,6 +91,16 @@ const postsCollection = defineCollection({
     })),
 });
 
+const updates = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.date(),
+    push: z.boolean().optional(),
+    pushMessage: z.string().optional(),
+  }),
+});
+
 export const collections = {
-  posts: postsCollection,
+  posts,
+  updates,
 };
