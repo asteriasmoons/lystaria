@@ -2,8 +2,9 @@
 // @ts-nocheck
 // Horoscopes Page
 import BaseLayout from "../layouts/BaseLayout.astro";
-const API_KEY = import.meta.env.API_NINJAS_KEY;
 import { getCachedHoroscopes } from "../lib/horoscopesCache.js";
+
+const API_KEY = import.meta.env.API_NINJAS_KEY;
 
 const signs = [
   { name: "aries", dates: "Mar 21 - Apr 19" },
@@ -17,7 +18,7 @@ const signs = [
   { name: "sagittarius", dates: "Nov 22 - Dec 21" },
   { name: "capricorn", dates: "Dec 22 - Jan 19" },
   { name: "aquarius", dates: "Jan 20 - Feb 18" },
-  { name: "pisces", dates: "Feb 19 - Mar 20" },
+  { name: "pisces", dates: "Feb 19 - Mar 20" }
 ];
 
 const horoscopes = await getCachedHoroscopes(async () => {
@@ -28,7 +29,10 @@ const horoscopes = await getCachedHoroscopes(async () => {
     const timeout = setTimeout(() => controller.abort(), ms);
 
     try {
-   const res = await fetch(url, Object.assign({}, options, { signal: controller.signal }));
+      const res = await fetch(
+        url,
+        Object.assign({}, options, { signal: controller.signal })
+      );
       return res;
     } finally {
       clearTimeout(timeout);
@@ -38,26 +42,28 @@ const horoscopes = await getCachedHoroscopes(async () => {
   const requests = signs.map(async (sign) => {
     try {
       const response = await fetchWithTimeout(
-        `https://api.api-ninjas.com/v1/horoscope?zodiac=${sign.name}`,
+        "https://api.api-ninjas.com/v1/horoscope?zodiac=" + sign.name,
         {
           headers: {
-            'X-Api-Key': API_KEY,
-          },
+            "X-Api-Key": API_KEY
+          }
         }
       );
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
 
       const data = await response.json();
       results[sign.name] = {
-        ...data,
-        dates: sign.dates,
+        horoscope: data.horoscope,
+        dates: sign.dates
       };
     } catch (error) {
-      console.error(`Error fetching ${sign.name}:`, error);
+      console.error("Error fetching " + sign.name + ":", error);
       results[sign.name] = {
         horoscope: "Horoscope unavailable at this time.",
-        dates: sign.dates,
+        dates: sign.dates
       };
     }
   });
@@ -70,7 +76,7 @@ const today = new Date().toLocaleDateString("en-US", {
   weekday: "long",
   year: "numeric",
   month: "long",
-  day: "numeric",
+  day: "numeric"
 });
 ---
 
