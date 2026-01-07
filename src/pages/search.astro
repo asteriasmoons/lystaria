@@ -3,6 +3,7 @@
 // Search page
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import GradientDivider from '../components/GradientDivider.astro'
 
 // Get all posts for searching
 const allPosts = await getCollection("posts");
@@ -47,6 +48,8 @@ const postsData = sortedPosts.map((post) => ({
       </div>
     </header>
   </section>
+  
+  <GradientDivider />
 
   <section class="search-results">
     <div id="search-results" class="posts-grid" style="display: none;"></div>
@@ -155,10 +158,10 @@ const postsData = sortedPosts.map((post) => ({
     margin-bottom: 2rem;
   }
 
-  .search-page .search-box {
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto;
+   .search-page .search-box {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto 3rem;
   }
 
   .search-page #search-input {
