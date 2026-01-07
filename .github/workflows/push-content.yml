@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "src/content/posts/**"
-      - "src/content/updates/**"
+      - "src/pages/updates.astro"
 
 jobs:
   notify:

@@ -13,14 +13,13 @@ if (!PUSH_WEBHOOK_URL || !PUSH_WEBHOOK_SECRET) {
 
 const files = CHANGED_FILES.split("\n").map((s) => s.trim()).filter(Boolean);
 
-// Only react to content changes
-const targets = files.filter(
-  (f) =>
-    f.startsWith("src/content/posts/") ||
-    f.startsWith("src/content/updates/")
-);
+const isPost = (f) =>
+  f.startsWith("src/content/posts/") && /\.(md|mdx)$/.test(f);
 
-// If none, do nothing
+const isUpdatesAstro = (f) => f === "src/pages/updates.astro";
+
+const targets = files.filter((f) => isPost(f) || isUpdatesAstro(f));
+
 if (!targets.length) {
   console.log("No relevant content changes.");
   process.exit(0);
@@ -32,20 +31,29 @@ function slugFromFile(filePath) {
 }
 
 function urlForFile(filePath) {
-  if (filePath.startsWith("src/content/updates/")) {
-    return `/updates/${slugFromFile(filePath)}`;
-  }
-  if (filePath.startsWith("src/content/posts/")) {
-    // If your posts are /blog/<slug>, keep this:
-    return `/blog/${slugFromFile(filePath)}`;
-  }
+  if (isUpdatesAstro(filePath)) return "/updates";
+  if (isPost(filePath)) return `/blog/${slugFromFile(filePath)}`;
   return "/";
 }
 
-function kindForFile(filePath) {
-  if (filePath.startsWith("src/content/updates/")) return "Update";
-  if (filePath.startsWith("src/content/posts/")) return "New post";
-  return "Update";
+function parsePushMetaFromAstro(src) {
+  // Looks for:
+  // PUSH_META
+  // title: ...
+  // message: ...
+  // PUSH_META_END
+  const re = /PUSH_META([\s\S]*?)PUSH_META_END/;
+  const m = src.match(re);
+  if (!m) return null;
+
+  const block = m[1];
+  const titleMatch = block.match(/title:\s*(.+)\s*/i);
+  const messageMatch = block.match(/message:\s*(.+)\s*/i);
+
+  return {
+    title: titleMatch ? titleMatch[1].trim() : null,
+    message: messageMatch ? messageMatch[1].trim() : null,
+  };
 }
 
 async function sendPush({ title, message, url }) {
@@ -64,26 +72,31 @@ async function sendPush({ title, message, url }) {
   console.log(`Push sent: ${title} -> ${url}`);
 }
 
-// If multiple files changed in one push, we'll send one notification per file.
-// (We can change this to "bundle into one" later if you want.)
 for (const file of targets) {
-  if (!fs.existsSync(file)) continue; // deleted/renamed
+  if (!fs.existsSync(file)) continue;
 
   const raw = fs.readFileSync(file, "utf8");
+  const url = urlForFile(file);
+
+  if (isUpdatesAstro(file)) {
+    const meta = parsePushMetaFromAstro(raw) || {};
+    const title = meta.title || "New update";
+    const message = meta.message || "A new update is live. Tap to read.";
+    await sendPush({ title, message, url });
+    continue;
+  }
+
+  // Posts (.md/.mdx)
   const parsed = matter(raw);
   const data = parsed.data || {};
 
   const title =
-    typeof data.title === "string"
-      ? data.title
-      : `${kindForFile(file)} published`;
+    typeof data.title === "string" ? data.title : "New blog post";
 
   const message =
-    file.startsWith("src/content/updates/")
-      ? "A new update is live. Tap to read."
+    typeof data.pushMessage === "string"
+      ? data.pushMessage
       : "A new blog post is live. Tap to read.";
-
-  const url = urlForFile(file);
 
   await sendPush({ title, message, url });
 }

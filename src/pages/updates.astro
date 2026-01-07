@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+/**
+ * PUSH_META
+ * title: New update
+ * message: A fresh update is live -- tap to read.
+ * PUSH_META_END
+ */
+
+const pageTitle = "Updates";
+---
+
+<BaseLayout title={pageTitle}>
+  <main class="container">
+    <h1>Updates</h1>
+
+    <section class="post">
+      <h2>Latest</h2>
+      <p>
+        Put your announcement content here. You can rewrite this section each time,
+        or keep a running log.
+      </p>
+    </section>
+
+    <section class="post">
+      <h2>Previous</h2>
+      <ul>
+        <li>Example older update</li>
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
