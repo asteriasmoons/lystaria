@@ -4,9 +4,8 @@
   max-width: 500px;
   height: 2px;
 
-  /* subtle breathing room */
-  margin: 1.25rem auto;
-  padding: 0.25rem 0.5rem;
+  /* balanced breathing room -- no padding needed */
+  margin: 1.5rem auto;
 
   border-radius: 2px;
   background: linear-gradient(
@@ -26,7 +25,6 @@
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.12));
 }
 
-/* shimmer stays exactly as-is */
 @keyframes shimmer {
   0%,
   100% {
@@ -40,8 +38,7 @@
 /* mobile: slightly tighter but never crushed */
 @media (max-width: 860px) {
   .gradient-divider {
-    margin: 1rem auto;
-    padding: 0.2rem 0.4rem;
+    margin: 1.25rem auto;
     max-width: 420px;
   }
 }
