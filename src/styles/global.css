@@ -166,6 +166,7 @@ i {
   color: transparent;
   transition: opacity 0.25s ease;
 }
+
 .site-header a:hover {
   opacity: 0.8;
 }
@@ -241,7 +242,7 @@ h6 {
   overflow: visible !important;
 
   line-height: 1.2 !important;
-  margin: 0; /* was 0 0 0 */
+  margin: 1rem 1rem;
   display: inline-block;
 
   /* prevent first/last letter shaving with Berkshire Swash + 
