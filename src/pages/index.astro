@@ -262,147 +262,281 @@ const latestPosts = sortedPosts.slice(0, 2);
 }
 </style>
 
-  <script>
-    // @ts-nocheck
-    // Accurate Moon Phase & Zodiac Calculator
-    const SYNODIC_MONTH = 29.530588853;
-    const NEW_MOON_EPOCH_JD = 2451550.1;
-    const PHASE_OFFSET_DAYS = 0.706;
+<script>
+  // @ts-nocheck
+  // Moon Phase + Moon Sign (Meeus-style new moon timing + "moment windows")
+  // Keeps your existing icon paths + UI rendering
 
-    const PHASE_BOUNDS = [
-      0.0,
-      1.84566,
-      5.53699,
-      9.22831,
-      12.91963,
-      16.61096,
-      20.30228,
-      23.99361,
-      SYNODIC_MONTH,
-    ];
+  const SYNODIC_MONTH = 29.530588853; // mean synodic month (days)
 
-    const PHASE_NAMES = [
-      "New Moon",
-      "Waxing Crescent",
-      "First Quarter",
-      "Waxing Gibbous",
-      "Full Moon",
-      "Waning Gibbous",
-      "Last Quarter",
-      "Waning Crescent",
-    ];
+  // Reference new moon epoch used for lunation indexing (Meeus)
+  // 2000-01-06 18:14 UT ≈ JD 2451550.09765
+  const NEW_MOON_EPOCH_JD = 2451550.09765;
 
-    // Moon phase SVG icons (SVG)
-    const PHASE_ICONS = [
-      '<img src="/icons/moons/white/newmoon.svg" alt="New Moon">',
+  const ZODIAC_SIGNS = [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+  ];
+
+  // Phase icons (keep your existing SVG paths)
+  const PHASE_ICON_BY_NAME = {
+    "New Moon": '<img src="/icons/moons/white/newmoon.svg" alt="New Moon">',
+    "Waxing Crescent":
       '<img src="/icons/moons/white/waxingcrescent.svg" alt="Waxing Crescent">',
+    "First Quarter":
       '<img src="/icons/moons/white/firstquarter.svg" alt="First Quarter">',
+    "Waxing Gibbous":
       '<img src="/icons/moons/white/waxinggibbous.svg" alt="Waxing Gibbous">',
-      '<img src="/icons/moons/white/fullmoon.svg" alt="Full Moon">',
+    "Full Moon": '<img src="/icons/moons/white/fullmoon.svg" alt="Full Moon">',
+    "Waning Gibbous":
       '<img src="/icons/moons/white/waninggibbous.svg" alt="Waning Gibbous">',
+    "Last Quarter":
       '<img src="/icons/moons/white/lastquarter.svg" alt="Last Quarter">',
+    "Waning Crescent":
       '<img src="/icons/moons/white/waningcrescent.svg" alt="Waning Crescent">',
-    ];
+  };
 
-    const ZODIAC_SIGNS = [
-      "Aries",
-      "Taurus",
-      "Gemini",
-      "Cancer",
-      "Leo",
-      "Virgo",
-      "Libra",
-      "Scorpio",
-      "Sagittarius",
-      "Capricorn",
-      "Aquarius",
-      "Pisces",
-    ];
+  // -----------------------------
+  // Helpers
+  // -----------------------------
+  function toJulianDay(date) {
+    return date.getTime() / 86400000 + 2440587.5;
+  }
 
-    function toJulianDay(date) {
-      return date.getTime() / 86400000 + 2440587.5;
+  function norm360(deg) {
+    deg = deg % 360;
+    return deg < 0 ? deg + 360 : deg;
+  }
+
+  function clamp01(x) {
+    return Math.max(0, Math.min(1, x));
+  }
+
+  function deg2rad(deg) {
+    return (deg * Math.PI) / 180;
+  }
+
+  function sinDeg(deg) {
+    return Math.sin(deg2rad(deg));
+  }
+
+  // -----------------------------
+  // New Moon time approximation (Meeus-style, truncated)
+  // -----------------------------
+  function newMoonJDE(k) {
+    const T = k / 1236.85;
+    const T2 = T * T;
+    const T3 = T2 * T;
+    const T4 = T3 * T;
+
+    // Mean time of phase (New Moon)
+    let JDE =
+      2451550.09765 +
+      29.530588853 * k +
+      0.0001337 * T2 -
+      0.000000150 * T3 +
+      0.00000000073 * T4;
+
+    // Sun's mean anomaly (deg)
+    const M =
+      2.5534 +
+      29.1053567 * k -
+      0.0000014 * T2 -
+      0.00000011 * T3;
+
+    // Moon's mean anomaly (deg)
+    const Mp =
+      201.5643 +
+      385.81693528 * k +
+      0.0107582 * T2 +
+      0.00001238 * T3 -
+      0.000000058 * T4;
+
+    // Moon's argument of latitude (deg)
+    const F =
+      160.7108 +
+      390.67050284 * k -
+      0.0016118 * T2 -
+      0.00000227 * T3 +
+      0.000000011 * T4;
+
+    // Longitude of ascending node of lunar orbit (deg)
+    const Om =
+      124.7746 -
+      1.56375588 * k +
+      0.0020672 * T2 +
+      0.00000215 * T3;
+
+    // Eccentricity correction factor
+    const E = 1 - 0.002516 * T - 0.0000074 * T2;
+
+    // Periodic terms (New Moon)
+    JDE +=
+      -0.4072 * sinDeg(Mp) +
+      0.17241 * E * sinDeg(M) +
+      0.01608 * sinDeg(2 * Mp) +
+      0.01039 * sinDeg(2 * F) +
+      0.00739 * E * sinDeg(Mp - M) -
+      0.00514 * E * sinDeg(Mp + M) +
+      0.00208 * E * E * sinDeg(2 * M) -
+      0.00111 * sinDeg(Mp - 2 * F) -
+      0.00057 * sinDeg(Mp + 2 * F) +
+      0.00056 * E * sinDeg(2 * Mp + M) -
+      0.00042 * sinDeg(3 * Mp) +
+      0.00042 * E * sinDeg(M + 2 * F) +
+      0.00038 * E * sinDeg(M - 2 * F) -
+      0.00024 * sinDeg(2 * Mp - M) -
+      0.00017 * sinDeg(Om);
+
+    return JDE;
+  }
+
+  // -----------------------------
+  // Moon age (days since most recent New Moon)
+  // -----------------------------
+  function getMoonAgeDays(date = new Date()) {
+    const jd = toJulianDay(date);
+
+    // Estimate lunation index near this date
+    const k0 = Math.round((jd - NEW_MOON_EPOCH_JD) / SYNODIC_MONTH);
+
+    // Compute nearby new moons and choose the most recent one <= jd
+    const nm0 = newMoonJDE(k0);
+    const nmPrev = newMoonJDE(k0 - 1);
+    const nmNext = newMoonJDE(k0 + 1);
+
+    let lastNewMoon = nm0;
+    if (nm0 > jd) lastNewMoon = nmPrev;
+    else if (nmNext <= jd) lastNewMoon = nmNext;
+
+    let age = jd - lastNewMoon;
+
+    // Clamp into [0, SYNODIC_MONTH)
+    age = age % SYNODIC_MONTH;
+    if (age < 0) age += SYNODIC_MONTH;
+
+    return age;
+  }
+
+  // -----------------------------
+  // Phase naming (tight windows for "moment" phases)
+  // -----------------------------
+  function getMoonPhaseNameOnly(date = new Date()) {
+    const age = getMoonAgeDays(date);
+
+    // Key centers (days)
+    const q1 = SYNODIC_MONTH * 0.25;
+    const fm = SYNODIC_MONTH * 0.5;
+    const q3 = SYNODIC_MONTH * 0.75;
+
+    // "Moment windows" in DAYS so New/Full/Quarters don't last multiple days.
+    // 0.50 = 12 hours, 0.75 = 18 hours, 1.0 = 24 hours
+    const WINDOW_NEW = 0.75;
+    const WINDOW_QTR = 0.75;
+    const WINDOW_FULL = 0.75;
+
+    // Distance to new moon moment (wrap around start/end)
+    const distToNew = Math.min(age, SYNODIC_MONTH - age);
+    const dist = (a, center) => Math.abs(a - center);
+
+    // 1) Moment phase windows
+    if (distToNew <= WINDOW_NEW) return "New Moon";
+    if (dist(age, q1) <= WINDOW_QTR) return "First Quarter";
+    if (dist(age, fm) <= WINDOW_FULL) return "Full Moon";
+    if (dist(age, q3) <= WINDOW_QTR) return "Last Quarter";
+
+    // 2) Otherwise: crescent/gibbous by half-cycle
+    const waxing = age < fm;
+
+    if (waxing) {
+      if (age < q1) return "Waxing Crescent";
+      return "Waxing Gibbous";
+    } else {
+      if (age < q3) return "Waning Gibbous";
+      return "Waning Crescent";
     }
+  }
 
-    function norm360(deg) {
-      deg = deg % 360;
-      return deg < 0 ? deg + 360 : deg;
-    }
+  // Keep your old function shape: returns { name, icon }
+  function getMoonPhaseName(date = new Date()) {
+    const name = getMoonPhaseNameOnly(date);
+    const icon =
+      PHASE_ICON_BY_NAME[name] || PHASE_ICON_BY_NAME["New Moon"] || "";
+    return { name, icon };
+  }
 
-    function clamp01(x) {
-      return Math.max(0, Math.min(1, x));
-    }
+  // -----------------------------
+  // Moon sign (approx) by ecliptic longitude
+  // -----------------------------
+  function getMoonEclipticLongitude(date = new Date()) {
+    const jd = toJulianDay(date);
+    const d = jd - 2451545.0;
 
-    function getMoonAgeDays(date = new Date()) {
-      const jd = toJulianDay(date);
-      let age = (jd - NEW_MOON_EPOCH_JD + PHASE_OFFSET_DAYS) % SYNODIC_MONTH;
-      if (age < 0) age += SYNODIC_MONTH;
-      return age;
-    }
+    const L = norm360(218.316 + 13.176396 * d);
+    const Mm = norm360(134.963 + 13.064993 * d);
+    const Ms = norm360(357.529 + 0.98560028 * d);
+    const D = norm360(297.85 + 12.190749 * d);
+    const F = norm360(93.272 + 13.22935 * d);
 
-    function getMoonPhaseName(date = new Date()) {
-      const age = getMoonAgeDays(date);
-      for (let i = 0; i < PHASE_BOUNDS.length - 1; i++) {
-        if (age >= PHASE_BOUNDS[i] && age < PHASE_BOUNDS[i + 1]) {
-          return { name: PHASE_NAMES[i], icon: PHASE_ICONS[i] };
-        }
-      }
-      return { name: PHASE_NAMES[0], icon: PHASE_ICONS[0] };
-    }
+    const lon =
+      L +
+      6.289 * Math.sin(deg2rad(Mm)) +
+      1.274 * Math.sin(deg2rad(2 * D - Mm)) +
+      0.658 * Math.sin(deg2rad(2 * D)) +
+      0.214 * Math.sin(deg2rad(2 * Mm)) -
+      0.186 * Math.sin(deg2rad(Ms)) -
+      0.114 * Math.sin(deg2rad(2 * F));
 
-    function getMoonEclipticLongitude(date = new Date()) {
-      const jd = toJulianDay(date);
-      const d = jd - 2451545.0;
+    return norm360(lon);
+  }
 
-      const L = norm360(218.316 + 13.176396 * d);
-      const Mm = norm360(134.963 + 13.064993 * d);
-      const Ms = norm360(357.529 + 0.98560028 * d);
-      const D = norm360(297.85 + 12.190749 * d);
-      const F = norm360(93.272 + 13.22935 * d);
+  function getMoonSign(date = new Date()) {
+    return ZODIAC_SIGNS[Math.floor(getMoonEclipticLongitude(date) / 30)];
+  }
 
-      const lon =
-        L +
-        6.289 * Math.sin((Mm * Math.PI) / 180) +
-        1.274 * Math.sin(((2 * D - Mm) * Math.PI) / 180) +
-        0.658 * Math.sin((2 * D * Math.PI) / 180) +
-        0.214 * Math.sin((2 * Mm * Math.PI) / 180) -
-        0.186 * Math.sin((Ms * Math.PI) / 180) -
-        0.114 * Math.sin((2 * F * Math.PI) / 180);
+  // -----------------------------
+  // Illumination + Moon Day
+  // -----------------------------
+  function getIlluminationFraction(date = new Date()) {
+    const age = getMoonAgeDays(date);
+    return clamp01(0.5 * (1 - Math.cos((2 * Math.PI * age) / SYNODIC_MONTH)));
+  }
 
-      return norm360(lon);
-    }
+  function getMoonDayNumber(date = new Date()) {
+    const age = getMoonAgeDays(date);
+    return Math.floor(age) + 1; // Moon Day 1..30
+  }
 
-    function getMoonSign(date = new Date()) {
-      return ZODIAC_SIGNS[Math.floor(getMoonEclipticLongitude(date) / 30)];
-    }
+  // -----------------------------
+  // Update the moon phase display (your existing DOM template)
+  // -----------------------------
+  const moonPhaseEl = document.getElementById("moon-phase");
+  if (moonPhaseEl) {
+    const now = new Date();
+    const phase = getMoonPhaseName(now); // { name, icon }
+    const sign = getMoonSign(now);
+    const moonDay = getMoonDayNumber(now);
+    const illumPct = (getIlluminationFraction(now) * 100).toFixed(1);
 
-    function getIlluminationFraction(date = new Date()) {
-      const age = getMoonAgeDays(date);
-      return clamp01(0.5 * (1 - Math.cos((2 * Math.PI * age) / SYNODIC_MONTH)));
-    }
-
-    function getMoonDayNumber(date = new Date()) {
-      const age = getMoonAgeDays(date);
-      return Math.floor(age) + 1;
-    }
-
-    // Update the moon phase display
-    const moonPhaseEl = document.getElementById("moon-phase");
-    if (moonPhaseEl) {
-      const now = new Date();
-      const phase = getMoonPhaseName(now);
-      const sign = getMoonSign(now);
-      const moonDay = getMoonDayNumber(now);
-      const illumPct = (getIlluminationFraction(now) * 100).toFixed(1);
-
-      moonPhaseEl.innerHTML = `
-  <div class="moon-info-main">
-    <span class="moon-icon">${phase.icon}</span>
-    <div class="moon-text-group">
-      <span class="moon-title">${phase.name} in ${sign}</span>
-      <span class="moon-details">Moon Day ${moonDay} • ${illumPct}% illuminated</span>
-    </div>
-  </div>
-`;
-    }
-  </script>
+    moonPhaseEl.innerHTML = `
+      <div class="moon-info-main">
+        <span class="moon-icon">${phase.icon}</span>
+        <div class="moon-text-group">
+          <span class="moon-title">${phase.name} in ${sign}</span>
+          <span class="moon-details">Moon Day ${moonDay} • ${illumPct}% illuminated</span>
+        </div>
+      </div>
+    `;
+  }
+</script>
 </BaseLayout>
