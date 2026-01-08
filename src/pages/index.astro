@@ -22,276 +22,255 @@ const latestPosts = sortedPosts.slice(0, 2);
   image="/banner.png"
   type="website"
 >
-  <div class="home">
-    <section class="hero">
-      <h1>Welcome to Lystaria</h1>
-      <p class="intro">
-        Where the mystical meets the mundane. A space for exploring the magic
-        woven into everyday life--through personal growth, mental wellness, and
-        the philosophies that shape us. Here, we honor both the cosmic and the
-        practical, the spiritual and the human.
-      </p>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Welcome to Lystaria</h1>
 
-      <div class="moon-phase" id="moon-phase">
-        <span class="moon-text">Calculating moon phase...</span>
-      </div>
-    </section>
+    <p class="intro">
+      Where the mystical meets the mundane. A space for exploring the magic
+      woven into everyday life--through personal growth, mental wellness, and
+      the philosophies that shape us. Here, we honor both the cosmic and the
+      practical, the spiritual and the human.
+    </p>
 
-    <GradientDivider />
+    <div class="moon-phase" id="moon-phase">
+      <span class="moon-text">Calculating moon phase...</span>
+    </div>
+  </section>
 
-    <section class="featured-posts">
-      <h2>Latest Spells & Stories</h2>
+  <GradientDivider />
 
-      <div class="post-grid">
-        {
-          latestPosts.map((post) => {
-            const formattedDate = new Date(
-              post.data.pubDate
-            ).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
+  <!-- FEATURED POSTS SECTION -->
+  <section class="featured-posts">
+    <h2>Latest Spells & Stories</h2>
 
-            return (
-              <article class="post-card">
-                {post.data.coverImage && (
-                  <div class="post-media">
-                    <img
-                      src={post.data.coverImage}
-                      alt=""
-                      loading="lazy"
-                      class="post-cover"
-                    />
+    <div class="post-grid">
+      {
+        latestPosts.map((post) => {
+          const formattedDate = new Date(
+            post.data.pubDate
+          ).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          return (
+            <article class="post-card">
+              {post.data.coverImage && (
+                <div class="post-media">
+                  <img
+                    src={post.data.coverImage}
+                    alt=""
+                    loading="lazy"
+                    class="post-cover"
+                  />
+                </div>
+              )}
+
+              <div class="post-lower">
+                <a class="post-link" href={`/blog/${post.slug}`}>
+                  <div class="post-content">
+                    <h3>{post.data.title}</h3>
+                    <p class="post-date">{formattedDate}</p>
+                    <p class="post-description">{post.data.description}</p>
+                    <div class="read-more">Read more →</div>
+                  </div>
+                </a>
+
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="post-tags">
+                    {post.data.tags.slice(0, 3).map((tag) => (
+                      <a href={`/blog/tag/${tag}`} class="tag">
+                        {tag}
+                      </a>
+                    ))}
                   </div>
                 )}
-
-                <div class="post-lower">
-                  <a class="post-link" href={`/blog/${post.slug}`}>
-                    <div class="post-content">
-                      <h3>{post.data.title}</h3>
-                      <p class="post-date">{formattedDate}</p>
-                      <p class="post-description">{post.data.description}</p>
-                      <div class="read-more">Read more →</div>
-                    </div>
-                  </a>
-
-                  {post.data.tags && post.data.tags.length > 0 && (
-                    <div class="post-tags">
-                      {post.data.tags.slice(0, 3).map((tag) => (
-                        <a href={`/blog/tag/${tag}`} class="tag">
-                          {tag}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </article>
-            );
-          })
-        }
-      </div>
-
-      <div class="view-all">
-        <a href="/blog" class="view-all-link">View All Posts →</a>
-      </div>
-    </section>
-  </div>
-
-  <style>
-    .home {
-      width: 100%;
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 2.25rem 0 1.75rem;
-      gap: 1.15rem;
-      /* FIX: gap only works with flex/grid */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* border-bottom: 1px solid var(--color-border); */
-    }
-
-    .hero h1 {
-      font-size: 2rem;
-      margin: 0;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* INTRO BOX */
-    .intro {
-      max-width: 700px;
-      width: 100%;
-      margin: 0 auto; /* FIX: stable centering */
-      padding: 2rem;
-
-      border: 2px dotted transparent;
-      border-image: var(--gradient-accent) 1;
-
-      /* Note: border-radius won't clip border-image, known limitation */
-      border-radius: 8px;
-
-      font-size: 0.85rem;
-      color: #ffffff;
-    }
-
-    /* =========================================================
-   MOON PHASE
-   FIX: remove duplicated container styling.
-   Use #moon-phase as the ONE true container.
-   ========================================================= */
-
-    /* REMOVE the duplicate container block by neutralizing it:
-   .moon-phase should behave like text inside the card, not a box. */
-    .moon-phase {
-      display: inline;
-      padding: 0;
-      margin: 0;
-      background: none;
-      border: 0;
-      border-radius: 0;
-      font-size: inherit;
-    }
-
-    /* Outer container */
-    #moon-phase {
-      display: inline-block;
-      padding: 0.7rem 1.05rem;
-      background: var(--overlay-gradient-accent);
-      border: none;
-      border-radius: 10px;
-      /* FIX: let .hero gap control spacing */
-      margin: 0;
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.08),
-        0 12px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    /* Inner wrapper */
-    .moon-info-main {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    /* Moon icon */
-    .moon-icon {
-      width: 1.6em;
-      height: 1.6em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-
-    .moon-icon img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: contain;
-    }
-
-    .moon-text-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    /* This stays, and now it ONLY affects the text element */
-    .moon-text-group .moon-phase {
-      font-size: 1.6rem;
-      color: var(--color-accent-bright);
-      letter-spacing: 0.05em;
-      font-weight: 600;
-      line-height: 1.2;
-    }
-
-    .moon-divider {
-      color: var(--color-text-muted);
-      margin: 0 0.25rem;
-    }
-
-    .moon-details {
-      font-size: 0.95rem;
-      color: var(--color-text-muted);
-    }
-
-    /* FEATURED POSTS SECTION */
-    .featured-posts {
-      text-align: center;
-      padding: 2rem 0 2.5rem;
-    }
-
-    /* Keep the section wide, but make the cards area a nicer width */
-    .featured-posts .post-grid {
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    .featured-posts h2 {
-      font-size: 2rem;
-      /* FIX: make heading spacing predictable */
-      margin: 0 0 1.25rem;
-    }
-
-    .view-all {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .view-all-link {
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      background-color: var(--color-bg-secondary);
-      border: 1px solid var(--color-accent);
-      border-radius: 50px;
-      color: var(--color-accent-bright);
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .view-all-link:hover {
-      background-color: var(--color-accent);
-      color: var(--color-bg);
-      transform: translateY(-2px);
-    }
-
-    /* MOBILE CONFIGS */
-    @media (max-width: 920px) {
-      .container {
-        padding: 0 1.25rem;
+              </div>
+            </article>
+          );
+        })
       }
+    </div>
 
-      .hero {
-        padding: 1.75rem 0 1.25rem;
-        gap: 1rem;
-      }
+    <div class="view-all">
+      <a href="/blog" class="view-all-link">View All Posts →</a>
+    </div>
+  </section>
+</BaseLayout>
 
-      .hero h1 {
-        font-size: 2rem;
-      }
+/* =========================
+   HERO
+   ========================= */
+.hero {
+  text-align: center;
+  padding: 2.25rem 0 0;
+  gap: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-      #moon-phase {
-        padding: 0.65rem 0.95rem;
-      }
+.hero h1 {
+  font-size: 2rem;
+  margin: 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-      .intro {
-        font-size: 0.9rem;
-        padding: 1.5rem;
-      }
+/* =========================
+   INTRO BOX
+   ========================= */
+.intro {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
 
-      .featured-posts h2 {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+  border: 2px dotted transparent;
+  border-image: var(--gradient-accent) 1;
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+/* =========================
+   MOON PHASE (FIXED NAMING)
+   ========================= */
+
+/* OUTER CONTAINER */
+#moon-phase {
+  display: inline-block;
+  padding: 0.7rem 1.05rem;
+  background: var(--overlay-gradient-accent);
+  border: none;
+  border-radius: 10px;
+  margin: 0;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* injected layout */
+.moon-info-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* icon wrapper */
+.moon-icon {
+  width: 1.6em;
+  height: 1.6em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.moon-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* text stack */
+.moon-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+/* ✅ TITLE TEXT (no collision anymore) */
+.moon-title {
+  font-size: 1.6rem;
+  color: var(--color-accent-bright);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.moon-details {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+/* =========================
+   FEATURED POSTS
+   ========================= */
+.featured-posts {
+  text-align: center;
+  padding: 2rem 0 2.5rem;
+}
+
+.featured-posts .post-grid {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.featured-posts h2 {
+  font-size: 2rem;
+  margin: 0 0 1.25rem;
+}
+
+.view-all {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-link {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-accent);
+  border-radius: 50px;
+  color: var(--color-accent-bright);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+}
+
+/* =========================
+   MOBILE (1100px breakpoint)
+   ========================= */
+@media (max-width: 1100px) {
+  .hero {
+    padding: 1.75rem 0 1.25rem;
+    gap: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  #moon-phase {
+    padding: 0.65rem 0.95rem;
+  }
+
+  .moon-title {
+    font-size: 1.35rem;
+  }
+
+  .intro {
+    font-size: 0.9rem;
+    padding: 1.5rem;
+  }
+
+  .featured-posts h2 {
+    font-size: 1.6rem;
+  }
+}
 
   <script>
     // @ts-nocheck
@@ -429,7 +408,7 @@ const latestPosts = sortedPosts.slice(0, 2);
   <div class="moon-info-main">
     <span class="moon-icon">${phase.icon}</span>
     <div class="moon-text-group">
-      <span class="moon-phase">${phase.name} in ${sign}</span>
+      <span class="moon-title">${phase.name} in ${sign}</span>
       <span class="moon-details">Moon Day ${moonDay} • ${illumPct}% illuminated</span>
     </div>
   </div>
