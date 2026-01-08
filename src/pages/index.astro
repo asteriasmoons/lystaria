@@ -42,8 +42,6 @@ const latestPosts = sortedPosts.slice(0, 2);
 
   <!-- FEATURED POSTS SECTION -->
   <section class="featured-posts">
-    <h2>Latest Spells & Stories</h2>
-
     <div class="post-grid">
       {
         latestPosts.map((post) => {
@@ -213,10 +211,9 @@ const latestPosts = sortedPosts.slice(0, 2);
   margin: 0; /* was 0 auto */
 }
 
-.featured-posts h2 {
+/* .featured-posts h2 {
   font-size: 2rem;
-  /* margin: 0 0 1.25rem; */
-}
+} */
 
 .view-all {
   text-align: center;
@@ -265,10 +262,6 @@ const latestPosts = sortedPosts.slice(0, 2);
   .intro {
     font-size: 0.9rem;
     padding: 1.5rem;
-  }
-
-  .featured-posts h2 {
-    font-size: 1.6rem;
   }
 }
 </style>
