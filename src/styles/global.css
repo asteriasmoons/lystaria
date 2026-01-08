@@ -48,6 +48,25 @@
     #00dbff 72%,
     #00dbff 100%
   );
+  
+  --grad-heading: linear-gradient(
+    90deg,
+    /* Blue */
+    #7e7eff 10%,
+    #7e7eff 32%,
+
+    /* Yellow */
+    #f6f65a 38%,
+    #f6f65a 48%,
+
+    /* Pink */
+    #e019d4 54%,
+    #e019d4 64%,
+
+    /* Cyan */
+    #00dbff 72%,
+    #00dbff 100%
+  );
 
   --gradient-accent: linear-gradient(
     45deg,
@@ -233,7 +252,7 @@ h6 {
   background-position: center;
   background-repeat: no-repeat;
 
-  background-image: var(--gradient-heading);
+  background-image: var(--grad-heading);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
