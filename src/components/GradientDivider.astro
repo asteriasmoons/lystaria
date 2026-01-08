@@ -1,37 +1,47 @@
-<div class="gradient-divider"></div>
+.gradient-divider {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: 2px;
 
-<style is:global>
+  /* subtle breathing room */
+  margin: 1.25rem auto;
+  padding: 0.25rem 0.5rem;
+
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 90%,
+    transparent 100%
+  );
+
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.12));
+}
+
+/* shimmer stays exactly as-is */
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+}
+
+/* mobile: slightly tighter but never crushed */
+@media (max-width: 860px) {
   .gradient-divider {
-    display: block;
-    width: 100%;
-    height: 2px;
-    margin: var(--divider-margin, 2rem) auto;
-    max-width: 500px;
-    border-radius: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      #7e7eff 10%,
-      #7e7eff 32%,
-      #f6f65a 38%,
-      #e019d4 60%,
-      #00dbff 72%,
-      #00dbff 90%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 3s ease-in-out infinite;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.12));
+    margin: 1rem auto;
+    padding: 0.2rem 0.4rem;
+    max-width: 420px;
   }
-
-  @keyframes shimmer {
-    0%, 100% { background-position: 0% 0%; }
-    50% { background-position: 100% 0%; }
-  }
-
-  @media (max-width: 768px) {
-    .gradient-divider {
-      margin: var(--divider-margin-mobile, 1.75rem) auto;
-    }
-  }
-</style>
+}
