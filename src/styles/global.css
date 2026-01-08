@@ -241,7 +241,7 @@ h6 {
   overflow: visible !important;
 
   line-height: 1.2 !important;
-  margin: 0 0 1rem;
+  margin: 0; /* was 0 0 0 */
   display: inline-block;
 
   /* prevent first/last letter shaving with Berkshire Swash + 
