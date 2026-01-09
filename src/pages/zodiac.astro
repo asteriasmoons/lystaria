@@ -170,24 +170,24 @@ const zodiacPosts = allPosts
     gap: 2rem;
   }
 
-  .post-card {
-    background: linear-gradient(
-      150deg,
-      #7e7eff 10%,
-      #7e7eff 32%,
-      #f6f65a 38%,
-      #e019d4 60%,
-      #00dbff 72%,
-      #00dbff 100%
-    );
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    background-clip: padding-box;
-  }
+.post-card {
+  background: linear-gradient(
+    150deg,
+    #7e7eff 10%,
+    #7e7eff 32%,
+    #f6f65a 38%,
+    #e019d4 60%,
+    #00dbff 72%,
+    #00dbff 100%
+  );
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 1.25rem; /* ✅ REAL padding */
+  display: flex;
+  flex-direction: column;
+  background-clip: padding-box;
+}
 
   .post-card::before {
     content: "";
@@ -203,21 +203,22 @@ const zodiacPosts = allPosts
     z-index: 1;
   }
 
-  .post-card .series-badge,
-  .post-card h2,
-  .post-card .post-description,
-  .post-card .read-button {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
+.post-card .series-badge {
+  margin-bottom: 0.75rem;
+}
 
-  .post-card .series-badge {
-    margin-top: 2rem;
-  }
+.post-card h2 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
 
-  .post-card .read-button {
-    margin-bottom: 2rem;
-  }
+.post-description {
+  margin-bottom: 1rem; /* was 2rem */
+}
+
+.post-card .read-button {
+  margin-top: auto; /* keeps it at the bottom */
+}
 
   .post-card :where(h2, p) {
     margin: 0;
@@ -385,8 +386,12 @@ const zodiacPosts = allPosts
     }
 
     .posts-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; 
     }
+    
+  .post-card {
+    padding: 1rem; /* less puffy on mobile */
+    } 
   }
 </style>
 </BaseLayout>
