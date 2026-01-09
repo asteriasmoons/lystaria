@@ -280,29 +280,23 @@ const zodiacPosts = allPosts
   /* =========================
      SUBSCRIBE BOX
      ========================= */
-
-.subscribe-box {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1rem;
-  text-align: center;
-}
-
-/* Keep headings clean */
-.subscribe-box :where(h3, p) {
-  margin: 0;
-}
-
-/* Tighten the paragraph spacing */
-.subscribe-box p {
-  color: rgba(255, 255, 255, 0.75);
-  margin-top: 0.5rem;
-  margin-bottom: 0.85rem; /* was 1.25rem */
-  font-size: 1rem;
-}
+  .subscribe-box {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    padding: 2.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(126, 126, 255, 0.1) 0%,
+      rgba(90, 200, 250, 0.06) 100%
+    );
+    border: 1px solid rgba(126, 126, 255, 0.25);
+    border-radius: 16px;
+    text-align: center;
+  }
 
   .subscribe-box h3 {
     font-size: 1.8rem;
+    margin-bottom: 0.5rem;
     background: none !important;
     -webkit-background-clip: initial !important;
     background-clip: initial !important;
@@ -310,13 +304,19 @@ const zodiacPosts = allPosts
     color: #ffffff !important;
   }
 
-/* Tighten form vertical gaps a little */
-.embeddable-buttondown-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem; /* was 0.75rem */
-  align-items: center;
-}
+  .subscribe-box p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+  }
+
+  /* BUTTONDOWN FORM (still exists) */
+  .embeddable-buttondown-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
 
   .embeddable-buttondown-form label {
     font-size: 0.95rem;
@@ -360,6 +360,20 @@ const zodiacPosts = allPosts
 
   .embeddable-buttondown-form input[type="submit"]:active {
     transform: translateY(0);
+  }
+
+  .embeddable-buttondown-form p {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+  }
+
+  .embeddable-buttondown-form p a {
+    color: rgba(126, 126, 255, 0.75);
+    text-decoration: none;
+  }
+
+  .embeddable-buttondown-form p a:hover {
+    color: rgba(90, 199, 250, 0.9);
   }
 
   /* =========================
