@@ -2,7 +2,7 @@
 // @ts-nocheck
 // Zodiac Series Landing Page (section-based spacing)
 import BaseLayout from "../layouts/BaseLayout.astro";
-import GradientDivider from "../components/GradientDivider.astro";
+import Divider from "../components/GradientDivider.astro";
 import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("posts");
@@ -57,7 +57,7 @@ const zodiacPosts = allPosts
     </div>
   </section>
 
-  <GradientDivider />
+  <Divider />
 
   <section class="series-posts">
     {
