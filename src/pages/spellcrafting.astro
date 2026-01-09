@@ -183,22 +183,39 @@ const spellcraftingPosts = allPosts
     height: 100%;
   }
 
-  /* put your padding on the content pieces, not the card */
-  .post-card .series-badge,
-  .post-card h2,
-  .post-card .post-description,
-  .post-card .read-button {
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
+/* ONE source of truth for inner spacing */
+.post-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem;
+}
 
-  .post-card .series-badge {
-    margin-top: 2rem;
-  }
+/* remove fake padding from children */
+.post-card .series-badge,
+.post-card h2,
+.post-card .post-description,
+.post-card .read-button {
+  margin-left: 0;
+  margin-right: 0;
+}
 
-  .post-card .read-button {
-    margin-bottom: 2rem;
-  }
+/* tighter, intentional vertical rhythm */
+.post-card .series-badge {
+  margin-bottom: 0.75rem;
+}
+
+.post-card h2 {
+  margin-bottom: 0.75rem;
+}
+
+.post-description {
+  margin-bottom: 1rem;
+}
+
+.post-card .read-button {
+  margin-bottom: 0;
+}
 
   .post-card:hover {
     transform: none;
@@ -358,6 +375,11 @@ const spellcraftingPosts = allPosts
     .posts-grid {
       grid-template-columns: 1fr;
     }
+    
+
+  .post-body {
+    padding: 1rem;
+  }
 
     .subscribe-box {
       padding: 2rem 1.5rem;
