@@ -10,8 +10,6 @@ function mustGetEnv(name) {
   return v;
 }
 
-// These are provided by your workflow env block.
-// ENDPOINT and SECRET are populated from GitHub Secrets (ANNOUNCER_ENDPOINT / ANNOUNCER_SECRET).
 const ENDPOINT = mustGetEnv("ENDPOINT");
 const SECRET = mustGetEnv("SECRET");
 const SITE_BASE_URL = mustGetEnv("SITE_BASE_URL");
@@ -37,12 +35,9 @@ function stripExt(p) {
   return p.replace(/\.(md|mdx)$/i, "");
 }
 
-// Astro content collections commonly use folder/index.md(x) patterns.
-// If file is .../slug/index.mdx -> slug
 function slugFromFile(contentDir, file) {
-  const rel = file.slice(contentDir.length + 1); // remove dir + "/"
+  const rel = file.slice(contentDir.length + 1);
   const noExt = stripExt(rel);
-
   if (noExt.endsWith("/index")) return noExt.slice(0, -"/index".length);
   return noExt;
 }
@@ -51,90 +46,11 @@ function absoluteUrl(maybeUrl) {
   if (!maybeUrl || typeof maybeUrl !== "string") return "";
   const u = maybeUrl.trim();
   if (!u) return "";
-
-  // Already absolute
   if (/^https?:\/\//i.test(u)) return u;
 
   const base = SITE_BASE_URL.replace(/\/+$/, "");
-
-  // Site-root relative path
   if (u.startsWith("/")) return base + u;
-
-  // Relative path without leading slash
   return base + "/" + u;
-}
-
-function pickFirstString(obj, keys) {
-  for (const k of keys) {
-    const v = obj?.[k];
-    if (typeof v === "string" && v.trim()) return v.trim();
-  }
-  return "";
-}
-
-/**
- * Extract an image reference from frontmatter.
- * Handles:
- * - string urls/paths
- * - objects like { src: "...", ... } or { url: "..." }
- * - common key variants
- */
-function extractImageFrontmatter(fm) {
-  const keys = [
-    "image",
-    "cover",
-    "coverImage",
-    "heroImage",
-    "featuredImage",
-    "thumbnail",
-    "banner",
-    "ogImage",
-    "imageUrl",
-    "socialImage",
-  ];
-
-  for (const key of keys) {
-    const v = fm?.[key];
-
-    // Simple string
-    if (typeof v === "string" && v.trim()) return v.trim();
-
-    // Object formats (Astro / image pipeline / custom)
-    if (v && typeof v === "object") {
-      // Most common
-      if (typeof v.src === "string" && v.src.trim()) return v.src.trim();
-      if (typeof v.url === "string" && v.url.trim()) return v.url.trim();
-
-      // Sometimes nested
-      if (typeof v.image === "string" && v.image.trim()) return v.image.trim();
-      if (typeof v.path === "string" && v.path.trim()) return v.path.trim();
-    }
-  }
-
-  return "";
-}
-
-/**
- * Discord embeds require a publicly fetchable image URL.
- * This filters out values that look like local filesystem refs
- * that wouldn't resolve in production.
- */
-function isLikelyEmbeddableImageUrl(u) {
-  if (!u || typeof u !== "string") return false;
-
-  // Must be absolute http(s)
-  if (!/^https?:\/\//i.test(u)) return false;
-
-  // Usually safe if it looks like an image file OR an OG-image endpoint
-  // (Discord can embed non-extension URLs too, but this is a decent guard.)
-  const lower = u.toLowerCase();
-  if (/\.(png|jpg|jpeg|webp|gif)(\?|#|$)/i.test(lower)) return true;
-
-  // Allow common OG image routes (optional)
-  if (lower.includes("/og") || lower.includes("og-image")) return true;
-
-  // Otherwise allow it anyway (Discord may still fetch it)
-  return true;
 }
 
 function prettifySlug(slug) {
@@ -167,24 +83,27 @@ function getChangedMarkdownFiles() {
   return out.split("\n").map((s) => s.trim()).filter(Boolean);
 }
 
+function pickString(fm, key) {
+  const v = fm?.[key];
+  return typeof v === "string" ? v.trim() : "";
+}
+
 function readFrontmatter(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
   const parsed = matter(raw);
   const fm = parsed.data || {};
 
-  const title = pickFirstString(fm, ["title", "name", "heading"]);
-  const excerpt = pickFirstString(fm, ["description", "excerpt", "summary"]);
+  // Your exact keys:
+  const title = pickString(fm, "title");
+  const excerpt = pickString(fm, "description");
+  const coverImageRaw = pickString(fm, "coverImage"); // <-- your field
+  const image = absoluteUrl(coverImageRaw);
 
-  const imageRaw = extractImageFrontmatter(fm);
-  const imageAbs = absoluteUrl(imageRaw);
-  const image = isLikelyEmbeddableImageUrl(imageAbs) ? imageAbs : "";
-
-  return { title, excerpt, image, imageRaw };
+  return { title, excerpt, coverImageRaw, image };
 }
 
 (async () => {
   const files = getChangedMarkdownFiles();
-
   if (!files.length) {
     console.log("No changed markdown/mdx files detected.");
     process.exit(0);
@@ -194,7 +113,6 @@ function readFrontmatter(filePath) {
 
   for (const file of files) {
     let contentDir = "";
-
     if (isWithin(BLOG_CONTENT_DIR_1, file)) contentDir = BLOG_CONTENT_DIR_1;
     else if (isWithin(BLOG_CONTENT_DIR_2, file)) contentDir = BLOG_CONTENT_DIR_2;
     else continue;
@@ -209,16 +127,17 @@ function readFrontmatter(filePath) {
       slug.replace(/^\/+/, "");
 
     const absPath = path.resolve(file);
-    const { title, excerpt, image, imageRaw } = readFrontmatter(absPath);
+    const { title, excerpt, coverImageRaw, image } = readFrontmatter(absPath);
 
-    // Helpful log so you can see what image value was detected
-    if (image) {
-      console.log(`Image OK for ${file}: ${image}`);
-    } else if (imageRaw) {
-      console.log(`Image found but not usable for Discord for ${file}: ${String(imageRaw)}`);
-    } else {
-      console.log(`No image found in frontmatter for ${file}`);
-    }
+    console.log("---- Post extracted ----");
+    console.log("file:", file);
+    console.log("slug:", slug);
+    console.log("url:", url);
+    console.log("title:", title || "(missing)");
+    console.log("description:", excerpt ? "(present)" : "(missing)");
+    console.log("coverImage raw:", coverImageRaw || "(missing)");
+    console.log("image abs:", image || "(missing)");
+    console.log("------------------------");
 
     announcements.push({
       sha: AFTER,
