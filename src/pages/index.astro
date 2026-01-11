@@ -2,7 +2,6 @@
 // @ts-nocheck
 // Homepage
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Divider from "../components/Divider.astro";
 import NotificationToggle from "../components/NotificationToggle.astro";
 import { getCollection } from "astro:content";
 
@@ -37,8 +36,6 @@ const latestPosts = sortedPosts.slice(0, 2);
       <span class="moon-text">Calculating moon phase...</span>
     </div>
   </section>
-
-  <Divider />
 
   <!-- FEATURED POSTS SECTION -->
   <section class="featured-posts">
