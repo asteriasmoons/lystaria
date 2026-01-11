@@ -86,13 +86,17 @@ const today = new Date().toLocaleDateString("en-US", {
   image="/banner.png"
   type="website"
 >
-  <div class="container">
+  <!-- HERO -->
+  <section class="horoscopes-hero">
     <header class="horoscope-header">
       <h1>Daily Horoscopes</h1>
       <p class="date">{today}</p>
     </header>
+  </section>
 
-    <main class="horoscopes-container">
+  <!-- GRID -->
+  <section class="horoscopes-grid">
+    <div class="horoscopes-container">
       {
         signs.map((sign) => {
           const data = horoscopes[sign.name];
@@ -107,125 +111,139 @@ const today = new Date().toLocaleDateString("en-US", {
           );
         })
       }
-    </main>
+    </div>
+  </section>
 
+  <!-- FOOTER -->
+  <section class="horoscopes-footer">
     <footer class="horoscope-footer">
       <a href="/">← Back to Home</a>
     </footer>
-  </div>
+  </section>
 
-  <style>
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-  
+<style>
+  /* HEADER */
+  .horoscope-header {
+    text-align: center;
+    padding-top: 1.5rem;
+    margin-bottom: 1.5rem; /* reduced from 3rem */
+  }
+
+  .date {
+    color: #5ac7fa;
+    font-size: 1.1rem; /* slightly tighter */
+  }
+
+  /* GRID */
+  .horoscopes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;            /* reduced from 2rem */
+    width: 100%;
+    margin: 0 auto 1.5rem;  /* reduced from 3rem */
+  }
+
+  /* CARD */
+  .horoscope-card {
+    background: rgba(126, 126, 255, 0.05);
+    border: 1px solid rgba(126, 126, 255, 0.2);
+    border-radius: 12px;
+    padding: 1.25rem; /* reduced from 1.5rem */
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .horoscope-card:hover {
+    transform: translateY(-3px); /* slightly less jumpy */
+    border-color: rgba(126, 126, 255, 0.4);
+  }
+
+  .sign-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* reduced from 1rem */
+    margin-bottom: 0.75rem; /* reduced from 1rem */
+    padding-bottom: 0.75rem; /* reduced from 1rem */
+    border-bottom: 1px solid rgba(126, 126, 255, 0.2);
+  }
+
+  .horoscope-card h2 {
+    font-size: 1.5rem;
+    color: #5ac7fa;
+    margin: 0;
+    text-transform: capitalize;
+    flex-grow: 1;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: #5ac7fa;
+  }
+
+  .sign-dates {
+    font-size: 0.9rem;
+    color: #7e7eff;
+    white-space: nowrap; /* keeps dates from wrapping weirdly */
+  }
+
+  .horoscope-text {
+    font-size: 0.95rem; /* tiny bump for readability */
+    color: #e0e0e0;
+    line-height: 1.65; /* slightly tighter than 1.7 */
+    margin: 0; /* prevents default <p> spacing adding extra gaps */
+  }
+
+  /* FOOTER */
+  .horoscope-footer {
+    text-align: center;
+    margin-top: 1.5rem; /* reduced from 3rem */
+    padding-bottom: 2rem; /* gives a nice page end without huge emptiness */
+  }
+
+  .horoscope-footer a {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #ffffff;
+    background: rgba(10, 10, 15, 0.75);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.25s ease;
+  }
+
+  .horoscope-footer a:hover {
+    border-color: var(--color-accent);
+    background: rgba(10, 10, 15, 0.9);
+    transform: translateY(-1px);
+  }
+
+  /* MOBILE */
+  @media (max-width: 1100px) {
     .horoscope-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      padding-top: 2rem;
+      padding-top: 1.25rem;
+      margin-bottom: 1.25rem;
     }
 
-    .date {
-      color: #5ac7fa;
-      font-size: 1.2rem;
+    .horoscope-header h1 {
+      font-size: 2rem;
     }
 
     .horoscopes-container {
-       display: grid;
-       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-       gap: 2rem;
-       width: 100%;
-       margin: 0 auto 3rem;   /* <-- centers the whole grid block */
+      grid-template-columns: min(600px, 100%);
+      justify-content: center;
+      gap: 1.25rem;            /* tighter */
+      margin-bottom: 1.25rem;  /* tighter */
     }
 
     .horoscope-card {
-      background: rgba(126, 126, 255, 0.05);
-      border: 1px solid rgba(126, 126, 255, 0.2);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition:
-        transform 0.2s,
-        border-color 0.2s;
-    }
-
-    .horoscope-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(126, 126, 255, 0.4);
-    }
-
-    .sign-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(126, 126, 255, 0.2);
-    }
-
-    .horoscope-card h2 {
-      font-size: 1.5rem;
-      color: #5ac7fa;
-      margin: 0;
-      text-transform: capitalize;
-      flex-grow: 1;
-      background: none;
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      -webkit-text-fill-color: #5ac7fa;
-    }
-
-    .sign-dates {
-      font-size: 0.9rem;
-      color: #7e7eff;
-    }
-
-    .horoscope-text {
-      font-size: 0.9rem;
-      color: #e0e0e0;
-      line-height: 1.7;
+      padding: 1.1rem; /* slightly tighter on mobile */
     }
 
     .horoscope-footer {
-      text-align: center;
-      margin-top: 3rem;
+      margin-top: 1.25rem;
+      padding-bottom: 1.75rem;
     }
-
-    .horoscope-footer a {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #ffffff;
-      background: rgba(10, 10, 15, 0.75);
-      border: 1px solid var(--color-border);
-      border-radius: 999px;
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: all 0.25s ease;
-    }
-
-    .horoscope-footer a:hover {
-      border-color: var(--color-accent);
-      background: rgba(10, 10, 15, 0.9);
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 1100px) {
-      .container {
-        padding: 0 0.75rem;
-    } 
-    
-      .horoscope-header h1 {
-        font-size: 2rem;
-      }
-      
-  .horoscopes-container {
-    grid-template-columns: min(600px, 100%);
-    justify-content: center;
   }
-
-    }
-  </style>
+</style>
 </BaseLayout>
