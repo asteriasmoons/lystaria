@@ -273,13 +273,6 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   margin-bottom: 0;
 }
 
-/* Reduce the visual "gap" created by <br> inside paragraphs */
-.post-content :global(p br) {
-  display: block;
-  content: "";
-  margin-top: 0.15rem; /* try 0, 0.1rem, 0.15rem */
-}
-
       .post-content {
         font-size: 0.9rem;
       }
