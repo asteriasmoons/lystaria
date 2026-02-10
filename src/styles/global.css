@@ -724,4 +724,13 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+  
+    .post-content p > strong:only-child {
+     display: block;
+     margin-bottom: 0;
+   }
+   
+    .post-content p + p {
+     margin-top: 0;
+   } 
 }
