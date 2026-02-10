@@ -260,20 +260,17 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       .post-title {
         font-size: 2rem;
       }
-      
-      /* If a paragraph starts with bold "label" text, make it behave like a title line */
+
+/* FORCE bold label line to sit tight with text below */
 .post-content :global(p > strong:first-child) {
   display: block;
-  line-height: 1.15;
-  margin: 0;              /* prevent phantom spacing */
-  padding: 0;
+  margin-bottom: -0.45em;
 }
 
 /* Tighten the paragraph itself so the line after the bold sits close */
 .post-content :global(p) {
   margin-top: 0;
-  margin-bottom: 0.9rem;
-  line-height: 1.55;      /* IMPORTANT for iOS + Hachi Maru Pop */
+  margin-bottom: 0;
 }
 
 /* Reduce the visual "gap" created by <br> inside paragraphs */
