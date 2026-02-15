@@ -3,17 +3,15 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "start": "astro preview",
-    "astro": "astro"
+  "dev": "astro dev",
+  "build": "astro build",
+  "start": "HOST=0.0.0.0 PORT=${PORT:-4321} node ./dist/server/entry.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
-    "@astrojs/vercel": "^9.0.2",
+    "@astrojs/node": "^9.0.0",
     "astro": "^5.16.6",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0",
