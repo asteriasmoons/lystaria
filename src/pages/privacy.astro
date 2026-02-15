@@ -1,0 +1,324 @@
+---
+// @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
+
+const pageTitle = "Privacy Policy - Lystaria";
+const pageDescription =
+  "Privacy Policy for Lystaria services, including the Telegram mini app and Google Calendar sync.";
+
+const effectiveDate = "February 15, 2026";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="legal-page">
+    <section class="hero">
+      <h1>Privacy Policy ✦ Lystaria</h1>
+      <p class="subtitle">
+        This policy explains what information Lystaria collects, why we collect it, and how we use it across our services.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="legal-info">
+      <p class="description">
+        <strong>Effective Date:</strong> {effectiveDate}<br />
+        <strong>Scope:</strong> This Privacy Policy applies to Lystaria’s website, Telegram bot, Telegram mini app, and any integrations
+        you connect (including Google Calendar). If you do not agree with this policy, do not use Lystaria.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Information We Collect</h2>
+        <ul class="highlights-list">
+          <li>
+            <strong>Telegram account identifiers:</strong> Your Telegram user ID is used to store and retrieve your data.
+          </li>
+          <li>
+            <strong>Mini app session data:</strong> Telegram provides signed init data so we can securely identify you.
+          </li>
+          <li>
+            <strong>Content you create:</strong> Events, reminders, habits, journal entries, reading logs, and settings you submit.
+          </li>
+          <li>
+            <strong>Settings:</strong> Timezone, display name (optional), quiet hours (optional), and other preferences.
+          </li>
+          <li>
+            <strong>Integration tokens (if you connect Google):</strong> OAuth tokens that allow Lystaria to write events to a calendar you choose.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">How We Use Your Information</h2>
+        <ul class="highlights-list">
+          <li>To provide core features (saving events, reminders, habits, journaling, reading tools, and settings).</li>
+          <li>To deliver reminders and notifications you explicitly configure.</li>
+          <li>To sync bot-created events into Google Calendar only when you connect your Google account and select a calendar.</li>
+          <li>To maintain service stability, troubleshoot errors, and improve reliability.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Google Calendar Integration</h2>
+        <p class="card-paragraph">
+          If you choose to connect Google Calendar, Lystaria uses Google OAuth to obtain permission to create, update, and delete calendar
+          events created inside Lystaria. This is a one-way sync: events are written from Lystaria into the Google calendar you select.
+        </p>
+        <ul class="highlights-list">
+          <li>
+            <strong>What we store:</strong> A refresh token (required for offline access), and optionally a cached access token and expiry time.
+          </li>
+          <li>
+            <strong>What we write:</strong> Event title, description, time/date (including timezone), and location if provided.
+          </li>
+          <li>
+            <strong>Calendar choice:</strong> You can choose which Google calendar to write into and change it later.
+          </li>
+          <li>
+            <strong>Disconnecting:</strong> You can disconnect at any time, which removes the stored integration link.
+          </li>
+        </ul>
+        <p class="card-paragraph subtle">
+          Note: Disconnecting stops future sync. Existing events already created in your Google Calendar may remain unless you delete them manually
+          or delete them through Lystaria before disconnecting.
+        </p>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Data Storage and Retention</h2>
+        <ul class="highlights-list">
+          <li>
+            Your content is stored so the bot and mini app can function (events, reminders, habits, journal entries, and settings).
+          </li>
+          <li>
+            Integration tokens are stored only if you connect Google Calendar.
+          </li>
+          <li>
+            We retain data for as long as needed to provide the service, unless you request deletion or disconnect an integration.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Sharing and Disclosure</h2>
+        <ul class="highlights-list">
+          <li>
+            <strong>No selling:</strong> Lystaria does not sell your personal information.
+          </li>
+          <li>
+            <strong>Service providers:</strong> Hosting and infrastructure providers may process data to run the service.
+          </li>
+          <li>
+            <strong>Legal:</strong> We may disclose information if required by law or to protect against abuse or fraud.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Security</h2>
+        <p class="card-paragraph">
+          We take reasonable measures to protect your data. No method of storage or transmission is 100% secure, but we aim to minimize risk
+          through access controls and careful handling of integration credentials.
+        </p>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="action-section">
+      <h2>Your Choices</h2>
+      <p class="action-description">
+        You control what you add, what you connect, and what you keep. If you want to disconnect Google Calendar or request deletion of stored data,
+        use the mini app controls when available or contact us.
+      </p>
+
+      <a href="/contact" class="action-button">
+        Contact
+      </a>
+
+      <p class="action-info">
+        If you do not have a Contact page yet, you can change this button to a mailto link or remove it.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.909);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .legal-info {
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent;
+    border-image: var(--gradient-accent) 1;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .highlights {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .highlights-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 10px 30px rgba(0, 0, 0, 0.35);
+    text-align: left;
+  }
+
+  .section-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .card-paragraph {
+    margin: 0 0 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .card-paragraph.subtle {
+    margin-top: 0.75rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-style: italic;
+  }
+
+  .highlights-list {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.65rem;
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .highlights-list li::marker {
+    color: currentColor;
+    opacity: 0.65;
+  }
+
+  .action-section {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .action-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .action-button:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  .action-button:active {
+    transform: translateY(0);
+  }
+
+  .action-info {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+  }
+
+  @media (max-width: 860px) {
+    .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .highlights-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .highlights-list {
+      padding-left: 1.1rem;
+    }
+
+    .action-button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>

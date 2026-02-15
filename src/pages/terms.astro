@@ -1,0 +1,290 @@
+---
+// @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
+
+const pageTitle = "Terms of Service - Lystaria";
+const pageDescription =
+  "Terms of Service for Lystaria services, including the Telegram bot, mini app, and Google Calendar sync.";
+
+const effectiveDate = "February 15, 2026";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="legal-page">
+    <section class="hero">
+      <h1>Terms of Service ✦ Lystaria</h1>
+      <p class="subtitle">
+        These terms define how Lystaria works, what you can expect, and what is required to use the service responsibly.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="legal-info">
+      <p class="description">
+        <strong>Effective Date:</strong> {effectiveDate}<br />
+        <strong>Agreement:</strong> By using Lystaria (website, Telegram bot, and mini app), you agree to these Terms.
+        If you do not agree, do not use the service.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">What Lystaria Provides</h2>
+        <ul class="highlights-list">
+          <li>Tools for reminders, calendar events, journaling, habits, and reading logs.</li>
+          <li>A Telegram mini app interface to manage your data.</li>
+          <li>Optional one-way Google Calendar sync for events you create in Lystaria.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">User Responsibilities</h2>
+        <ul class="highlights-list">
+          <li>You are responsible for the content you submit (titles, descriptions, journal entries, and notes).</li>
+          <li>You agree not to use Lystaria to harass, abuse, or attempt unauthorized access to systems or data.</li>
+          <li>You agree not to automate or overload the service in a way that harms stability.</li>
+          <li>You are responsible for keeping your Telegram account secure.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Google Calendar Sync</h2>
+        <p class="card-paragraph">
+          If you connect Google Calendar, you grant Lystaria permission to create, update, and delete calendar events generated from your Lystaria
+          events. This sync is optional and can be disconnected at any time.
+        </p>
+        <ul class="highlights-list">
+          <li>Sync is one-way: Lystaria writes to Google Calendar, not the other way around.</li>
+          <li>You choose the target calendar, and you can change it later.</li>
+          <li>Disconnecting stops future sync; existing events may remain in Google unless removed.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Service Availability</h2>
+        <p class="card-paragraph">
+          Lystaria is provided on an as-available basis. We aim for reliability, but downtime and interruptions may occur due to maintenance,
+          updates, infrastructure outages, or platform limitations.
+        </p>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Data and Content</h2>
+        <ul class="highlights-list">
+          <li>Your content remains yours. Lystaria stores it to provide functionality.</li>
+          <li>You may request deletion of your stored data, subject to technical limitations.</li>
+          <li>We may remove content or restrict access if misuse is detected.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Limitation of Liability</h2>
+        <p class="card-paragraph">
+          To the maximum extent permitted by law, Lystaria is not liable for indirect, incidental, special, consequential, or punitive damages,
+          or any loss of data, profits, or goodwill arising from use of the service.
+        </p>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Changes to These Terms</h2>
+        <p class="card-paragraph">
+          These terms may be updated over time. Continued use of Lystaria after changes means you accept the updated terms.
+        </p>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="action-section">
+      <h2>Questions or Requests</h2>
+      <p class="action-description">
+        If you have questions about these terms, or want to request deletion of stored data, you can contact us.
+      </p>
+
+      <a href="/contact" class="action-button">
+        Contact
+      </a>
+
+      <p class="action-info">
+        If you do not have a Contact page yet, you can change this button to a mailto link or remove it.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.909);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .legal-info {
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent;
+    border-image: var(--gradient-accent) 1;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .highlights {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .highlights-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 10px 30px rgba(0, 0, 0, 0.35);
+    text-align: left;
+  }
+
+  .section-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .card-paragraph {
+    margin: 0 0 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .highlights-list {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.65rem;
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .highlights-list li::marker {
+    color: currentColor;
+    opacity: 0.65;
+  }
+
+  .action-section {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .action-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .action-button:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  .action-button:active {
+    transform: translateY(0);
+  }
+
+  .action-info {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+  }
+
+  @media (max-width: 860px) {
+    .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .highlights-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .highlights-list {
+      padding-left: 1.1rem;
+    }
+
+    .action-button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>

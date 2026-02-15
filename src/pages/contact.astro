@@ -1,0 +1,262 @@
+---
+// @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
+
+const pageTitle = "Contact - Lystaria";
+const pageDescription = "Send a message to the Lystaria team.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="contact-page">
+    <section class="hero">
+      <h1>Contact ✦ Lystaria</h1>
+      <p class="subtitle">
+        Questions, feedback, support requests, or collaboration inquiries--send a message anytime.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="contact-info">
+      <p class="description">
+        <strong>We read every message.</strong> If you’re reaching out about bot support, include the bot name
+        and a short description of what happened. If you’re reaching out about collaboration, share what
+        you’re building and what you need.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="form-section">
+      <div class="form-card">
+        <h2>Send a Message</h2>
+
+        <form id="contactForm" class="contact-form">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required />
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" required></textarea>
+
+          <!-- Honeypot field (hidden) -->
+          <input
+            id="website"
+            name="website"
+            type="text"
+            autocomplete="off"
+            tabindex="-1"
+            class="hp"
+          />
+
+          <button type="submit" id="sendBtn">Send Message</button>
+
+          <p class="status" id="status" aria-live="polite"></p>
+        </form>
+
+        <p class="form-note">
+          This form sends directly to our inbox.
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("status");
+  const sendBtn = document.getElementById("sendBtn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    status.textContent = "";
+    sendBtn.disabled = true;
+
+    const payload = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value,
+      website: form.website.value, // honeypot
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        status.textContent = data.error || "Something went wrong.";
+        sendBtn.disabled = false;
+        return;
+      }
+
+      form.reset();
+      status.textContent = "Message sent. Thank you.";
+    } catch (err) {
+      status.textContent = "Failed to send. Please try again.";
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.909);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .contact-info {
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent;
+    border-image: var(--gradient-accent) 1;
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .form-section {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .form-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 10px 30px rgba(0, 0, 0, 0.35);
+    text-align: left;
+  }
+
+  .form-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  button {
+    margin-top: 0.75rem;
+    justify-self: center;
+    padding: 1rem 2rem;
+    font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  button:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+  }
+
+  .status {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    min-height: 1.1rem;
+  }
+
+  .form-note {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-style: italic;
+  }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  @media (max-width: 860px) {
+    .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .form-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>
