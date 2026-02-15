@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 
 function requireEnv(name: string) {
-  const v = import.meta.env[name];
+  const v = process.env[name];
   if (!v) throw new Error(`Missing env var: ${name}`);
   return v;
 }
@@ -85,6 +85,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const SMTP_PASS = requireEnv("SMTP_PASS");
     const CONTACT_TO = requireEnv("CONTACT_TO"); // set to info@lystaria.im
     const CONTACT_FROM = requireEnv("CONTACT_FROM"); // usually same as SMTP_USER
+    
+    console.log("SMTP CONFIG", {
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465,
+  user: SMTP_USER ? "set" : "missing",
+  pass: SMTP_PASS ? "set" : "missing",
+  to: CONTACT_TO,
+  from: CONTACT_FROM,
+});
 
     const transporter = nodemailer.createTransport({
       host: SMTP_HOST,
@@ -92,6 +102,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       secure: SMTP_PORT === 465, // 465 true, 587 false
       auth: { user: SMTP_USER, pass: SMTP_PASS },
     });
+    
+    await transporter.verify();
 
     const subject = `Lystaria Contact: ${name}`;
     const text =
