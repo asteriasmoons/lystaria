@@ -16,7 +16,8 @@
     "astro": "^5.16.6",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0",
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "nodemailer": "^8.0.1"
   },
   "engines": {
     "node": "22.x"
