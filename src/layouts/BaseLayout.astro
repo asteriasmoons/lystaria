@@ -11,9 +11,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-const cookies = Astro.cookies;
-const isAuthenticated = cookies.get("admin-auth")?.value === "true";
 ---
 
 <!doctype html>
@@ -143,13 +140,7 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
             <a href="/updates">Updates</a>
             <a href="/discord">Discord</a>
             <a href="/about">About</a>
-            {
-              isAuthenticated && (
-                <a href="/admin" class="nav-admin">
-                  Admin
-                </a>
-              )
-            }
+            <a href="/admin">Admin</a>
             <a href="/contact">Contact</a>
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms</a>
@@ -177,7 +168,6 @@ const isAuthenticated = cookies.get("admin-auth")?.value === "true";
         </button>
       </div>
     </header>
-  </body>
 
   <main>
     <div class="page">
