@@ -3,7 +3,7 @@
 // Blog listing page
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import GradientDivider from "../components/GradientDivider.astro";
+import GradientDivider from "../../components/GradientDivider.astro";
 
 // Get all posts, sorted by date (newest first)
 const allPosts = await getCollection("posts");
