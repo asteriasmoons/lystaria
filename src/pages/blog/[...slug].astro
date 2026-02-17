@@ -1,6 +1,6 @@
 ---
-// src/pages/blog/[...slug].astro
-// @ts-nocheck
+ // src/pages/blog/[...slug].astro
+ // @ts-nocheck
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -8,7 +8,6 @@ import Comments from "../../components/Comments.astro";
 
 export const prerender = true;
 
-// Generate a page for each blog post
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   return posts.map((post: CollectionEntry<"posts">) => ({
@@ -24,7 +23,6 @@ interface Props {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
-// Format the date nicely
 const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -38,10 +36,8 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   image={post.data.coverImage || "/banner.png"}
   type="article"
 >
-  <!-- Reading Progress Bar -->
   <div id="progress-bar"></div>
 
-  <!-- Schema Markup for SEO -->
   <script
     type="application/ld+json"
     set:html={JSON.stringify({
@@ -49,47 +45,42 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       "@type": "BlogPosting",
       headline: post.data.title,
       description: post.data.description,
-      author: {
-        "@type": "Person",
-        name: "Asteria",
-      },
+      author: { "@type": "Person", name: "Asteria" },
       datePublished: post.data.pubDate.toISOString(),
       url: `https://lystaria.im/blog/${post.slug}`,
     })}
   />
 
-  <article class="post-container">
+  <div class="post-container">
     <header class="post-header">
       <h1 class="post-title">{post.data.title}</h1>
+
       <div class="post-meta">
-        <time datetime={post.data.pubDate.toISOString()}>
-          {formattedDate}
-        </time>
-        {
-          post.data.tags && (
-            <div class="post-tags">
-              {post.data.tags.map((tag) => (
-                <a href={`/blog/tag/${tag}`} class="tag-link">
-                  <span class="tag">{tag}</span>
-                </a>
-              ))}
-            </div>
-          )
-        }
+        <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+
+        {post.data.tags && (
+          <div class="post-tags">
+            {post.data.tags.map((tag) => (
+              <a href={`/blog/tag/${tag}`} class="tag-link">
+                <span class="tag">{tag}</span>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </header>
 
     <div class="post-content">
       <Content />
     </div>
+
     <Comments />
-  </article>
+  </div>
 
   <style>
     .post-container {
       max-width: 1200px;
       margin: 0 auto;
-      /* padding: 0 2rem 4rem; */
     }
 
     .post-header {
@@ -140,31 +131,17 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       transform: translateY(-2px);
     }
 
-    /* Post Content Styling */
     .post-content {
-      /* line-height: 1.8; */
       font-size: 0.95rem;
     }
 
-    .post-content :global(h1) {
-      font-size: 2rem;
-      margin: 2rem 0 0;
-    }
-
-    .post-content :global(h2) {
-      font-size: 1.75rem;
-      margin: 2rem 0 0;
-    }
-
-    .post-content :global(h3) {
-      font-size: 1.5rem;
-      margin: 1.75rem 0 0;
-    }
+    .post-content :global(h1) { font-size: 2rem; margin: 2rem 0 0; }
+    .post-content :global(h2) { font-size: 1.75rem; margin: 2rem 0 0; }
+    .post-content :global(h3) { font-size: 1.5rem; margin: 1.75rem 0 0; }
 
     .post-content :global(p) {
-      margin-bottom: 0;
-      margin-top: 0;  
-    }
+  margin: 0.85rem 0;
+}
 
     .post-content :global(strong) {
       color: var(--bold-text-color);
@@ -253,29 +230,20 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       transition: width 0.1s ease;
     }
 
-   /* =========================
-   MOBILE MOBILE MOBILE
-   =========================== */
     @media (max-width: 920px) {
-      .post-title {
-        font-size: 2rem;
+      .post-title { font-size: 2rem; }
+
+      .post-content :global(p > strong:first-child) {
+        display: block;
+        margin-bottom: -0.45em;
       }
 
-/* FORCE bold label line to sit tight with text below */
-.post-content :global(p > strong:first-child) {
-  display: block;
-  margin-bottom: -0.45em;
-}
-
-/* Tighten the paragraph itself so the line after the bold sits close */
-.post-content :global(p) {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-      .post-content {
-        font-size: 0.9rem;
+      .post-content :global(p) {
+        margin-top: 0;
+        margin-bottom: 0;
       }
+
+      .post-content { font-size: 0.9rem; }
     }
   </style>
 
@@ -288,15 +256,10 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       const scrolled = window.scrollY;
       const progress = (scrolled / documentHeight) * 100;
 
-      if (progressBar) {
-        progressBar.style.width = progress + "%";
-      }
+      if (progressBar) progressBar.style.width = progress + "%";
     }
 
-    // Update on scroll
     window.addEventListener("scroll", updateProgressBar);
-
-    // Update on page load
     updateProgressBar();
   </script>
 </BaseLayout>
