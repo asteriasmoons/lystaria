@@ -3,6 +3,7 @@
 // Blog listing page
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import GradientDivider from "../components/GradientDivider.astro";
 
 // Get all posts, sorted by date (newest first)
 const allPosts = await getCollection("posts");
@@ -24,6 +25,8 @@ const sortedPosts = allPosts.sort(
       </p>
     </header>
   </section>
+  
+  <GradientDivider />
 
   <section class="blog-transparency">
     <div class="blog-note">
