@@ -1,0 +1,267 @@
+---
+// @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
+
+const pageTitle = "Lystaria - Telegram Bot and Mini App";
+const pageDescription =
+  "Lystaria is a Telegram bot and mini app for reminders, journaling, habits, reading logs, and optional Google Calendar sync.";
+
+const botName = "Lystaria";
+const botUsername = "lystaria_bot"; // e.g. LystariaBot
+const miniAppUrl = "https://telegram-bot-yt3w.onrender.com/miniapp/"
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="home-page">
+    <section class="hero">
+      <h1>{botName}</h1>
+      <p class="subtitle">
+        A Telegram bot and mini app that helps you manage reminders, routines, journaling, habits, and reading life in one place.
+        Google Calendar sync is optional.
+      </p>
+
+      <div class="hero-actions">
+        <a class="action-button" href={`https://t.me/${botUsername}`}>
+          Open the bot in Telegram
+        </a>
+
+        {miniAppUrl ? (
+          <a class="action-button secondary" href={miniAppUrl}>
+            Open the mini app
+          </a>
+        ) : null}
+      </div>
+
+      <p class="hero-footnote">
+        For Google verification: this homepage, Privacy Policy, and Terms must be public and reachable without login.
+      </p>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">What it does</h2>
+        <ul class="highlights-list">
+          <li>Create and manage reminders and scheduled routines.</li>
+          <li>Log journal notes, mood entries, habits, reminders, events and reading progress.</li>
+          <li>Use the mini app for a faster, structured interface.</li>
+          <li>Optionally sync events you create into Google Calendar.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">How Google Calendar sync works</h2>
+        <p class="card-paragraph">
+          If you connect Google Calendar, Lystaria can create and update calendar events generated from your Lystaria events.
+          This feature is optional and you can disconnect at any time.
+        </p>
+
+        <ul class="highlights-list">
+          <li>One-way sync: Lystaria writes events to Google Calendar.</li>
+          <li>You choose which calendar receives synced events.</li>
+          <li>Disconnecting stops future sync.</li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="highlights">
+      <div class="highlights-card">
+        <h2 class="section-title">Privacy and data</h2>
+        <p class="card-paragraph">
+          Lystaria stores the content you submit (such as titles, reminders, and notes) only to provide the features you use.
+          If you connect Google, Lystaria requests only the Google permissions needed for syncing.
+        </p>
+
+        <ul class="highlights-list">
+          <li><a class="inline-link" href="/privacy">Read the Privacy Policy</a></li>
+          <li><a class="inline-link" href="/terms">Read the Terms of Service</a></li>
+          <li><a class="inline-link" href="/contact">Contact support</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <GradientDivider />
+
+    <section class="action-section">
+      <h2>Get started</h2>
+      <p class="action-description">
+        Open the bot in Telegram and follow the prompts. If you use Google Calendar sync, you will be guided through Google sign-in and consent.
+      </p>
+
+      <a class="action-button" href={`https://t.me/${botUsername}`}>
+        Open {botName} in Telegram
+      </a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.909);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero-actions {
+    margin-top: 1.25rem;
+    display: inline-flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-footnote {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .highlights {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .highlights-card {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 10px 30px rgba(0, 0, 0, 0.35);
+    text-align: left;
+  }
+
+  .section-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .card-paragraph {
+    margin: 0 0 1rem 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .highlights-list {
+    list-style: disc;
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.65rem;
+    text-align: left;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .highlights-list li::marker {
+    color: currentColor;
+    opacity: 0.65;
+  }
+
+  .inline-link {
+    color: rgba(255, 255, 255, 0.92);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .inline-link:hover {
+    opacity: 0.9;
+  }
+
+  .action-section {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .action-description {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .action-button:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  .action-button:active {
+    transform: translateY(0);
+  }
+
+  .action-button.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .action-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 860px) {
+    .subtitle {
+      font-size: 0.95rem;
+    }
+
+    .highlights-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .highlights-list {
+      padding-left: 1.1rem;
+    }
+
+    .action-button {
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>
