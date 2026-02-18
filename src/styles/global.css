@@ -851,6 +851,10 @@ a:hover {
     0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
+.moon-phase {
+margin-bottom: 1.25rem;
+}
+
 /* Layout */
 .moon-info-main {
   display: flex;
