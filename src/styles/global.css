@@ -840,19 +840,17 @@ a:hover {
    ========================================================= */
 
 #moon-phase {
-  display: inline-block;
-  padding: 0.55rem 0.85rem; /* smaller pill */
+  display: block;                 /* allows it to stretch horizontally */
+  width: 100%;
+  max-width: 900px;               /* match your content width */
+  margin: 0 auto 1.25rem;         /* adds bottom space */
+  padding: 0.6rem 1.5rem;         /* wider horizontally, flatter vertically */
   background: var(--overlay-gradient-accent);
   border: none;
-  border-radius: 14px; /* softer, more "card" */
-  margin: 0;
+  border-radius: 16px;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
     0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
-.moon-phase {
-margin-bottom: 1.25rem;
 }
 
 /* Layout */
