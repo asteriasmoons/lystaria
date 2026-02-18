@@ -838,80 +838,87 @@ a:hover {
 /* =========================================================
    MOON SYSTEM -- NORMAL
    ========================================================= */
+   
+   /* =========================================================
+   MOON WIDGET (Global) -- NORMAL
+   ========================================================= */
 
-/* Main container */
+/* OUTER CONTAINER */
+#moon-phase {
+  display: block;                 /* important: behave like a contained block */
+  width: 100%;
+  max-width: 900px;               /* tune if you want */
+  margin: 0 auto;                 /* centered */
+  padding: 0.7rem 1.05rem;
+
+  background: var(--overlay-gradient-accent);
+  border: none;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* injected layout */
 .moon-info-main {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-
-  padding: 1.75rem 2rem;
-  margin: 2rem auto;
-
-  max-width: 1000px;
-
-  border-radius: var(--glass-radius);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow-soft);
-
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  backdrop-filter: blur(var(--glass-blur));
-}
-
-/* Left side: text */
-.moon-details {
-  display: flex;
-  flex-direction: column;
   gap: 0.75rem;
+
+  width: 100%;
+  min-width: 0; /* CRITICAL flex containment fix */
 }
 
-/* Moon phase title */
-.moon-phase {
-  font-family: "Berkshire Swash", serif;
-  font-size: 1.5rem;
-  line-height: 1.2;
-}
-
-/* Supporting info */
-.moon-meta {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
-
-/* Zodiac + illumination row */
-.moon-extra {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-/* Right side: image */
-.moon-visual {
-  flex-shrink: 0;
-  width: 140px;
-  height: 140px;
-
-  display: flex;
+/* icon wrapper */
+.moon-icon {
+  width: 1.6em;
+  height: 1.6em;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
-.moon-visual img {
+.moon-icon img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: contain;
 }
 
-/* Optional subtle hover glow */
-.moon-info-main:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-2px);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+/* text stack */
+.moon-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  min-width: 0;                   /* CRITICAL */
+}
+
+/* title + details */
+.moon-title {
+  font-size: 1.6rem;
+  color: var(--color-accent-bright);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  line-height: 1.2;
+
+  max-width: 100%;
+  overflow-wrap: anywhere;         /* prevents wide "push" */
+  word-break: break-word;
+}
+
+.moon-details {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* =========================================================
@@ -1186,24 +1193,14 @@ a:hover {
 
   margin: 1.5rem auto;
 }
+  #moon-phase {
+    padding: 0.65rem 0.95rem;
+    max-width: 100%;
+  }
 
-.moon-visual {
-  width: 110px;
-  height: 110px;
+  .moon-title {
+    font-size: 1.35rem;
 }
-
-.moon-phase {
-  font-size: 1.35rem;
-}
-
-.moon-meta {
-  font-size: 0.85rem;
-}
-
-.moon-extra {
-  justify-content: center;
-  gap: 0.75rem;
- }
  
  /* =========================================================
    PAGE WRAPPER (Global) -- MOBILE

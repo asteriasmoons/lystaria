@@ -411,69 +411,6 @@ const latestPosts = sortedPosts.slice(0, 2);
 }
 
 /* =========================
-   MOON PHASE (FIXED NAMING)
-   ========================= */
-
-/* OUTER CONTAINER */
-#moon-phase {
-  display: inline-block;
-  padding: 0.7rem 1.05rem;
-  background: var(--overlay-gradient-accent);
-  border: none;
-  border-radius: 10px;
-  margin: 0;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* injected layout */
-.moon-info-main {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* icon wrapper */
-.moon-icon {
-  width: 1.6em;
-  height: 1.6em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.moon-icon img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-}
-
-/* text stack */
-.moon-text-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-/* ✅ TITLE TEXT (no collision anymore) */
-.moon-title {
-  font-size: 1.6rem;
-  color: var(--color-accent-bright);
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.moon-details {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-}
-
-/* =========================
    FEATURED POSTS
    ========================= */
 .featured-posts {
@@ -520,14 +457,6 @@ const latestPosts = sortedPosts.slice(0, 2);
 
   .hero h1 {
     font-size: 2rem;
-  }
-
-  #moon-phase {
-    padding: 0.65rem 0.95rem;
-  }
-
-  .moon-title {
-    font-size: 1.35rem;
   }
 
   .intro {
