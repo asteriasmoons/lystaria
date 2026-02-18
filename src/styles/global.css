@@ -844,15 +844,15 @@ a:hover {
    ========================================================= */
 
 /* =========================
-   MOON PHASE (FINAL – WHITE TITLE)
+   MOON PHASE (MOBILE FIXED)
    ========================= */
 
 #moon-phase {
   display: inline-block;
-  padding: 0.7rem 1.05rem;
+  padding: 0.55rem 0.85rem; /* smaller pill */
   background: var(--overlay-gradient-accent);
   border: none;
-  border-radius: 10px;
+  border-radius: 14px; /* softer, more "card" */
   margin: 0;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
@@ -863,18 +863,17 @@ a:hover {
 .moon-info-main {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem; /* tighter */
 }
 
-/* Icon */
+/* ICON -- make it actually visible */
 .moon-icon {
-  width: 1.6em;
-  height: 1.6em;
+  width: 34px;              /* fixed size, not em */
+  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  line-height: 1;
 }
 
 .moon-icon img {
@@ -888,19 +887,18 @@ a:hover {
 .moon-text-group {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.1rem;
 }
 
-/* 🔒 FORCE font + disable global gradient rules */
+/* Title */
 .moon-title {
   font-family: "Berkshire Swash", serif !important;
-  font-size: 1.6rem;
+  font-size: 1.15rem;       /* was 1.6rem -- this is why it was huge */
   font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
+  letter-spacing: 0.02em;   /* less airy */
+  line-height: 1.15;
 
   color: #ffffff !important;
-
   background: none !important;
   -webkit-background-clip: initial !important;
   background-clip: initial !important;
@@ -910,8 +908,9 @@ a:hover {
 /* Details */
 .moon-details {
   font-family: "Berkshire Swash", serif;
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
+  font-size: 0.85rem;       /* slightly smaller */
+  line-height: 1.2;
+  color: rgba(255,255,255,0.85);
 }
 
 /* =========================================================
@@ -1187,11 +1186,20 @@ a:hover {
   margin: 1.5rem auto;
 }
   #moon-phase {
-    padding: 0.65rem 0.95rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .moon-icon {
+    width: 30px;
+    height: 30px;
   }
 
   .moon-title {
-    font-size: 1.35rem;
+    font-size: 1.05rem;
+  }
+
+  .moon-details {
+    font-size: 0.8rem;
   }
  
  /* =========================================================
