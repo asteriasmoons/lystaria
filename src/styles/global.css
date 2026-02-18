@@ -843,36 +843,30 @@ a:hover {
    MOON WIDGET (Global) -- NORMAL
    ========================================================= */
 
-/* OUTER CONTAINER */
-#moon-phase {
-  display: block;                 /* important: behave like a contained block */
-  width: 100%;
-  max-width: 900px;               /* tune if you want */
-  margin: 0 auto;                 /* centered */
-  padding: 0.7rem 1.05rem;
+/* =========================
+   MOON PHASE (FINAL – WHITE TITLE)
+   ========================= */
 
+#moon-phase {
+  display: inline-block;
+  padding: 0.7rem 1.05rem;
   background: var(--overlay-gradient-accent);
   border: none;
   border-radius: 10px;
-
-  box-sizing: border-box;
-
+  margin: 0;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.08),
     0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
-/* injected layout */
+/* Layout */
 .moon-info-main {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
-  width: 100%;
-  min-width: 0; /* CRITICAL flex containment fix */
 }
 
-/* icon wrapper */
+/* Icon */
 .moon-icon {
   width: 1.6em;
   height: 1.6em;
@@ -890,35 +884,34 @@ a:hover {
   object-fit: contain;
 }
 
-/* text stack */
+/* Text stack */
 .moon-text-group {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-
-  min-width: 0;                   /* CRITICAL */
 }
 
-/* title + details */
+/* 🔒 FORCE font + disable global gradient rules */
 .moon-title {
+  font-family: "Berkshire Swash", serif !important;
   font-size: 1.6rem;
-  color: var(--color-accent-bright);
-  letter-spacing: 0.05em;
   font-weight: 600;
+  letter-spacing: 0.05em;
   line-height: 1.2;
 
-  max-width: 100%;
-  overflow-wrap: anywhere;         /* prevents wide "push" */
-  word-break: break-word;
+  color: #ffffff !important;
+
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
+/* Details */
 .moon-details {
+  font-family: "Berkshire Swash", serif;
   font-size: 0.95rem;
   color: var(--color-text-muted);
-
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  word-break: break-word;
 }
 
 /* =========================================================
@@ -1195,12 +1188,11 @@ a:hover {
 }
   #moon-phase {
     padding: 0.65rem 0.95rem;
-    max-width: 100%;
   }
 
   .moon-title {
     font-size: 1.35rem;
-}
+  }
  
  /* =========================================================
    PAGE WRAPPER (Global) -- MOBILE
