@@ -95,63 +95,53 @@ const sortedPosts = allPosts.sort(
 </BaseLayout>
 
 <style>
-  .blog-hero,
-  .blog-transparency,
-  .blog-posts {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  /* ====================================
+     HERO SECTION
+     ==================================== */
+  .blog-hero {
+    text-align: center;
+    margin-bottom: 1.5rem;
   }
 
-  .blog-header h1 {
-    font-size: 2.3rem;
-    margin-bottom: 0;
+  /* Subtitle under the main heading */
+  .blog-header {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.909); /* Slightly dimmed white */
+    max-width: 700px; /* Keep lines readable */
+    margin: 0 auto; /* Center it */
   }
 
-  .blog-note h2 {
-    font-size: 2rem;
-  }
+  /* ====================================
+     BLOG INTRO SECTION
+     ==================================== */
+  .blog-transparency {
+  margin-bottom: 1.25rem;
+}
   
-.blog-header {
-  text-align: center;
-  padding: 2rem 0 0.25rem; /* almost no bottom padding */
-  margin: 0;
-}
+  .blog-intro {
+    text-align: center;
+  }
 
-.blog-intro {
-  font-size: 0.85rem;
-  max-width: 900px;
-  line-height: 1;
-  margin: 0 auto 0;          /* keep it centered, no extra spacing */
-}
+  .blog-note {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent; /* Set to transparent */
+    border-image: var(--gradient-accent) 1; /* Add this */
+    border-radius: 8px; /* This won't work with border-image unfortunately */
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
 
-/* Remove any extra spacing the wrapper section might introduce */
-.blog-transparency {
-  margin: 0;
-  padding: 0;
-} 
-
-/* Keep the box snug to the header */
-.blog-note {
-  text-align: center;
-  max-width: 900px;
-
-  margin: 0 auto 2rem;     /* top 0 = snug, bottom still 2rem */
-  padding: 2rem;
-
-  border: 2px dotted transparent;
-  border-image: var(--gradient-accent) 1;
-  border-radius: 8px;
-
-  font-size: 0.75rem;
-  color: #ffffff;
-}
-
-  /* MOBILE EXPERIENCE */
-  @media (max-width: 1100px) {
-    .blog-header {
-      padding: 2rem 0 2.5rem;
-      margin-bottom: 0;
+  /* ====================================
+     MOBILE CSS
+     ==================================== */
+  @media (max-width: 860px) {
+    /* Smaller subtitle */
+    .blog-intro {
+      font-size: 0.95rem;
     }
   }
 </style>
