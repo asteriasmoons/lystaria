@@ -3,7 +3,7 @@
 // Search page
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import GradientDivider from '../components/GradientDivider.astro'
+import GradientDivider from "../components/GradientDivider.astro";
 
 // Get all posts for searching
 const allPosts = await getCollection("posts");
@@ -48,10 +48,10 @@ const postsData = sortedPosts.map((post) => ({
       </div>
     </header>
   </section>
-  
+
   <GradientDivider />
 
-  <section class="search-results">
+  <section class="search-results search-page">
     <div id="search-results" class="posts-grid" style="display: none;"></div>
 
     <div id="no-results" class="no-results" style="display: none;">
@@ -59,7 +59,7 @@ const postsData = sortedPosts.map((post) => ({
     </div>
   </section>
 
-  <section class="search-all">
+  <section class="search-all search-page">
     <div id="all-posts" class="posts-grid">
       {
         sortedPosts.map((post) => {
@@ -73,7 +73,7 @@ const postsData = sortedPosts.map((post) => ({
           );
 
           return (
-            <article class="post-card post-card--search">
+            <div class="post-card post-card--search">
               <div class="post-body">
                 <a href={`/blog/${post.slug}`} class="post-link">
                   <div class="post-content">
@@ -103,12 +103,100 @@ const postsData = sortedPosts.map((post) => ({
                   </div>
                 )}
               </div>
-            </article>
+            </div>
           );
         })
       }
     </div>
   </section>
+
+  <script define:vars={{ postsData }}>
+    const searchInput = document.getElementById("search-input");
+    const searchResults = document.getElementById("search-results");
+    const noResults = document.getElementById("no-results");
+    const allPosts = document.getElementById("all-posts");
+
+    function formatDate(isoDate) {
+      return new Date(isoDate).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    function createPostCard(post) {
+      const tagsHTML =
+        post.tags && post.tags.length > 0
+          ? `<div class="post-tags">
+              ${post.tags
+                .map(
+                  (tag) => `<a href="/blog/tag/${tag}" class="tag">${tag}</a>`
+                )
+                .join("")}
+            </div>`
+          : "";
+
+      const formattedDate = formatDate(post.pubDate);
+
+      return `
+        <div class="post-card post-card--search">
+          <div class="post-body">
+            <a href="/blog/${post.slug}" class="post-link">
+              <div class="post-content">
+                <div class="post-header">
+                  <h2>${post.title}</h2>
+                  <time class="post-date" datetime="${post.pubDate}">
+                    ${formattedDate}
+                  </time>
+                </div>
+
+                <p class="post-description">${post.description}</p>
+                <div class="read-more">Read more →</div>
+              </div>
+            </a>
+            ${tagsHTML}
+          </div>
+        </div>
+      `;
+    }
+
+    function searchPosts(query) {
+      if (!query.trim()) {
+        searchResults.innerHTML = "";
+        searchResults.style.display = "none";
+        noResults.style.display = "none";
+        allPosts.style.display = "grid";
+        return;
+      }
+
+      const lowerQuery = query.toLowerCase();
+      const results = postsData.filter((post) => {
+        const titleMatch = post.title.toLowerCase().includes(lowerQuery);
+        const descMatch = post.description.toLowerCase().includes(lowerQuery);
+        const tagsMatch = post.tags.some((tag) =>
+          tag.toLowerCase().includes(lowerQuery)
+        );
+        return titleMatch || descMatch || tagsMatch;
+      });
+
+      allPosts.style.display = "none";
+
+      if (results.length === 0) {
+        searchResults.innerHTML = "";
+        searchResults.style.display = "none";
+        noResults.style.display = "block";
+      } else {
+        searchResults.innerHTML = results.map(createPostCard).join("");
+        searchResults.style.display = "grid";
+        noResults.style.display = "none";
+      }
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      searchPosts(e.target.value);
+    });
+  </script>
+</BaseLayout>
 
 <style is:global>
   /* variables scoped to this page wrapper */
@@ -116,9 +204,6 @@ const postsData = sortedPosts.map((post) => ({
     --card-radius: 12px;
     --card-pad: 1.25rem;
     --stack-gap: 0.75rem;
-
-    /* 👇 ADDITION: tiny left/right padding for this page only */
-    /* gives breathing room without acting like a container */
     padding-inline: 1.25rem;
   }
 
@@ -215,106 +300,19 @@ const postsData = sortedPosts.map((post) => ({
   /* =========================
      MOBILE SETTINGS
      ========================= */
-     @media (max-width: 1100px) {
-  .search-page {
-    padding-inline: 1.25rem; /* ← slightly more than before */
-    --card-pad: 1rem;
-  }
+  @media (max-width: 1100px) {
+    .search-page {
+      padding-inline: 1.25rem; /* ← slightly more than before */
+      --card-pad: 1rem;
+    }
 
-  .search-page.search-hero {
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
-  }
+    .search-page.search-hero {
+      padding-top: 1.5rem;
+      padding-bottom: 2rem;
+    }
 
-  .search-page .search-header h1 {
-    font-size: 2rem;
+    .search-page .search-header h1 {
+      font-size: 2rem;
+    }
   }
 </style>
-
-  <script define:vars={{ postsData }}>
-    const searchInput = document.getElementById("search-input");
-    const searchResults = document.getElementById("search-results");
-    const noResults = document.getElementById("no-results");
-    const allPosts = document.getElementById("all-posts");
-
-    function formatDate(isoDate) {
-      return new Date(isoDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    }
-
-    function createPostCard(post) {
-      const tagsHTML =
-        post.tags && post.tags.length > 0
-          ? `<div class="post-tags">
-              ${post.tags
-                .map(
-                  (tag) => `<a href="/blog/tag/${tag}" class="tag">${tag}</a>`
-                )
-                .join("")}
-            </div>`
-          : "";
-
-      const formattedDate = formatDate(post.pubDate);
-
-      return `
-        <article class="post-card post-card--search">
-          <div class="post-body">
-            <a href="/blog/${post.slug}" class="post-link">
-              <div class="post-content">
-                <div class="post-header">
-                  <h2>${post.title}</h2>
-                  <time class="post-date" datetime="${post.pubDate}">
-                    ${formattedDate}
-                  </time>
-                </div>
-
-                <p class="post-description">${post.description}</p>
-                <div class="read-more">Read more →</div>
-              </div>
-            </a>
-            ${tagsHTML}
-          </div>
-        </article>
-      `;
-    }
-
-    function searchPosts(query) {
-      if (!query.trim()) {
-        searchResults.innerHTML = "";
-        searchResults.style.display = "none";
-        noResults.style.display = "none";
-        allPosts.style.display = "grid";
-        return;
-      }
-
-      const lowerQuery = query.toLowerCase();
-      const results = postsData.filter((post) => {
-        const titleMatch = post.title.toLowerCase().includes(lowerQuery);
-        const descMatch = post.description.toLowerCase().includes(lowerQuery);
-        const tagsMatch = post.tags.some((tag) =>
-          tag.toLowerCase().includes(lowerQuery)
-        );
-        return titleMatch || descMatch || tagsMatch;
-      });
-
-      allPosts.style.display = "none";
-
-      if (results.length === 0) {
-        searchResults.innerHTML = "";
-        searchResults.style.display = "none";
-        noResults.style.display = "block";
-      } else {
-        searchResults.innerHTML = results.map(createPostCard).join("");
-        searchResults.style.display = "grid";
-        noResults.style.display = "none";
-      }
-    }
-
-    searchInput.addEventListener("input", (e) => {
-      searchPosts(e.target.value);
-    });
-  </script>
-</BaseLayout>
