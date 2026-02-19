@@ -113,7 +113,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     }
 
     .tag {
-      background-color: var(--color-bg-secondary);
+      background-color: var(--overlay-gradient-accent);
       color: var(--color-accent);
       padding: 0.25rem 0.75rem;
       border-radius: 20px;
@@ -126,7 +126,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     }
 
     .tag-link:hover .tag {
-      background-color: var(--color-accent);
+      background-color: var(--gradient-accent);
       color: var(--color-bg);
       transform: translateY(-2px);
     }
@@ -135,12 +135,16 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       font-size: 0.95rem;
     }
 
-    .post-content :global(h1) { font-size: 2rem; margin: 2rem 0 0; }
-    .post-content :global(h2) { font-size: 1.75rem; margin: 2rem 0 0; }
-    .post-content :global(h3) { font-size: 1.5rem; margin: 1.75rem 0 0; }
+    .post-content :global(h1),
+.post-content :global(h2),
+.post-content :global(h3) {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
 
-    .post-content :global(p) {
-  margin: 0.85rem 0;
+.post-content :global(p) {
+  margin-top: 0.5rem;
+  margin-bottom: 0.85rem;
 }
 
     .post-content :global(strong) {
@@ -230,21 +234,28 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       transition: width 0.1s ease;
     }
 
-    @media (max-width: 920px) {
-      .post-title { font-size: 2rem; }
+   @media (max-width: 920px) {
 
-      .post-content :global(p > strong:first-child) {
-        display: block;
-        margin-bottom: -0.45em;
-      }
+  .post-title { 
+    font-size: 2rem; 
+  }
 
-      .post-content :global(p) {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
+  .post-content {
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
 
-      .post-content { font-size: 0.9rem; }
-    }
+  .post-content :global(p > strong:first-child) {
+    display: block;
+    margin-bottom: 0.25rem; /* remove negative collapse */
+  }
+
+  .post-content :global(p) {
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+}
   </style>
 
   <script>
