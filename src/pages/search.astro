@@ -51,7 +51,7 @@ const postsData = sortedPosts.map((post) => ({
 
   <GradientDivider />
 
-  <section class="search-results search-page">
+  <section id="results-section" class="search-results search-page" style="display:none;">
     <div id="search-results" class="posts-grid" style="display: none;"></div>
 
     <div id="no-results" class="no-results" style="display: none;">
@@ -115,6 +115,7 @@ const postsData = sortedPosts.map((post) => ({
     const searchResults = document.getElementById("search-results");
     const noResults = document.getElementById("no-results");
     const allPosts = document.getElementById("all-posts");
+    const resultsSection = document.getElementById("results-section");
 
     function formatDate(isoDate) {
       return new Date(isoDate).toLocaleDateString("en-US", {
@@ -162,12 +163,15 @@ const postsData = sortedPosts.map((post) => ({
 
     function searchPosts(query) {
       if (!query.trim()) {
-        searchResults.innerHTML = "";
-        searchResults.style.display = "none";
-        noResults.style.display = "none";
-        allPosts.style.display = "grid";
-        return;
-      }
+  resultsSection.style.display = "none";
+  searchResults.innerHTML = "";
+  searchResults.style.display = "none";
+  noResults.style.display = "none";
+  allPosts.style.display = "grid";
+  return;
+}
+
+resultsSection.style.display = "block";
 
       const lowerQuery = query.toLowerCase();
       const results = postsData.filter((post) => {
