@@ -1092,17 +1092,9 @@ a:hover {
   h4,
   h5,
   h6 {
-    line-height: var(--heading-line-height);
     margin: 0 0 0.65rem;
     /* slightly smaller padding so headings don’t look "puffy" on mobile */
     padding: 0.1em 0.14em;
-  }
-
-  /* -----------------------------
-     Paragraph rhythm: reduce "tall" feeling on iOS
-  ------------------------------ */
-  p {
-    margin: 0 0 0.9rem;
   }
 
   /* -----------------------------
