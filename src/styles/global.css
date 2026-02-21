@@ -182,26 +182,6 @@ select {
   color: inherit;
 }
 
-/* -----------------------------
-   Typography (normal defaults)
------------------------------- */
-p {
-  margin: 0 0 1rem;
-  color: var(--color-text);
-}
-
-strong,
-b {
-  font-weight: 600;
-  color: var(--bold-text-color);
-}
-
-em,
-i {
-  font-style: italic;
-  color: var(--italic-text-color);
-}
-
 /* Headings -- stable, readable, no weird clipping hacks */
 h1,
 h2,
@@ -247,30 +227,6 @@ h5 {
 }
 h6 {
   font-size: 1rem;
-}
-
-ul,
-ol {
-  margin: 0 0 1.25rem;
-  padding-left: 1.5rem;
-}
-
-li {
-  margin: 0.35rem 0;
-}
-
-blockquote {
-  margin: 1.25rem 0;
-  padding: 0.9rem 1rem;
-  border-left: 4px solid var(--color-accent);
-  background: rgba(26, 26, 46, 0.45);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid var(--color-border);
-  margin: 1.5rem 0;
 }
 
 /* -----------------------------
@@ -658,8 +614,8 @@ a:hover {
 }
 
 .tag {
-  background-color: var(--color-bg);
-  color: var(--color-accent);
+  background-color: var(--overlay-gradient-accent);
+  color: #ffffff;
 
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
@@ -673,8 +629,8 @@ a:hover {
 }
 
 .tag:hover {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
+  background-color: var(--overlay-gradient-accent);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -956,15 +912,6 @@ a:hover {
 }
 
 /* =========================================================
-   PAGE WRAPPER (Global) -- NORMAL
-   ========================================================= */
-.page {
-  width: min(1200px, 100%);
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-}
-
-/* =========================================================
    FOOTER (Global) -- NORMAL
    ========================================================= */
 .site-footer {
@@ -1234,13 +1181,6 @@ a:hover {
   .moon-details {
     font-size: 0.8rem;
   }
- 
- /* =========================================================
-   PAGE WRAPPER (Global) -- MOBILE
-========================================================= */
-.page {
-  padding: 1.5rem var(--page-pad);
-}
 
 /* =========================================================
    FOOTER (Global) -- MOBILE
