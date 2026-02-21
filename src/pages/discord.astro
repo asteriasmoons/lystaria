@@ -189,47 +189,35 @@ const pageDescription = "Join our diverse community on Discord";
      DISCORD INVITE BUTTON
      ==================================== */
   .discord-button {
-    display: inline-flex; /* Allows icon + text to sit side by side */
-    align-items: center; /* Vertically center icon and text */
-    gap: 0.75rem; /* Space between icon and text */
-
-    /* Button styling */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     padding: 1rem 2rem;
 	font-family: "Berkshire Swash", serif;
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 10px;
-    /* Gradient background (your signature colors) */
     background: var(--overlay-gradient-accent);
-    /* Border with gradient feel */
     border: none;
-    /* Text color */
     color: #ffffff;
-    /* Smooth transitions on hover */
     transition: all 0.3s ease;
-    /* Remove default link underline */
     text-decoration: none;
-    /* Cursor changes to pointer on hover */
     cursor: pointer;
-    /* Subtle shadow */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
   /* Button hover effect */
   .discord-button:hover {
-    /* Brighten background on hover */
     background: var(--gradient-accent);
-    /* Lift button slightly */
     transform: translateY(-2px);
-    /* Enhance shadow */
     box-shadow:
       0 6px 20px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(90, 200, 250, 0.3); /* Cyan glow */
+      0 0 30px rgba(90, 200, 250, 0.3);
   }
 
   /* Button active/pressed state */
   .discord-button:active {
-    transform: translateY(0); /* Return to normal position */
+    transform: translateY(0);
   }
 
   /* Discord icon styling */

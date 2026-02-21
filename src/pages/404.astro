@@ -72,29 +72,36 @@ import GradientDivider from "../components/GradientDivider.astro";
     color: rgba(255, 255, 255, 0.92);
   }
 
-  .notfound-actions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 0.25rem;
-  }
-
   .notfound-btn {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    background-color: var(--overlay-gradient-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+	font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
     border: none;
-    border-radius: 999px;
     color: #ffffff;
-    font-size: 1rem;
+    transition: all 0.3s ease;
     text-decoration: none;
-    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
+  /* Button hover effect */
   .notfound-btn:hover {
-    background-color: var(--gradient-accent);
-    color: #ffffff;
+    background: var(--gradient-accent);
     transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  /* Button active/pressed state */
+  .notfound-btn:active {
+    transform: translateY(0);
   }
 
   @media (max-width: 860px) {
