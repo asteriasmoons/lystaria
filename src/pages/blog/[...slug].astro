@@ -141,6 +141,9 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       margin-top: 1rem;
       margin-bottom: 0;
    }
+   
+   .post-content :is(h1,h2,h3,h4,h5,h6) { margin-bottom: 0.15rem !important; }
+.post-content :is(h1,h2,h3,h4,h5,h6) + :is(p,ul,ol) { margin-top: 0 !important; }
 
    /* Paragraph rhythm */
     .post-content :global(p) {
