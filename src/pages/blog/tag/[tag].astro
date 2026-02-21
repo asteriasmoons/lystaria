@@ -42,7 +42,6 @@ const sortedPosts = posts.sort(
   <div class="container-wide">
     <header class="tag-header">
       <div class="tag-badge">
-        <span class="tag-icon">🏷️</span>
         <h1>{tag}</h1>
       </div>
       <p class="tag-count">
@@ -117,10 +116,6 @@ const sortedPosts = posts.sort(
       align-items: center;
       gap: 1rem;
       margin-bottom: 1rem;
-    }
-
-    .tag-icon {
-      font-size: 2rem;
     }
 
     .tag-header h1 {
@@ -218,8 +213,8 @@ const sortedPosts = posts.sort(
     }
 
     .tag {
-      background-color: var(--color-bg);
-      color: var(--color-accent);
+      background-color: var(--overlay-gradient);
+      color: #ffffff;
       padding: 0.25rem 0.75rem;
       border-radius: 20px;
       font-size: 0.85rem;
@@ -228,13 +223,13 @@ const sortedPosts = posts.sort(
     }
 
     .tag.active {
-      background-color: var(--color-accent);
-      color: var(--color-bg);
+      background-color: var(--gradient-accent);
+      color: #ffffff;
       border-color: var(--color-accent);
     }
 
     .post-card:hover .tag {
-      border-color: var(--color-accent);
+      border-color: var(--gradient-accent);
     }
 
     .read-more {
@@ -249,7 +244,7 @@ const sortedPosts = posts.sort(
       color: var(--color-accent-bright);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 920px) {
       .tag-header h1 {
         font-size: 2rem;
       }
