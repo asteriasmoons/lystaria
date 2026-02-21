@@ -83,11 +83,16 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       padding-bottom: 0;
     }
     
-    .post-header h1,
-    .post-header h2,
-    .post-header p {
-      margin: 0;
-   }
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  padding: 0;
+  margin-bottom: 0.15rem;
+}
+
 
     .post-title {
       font-size: 2.5rem;
@@ -141,20 +146,17 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       margin-top: 1rem;
       margin-bottom: 0;
    }
-   
-   .post-content :is(h1,h2,h3,h4,h5,h6) { margin-bottom: 0.15rem !important; }
-.post-content :is(h1,h2,h3,h4,h5,h6) + :is(p,ul,ol) { margin-top: 0 !important; }
 
    /* Paragraph rhythm */
     .post-content :global(p) {
-      margin: 0.25rem 0 0.6rem;
+      margin: 0;
    }
 
    /* Extra tight when paragraph follows heading */
    .post-content :global(h1 + p),
    .post-content :global(h2 + p),
    .post-content :global(h3 + p) {
-     margin-top: 0.15rem;
+     margin-top: 0;
    }
 
     .post-content :global(strong) {
@@ -256,21 +258,21 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
 
   /* kill the "first line bold" spacing trick */
   .post-content :global(p > strong:first-child) {
-    display: block;
+    display: inline;
     margin-bottom: 0;
   }
 
   /* paragraphs: small, controlled spacing */
   .post-content :global(p) {
-    margin-top: 0.2rem;
-    margin-bottom: 0.55rem;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   /* heading → first paragraph: even tighter */
   .post-content :global(h1 + p),
   .post-content :global(h2 + p),
   .post-content :global(h3 + p) {
-    margin-top: 0.1rem;
+    margin-top: 0;
   }
 }
   </style>
