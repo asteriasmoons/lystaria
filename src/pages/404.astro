@@ -13,18 +13,14 @@ import GradientDivider from "../components/GradientDivider.astro";
     <header class="notfound-header">
       <h2>The InBetween</h2>
 
-      <div class="notfound-box">
-        <p class="notfound-text">
+        <p class="gradient-box">
         This is a liminal corridor -- a space between doors. The page you sought may have slipped beyond the veil, changed its name, or never fully manifested in this timeline. Thresholds are not endings. They are pauses before reorientation.
         </p>
-      </div>
     </header>
 
     <GradientDivider />
 
-    <div class="notfound-actions">
-      <a href="/" class="notfound-btn">Home</a>
-    </div>
+      <a href="/" class="gradient-btn">Home</a>
   </section>
 </BaseLayout>
 
@@ -52,58 +48,6 @@ import GradientDivider from "../components/GradientDivider.astro";
     margin: 0 0 1rem 0;
   }
 
-  /* Gradient border box (same idea as your intro/blog-note style) */
-  .notfound-box {
-    text-align: center;
-    max-width: 700px;
-    margin: 0;
-    padding: 2rem;
-    border: 2px dotted transparent; 
-    border-image: var(--gradient-accent) 1; 
-    border-radius: 8px; 
-    font-size: 0.85rem;
-    color: #ffffff;
-  }
-
-  .notfound-text {
-    margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.92);
-  }
-
-  .notfound-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-	font-family: "Berkshire Swash", serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 10px;
-    background: var(--overlay-gradient-accent);
-    border: none;
-    color: #ffffff;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Button hover effect */
-  .notfound-btn:hover {
-    background: var(--gradient-accent);
-    transform: translateY(-2px);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(90, 200, 250, 0.3);
-  }
-
-  /* Button active/pressed state */
-  .notfound-btn:active {
-    transform: translateY(0);
-  }
-
   @media (max-width: 860px) {
     .notfound-header h2 {
       font-size: 1.75rem;
@@ -111,10 +55,6 @@ import GradientDivider from "../components/GradientDivider.astro";
 
     .notfound-box {
       padding: 1.5rem;
-    }
-
-    .notfound-text {
-      font-size: 0.95rem;
     }
   }
 </style>

@@ -311,6 +311,56 @@ a:hover {
 }
 
 /* -----------------------------
+   GRADIENT BOX
+------------------------------ */
+  .gradient-box {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent; 
+    border-image: var(--gradient-accent) 1; 
+    border-radius: 8px; 
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+  
+/* -----------------------------
+   GRADIENT BUTTON
+------------------------------ */
+  .gradient-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+	font-family: "Berkshire Swash", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--overlay-gradient-accent);
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Button hover effect */
+  .gradient-btn:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(90, 200, 250, 0.3);
+  }
+
+  /* Button active/pressed state */
+  .gradient-btn:active {
+    transform: translateY(0);
+  } 
+
+/* -----------------------------
    Header / nav (keep simple; layout-specific styling can stay in BaseLayout)
 ------------------------------ */
 .site-header {
