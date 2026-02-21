@@ -586,7 +586,7 @@ a:hover {
   text-decoration: none;
 }
 
-.post-content {
+.postcard-content {
   display: flex;
   flex-direction: column;
   flex: 1;
