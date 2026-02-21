@@ -77,22 +77,18 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   </BaseLayout>
 
   <style is:global>
+    /* ===========================================
+       BLOG POST STYLES
+       All in one place. No :global() wrappers needed
+       because the <style> tag itself is is:global.
+       =========================================== */
+
+    /* --- Header --- */
     .post-header {
       text-align: center;
       margin-bottom: 0;
       padding-bottom: 0;
     }
-    
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4,
-.post-content h5,
-.post-content h6 {
-  padding: 0;
-  margin-bottom: 0.15rem;
-}
-
 
     .post-title {
       font-size: 2.5rem;
@@ -109,14 +105,15 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       font-size: 0.95rem;
     }
 
-    .post-tags {
+    /* --- Tags (scoped to blog post, not cards) --- */
+    .post-header .post-tags {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
       justify-content: center;
     }
 
-    .tag {
+    .post-header .tag {
       background-color: var(--overlay-gradient-accent);
       color: var(--color-accent);
       padding: 0.25rem 0.75rem;
@@ -135,70 +132,94 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       transform: translateY(-2px);
     }
 
+    /* --- Post content area --- */
     .post-content {
-     font-size: 0.95rem;
-   }
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
 
-    /* Tight heading rhythm */
-    .post-content :global(h1),
-    .post-content :global(h2),
-    .post-content :global(h3) {
-      margin-top: 1rem;
-      margin-bottom: 0;
-   }
+    /* --- Headings inside post content ---
+         Override global.css heading padding/margin.
+         These need to beat (0,0,1) from global, and they do at (0,1,1). */
+    .post-content h1,
+    .post-content h2,
+    .post-content h3,
+    .post-content h4,
+    .post-content h5,
+    .post-content h6 {
+      padding: 0;
+      margin: 1.25rem 0 0.2rem;
+    }
 
-   /* Paragraph rhythm */
-    .post-content :global(p) {
-      margin: 0;
-   }
+    /* --- Paragraphs --- */
+    .post-content p {
+      margin: 0 0 0.6rem;
+    }
 
-   /* Extra tight when paragraph follows heading */
-   .post-content :global(h1 + p),
-   .post-content :global(h2 + p),
-   .post-content :global(h3 + p) {
-     margin-top: 0;
-   }
+    /* Paragraph right after a heading: minimal gap */
+    .post-content h1 + p,
+    .post-content h2 + p,
+    .post-content h3 + p,
+    .post-content h4 + p {
+      margin-top: 0;
+    }
 
-    .post-content :global(strong) {
+    /* Paragraph right after a gradient-divider:
+       your markdown has <div class="gradient-divider"> between sections,
+       which breaks h3 + p adjacency. Handle it: */
+    .post-content .gradient-divider + h3,
+    .post-content .gradient-divider + h2 {
+      margin-top: 0.75rem;
+    }
+
+    .post-content .gradient-divider {
+      margin: 0.75rem 0;
+    }
+
+    /* --- Inline styles --- */
+    .post-content strong {
       color: var(--bold-text-color);
       font-weight: 600;
     }
 
-    .post-content :global(em) {
+    .post-content em {
       color: var(--italic-text-color);
       font-style: italic;
     }
 
-    .post-content :global(a) {
+    .post-content a {
       color: var(--color-accent);
       text-decoration: underline;
       transition: color 0.3s ease;
     }
 
-    .post-content :global(a:hover) {
+    .post-content a:hover {
       color: var(--color-accent-bright);
     }
 
-    .post-content :global(ul),
-    .post-content :global(ol) {
-      margin: 1.5rem 0;
+    /* --- Lists --- */
+    .post-content ul,
+    .post-content ol {
+      margin: 0.75rem 0;
       padding-left: 2rem;
     }
 
-    .post-content :global(li) {
-      margin-bottom: 0.75rem;
+    .post-content li {
+      margin-bottom: 0.4rem;
     }
 
-    .post-content :global(blockquote) {
+    /* --- Blockquotes --- */
+    .post-content blockquote {
       border-left: 4px solid var(--color-accent);
       padding: 1rem 1.5rem;
-      margin: 2rem 0;
+      margin: 1.5rem 0;
       background-color: var(--color-bg-secondary);
       font-style: italic;
       color: var(--color-text-muted);
     }
 
-    .post-content :global(code) {
+    /* --- Code --- */
+    .post-content code {
       background-color: var(--color-bg-secondary);
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
@@ -207,27 +228,29 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       font-family: "Courier New", monospace;
     }
 
-    .post-content :global(pre) {
+    .post-content pre {
       background-color: var(--color-bg-secondary);
       padding: 1.5rem;
       border-radius: 8px;
       overflow-x: auto;
-      margin: 2rem 0;
+      margin: 1.5rem 0;
       border: 1px solid var(--color-border);
     }
 
-    .post-content :global(pre code) {
+    .post-content pre code {
       background: none;
       padding: 0;
       color: var(--color-text);
     }
 
-    .post-content :global(hr) {
+    /* --- Horizontal rules --- */
+    .post-content hr {
       border: none;
       border-top: 1px solid var(--color-border);
-      margin: 3rem 0;
+      margin: 2rem 0;
     }
 
+    /* --- Progress bar --- */
     #progress-bar {
       position: fixed;
       top: 0;
@@ -246,35 +269,39 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
       transition: width 0.1s ease;
     }
 
-   @media (max-width: 920px) {
-  .post-title {
-    font-size: 2rem;
-  }
+    /* ===========================================
+       MOBILE
+       =========================================== */
+    @media (max-width: 920px) {
+      .post-title {
+        font-size: 2rem;
+      }
 
-  /* tighter reading on mobile */
-  .post-content {
-    font-size: 0.95rem;
-  }
+      .post-content {
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
 
-  /* kill the "first line bold" spacing trick */
-  .post-content :global(p > strong:first-child) {
-    display: inline;
-    margin-bottom: 0;
-  }
+      .post-content p {
+        margin: 0 0 0.45rem;
+      }
 
-  /* paragraphs: small, controlled spacing */
-  .post-content :global(p) {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+      .post-content h1 + p,
+      .post-content h2 + p,
+      .post-content h3 + p {
+        margin-top: 0;
+      }
 
-  /* heading → first paragraph: even tighter */
-  .post-content :global(h1 + p),
-  .post-content :global(h2 + p),
-  .post-content :global(h3 + p) {
-    margin-top: 0;
-  }
-}
+      .post-content h1,
+      .post-content h2,
+      .post-content h3,
+      .post-content h4,
+      .post-content h5,
+      .post-content h6 {
+        padding: 0;
+        margin: 1rem 0 0.15rem;
+      }
+    }
   </style>
 
   <script>
