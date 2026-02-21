@@ -76,6 +76,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
 
     <Comments />
   </div>
+  </BaseLayout>
 
   <style>
     .post-container {
@@ -132,29 +133,29 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     }
 
     .post-content {
-  font-size: 0.95rem;
-  line-height: 1.4; /* tighter */
-}
+     font-size: 0.95rem;
+     line-height: 1.4; /* tighter */
+   }
 
-/* Tight heading rhythm */
-.post-content :global(h1),
-.post-content :global(h2),
-.post-content :global(h3) {
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
-}
+    /* Tight heading rhythm */
+    .post-content :global(h1),
+    .post-content :global(h2),
+    .post-content :global(h3) {
+      margin-top: 1rem;
+      margin-bottom: 0.25rem;
+   }
 
-/* Paragraph rhythm */
-.post-content :global(p) {
-  margin: 0.25rem 0 0.6rem;
-}
+   /* Paragraph rhythm */
+    .post-content :global(p) {
+      margin: 0.25rem 0 0.6rem;
+   }
 
-/* Extra tight when paragraph follows heading */
-.post-content :global(h1 + p),
-.post-content :global(h2 + p),
-.post-content :global(h3 + p) {
-  margin-top: 0.15rem;
-}
+   /* Extra tight when paragraph follows heading */
+   .post-content :global(h1 + p),
+   .post-content :global(h2 + p),
+   .post-content :global(h3 + p) {
+     margin-top: 0.15rem;
+   }
 
     .post-content :global(strong) {
       color: var(--bold-text-color);
@@ -290,4 +291,3 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     window.addEventListener("scroll", updateProgressBar);
     updateProgressBar();
   </script>
-</BaseLayout>
