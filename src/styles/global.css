@@ -212,8 +212,6 @@ h6 {
   margin: 0 0 0.75rem;
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
-  line-height: var(--heading-line-height);
-
   background-image: var(--grad-heading);
   background-size: var(--heading-bg-size);
   background-position: var(--heading-bg-pos);
