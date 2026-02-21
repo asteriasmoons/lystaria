@@ -1,0 +1,113 @@
+---
+// @ts-nocheck
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GradientDivider from "../components/GradientDivider.astro";
+---
+
+<BaseLayout
+  title="The InBetween · Lystaria"
+  description="The page you’re looking for doesn’t exist or was moved."
+  type="website"
+>
+  <section class="notfound">
+    <header class="notfound-header">
+      <h2>The InBetween</h2>
+
+      <div class="notfound-box">
+        <p class="notfound-text">
+        This is a liminal corridor -- a space between doors. The page you sought may have slipped beyond the veil, changed its name, or never fully manifested in this timeline. Thresholds are not endings. They are pauses before reorientation.
+        </p>
+      </div>
+    </header>
+
+    <GradientDivider />
+
+    <div class="notfound-actions">
+      <a href="/" class="notfound-btn">Home</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Keep this page simple so it "snaps" like your other pages */
+
+  .notfound {
+    text-align: center;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .notfound-header {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* You asked for h2 as the title */
+  .notfound-header h2 {
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+  }
+
+  /* Gradient border box (same idea as your intro/blog-note style) */
+  .notfound-box {
+    text-align: center;
+    max-width: 700px;
+    margin: 0;
+    padding: 2rem;
+    border: 2px dotted transparent; 
+    border-image: var(--gradient-accent) 1; 
+    border-radius: 8px; 
+    font-size: 0.85rem;
+    color: #ffffff;
+  }
+
+  .notfound-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .notfound-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+
+  .notfound-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: var(--overlay-gradient-accent);
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .notfound-btn:hover {
+    background-color: var(--gradient-accent);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 860px) {
+    .notfound-header h2 {
+      font-size: 1.75rem;
+    }
+
+    .notfound-box {
+      padding: 1.5rem;
+    }
+
+    .notfound-text {
+      font-size: 0.95rem;
+    }
+  }
+</style>
