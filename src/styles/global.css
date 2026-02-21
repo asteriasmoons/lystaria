@@ -424,6 +424,15 @@ a:hover {
   }
 }
 
+/* ============================================
+     PAGE WRAPPER
+     ========================================= */
+.page {
+width: min(1200px, 100%);
+margin: 0 auto;
+padding: 1.5rem 0.5rem;
+}
+
 /* -----------------------------
    Post cards system (keep your existing design, but clean structure)
    NOTE: still "normal" (mobile overrides later)
@@ -909,6 +918,11 @@ a:hover {
   font-size: 0.85rem;       /* slightly smaller */
   line-height: 1.2;
   color: rgba(255,255,255,0.85);
+}
+
+
+.page {
+  padding: 1.5rem var(--page-pad);
 }
 
 /* =========================================================
