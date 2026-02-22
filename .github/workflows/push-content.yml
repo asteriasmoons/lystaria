@@ -27,13 +27,12 @@ jobs:
         env:
           PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
           PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           set -e
 
-          # If updates.astro didn't change, do nothing
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q "^src/pages/updates\.astro$" || exit 0
 
-          # Extract title + message from PUSH_META block (recommended)
           TITLE=$(awk '
             /PUSH_META/{f=1;next}
             /PUSH_META_END/{f=0}
@@ -46,15 +45,9 @@ jobs:
             f && $0 ~ /message:/ { sub(/^.*message:[[:space:]]*/, "", $0); print; exit }
           ' src/pages/updates.astro)
 
-          # Fallbacks
           [ -z "$TITLE" ] && TITLE="New update"
           [ -z "$MESSAGE" ] && MESSAGE="A new update is live. Tap to read."
 
-          echo "Sending updates push..."
-          echo "TITLE=$TITLE"
-          echo "MESSAGE=$MESSAGE"
-
-          # Escape quotes/backslashes for JSON safety
           esc() { printf '%s' "$1" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read())[1:-1])'; }
           TITLE_ESC=$(esc "$TITLE")
           MESSAGE_ESC=$(esc "$MESSAGE")
@@ -76,8 +69,7 @@ jobs:
         env:
           PUSH_WEBHOOK_URL: ${{ secrets.PUSH_WEBHOOK_URL }}
           PUSH_WEBHOOK_SECRET: ${{ secrets.PUSH_WEBHOOK_SECRET }}
-          CHANGED_FILES: ${{ github.event.before }}..${{ github.sha }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
-          # Provide your script a list of changed files (more reliable than HEAD~1)
           export CHANGED_FILES="$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
           node scripts/push-from-changes.mjs
