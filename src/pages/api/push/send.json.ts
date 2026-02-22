@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import admin from "firebase-admin";
 
 function getPrivateEnv(name: string) {
-  const v = import.meta.env[name];
+  const v = process.env[name];
   if (!v) throw new Error(`Missing env var: ${name}`);
   return v;
 }
