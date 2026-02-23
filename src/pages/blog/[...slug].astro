@@ -170,6 +170,12 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
     .post-content h4 + p {
       margin-top: 0;
     }
+    
+    
+    .post-content p strong:only-child {
+      display: inline-block;
+      margin-top: 0.6rem;
+    }
 
     /* Paragraph right after a gradient-divider:
        your markdown has <div class="gradient-divider"> between sections,
