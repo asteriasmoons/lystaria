@@ -213,7 +213,7 @@ const sortedPosts = posts.sort(
     }
 
     .tag {
-      background-color: var(--overlay-gradient);
+      background: var(--overlay-gradient);
       color: #ffffff;
       padding: 0.25rem 0.75rem;
       border-radius: 20px;
@@ -222,14 +222,14 @@ const sortedPosts = posts.sort(
       transition: all 0.3s ease;
     }
 
-    .tag.active {
-      background-color: var(--gradient-accent);
+   .tag.active {
+      background: var(--gradient-accent);
       color: #ffffff;
       border-color: var(--color-accent);
     }
 
     .post-card:hover .tag {
-      border-color: var(--gradient-accent);
+      border-color: var(--color-accent);
     }
 
     .read-more {
