@@ -72,5 +72,12 @@ jobs:
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
         run: |
           export CHANGED_FILES="$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})"
-          echo "Secret length: ${#PUSH_WEBHOOK_SECRET}"
+
+          python3 - <<'PY'
+          import os, hashlib
+          s = os.environ.get("PUSH_WEBHOOK_SECRET", "")
+          print("Secret length:", len(s))
+          print("Secret sha256:", hashlib.sha256(s.encode()).hexdigest())
+          PY
+
           node scripts/push-from-changes.mjs
