@@ -1,4 +1,4 @@
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from "astro:content";
 
 function parseTimeString(input: string): { h: number; m: number } | null {
@@ -93,6 +93,7 @@ const postsCollection = defineCollection({
 });
 
 const updates = defineCollection({
+  type: "content",
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),

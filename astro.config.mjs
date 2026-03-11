@@ -2,17 +2,15 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import node from "@astrojs/node";
+import netlify from "@astrojs/netlify";
 
 export default defineConfig({
   integrations: [mdx(), sitemap()],
   site: "https://lystaria.im",
 
-  // ✅ SSR on Render
+  // SSR for Netlify
   output: "server",
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter: netlify(),
 
   vite: {
     resolve: {
