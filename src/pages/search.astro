@@ -8,12 +8,12 @@ import GradientDivider from "../components/GradientDivider.astro";
 // Get all posts for searching
 const allPosts = await getCollection("posts");
 const sortedPosts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 // Pass posts as JSON to the client
 const postsData = sortedPosts.map((post) => ({
-  slug: post.slug,
+  slug: post.id,
   title: post.data.title,
   description: post.data.description,
   tags: post.data.tags || [],
@@ -51,7 +51,11 @@ const postsData = sortedPosts.map((post) => ({
 
   <GradientDivider />
 
-  <section id="results-section" class="search-results search-page" style="display:none;">
+  <section
+    id="results-section"
+    class="search-results search-page"
+    style="display:none;"
+  >
     <div id="search-results" class="posts-grid" style="display: none;"></div>
 
     <div id="no-results" class="no-results" style="display: none;">
@@ -69,7 +73,7 @@ const postsData = sortedPosts.map((post) => ({
               year: "numeric",
               month: "long",
               day: "numeric",
-            }
+            },
           );
 
           return (
@@ -131,7 +135,7 @@ const postsData = sortedPosts.map((post) => ({
           ? `<div class="post-tags">
               ${post.tags
                 .map(
-                  (tag) => `<a href="/blog/tag/${tag}" class="tag">${tag}</a>`
+                  (tag) => `<a href="/blog/tag/${tag}" class="tag">${tag}</a>`,
                 )
                 .join("")}
             </div>`
@@ -163,22 +167,22 @@ const postsData = sortedPosts.map((post) => ({
 
     function searchPosts(query) {
       if (!query.trim()) {
-  resultsSection.style.display = "none";
-  searchResults.innerHTML = "";
-  searchResults.style.display = "none";
-  noResults.style.display = "none";
-  allPosts.style.display = "grid";
-  return;
-}
+        resultsSection.style.display = "none";
+        searchResults.innerHTML = "";
+        searchResults.style.display = "none";
+        noResults.style.display = "none";
+        allPosts.style.display = "grid";
+        return;
+      }
 
-resultsSection.style.display = "block";
+      resultsSection.style.display = "block";
 
       const lowerQuery = query.toLowerCase();
       const results = postsData.filter((post) => {
         const titleMatch = post.title.toLowerCase().includes(lowerQuery);
         const descMatch = post.description.toLowerCase().includes(lowerQuery);
         const tagsMatch = post.tags.some((tag) =>
-          tag.toLowerCase().includes(lowerQuery)
+          tag.toLowerCase().includes(lowerQuery),
         );
         return titleMatch || descMatch || tagsMatch;
       });
@@ -221,15 +225,15 @@ resultsSection.style.display = "block";
   }
 
   /* give the top section breathing room without crushing sides */
-.search-page.search-hero {
-  padding-top: 2rem;
-  padding-bottom: 0.5rem;
-}
+  .search-page.search-hero {
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+  }
 
   /* all-posts area spacing */
   .search-page.search-all {
-  padding-bottom: 2rem;
-}
+    padding-bottom: 2rem;
+  }
 
   /* =========================
      HEADER + SEARCH BOX
@@ -245,12 +249,12 @@ resultsSection.style.display = "block";
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .search-page.search-results {
-  padding: 0 !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-}
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+  }
 
   .search-page .search-box {
     position: relative;

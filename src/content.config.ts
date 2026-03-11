@@ -1,10 +1,9 @@
 // src/content.config.ts
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 function parseTimeString(input: string): { h: number; m: number } | null {
   const s = input.trim().toLowerCase();
-
-  // 24h: "19:04"
   const m24 = s.match(/^(\d{1,2}):(\d{2})$/);
   if (m24) {
     const h = Number(m24[1]);
@@ -12,8 +11,6 @@ function parseTimeString(input: string): { h: number; m: number } | null {
     if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return { h, m };
     return null;
   }
-
-  // 12h: "7:04 pm" or "7:04pm"
   const m12 = s.match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/);
   if (m12) {
     let h = Number(m12[1]);
@@ -24,16 +21,11 @@ function parseTimeString(input: string): { h: number; m: number } | null {
     if (ampm === "am" && h === 12) h = 0;
     return { h, m };
   }
-
-  // IMPORTANT for your choice C:
-  // We do NOT accept "7:04" without AM/PM here.
   return null;
 }
 
 function buildPublishDate(pubDateRaw: unknown, pubTimeRaw?: unknown): Date {
-  // Expect pubDate as YYYY-MM-DD (string) or Date
   let y: number, mo: number, d: number;
-
   if (pubDateRaw instanceof Date) {
     y = pubDateRaw.getFullYear();
     mo = pubDateRaw.getMonth() + 1;
@@ -49,11 +41,8 @@ function buildPublishDate(pubDateRaw: unknown, pubTimeRaw?: unknown): Date {
     mo = Number(m[2]);
     d = Number(m[3]);
   }
-
-  // Default to noon (safe, not 00:00:00)
   let hour = 12;
   let minute = 0;
-
   if (pubTimeRaw != null) {
     const parsed = parseTimeString(String(pubTimeRaw));
     if (parsed) {
@@ -61,23 +50,17 @@ function buildPublishDate(pubDateRaw: unknown, pubTimeRaw?: unknown): Date {
       minute = parsed.m;
     }
   }
-
   return new Date(y, mo - 1, d, hour, minute, 0, 0);
 }
 
 const postsCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
   schema: z
     .object({
       title: z.string(),
       description: z.string(),
-
-      // CHANGED: accept date-only string too
       pubDate: z.union([z.string(), z.date()]),
-
-      // ADDED: optional human time
       pubTime: z.string().optional(),
-
       updatedDate: z.coerce.date().optional(),
       tags: z.array(z.string()).optional(),
       coverImage: z.string().optional(),
@@ -93,7 +76,7 @@ const postsCollection = defineCollection({
 });
 
 const updates = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/updates" }),
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),

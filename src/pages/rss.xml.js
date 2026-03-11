@@ -87,7 +87,7 @@ export async function GET(context) {
         title: post.data.title,
         pubDate: normalizePubDate(post.data.pubDate),
         description: post.data.description,
-        link: `/blog/${post.slug}/`,
+        link: `/blog/${post.id}/`,
         categories: post.data.tags || [],
         // Add cover image as enclosure with auto-detected type
         enclosure: coverImageUrl
