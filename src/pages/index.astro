@@ -395,7 +395,7 @@ const latestPosts = sortedPosts.slice(0, 2);
   .mini-banner {
     margin-top: 0.5rem;
     margin-bottom: 0.25rem;
-    padding: 0.35rem 0.85rem;
+    padding: 0;
 
     font-size: 0.7rem;
     letter-spacing: 0.08em;
@@ -404,11 +404,6 @@ const latestPosts = sortedPosts.slice(0, 2);
     color: #ffffff;
 
     border-radius: 999px;
-    border: 1px solid transparent;
-    border-image: var(--gradient-accent) 1;
-
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(4px);
 
     width: fit-content;
     align-self: center;
@@ -417,7 +412,8 @@ const latestPosts = sortedPosts.slice(0, 2);
 
   .mini-banner-img {
     display: block;
-    max-width: 220px;
+    max-width: 380px;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.35));
     width: 100%;
     height: auto;
     border-radius: 6px;
