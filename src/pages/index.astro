@@ -26,6 +26,9 @@ const latestPosts = sortedPosts.slice(0, 2);
   <!-- HERO SECTION -->
   <section class="hero">
     <h1>Welcome to Lystaria</h1>
+    <div class="mini-banner">
+      <img src="/banner.png" alt="Lystaria banner" class="mini-banner-img" />
+    </div>
 
     <p class="intro">
       Where the mystical meets the mundane. A space for exploring the magic
@@ -389,6 +392,37 @@ const latestPosts = sortedPosts.slice(0, 2);
     -webkit-text-fill-color: transparent;
   }
 
+  .mini-banner {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    padding: 0.35rem 0.85rem;
+
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: #ffffff;
+
+    border-radius: 999px;
+    border: 1px solid transparent;
+    border-image: var(--gradient-accent) 1;
+
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(4px);
+
+    width: fit-content;
+    align-self: center;
+    text-align: center;
+  }
+
+  .mini-banner-img {
+    display: block;
+    max-width: 220px;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
   /* =========================
    INTRO BOX
    ========================= */
@@ -448,6 +482,10 @@ const latestPosts = sortedPosts.slice(0, 2);
     .intro {
       font-size: 0.9rem;
       /* padding: 1.5rem; */
+    }
+    .mini-banner {
+      font-size: 0.65rem;
+      padding: 0.3rem 0.7rem;
     }
   }
 </style>
