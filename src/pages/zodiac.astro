@@ -72,8 +72,8 @@ const zodiacPosts = allPosts
       ) : (
         <div class="posts-grid">
           {zodiacPosts.map((post) => (
-            <article class="post-card">
-              <div class="post-body">
+            <article class="post-series-card">
+              <div class="post-series-body">
                 <span class="series-badge">
                   Part {post.data.seriesNumber} of {post.data.seriesTotal}
                 </span>
@@ -169,90 +169,6 @@ const zodiacPosts = allPosts
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     /* gap: 2rem; */
-  }
-
-.post-card {
-  background: linear-gradient(
-    150deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
-  );
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  padding: 1.25rem; /* ✅ REAL padding */
-  display: flex;
-  flex-direction: column;
-  background-clip: padding-box;
-}
-
-  .post-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 10, 15, 0.45);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .post-card > * {
-    position: relative;
-    z-index: 1;
-  }
-
-.post-card .series-badge {
-  margin-bottom: 0.75rem;
-}
-
-.post-card h2 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.post-description {
-  margin-bottom: 2rem; /* was 2rem */
-}
-
-.post-card .read-button {
-  margin-top: auto; /* keeps it at the bottom */
-}
-
-.post-card .post-description {
-  margin-bottom: 1.5rem;
-}
-
-  .series-badge {
-    display: inline-block;
-    background: rgba(90, 200, 250, 0.1);
-    color: #ffffff;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(90, 200, 250, 0.2);
-    align-self: flex-start;
-  }
-
-  .post-card h2 {
-    font-size: 1.5rem;
-    color: #ffffff;
-    background: none;
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: #ffffff;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    line-height: 1.25;
-  }
-
-  .post-description {
-    color: var(--color-text-muted);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    flex-grow: 1;
   }
 
   .read-button {
