@@ -18,80 +18,68 @@
 
   --color-border: #2a2a3e;
 
-  --bold-text-color: #e019d4;
-  --italic-text-color: #00dbff;
+  --bold-text-color: #6055f7;
+  --italic-text-color: #03e3fc;
 
   --bg-glow: radial-gradient(
       900px 500px at 20% 10%,
-      rgba(126, 126, 255, 0.18),
+      rgba(96, 85, 247, 0.18),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 80% 30%,
-      rgba(90, 199, 250, 0.16),
+      rgba(3, 227, 252, 0.16),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 15% 85%,
-      rgba(218, 37, 201, 0.14),
+      rgba(96, 85, 247, 0.14),
       transparent 65%
     ),
     radial-gradient(
       900px 500px at 85% 80%,
-      rgba(255, 255, 75, 0.1),
+      rgba(3, 227, 252, 0.12),
       transparent 65%
     );
 
   --gradient-heading: linear-gradient(
     90deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
+    #6055f7 0%,
+    #6055f7 45%,
+    #03e3fc 55%,
+    #03e3fc 100%
   );
 
   --grad-heading: linear-gradient(
     60deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #f6f65a 48%,
-    #e019d4 54%,
-    #e019d4 64%,
-    #00dbff 72%,
-    #00dbff 100%
+    #6055f7 0%,
+    #6055f7 45%,
+    #03e3fc 55%,
+    #03e3fc 100%
   );
 
   --gradient-accent: linear-gradient(
     45deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
+    #6055f7 0%,
+    #6055f7 45%,
+    #03e3fc 55%,
+    #03e3fc 100%
   );
 
   --overlay-gradient-accent: linear-gradient(
     45deg,
-    #7e7effb9 10%,
-    #7e7effb9 32%,
-    #f6f65a8f 38%,
-    #e019d3a6 60%,
-    #00ddffae 72%,
-    #00dbffae 100%
+    rgba(96, 85, 247, 0.72) 0%,
+    rgba(96, 85, 247, 0.72) 45%,
+    rgba(3, 227, 252, 0.68) 55%,
+    rgba(3, 227, 252, 0.68) 100%
   );
 
   --gradient-accent-hover: linear-gradient(
     45deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
+    #6055f7 0%,
+    #6055f7 45%,
+    #03e3fc 55%,
+    #03e3fc 100%
   );
 
   --heading-grad-size: 30% 100%;
@@ -460,15 +448,7 @@ padding: 1.5rem 0.5rem;
 }
 
 .post-card {
-  background: linear-gradient(
-    150deg,
-    #7e7eff 10%,
-    #7e7eff 32%,
-    #f6f65a 38%,
-    #e019d4 60%,
-    #00dbff 72%,
-    #00dbff 100%
-  );
+  background: var(--overlay-gradient-accent);
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
