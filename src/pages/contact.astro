@@ -12,7 +12,8 @@ const pageDescription = "Send a message to the Lystaria team.";
     <section class="hero">
       <h1>Contact ✦ Lystaria</h1>
       <p class="subtitle">
-        Questions, feedback, support requests, or collaboration inquiries--send a message anytime.
+        Questions, feedback, support requests, or collaboration inquiries--send
+        a message anytime.
       </p>
     </section>
 
@@ -20,9 +21,9 @@ const pageDescription = "Send a message to the Lystaria team.";
 
     <section class="contact-info">
       <p class="description">
-        <strong>We read every message.</strong> If you’re reaching out about bot support, include the bot name
-        and a short description of what happened. If you’re reaching out about collaboration, share what
-        you’re building and what you need.
+        <strong>We read every message.</strong> If you’re reaching out about bot support,
+        include the bot name and a short description of what happened. If you’re reaching
+        out about collaboration, share what you’re building and what you need.
       </p>
     </section>
 
@@ -57,55 +58,78 @@ const pageDescription = "Send a message to the Lystaria team.";
           <p class="status" id="status" aria-live="polite"></p>
         </form>
 
-        <p class="form-note">
-          This form sends directly to our inbox.
-        </p>
+        <p class="form-note">This form sends directly to our inbox.</p>
       </div>
     </section>
   </div>
 </BaseLayout>
 
 <script>
-  const form = document.getElementById("contactForm");
-  const status = document.getElementById("status");
-  const sendBtn = document.getElementById("sendBtn");
+  const form = document.getElementById("contactForm") as HTMLFormElement | null;
+  const status = document.getElementById("status") as HTMLElement | null;
+  const sendBtn = document.getElementById(
+    "sendBtn",
+  ) as HTMLButtonElement | null;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (!form || !status || !sendBtn) {
+    console.error("Contact form elements not found.");
+  } else {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    status.textContent = "";
-    sendBtn.disabled = true;
+      status.textContent = "";
+      sendBtn.disabled = true;
 
-    const payload = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message.value,
-      website: form.website.value, // honeypot
-    };
+      const nameInput = form.elements.namedItem(
+        "name",
+      ) as HTMLInputElement | null;
+      const emailInput = form.elements.namedItem(
+        "email",
+      ) as HTMLInputElement | null;
+      const messageInput = form.elements.namedItem(
+        "message",
+      ) as HTMLTextAreaElement | null;
+      const websiteInput = form.elements.namedItem(
+        "website",
+      ) as HTMLInputElement | null;
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        status.textContent = data.error || "Something went wrong.";
+      if (!nameInput || !emailInput || !messageInput || !websiteInput) {
+        status.textContent = "Form fields are missing.";
         sendBtn.disabled = false;
         return;
       }
 
-      form.reset();
-      status.textContent = "Message sent. Thank you.";
-    } catch (err) {
-      status.textContent = "Failed to send. Please try again.";
-    } finally {
-      sendBtn.disabled = false;
-    }
-  });
+      const payload = {
+        name: nameInput.value,
+        email: emailInput.value,
+        message: messageInput.value,
+        website: websiteInput.value,
+      };
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          status.textContent = data.error || "Something went wrong.";
+          sendBtn.disabled = false;
+          return;
+        }
+
+        form.reset();
+        status.textContent = "Message sent. Thank you.";
+      } catch (err) {
+        status.textContent = "Failed to send. Please try again.";
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+  }
 </script>
 
 <style>

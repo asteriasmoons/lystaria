@@ -8,12 +8,12 @@
     "start": "HOST=0.0.0.0 PORT=${PORT:-4321} node ./dist/server/entry.mjs"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.0",
-    "@astrojs/netlify": "^7.0.1",
-    "@astrojs/node": "^10.0.0",
-    "@astrojs/rss": "^4.0.14",
-    "@astrojs/sitemap": "^3.6.0",
-    "astro": "^6.0.2",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/netlify": "^7.0.6",
+    "@astrojs/node": "^10.0.4",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^6.1.5",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0",
     "gray-matter": "^4.0.3",
