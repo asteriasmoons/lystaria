@@ -12,7 +12,7 @@ function isEmail(s: string) {
 }
 
 async function verifyEmailWithAbstract(email: string, apiKey: string) {
-  const url = new URL("https://emailvalidation.abstractapi.com/v1/");
+  const url = new URL("https://emailreputation.abstractapi.com/v1/");
   url.searchParams.set("api_key", apiKey);
   url.searchParams.set("email", email);
 
