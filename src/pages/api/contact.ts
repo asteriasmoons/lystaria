@@ -108,9 +108,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const verification = await verifyEmailWithAbstract(email, ABSTRACT_API_KEY);
 
-    const isValidFormat = verification?.is_valid_format?.value;
-    const isDisposable = verification?.is_disposable_email?.value;
-    const deliverability = String(verification?.deliverability || "").toLowerCase();
+    const isValidFormat = verification?.email_deliverability?.is_format_valid;
+    const isDisposable = verification?.email_quality?.is_disposable;
+    const deliverability = String(
+      verification?.email_deliverability?.status || "",
+    ).toLowerCase();
 
     if (isDisposable) {
       return new Response(JSON.stringify({ error: "Disposable email addresses are not allowed." }), {
