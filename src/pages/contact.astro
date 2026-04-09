@@ -270,12 +270,26 @@ const pageDescription = "Send a message to the Lystaria team.";
     }
 
     .form-card {
-      padding: 1rem 0.9rem 0.75rem;
+      width: min(100%, 92vw);
+      max-width: 92vw;
+      padding: 0.95rem 0.8rem 0.7rem;
+    }
+
+    input,
+    textarea {
+      font-size: 0.9rem;
+      padding: 0.68rem 0.8rem;
+    }
+
+    textarea {
+      min-height: 130px;
     }
 
     button {
-      padding: 0.72rem 1.15rem;
-      font-size: 0.9rem;
+      width: 100%;
+      max-width: 220px;
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
     }
   }
 </style>
