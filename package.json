@@ -20,7 +20,7 @@
     "nodemailer": "^8.0.1"
   },
   "engines": {
-    "node": "25.x"
+    "node": "24.x"
   },
   "devDependencies": {
     "@types/nodemailer": "^7.0.11"
