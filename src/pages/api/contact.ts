@@ -11,10 +11,10 @@ function isEmail(s: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
 
-async function verifyEmailWithEmailable(email: string, apiKey: string) {
-  const url = new URL("https://api.emailable.com/v1/verify");
-  url.searchParams.set("email", email);
+async function verifyEmailWithAbstract(email: string, apiKey: string) {
+  const url = new URL("https://emailvalidation.abstractapi.com/v1/");
   url.searchParams.set("api_key", apiKey);
+  url.searchParams.set("email", email);
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -27,10 +27,10 @@ async function verifyEmailWithEmailable(email: string, apiKey: string) {
 
   if (!res.ok) {
     const message =
-      data && typeof data.message === "string"
-        ? data.message
+      data && typeof data.error === "string"
+        ? data.error
         : "Email verification failed.";
-    throw new Error(`Emailable error (${res.status}): ${message}`);
+    throw new Error(`Abstract error (${res.status}): ${message}`);
   }
 
   return data;
@@ -104,55 +104,33 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       });
     }
 
-    const EMAILABLE_API_KEY = requireEnv("EMAILABLE_API_KEY");
+    const ABSTRACT_API_KEY = requireEnv("ABSTRACT_API_KEY");
 
-    const verification = await verifyEmailWithEmailable(email, EMAILABLE_API_KEY);
+    const verification = await verifyEmailWithAbstract(email, ABSTRACT_API_KEY);
 
-    const state = String(verification?.state || "").toLowerCase();
-    const disposable = Boolean(verification?.disposable);
-    const reason = String(verification?.reason || "");
-    const didYouMean = String(verification?.did_you_mean || "").trim();
+    const isValidFormat = verification?.is_valid_format?.value;
+    const isDisposable = verification?.is_disposable_email?.value;
+    const deliverability = String(verification?.deliverability || "").toLowerCase();
 
-    if (disposable) {
+    if (isDisposable) {
       return new Response(JSON.stringify({ error: "Disposable email addresses are not allowed." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    if (state === "undeliverable") {
-      return new Response(
-        JSON.stringify({
-          error: didYouMean
-            ? `That email address could not be verified. Did you mean ${didYouMean}?`
-            : "That email address could not be verified.",
-        }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-    if (state === "risky") {
-      return new Response(JSON.stringify({ error: "Please use a less risky email address." }), {
+    if (!isValidFormat) {
+      return new Response(JSON.stringify({ error: "Please enter a valid email address." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    if (state === "unknown") {
-      return new Response(
-        JSON.stringify({
-          error: reason === "timeout"
-            ? "We could not verify that email address right now. Please try again in a moment."
-            : "We could not verify that email address right now.",
-        }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+    if (deliverability && deliverability !== "deliverable") {
+      return new Response(JSON.stringify({ error: "That email address could not be verified." }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const SMTP_HOST = requireEnv("SMTP_HOST");
@@ -168,7 +146,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   secure: SMTP_PORT === 465,
   user: SMTP_USER ? "set" : "missing",
   pass: SMTP_PASS ? "set" : "missing",
-  emailableKey: EMAILABLE_API_KEY ? "set" : "missing",
+  abstractKey: ABSTRACT_API_KEY ? "set" : "missing",
   to: CONTACT_TO,
   from: CONTACT_FROM,
 });

@@ -57,10 +57,10 @@ jobs:
             -H "authorization: Bearer $PUSH_WEBHOOK_SECRET" \
             --data "{\"title\":\"$TITLE_ESC\",\"message\":\"$MESSAGE_ESC\",\"url\":\"/updates\"}"
 
-      - name: Use Node 22
+      - name: Use Node 24
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
 
       - name: Install deps
         run: npm ci
