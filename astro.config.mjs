@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import netlify from "@astrojs/vercel";
+import vercel from "@astrojs/vercel";
 
 export default defineConfig({
   integrations: [mdx(), sitemap()],
