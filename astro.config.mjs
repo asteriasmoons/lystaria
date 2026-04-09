@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import netlify from "@astrojs/netlify";
+import netlify from "@astrojs/vercel";
 
 export default defineConfig({
   integrations: [mdx(), sitemap()],
@@ -10,7 +10,7 @@ export default defineConfig({
 
   // SSR for Netlify
   output: "server",
-  adapter: netlify(),
+  adapter: vercel(),
 
   vite: {
     resolve: {
