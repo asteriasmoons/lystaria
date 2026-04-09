@@ -128,7 +128,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       });
     }
 
-    if (deliverability && deliverability !== "deliverable") {
+    // Only block clearly bad emails, allow "unknown" and other non-confirmed states
+    if (deliverability === "undeliverable") {
       return new Response(JSON.stringify({ error: "That email address could not be verified." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
