@@ -448,17 +448,7 @@ summary {
   color: white;
   position: relative;
   list-style: none;
-
-  background:
-    radial-gradient(
-      circle at 20% 30%,
-      rgba(96, 85, 247, 0.22) 0%,
-      rgba(96, 85, 247, 0.14) 28%,
-      rgba(3, 227, 252, 0.18) 56%,
-      rgba(3, 227, 252, 0.10) 76%,
-      transparent 100%
-    );
-
+  background: var(--overlay-gradient-accent);
   transition: all 0.25s ease;
 }
 
@@ -497,15 +487,7 @@ details[open] summary::after {
 }
 
 summary:hover {
-  background:
-    radial-gradient(
-      circle at 28% 36%,
-      rgba(96, 85, 247, 0.41) 0%,
-      rgba(96, 85, 247, 0.18) 30%,
-      rgba(3, 227, 252, 0.41) 58%,
-      rgba(3, 227, 252, 0.18) 78%,
-      transparent 100%
-    );
+  background: var(--overlay-gradient-accent);
 }
 
 details > *:not(summary) {
@@ -1323,15 +1305,7 @@ details[open] {
     padding: 0.9rem 3rem 0.9rem 1rem;
     font-size: 0.95rem;
     line-height: 1.4;
-    background:
-      radial-gradient(
-        circle at 25% 25%,
-        rgba(96, 85, 247, 0.41) 0%,
-        rgba(96, 85, 247, 0.18) 28%,
-        rgba(3, 227, 252, 0.41) 56%,
-        rgba(3, 227, 252, 0.18) 76%,
-        transparent 100%
-      );
+    background: var(--overlay-gradient-accent);
   }
 
   summary::after {
