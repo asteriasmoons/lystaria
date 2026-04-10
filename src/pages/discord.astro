@@ -3,6 +3,7 @@
 // Import your base layout (handles nav, footer, fonts, meta tags)
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GradientDivider from "../components/GradientDivider.astro";
+import DotDivider from "../../components/DotDivider.astro";
 
 // Page metadata - customize these!
 const pageTitle = "Discord - Lystaria";
@@ -115,350 +116,359 @@ const pageDescription = "Join our diverse community on Discord";
 
     <GradientDivider />
 
-    <!-- ELYSIUM INTRODUCTION -->
-    <section class="info-card">
-      <p class="description">
-        Elysium is a companion bot designed for personal growth, reflection, and
-        mindful living—helping you track moods, build habits, journal your
-        thoughts, and stay connected to what matters most. It lives quietly
-        within your space, offering structure, insight, and support in a way
-        that feels natural, private, and entirely your own.
+    <section class="hero">
+    <h3>Lystaria ✦ Bot ✦ World</h3>
+    <p class="subtitle">
+      Lystaria Bot World is a curated system of tools designed to support both
+      your inner growth and the spaces you create around you.
       </p>
-
-      <img src="/images/elysium.svg" alt="Elysium Bot" class="bot-image" />
-
-      <details>
-        <summary>Read More About Elysium Bot</summary>
-        <p>
-          Elysium is a versatile, deeply personal bot built from a simple
-          frustration: nothing quite fit. In 2025, after constantly searching
-          for tools that could support my own routines, reflections, and
-          interests without feeling clunky or disconnected, I decided to build
-          something that actually did. The name “Elysium” is inspired by the
-          Elysian Fields—a place of peace, rest, and fulfillment—and that energy
-          sits at the core of everything this bot is meant to be: calm,
-          supportive, and quietly powerful.
-          <br /><br />
-          At its heart, Elysium is designed to live with you, not around you. Most
-          features can be used privately within your Discord DMs, giving you a space
-          to think, track, and grow without distraction. It’s entirely slash-command
-          driven for now, with a full dashboard already in development to expand and
-          refine the experience even further.
-          <br /><br />
-          Journaling was one of the first problems I needed to solve, so it became
-          a foundational feature. You can create, view, and manage your entries directly
-          from your DMs, allowing you to capture thoughts as they happen without needing
-          a separate app or system. It’s simple, accessible, and always within reach—designed
-          to remove friction from the act of reflection.
-          <br /><br />
-          Reminders followed closely behind. Elysium supports flexible recurring reminders—daily,
-          weekly, and monthly—so you can stay aligned with your routines without constantly
-          rethinking them. Whether it’s something small or something essential, the
-          goal is consistency without overwhelm.
-          <br /><br />
-          Habits are the structure beneath everything we build in our lives, so this
-          feature was non-negotiable. With a few guided interactions, you can set
-          up habits directly through buttons and modals, making the process feel intuitive
-          instead of technical. It’s about reinforcing the patterns that actually
-          move you forward.
-          <br /><br />
-          Reading is another core pillar of Elysium. You can host or join buddy reads,
-          pair with others through announcements, and even communicate with your reading
-          partner through DM-based commands. Reading sprints allow you to track your
-          progress in real time—logging your pages at the start and end, receiving
-          automated reminders, and even participating in leaderboards for those who
-          enjoy a bit of competition. There’s also a fully customizable recommendation
-          system, allowing you to discover new books based on your preferred genres
-          and language whenever you want.
-          <br /><br />
-          Altogether, Elysium is designed to support growth in a way that feels natural,
-          not forced—giving you tools for reflection, structure, and learning without
-          overwhelming your space. It’s not just about doing more, but about doing
-          what matters, consistently and with intention.
+      </section>
+      
+      <!-- ELYSIUM INTRODUCTION -->
+      <section class="info-card">
+        <p class="description">
+          Elysium is a companion bot designed for personal growth, reflection,
+          and mindful living—helping you track moods, build habits, journal your
+          thoughts, and stay connected to what matters most. It lives quietly
+          within your space, offering structure, insight, and support in a way
+          that feels natural, private, and entirely your own.
         </p>
-      </details>
-    </section>
 
-    <!-- PANDORYX INTRODUCTION -->
-    <section class="info-card">
-      <p class="description">
-        Pandoryx is a powerful moderation and server management bot built to
-        help you shape your community with clarity, control, and intention. From
-        automation and protection to customizable systems, it gives you the
-        tools to create a space that runs smoothly while still feeling uniquely
-        yours.
-      </p>
+        <img src="/images/elysium.svg" alt="Elysium Bot" class="bot-image" />
 
-      <img src="/images/pandoryx.svg" alt="Pandoryx Bot" class="bot-image" />
+        <details>
+          <summary>Read More About Elysium Bot</summary>
+          <p>
+            Elysium is a versatile, deeply personal bot built from a simple
+            frustration: nothing quite fit. In 2025, after constantly searching
+            for tools that could support my own routines, reflections, and
+            interests without feeling clunky or disconnected, I decided to build
+            something that actually did. The name “Elysium” is inspired by the
+            Elysian Fields—a place of peace, rest, and fulfillment—and that
+            energy sits at the core of everything this bot is meant to be: calm,
+            supportive, and quietly powerful.
+            <DotDivider />
+            At its heart, Elysium is designed to live with you, not around you. Most
+            features can be used privately within your Discord DMs, giving you a space
+            to think, track, and grow without distraction. It’s entirely slash-command
+            driven for now, with a full dashboard already in development to expand
+            and refine the experience even further.
+            <DotDivider />
+            Journaling was one of the first problems I needed to solve, so it became
+            a foundational feature. You can create, view, and manage your entries
+            directly from your DMs, allowing you to capture thoughts as they happen
+            without needing a separate app or system. It’s simple, accessible, and
+            always within reach—designed to remove friction from the act of reflection.
+            <DotDivider />
+            Reminders followed closely behind. Elysium supports flexible recurring
+            reminders—daily, weekly, and monthly—so you can stay aligned with your
+            routines without constantly rethinking them. Whether it’s something small
+            or something essential, the goal is consistency without overwhelm.
+            <DotDivider />
+            Habits are the structure beneath everything we build in our lives, so
+            this feature was non-negotiable. With a few guided interactions, you can
+            set up habits directly through buttons and modals, making the process
+            feel intuitive instead of technical. It’s about reinforcing the patterns
+            that actually move you forward.
+            <DotDivider />
+            Reading is another core pillar of Elysium. You can host or join buddy
+            reads, pair with others through announcements, and even communicate with
+            your reading partner through DM-based commands. Reading sprints allow
+            you to track your progress in real time—logging your pages at the start
+            and end, receiving automated reminders, and even participating in leaderboards
+            for those who enjoy a bit of competition. There’s also a fully customizable
+            recommendation system, allowing you to discover new books based on your
+            preferred genres and language whenever you want.
+            <DotDivider />
+            Altogether, Elysium is designed to support growth in a way that feels
+            natural, not forced—giving you tools for reflection, structure, and learning
+            without overwhelming your space. It’s not just about doing more, but about
+            doing what matters, consistently and with intention.
+          </p>
+        </details>
+      </section>
 
-      <details>
-        <summary>Read More About Pandoryx Bot</summary>
-        <p>
-          Pandoryx was built to solve a different kind of problem—the external
-          structure of a space. While many moderation bots focus purely on
-          control or punishment, Pandoryx is designed around clarity,
-          customization, and intentional server design. It gives you the ability
-          to shape your environment in a way that feels structured without
-          becoming restrictive.
-          <br /><br />
-          At its core, Pandoryx is about making server management feel seamless. Instead
-          of juggling multiple tools or complicated setups, it brings everything into
-          one cohesive system that works with you. From the moment you begin configuring
-          your server, the goal is to reduce friction and give you control without
-          overwhelming you.
-          <br /><br />
-          Roles and access are one of the most important parts of any community, and
-          Pandoryx provides multiple ways to handle them. You can create reaction
-          roles for quick interaction, or use fully menu-based role systems that feel
-          more guided and polished for your members. This allows you to design onboarding
-          experiences that are clear, flexible, and easy to navigate.
-          <br /><br />
-          Custom embeds are another major feature. With rich embed tools, you can
-          create structured, visually consistent messages for announcements, information
-          panels, or interactive systems. Instead of relying on plain text, you can
-          present your server in a way that feels intentional and well-designed.
-          <br /><br />
-          Behind the scenes, Pandoryx includes a growing set of server configuration
-          settings that let you define how your community operates. From moderation
-          tools to automated systems, everything is built to help maintain a safe,
-          stable environment while still giving you the flexibility to adapt as your
-          server evolves.
-          <br /><br />
-          Altogether, Pandoryx isn’t just about moderation—it’s about building a space
-          that runs smoothly, reflects your values, and supports the people inside
-          it. It gives you the structure you need, without taking away the freedom
-          to create something that feels entirely your own.
+      <!-- PANDORYX INTRODUCTION -->
+      <section class="info-card">
+        <p class="description">
+          Pandoryx is a powerful moderation and server management bot built to
+          help you shape your community with clarity, control, and intention.
+          From automation and protection to customizable systems, it gives you
+          the tools to create a space that runs smoothly while still feeling
+          uniquely yours.
         </p>
-      </details>
-    </section>
 
-    <GradientDivider />
+        <img src="/images/pandoryx.svg" alt="Pandoryx Bot" class="bot-image" />
 
-    <!-- Invite Button Section -->
-    <section class="invite-section">
-      <h2>Ready to Join?</h2>
-      <p class="invite-description">
-        Click the button below to get your invite link and become part of our
-        community.
-      </p>
+        <details>
+          <summary>Read More About Pandoryx Bot</summary>
+          <p>
+            Pandoryx was built to solve a different kind of problem—the external
+            structure of a space. While many moderation bots focus purely on
+            control or punishment, Pandoryx is designed around clarity,
+            customization, and intentional server design. It gives you the
+            ability to shape your environment in a way that feels structured
+            without becoming restrictive.
+            <DotDivider />
+            At its core, Pandoryx is about making server management feel seamless.
+            Instead of juggling multiple tools or complicated setups, it brings everything
+            into one cohesive system that works with you. From the moment you begin
+            configuring your server, the goal is to reduce friction and give you control
+            without overwhelming you.
+            <DotDivider />
+            Roles and access are one of the most important parts of any community,
+            and Pandoryx provides multiple ways to handle them. You can create reaction
+            roles for quick interaction, or use fully menu-based role systems that
+            feel more guided and polished for your members. This allows you to design
+            onboarding experiences that are clear, flexible, and easy to navigate.
+            <DotDivider />
+            Custom embeds are another major feature. With rich embed tools, you can
+            create structured, visually consistent messages for announcements, information
+            panels, or interactive systems. Instead of relying on plain text, you
+            can present your server in a way that feels intentional and well-designed.
+            <DotDivider />
+            Behind the scenes, Pandoryx includes a growing set of server configuration
+            settings that let you define how your community operates. From moderation
+            tools to automated systems, everything is built to help maintain a safe,
+            stable environment while still giving you the flexibility to adapt as
+            your server evolves.
+            <DotDivider />
+            Altogether, Pandoryx isn’t just about moderation—it’s about building a
+            space that runs smoothly, reflects your values, and supports the people
+            inside it. It gives you the structure you need, without taking away the
+            freedom to create something that feels entirely your own.
+          </p>
+        </details>
+      </section>
 
-      <!-- Discord Invite Button -->
-      <a
-        href="https://discord.gg/aggfkxkBjW"
-        class="discord-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <svg
-          class="discord-icon"
-          width="24"
-          height="24"
-          viewBox="0 0 127.14 96.36"
-          fill="currentColor"
+      <GradientDivider />
+
+      <!-- Invite Button Section -->
+      <section class="invite-section">
+        <h2>Ready to Join?</h2>
+        <p class="invite-description">
+          Click the button below to get your invite link and become part of our
+          community.
+        </p>
+
+        <!-- Discord Invite Button -->
+        <a
+          href="https://discord.gg/aggfkxkBjW"
+          class="discord-button"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <path
-            d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"
-          ></path>
-        </svg>
-        Join Discord Server
-      </a>
-    </section>
-    <!-- Additional helpful info -->
-    <p class="invite-info">
-      By joining, you agree to follow our community guidelines and Discord's
-      Terms of Service.
+          <svg
+            class="discord-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 127.14 96.36"
+            fill="currentColor"
+          >
+            <path
+              d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"
+            ></path>
+          </svg>
+          Join Discord Server
+        </a>
+      </section>
+      <!-- Additional helpful info -->
+      <p class="invite-info">
+        By joining, you agree to follow our community guidelines and Discord's
+        Terms of Service.
+      </p>
     </p>
   </div>
-</BaseLayout>
 
-<style>
-  /* ====================================
+  <style>
+    /* ====================================
      HERO SECTION
      ==================================== */
-  .hero {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
+    .hero {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
 
-  /* Subtitle under the main heading */
-  .subtitle {
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.909); /* Slightly dimmed white */
-    max-width: 700px; /* Keep lines readable */
-    margin: 0 auto; /* Center it */
-  }
+    /* Subtitle under the main heading */
+    .subtitle {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.909); /* Slightly dimmed white */
+      max-width: 700px; /* Keep lines readable */
+      margin: 0 auto; /* Center it */
+    }
 
-  /* ====================================
+    /* ====================================
       INFO SECTION
      ==================================== */
-  .info-card {
-    text-align: center;
-  }
+    .info-card {
+      text-align: center;
+    }
 
-  .description {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 0.45rem;
-    padding: 2rem;
-    border: 2px dotted transparent;
-    border-image: var(--gradient-accent) 1;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    color: #ffffff;
-  }
+    .description {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 0.45rem;
+      padding: 2rem;
+      border: 2px dotted transparent;
+      border-image: var(--gradient-accent) 1;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #ffffff;
+    }
 
-  /* ====================================
+    /* ====================================
      BOT IMAGE SECTION
     ==================================== */
-  .bot-image {
-    width: 100%;
-    max-width: 260px;
-    height: auto;
-    display: block;
-    margin: 0 auto 1.5rem;
-    object-fit: contain;
-    border-radius: 50%;
-  }
+    .bot-image {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1.5rem;
+      object-fit: contain;
+      border-radius: 50%;
+    }
 
-  /* ====================================
+    /* ====================================
    HIGHLIGHTS CARD
    ==================================== */
-  .highlights {
-    text-align: center;
-    margin-top: 1rem;
-  }
+    .highlights {
+      text-align: center;
+      margin-top: 1rem;
+    }
 
-  /* Card container */
-  .highlights-card {
-    position: relative;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 2rem;
-    border-radius: 10px;
-    /* Matches your overall dark/glass vibe */
-    background: var(--overlay-gradient-accent);
-    /* Subtle depth */
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-      0 10px 30px rgba(0, 0, 0, 0.35);
-  }
+    /* Card container */
+    .highlights-card {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+      border-radius: 10px;
+      /* Matches your overall dark/glass vibe */
+      background: var(--overlay-gradient-accent);
+      /* Subtle depth */
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 10px 30px rgba(0, 0, 0, 0.35);
+    }
 
-  /* List */
-  .highlights-list {
-    list-style: disc;
-    margin: 0;
-    padding-left: 1.2rem;
+    /* List */
+    .highlights-list {
+      list-style: disc;
+      margin: 0;
+      padding-left: 1.2rem;
 
-    display: grid;
-    gap: 0.65rem;
+      display: grid;
+      gap: 0.65rem;
 
-    text-align: left;
-    font-size: 0.85rem;
-    line-height: 1.7;
-  }
+      text-align: left;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
 
-  /* Make bullets subtle and on-brand without hardcoding colors */
-  .highlights-list li::marker {
-    color: currentColor;
-    opacity: 0.65;
-  }
+    /* Make bullets subtle and on-brand without hardcoding colors */
+    .highlights-list li::marker {
+      color: currentColor;
+      opacity: 0.65;
+    }
 
-  /* ====================================
+    /* ====================================
      INVITE BUTTON SECTION
      ==================================== */
-  .invite-section {
-    text-align: center;
-    margin-top: 1.5rem;
-  }
+    .invite-section {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
 
-  .invite-description {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    .invite-description {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-  /* ====================================
+    /* ====================================
      DISCORD INVITE BUTTON
      ==================================== */
-  .discord-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 2rem;
-    font-family: "Berkshire Swash", serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 10px;
-    background: var(--overlay-gradient-accent);
-    border: none;
-    color: #ffffff;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
+    .discord-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      font-family: "Berkshire Swash", serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      background: var(--overlay-gradient-accent);
+      border: none;
+      color: #ffffff;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
 
-  /* Button hover effect */
-  .discord-button:hover {
-    background: var(--gradient-accent);
-    transform: translateY(-2px);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(90, 200, 250, 0.3);
-  }
+    /* Button hover effect */
+    .discord-button:hover {
+      background: var(--gradient-accent);
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(90, 200, 250, 0.3);
+    }
 
-  /* Button active/pressed state */
-  .discord-button:active {
-    transform: translateY(0);
-  }
+    /* Button active/pressed state */
+    .discord-button:active {
+      transform: translateY(0);
+    }
 
-  /* Discord icon styling */
-  .discord-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0; /* Prevents icon from squishing */
-  }
+    /* Discord icon styling */
+    .discord-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0; /* Prevents icon from squishing */
+    }
 
-  /* Info text below button */
-  .invite-info {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5); /* Very dim text */
-    font-style: italic;
-  }
+    /* Info text below button */
+    .invite-info {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5); /* Very dim text */
+      font-style: italic;
+    }
 
-  /* ====================================
+    /* ====================================
      RESPONSIVE DESIGN (Mobile)
      ==================================== */
-  @media (max-width: 860px) {
-    /* Smaller subtitle */
-    .subtitle {
-      font-size: 0.95rem;
-    }
+    @media (max-width: 860px) {
+      /* Smaller subtitle */
+      .subtitle {
+        font-size: 0.95rem;
+      }
 
-    /* Adjust button padding on mobile */
-    .discord-button {
-      padding: 0.9rem 1.5rem;
-      font-size: 1rem;
-    }
+      /* Adjust button padding on mobile */
+      .discord-button {
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+      }
 
-    .highlights-card {
-      padding: 1.5rem 1.25rem;
-    }
+      .highlights-card {
+        padding: 1.5rem 1.25rem;
+      }
 
-    .highlights-list {
-      padding-left: 1.1rem;
-    }
+      .highlights-list {
+        padding-left: 1.1rem;
+      }
 
-    .bot-image {
-      width: 70%;
-      max-width: 180px;
-      margin: 0 auto 1.25rem;
+      .bot-image {
+        width: 70%;
+        max-width: 180px;
+        margin: 0 auto 1.25rem;
+      }
     }
-  }
-</style>
+  </style>
+</BaseLayout>
