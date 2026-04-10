@@ -470,8 +470,8 @@ summary::after {
   position: absolute;
   right: 1.15rem;
   top: 50%;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   transform: translateY(-50%);
   transition: opacity 0.25s ease;
   opacity: 0.9;
