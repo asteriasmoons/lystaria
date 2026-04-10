@@ -438,6 +438,7 @@ details {
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(12px);
   transition: all 0.25s ease;
+  margin-bottom: 1.5rem;
 }
 
 summary {
@@ -1313,6 +1314,7 @@ details[open] {
 /* ======= DETAILS / SUMMARY ======= */
   details {
     border-radius: 16px;
+    margin-bottom: 1.25rem;
   }
 
   summary {
