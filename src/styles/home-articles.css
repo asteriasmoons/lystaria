@@ -55,3 +55,24 @@
   .home-articles-list .article-description { font-size: .8rem; line-height: 1.4; }
   .home-articles-list .article-category { font-size: .68rem; }
 }
+
+/* Homepage article palette matched to the warm ivory reference cards. */
+.home-articles {
+  --article-surface: #ebe7dc;
+  --article-text: #39273d;
+  --article-muted: #625767;
+  --article-accent: #913f93;
+  --article-border: #ddd6c8;
+}
+.home-articles-list .home-article-card {
+  background: var(--article-surface);
+  color: var(--article-text);
+}
+.home-articles-list .article-content { background: var(--article-surface); }
+.home-articles-list .article-title {
+  color: var(--article-text);
+  -webkit-text-fill-color: var(--article-text);
+}
+.home-articles-list .article-description,
+.home-articles-list .article-reading-time { color: var(--article-muted); }
+.home-articles-list .article-category { color: var(--article-accent); }
