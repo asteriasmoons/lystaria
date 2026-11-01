@@ -56,13 +56,13 @@
   .home-articles-list .article-category { font-size: .68rem; }
 }
 
-/* Homepage article palette matched to the warm ivory reference cards. */
+/* Match the homepage article cards to the actual blog carousel palette. */
 .home-articles {
-  --article-surface: #ebe7dc;
-  --article-text: #39273d;
-  --article-muted: #625767;
-  --article-accent: #913f93;
-  --article-border: #ddd6c8;
+  --article-surface: var(--color-bg-secondary, #1a1a2e);
+  --article-text: var(--color-text, #fff);
+  --article-muted: #b6b4c5;
+  --article-accent: var(--color-accent, #7e7eff);
+  --article-border: var(--color-border, #2a2a3e);
 }
 .home-articles-list .home-article-card {
   background: var(--article-surface);
