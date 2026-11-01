@@ -8,7 +8,7 @@
 .home-articles-eyebrow {
   display: block;
   margin-bottom: .35rem;
-  color: var(--color-accent, #7e7eff);
+  color: var(--color-accent, #AD9BC5);
   font-size: .8rem;
   font-weight: 800;
   letter-spacing: .12em;
@@ -58,11 +58,11 @@
 
 /* Match the homepage article cards to the actual blog carousel palette. */
 .home-articles {
-  --article-surface: var(--color-bg-secondary, #1a1a2e);
+  --article-surface: var(--color-bg-secondary, #201B23);
   --article-text: var(--color-text, #fff);
-  --article-muted: #b6b4c5;
-  --article-accent: var(--color-accent, #7e7eff);
-  --article-border: var(--color-border, #2a2a3e);
+  --article-muted: #C9BFCA;
+  --article-accent: var(--color-accent, #AD9BC5);
+  --article-border: var(--color-border, #3D3441);
 }
 .home-articles-list .home-article-card {
   background: var(--article-surface);

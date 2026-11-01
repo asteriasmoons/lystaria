@@ -1,10 +1,10 @@
 /* Article carousel — independent of the legacy .post-* layout. */
 .article-section {
-  --article-surface: var(--color-bg-secondary, #1a1a2e);
+  --article-surface: var(--color-bg-secondary, #201B23);
   --article-text: var(--color-text, #fff);
-  --article-muted: #b6b4c5;
-  --article-accent: var(--color-accent, #7e7eff);
-  --article-border: var(--color-border, #2a2a3e);
+  --article-muted: #C9BFCA;
+  --article-accent: var(--color-accent, #AD9BC5);
+  --article-border: var(--color-border, #3D3441);
   width: 100%;
   margin: 3rem auto 4rem;
   color: var(--article-text);
@@ -167,12 +167,12 @@
     radial-gradient(circle at 13% 18%, rgba(255,255,255,.75) 1px, transparent 1.8px),
     radial-gradient(circle at 77% 31%, rgba(255,255,255,.6) 1px, transparent 1.8px),
     radial-gradient(circle at 40% 70%, rgba(255,255,255,.55) 1px, transparent 1.8px),
-    #130d1b;
+    #201B23;
   background-size: auto, 240px 240px, 330px 330px, 410px 410px, auto;
 }
 .articles-hero-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
 .articles-eyebrow {
-  color: #c3a0cf;
+  color: #C39AAD;
   font-size: clamp(.75rem, 2.5vw, .95rem);
   font-weight: 800;
   letter-spacing: .2em;
@@ -204,7 +204,7 @@
   min-height: 74px;
   border-radius: 999px;
   background: #fff;
-  color: #8c3e91;
+  color: #AD9BC5;
   box-shadow: 0 6px 24px rgba(0,0,0,.15);
 }
 .articles-search svg { width: 27px; height: 27px; flex: none; }
@@ -214,7 +214,7 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: #29212c;
+  color: #141116;
   font: inherit;
   font-size: clamp(.95rem, 3.5vw, 1.15rem);
 }
@@ -240,10 +240,10 @@
   font-weight: 650;
   cursor: pointer;
 }
-.articles-filter span { color: #c5a5d1; margin-left: .2rem; font-size: .8em; }
+.articles-filter span { color: #C39AAD; margin-left: .2rem; font-size: .8em; }
 .articles-filter.is-active {
-  background: #8c3e91;
-  border-color: #8c3e91;
+  background: #AD9BC5;
+  border-color: #AD9BC5;
 }
 .articles-filter.is-active span { color: #f4dff7; }
 .articles-filter:focus-visible, .articles-search:focus-within {

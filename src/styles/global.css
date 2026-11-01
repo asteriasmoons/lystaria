@@ -8,85 +8,90 @@
    Design Tokens (UNCHANGED)
 ------------------------------ */
 :root {
-  --color-bg: #0a0a0f;
-  --color-bg-secondary: #1a1a2e;
-  --color-text: #ffffff;
-  --color-text-muted: #ffffff;
+  --color-bg: #141116;
+  --color-bg-secondary: #201B23;
+  --color-text: #F4F0F4;
+  --color-text-muted: #C9BFCA;
 
-  --color-accent: #7e7eff;
-  --color-accent-bright: #7e7eff;
+  --color-accent: #AD9BC5;
+  --color-accent-bright: #AD9BC5;
 
-  --color-border: #2a2a3e;
+  --color-border: #3D3441;
+  --color-card: #2C2630;
+  --color-accent-mauve: #C39AAD;
+  --color-accent-lavender: #AD9BC5;
+  --color-accent-sage: #A3B5A0;
+  --color-accent-champagne: #D2BCA5;
 
-  --bold-text-color: #6055f7;
-  --italic-text-color: #03e3fc;
+  --bold-text-color: #C39AAD;
+  --italic-text-color: #A3B5A0;
 
   --bg-glow: radial-gradient(
       900px 500px at 20% 10%,
-      rgba(96, 85, 247, 0.18),
+      rgba(195, 154, 173, 0.18),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 80% 30%,
-      rgba(3, 227, 252, 0.16),
+      rgba(163, 181, 160, 0.16),
       transparent 60%
     ),
     radial-gradient(
       900px 500px at 15% 85%,
-      rgba(96, 85, 247, 0.14),
+      rgba(195, 154, 173, 0.14),
       transparent 65%
     ),
     radial-gradient(
       900px 500px at 85% 80%,
-      rgba(3, 227, 252, 0.12),
+      rgba(163, 181, 160, 0.12),
       transparent 65%
     );
 
   --gradient-heading: linear-gradient(
     90deg,
-    #6055f7 0%,
-    #6055f7 45%,
-    #03e3fc 55%,
-    #03e3fc 100%
+    #C39AAD 0%,
+    #C39AAD 45%,
+    #A3B5A0 55%,
+    #A3B5A0 100%
   );
 
   --grad-heading: linear-gradient(
     60deg,
-    #6055f7 0%,
-    #6055f7 45%,
-    #03e3fc 55%,
-    #03e3fc 100%
+    #C39AAD 0%,
+    #C39AAD 45%,
+    #A3B5A0 55%,
+    #A3B5A0 100%
   );
 
   --gradient-accent: linear-gradient(
     45deg,
-    #6055f7 0%,
-    #6055f7 45%,
-    #03e3fc 55%,
-    #03e3fc 100%
+    #C39AAD 0%,
+    #C39AAD 45%,
+    #A3B5A0 55%,
+    #A3B5A0 100%
   );
 
   --overlay-gradient-accent: linear-gradient(
     45deg,
-    rgba(96, 85, 247, 0.72) 0%,
-    rgba(96, 85, 247, 0.72) 45%,
-    rgba(3, 227, 252, 0.68) 55%,
-    rgba(3, 227, 252, 0.68) 100%
+    rgba(195, 154, 173, 0.72) 0%,
+    rgba(195, 154, 173, 0.72) 45%,
+    rgba(163, 181, 160, 0.68) 55%,
+    rgba(163, 181, 160, 0.68) 100%
   );
 
   --gradient-accent-hover: linear-gradient(
     45deg,
-    #6055f7 0%,
-    #6055f7 45%,
-    #03e3fc 55%,
-    #03e3fc 100%
+    #C39AAD 0%,
+    #C39AAD 45%,
+    #A3B5A0 55%,
+    #A3B5A0 100%
   );
 
   --heading-grad-size: 30% 100%;
   --heading-grad-pos: 50% 50%;
 
-  --glass-bg: rgba(26, 26, 46, 0.55);
-  --glass-bg-strong: rgba(26, 26, 46, 0.7);
+  --glass-bg: rgba(44, 38, 48, 0.55);
+  --glass-bg-strong: rgba(44, 38, 48, 0.7);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-highlight: rgba(255, 255, 255, 0.18);
 
@@ -270,7 +275,7 @@ a:hover {
     border-image: var(--gradient-accent) 1; 
     border-radius: 8px; 
     font-size: 0.85rem;
-    color: #ffffff;
+    color: #F4F0F4;
   }
   
 /* -----------------------------
@@ -287,7 +292,7 @@ a:hover {
     border-radius: 10px;
     background: var(--overlay-gradient-accent);
     border: none;
-    color: #ffffff;
+    color: #F4F0F4;
     transition: all 0.3s ease;
     text-decoration: none;
     cursor: pointer;
@@ -402,7 +407,7 @@ a:hover {
   (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
 ) {
   .glass {
-    background: rgba(26, 26, 46, 0.92);
+    background: rgba(44, 38, 48, 0.92);
   }
 }
 
@@ -410,7 +415,7 @@ a:hover {
   .glass {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    background: rgba(26, 26, 46, 0.92);
+    background: rgba(44, 38, 48, 0.92);
   }
 
   .glass::before {
@@ -625,8 +630,8 @@ details[open] {
   line-height: 1.2;
 
   background: none !important;
-  -webkit-text-fill-color: #ffffff !important;
-  color: #ffffff !important;
+  -webkit-text-fill-color: #F4F0F4 !important;
+  color: #F4F0F4 !important;
 
   display: block !important;
   padding: 0; /* override heading padding inside cards */
@@ -661,7 +666,7 @@ details[open] {
   font-weight: 500;
   letter-spacing: 0.02em;
 
-  color: #ffffff;
+  color: #F4F0F4;
   background: rgba(10, 10, 15, 0.75);
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -684,7 +689,7 @@ details[open] {
 
 .tag {
   background: var(--overlay-gradient-accent);
-  color: #ffffff;
+  color: #F4F0F4;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
   font-size: 0.85rem;
@@ -696,7 +701,7 @@ details[open] {
 
 .tag:hover {
   background: var(--overlay-gradient-accent);
-  color: #ffffff;
+  color: #F4F0F4;
   transform: translateY(-2px);
 }
 
@@ -759,7 +764,7 @@ details[open] {
   .series-badge {
     display: inline-block;
     background: rgba(90, 200, 250, 0.1);
-    color: #ffffff;
+    color: #F4F0F4;
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -769,11 +774,11 @@ details[open] {
 
     .post-series-card h2 {
     font-size: 1.5rem;
-    color: #ffffff;
+    color: #F4F0F4;
     background: none;
     -webkit-background-clip: initial;
     background-clip: initial;
-    -webkit-text-fill-color: #ffffff;
+    -webkit-text-fill-color: #F4F0F4;
     margin-top: 1rem;
     margin-bottom: 1rem;
     line-height: 1.25;
@@ -868,7 +873,7 @@ details[open] {
   right: 2rem;
   margin-top: 1rem;
 
-  background-color: rgba(26, 26, 46, 0.58);
+  background-color: rgba(44, 38, 48, 0.58);
   background-image: var(--bg-glow);
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -988,8 +993,8 @@ details[open] {
 
 .notification-action-btn {
   width: 100%;
-  background: linear-gradient(135deg, #7e7eff 0%, #5ac8fa 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #AD9BC5 0%, #5ac8fa 100%);
+  color: #F4F0F4;
 
   border: none;
   padding: 0.75rem 1.5rem;
@@ -1073,11 +1078,11 @@ details[open] {
   letter-spacing: 0.02em;   /* less airy */
   line-height: 1.15;
 
-  color: #ffffff !important;
+  color: #F4F0F4 !important;
   background: none !important;
   -webkit-background-clip: initial !important;
   background-clip: initial !important;
-  -webkit-text-fill-color: #ffffff !important;
+  -webkit-text-fill-color: #F4F0F4 !important;
 }
 
 /* Details */
