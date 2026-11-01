@@ -3,7 +3,6 @@
 // Blog listing page
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import GradientDivider from "../../components/GradientDivider.astro";
 import "../../styles/articles.css";
 import ArticleCarousel from "../../components/ArticleCarousel.astro";
 
@@ -27,94 +26,78 @@ const sections = [
   description="Musings on magic, growth, and the space between the mystical and mundane."
   type="website"
 >
-  <section class="blog-hero">
-    <header class="blog-header">
-      <h1>The Grimoire</h1>
-      <p class="blog-intro">
-        This grimoire is a living record of practice and reflection, where magic
-        is treated as a language shaped by symbolism, cycles, intention, and
-        lived experience. It explores spellcraft, divination, astrology, and
-        transformation as tools for meaning in an ever-changing world.
-      </p>
-    </header>
-  </section>
-
-  <GradientDivider />
-
-  <section class="blog-transparency">
-    <div class="blog-note">
-      <h2>Transparency</h2>
-      <p>
-        As part of my creative and editing process, I sometimes use AI tools to
-        collaborate on refining my writing. These tools help with flow, clarity,
-        and structure, but the content itself always comes from my own thoughts,
-        experiences, and perspective. Posts created with this kind of support
-        will be clearly labeled. Transparency matters to me, and I want readers
-        to feel informed and respected here.
-      </p>
+  <section class="articles-hero" aria-labelledby="articles-title">
+    <div class="articles-hero-inner">
+      <p class="articles-eyebrow">THE LYSTARIA BLOG</p>
+      <h1 id="articles-title">Articles</h1>
+      <p class="articles-hero-description">Explore {sortedPosts.length} articles on magic, holidays, astrology, and the self.</p>
+      <label class="articles-search">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="7.3"/><path d="m16.3 16.3 5 5"/></svg>
+        <input id="articles-search-input" type="search" placeholder="Search articles: magic, astrology, holidays..." autocomplete="off" aria-label="Search articles" />
+      </label>
+      <nav class="articles-filters" aria-label="Filter articles by category">
+        <button type="button" class="articles-filter is-active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="articles-filter" data-filter="new" aria-pressed="false">New <span>6</span></button>
+        {sections.map((section) => (
+          <button type="button" class="articles-filter" data-filter={section.slug} aria-pressed="false">{section.title} <span>{sortedPosts.filter((post) => post.data.categories?.includes(section.title)).length}</span></button>
+        ))}
+      </nav>
     </div>
   </section>
-
+  <div class="articles-listings" id="articles-listings">
+    <div data-article-section="new">
   <ArticleCarousel title="New" subtitle="Fresh from the Grimoire." posts={sortedPosts.slice(0, 6)} viewAllHref="/blog/all" showNew={true} />
+    </div>
   {sections.map((section) => (
+    <div data-article-section={section.slug}>
     <ArticleCarousel
       title={section.title}
       subtitle={section.subtitle}
       posts={sortedPosts.filter((post) => post.data.categories?.includes(section.title)).slice(0, 6)}
       viewAllHref={`/blog/category/${section.slug}`}
     />
+    </div>
   ))}
+  </div>
+  <div id="articles-search-results" hidden>
+    <ArticleCarousel title="Search Results" subtitle="Articles matching your search." posts={sortedPosts} viewAllHref="/blog/all" />
+  </div>
+  <p id="articles-no-results" hidden>No articles match your search.</p>
+  <script>
+    const searchInput = document.querySelector<HTMLInputElement>("#articles-search-input");
+    const filters = Array.from(document.querySelectorAll<HTMLButtonElement>(".articles-filter"));
+    const listings = document.querySelector<HTMLElement>("#articles-listings");
+    const results = document.querySelector<HTMLElement>("#articles-search-results");
+    const noResults = document.querySelector<HTMLElement>("#articles-no-results");
+    let selected = "all";
+    function updateArticles() {
+      const query = searchInput?.value.trim().toLocaleLowerCase() ?? "";
+      const searching = query.length > 0;
+      if (listings) listings.hidden = searching;
+      if (results) results.hidden = !searching;
+      document.querySelectorAll<HTMLElement>("[data-article-section]").forEach((section) => {
+        section.hidden = searching || (selected !== "all" && section.dataset.articleSection !== selected);
+      });
+      let count = 0;
+      results?.querySelectorAll<HTMLElement>(".article-card").forEach((card) => {
+        const matched = card.textContent?.toLocaleLowerCase().includes(query) ?? false;
+        card.hidden = !matched;
+        if (matched) count++;
+      });
+      if (noResults) noResults.hidden = !searching || count > 0;
+    }
+    filters.forEach((button) => button.addEventListener("click", () => {
+      selected = button.dataset.filter ?? "all";
+      filters.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      if (searchInput) searchInput.value = "";
+      updateArticles();
+    }));
+    searchInput?.addEventListener("input", updateArticles);
+    updateArticles();
+  </script>
 </BaseLayout>
 
-<style>
-  /* ====================================
-     HERO SECTION
-     ==================================== */
-  .blog-hero {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Subtitle under the main heading */
-  .blog-header {
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.909); /* Slightly dimmed white */
-    max-width: 700px; /* Keep lines readable */
-    margin: 0 auto; /* Center it */
-  }
-
-  /* ====================================
-     BLOG INTRO SECTION
-     ==================================== */
-  .blog-transparency {
-    margin-bottom: 1.25rem;
-    text-align: center;
-  }
-
-  .blog-intro {
-    text-align: center;
-  }
-
-  .blog-note {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 2rem;
-    border: 2px dotted transparent; /* Set to transparent */
-    border-image: var(--gradient-accent) 1; /* Add this */
-    border-radius: 8px; /* This won't work with border-image unfortunately */
-    font-size: 0.85rem;
-    color: #ffffff;
-  }
-
-  /* ====================================
-     MOBILE CSS
-     ==================================== */
-  @media (max-width: 860px) {
-    /* Smaller subtitle */
-    .blog-intro {
-      font-size: 0.95rem;
-    }
-  }
-</style>
