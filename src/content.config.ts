@@ -63,6 +63,7 @@ const postsCollection = defineCollection({
       pubTime: z.string().optional(),
       updatedDate: z.coerce.date().optional(),
       tags: z.array(z.string()).optional(),
+      categories: z.array(z.enum(["Magic", "Holidays", "Astrology", "The Self"])).optional(),
       coverImage: z.string().optional(),
       series: z.enum(["spellcrafting", "zodiac"]).optional(),
       seriesNumber: z.number().optional(),

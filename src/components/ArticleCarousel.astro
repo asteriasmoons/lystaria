@@ -1,0 +1,33 @@
+---
+const { title, subtitle, posts = [], viewAllHref, showNew = false } = Astro.props;
+---
+{(
+  <section class="article-section" aria-label={title}>
+    <div class="article-section-heading"><h2>{title}</h2><p>{subtitle}</p></div>
+    <div class="article-section-divider"></div>
+    <div class="article-carousel" aria-label={`${title} articles`}>
+      {posts.length === 0 && <p class="article-empty">No articles assigned to this category yet.</p>}
+      {posts.map((post) => {
+        const wordCount = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+        const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
+        return (
+          <a class="article-card" href={`/blog/${post.id}`} aria-label={post.data.title}>
+            <div class="article-image">
+              {post.data.coverImage && <img src={post.data.coverImage} alt="" loading="lazy" />}
+              {showNew && <span class="article-badge">NEW</span>}
+            </div>
+            <div class="article-content">
+              <span class="article-category">{post.data.categories?.[0] ?? "Lystaria"}</span>
+              <h3 class="article-title">{post.data.title}</h3>
+              <p class="article-description">{post.data.description}</p>
+              <span class="article-reading-time">{readingMinutes} min read</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+    {posts.length > 0 && <a class="article-footer-link" href={viewAllHref}>
+      View all {posts.length} articles <span aria-hidden="true">→</span>
+    </a>}
+  </section>
+)}

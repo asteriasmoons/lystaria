@@ -152,3 +152,5 @@
   .article-description { font-size: .85rem; }
   .article-badge { top: 10px; left: 10px; }
 }
+
+.article-empty { color: var(--article-muted); padding: 1.5rem 0; margin: 0; }

@@ -5,6 +5,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import GradientDivider from "../../components/GradientDivider.astro";
 import "../../styles/articles.css";
+import ArticleCarousel from "../../components/ArticleCarousel.astro";
 
 export const prerender = true; // ← add this
 
@@ -13,6 +14,12 @@ const allPosts = await getCollection("posts");
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+const sections = [
+  { title: "Magic", subtitle: "Magic, spellcraft, and practice.", slug: "magic" },
+  { title: "Holidays", subtitle: "Celebrations, traditions, and seasonal moments.", slug: "holidays" },
+  { title: "Astrology", subtitle: "The stars, signs, and celestial cycles.", slug: "astrology" },
+  { title: "The Self", subtitle: "Personal reflections and self-exploration.", slug: "the-self" },
+];
 ---
 
 <BaseLayout
@@ -48,40 +55,15 @@ const sortedPosts = allPosts.sort(
     </div>
   </section>
 
-  <section class="article-section" aria-labelledby="article-section-title">
-    <div class="article-section-heading">
-      <h2 id="article-section-title">New</h2>
-      <p>Fresh from the Grimoire.</p>
-    </div>
-    <div class="article-section-divider"></div>
-
-    <div class="article-carousel" aria-label="Recent articles">
-      {sortedPosts.map((post, index) => {
-        const wordCount = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
-        const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
-        const category = post.data.tags?.[0] ?? "Journal";
-        return (
-          <a class="article-card" href={`/blog/${post.id}`} aria-label={post.data.title}>
-            <div class="article-image">
-              {post.data.coverImage && (
-                <img src={post.data.coverImage} alt="" loading="lazy" />
-              )}
-              {index < 6 && <span class="article-badge">NEW</span>}
-            </div>
-            <div class="article-content">
-              <span class="article-category">{category}</span>
-              <h3 class="article-title">{post.data.title}</h3>
-              <p class="article-description">{post.data.description}</p>
-              <span class="article-reading-time">{readingMinutes} min read</span>
-            </div>
-          </a>
-        );
-      })}
-    </div>
-    <a class="article-footer-link" href="/blog#article-section-title">
-      View all {sortedPosts.length} articles <span aria-hidden="true">→</span>
-    </a>
-  </section>
+  <ArticleCarousel title="New" subtitle="Fresh from the Grimoire." posts={sortedPosts.slice(0, 6)} viewAllHref="/blog/all" showNew={true} />
+  {sections.map((section) => (
+    <ArticleCarousel
+      title={section.title}
+      subtitle={section.subtitle}
+      posts={sortedPosts.filter((post) => post.data.categories?.includes(section.title)).slice(0, 6)}
+      viewAllHref={`/blog/category/${section.slug}`}
+    />
+  ))}
 </BaseLayout>
 
 <style>
