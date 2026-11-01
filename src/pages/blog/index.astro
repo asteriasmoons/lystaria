@@ -4,6 +4,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import GradientDivider from "../../components/GradientDivider.astro";
+import "../../styles/articles.css";
 
 export const prerender = true; // ← add this
 
@@ -47,62 +48,39 @@ const sortedPosts = allPosts.sort(
     </div>
   </section>
 
-  <section class="blog-posts">
-    <div class="posts-grid">
-      {
-        sortedPosts.map((post) => {
-          const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-            "en-US",
-            { year: "numeric", month: "long", day: "numeric" },
-          );
-
-          return (
-            <div class="post-card">
-              {post.data.coverImage && (
-                <div class="post-media">
-                  <img
-                    src={post.data.coverImage}
-                    alt=""
-                    loading="lazy"
-                    class="post-cover"
-                  />
-                </div>
-              )}
-
-              <div class="post-lower">
-                <a class="post-link" href={`/blog/${post.id}`}>
-                  <div class="postcard-content">
-                    <div class="post-header">
-                      <h2>{post.data.title}</h2>
-                      <time
-                        class="post-date"
-                        datetime={post.data.pubDate.toISOString()}
-                      >
-                        {formattedDate}
-                      </time>
-                    </div>
-
-                    <p class="post-description">{post.data.description}</p>
-
-                    <div class="read-more">Read more →</div>
-                  </div>
-                </a>
-
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="post-tags">
-                    {post.data.tags.map((tag) => (
-                      <a href={`/blog/tag/${tag}`} class="tag">
-                        {tag}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })
-      }
+  <section class="article-section" aria-labelledby="article-section-title">
+    <div class="article-section-heading">
+      <h2 id="article-section-title">New</h2>
+      <p>Fresh from the Grimoire.</p>
     </div>
+    <div class="article-section-divider"></div>
+
+    <div class="article-carousel" aria-label="Recent articles">
+      {sortedPosts.map((post, index) => {
+        const wordCount = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+        const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
+        const category = post.data.tags?.[0] ?? "Journal";
+        return (
+          <a class="article-card" href={`/blog/${post.id}`} aria-label={post.data.title}>
+            <div class="article-image">
+              {post.data.coverImage && (
+                <img src={post.data.coverImage} alt="" loading="lazy" />
+              )}
+              {index < 6 && <span class="article-badge">NEW</span>}
+            </div>
+            <div class="article-content">
+              <span class="article-category">{category}</span>
+              <h3 class="article-title">{post.data.title}</h3>
+              <p class="article-description">{post.data.description}</p>
+              <span class="article-reading-time">{readingMinutes} min read</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+    <a class="article-footer-link" href="/blog#article-section-title">
+      View all {sortedPosts.length} articles <span aria-hidden="true">→</span>
+    </a>
   </section>
 </BaseLayout>
 
