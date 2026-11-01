@@ -6,6 +6,7 @@ import NotificationToggle from "../components/NotificationToggle.astro";
 import { getCollection } from "astro:content";
 import "../styles/articles.css";
 import "../styles/home-articles.css";
+import "../styles/home-moon.css";
 
 export const prerender = true; // ← add this
 
@@ -324,26 +325,36 @@ const latestPosts = sortedPosts.slice(0, 2);
       return Math.floor(age) + 1; // Moon Day 1..30
     }
 
-    // -----------------------------
-    // Update the moon phase display (your existing DOM template)
-    // -----------------------------
+    // Moon phase card: preserve existing lunar calculations and phase icon assets.
     const moonPhaseEl = document.getElementById("moon-phase");
     if (moonPhaseEl) {
       const now = new Date();
-      const phase = getMoonPhaseName(now); // { name, icon }
-      const sign = getMoonSign(now);
-      const moonDay = getMoonDayNumber(now);
-      const illumPct = (getIlluminationFraction(now) * 100).toFixed(1);
-
+      const phase = getMoonPhaseName(now);
+      const illumPct = Math.round(getIlluminationFraction(now) * 100);
+      const age = getMoonAgeDays(now);
+      const nextFull = new Date(now.getTime() + ((SYNODIC_MONTH * 0.5 - age + SYNODIC_MONTH) % SYNODIC_MONTH) * 86400000);
+      const fullMoonDate = nextFull.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const sabbats = [
+        [1, 1, "Imbolc"], [2, 20, "Ostara"], [4, 1, "Beltane"],
+        [5, 21, "Litha"], [7, 1, "Lughnasadh"], [8, 22, "Mabon"],
+        [9, 31, "Samhain"], [11, 21, "Yule"],
+      ];
+      const upcoming = sabbats.map(([month, day, name]) => {
+        const date = new Date(now.getFullYear(), month, day);
+        if (date < new Date(now.getFullYear(), now.getMonth(), now.getDate())) date.setFullYear(date.getFullYear() + 1);
+        return { name, date };
+      }).sort((a, b) => a.date - b.date)[0];
+      const daysUntil = Math.ceil((upcoming.date - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
       moonPhaseEl.innerHTML = `
-      <div class="moon-info-main">
-        <span class="moon-icon">${phase.icon}</span>
-        <div class="moon-text-group">
-          <span class="moon-title">${phase.name} in ${sign}</span>
-          <span class="moon-details">Moon Day ${moonDay} • ${illumPct}% illuminated</span>
+        <div class="home-moon-disc" aria-hidden="true">${phase.icon}</div>
+        <div class="home-moon-eyebrow">TONIGHT'S MOON</div>
+        <h2 class="home-moon-name">${phase.name}</h2>
+        <p class="home-moon-summary">${illumPct}% illuminated · ${age < SYNODIC_MONTH / 2 ? "waxing" : "waning"}</p>
+        <div class="home-moon-facts">
+          <div class="home-moon-fact"><span>Next full moon</span><strong>${fullMoonDate}</strong></div>
+          <div class="home-moon-fact"><span>Next sabbat</span><strong>${upcoming.name}<small>in ${daysUntil} days</small></strong></div>
         </div>
-      </div>
-    `;
+      `;
     }
   </script>
 </BaseLayout>

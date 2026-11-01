@@ -1,0 +1,87 @@
+/* Homepage moon card, scoped independently of the legacy moon widget. */
+.hero #moon-phase {
+  width: min(100%, 680px);
+  max-width: 680px;
+  margin: 1.25rem auto 2rem;
+  padding: clamp(1.4rem, 5vw, 2.3rem);
+  border: 1px solid rgba(190, 150, 204, .32);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255,255,255,.28) 1px, transparent 2px),
+    radial-gradient(circle at 75% 65%, rgba(255,255,255,.2) 1px, transparent 2px),
+    radial-gradient(ellipse at 50% 12%, rgba(164,126,164,.14), transparent 60%),
+    #251b2c;
+  background-size: 180px 180px, 260px 260px, auto, auto;
+  box-shadow: none;
+  color: #f8f0fa;
+  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  text-align: center;
+}
+.home-moon-disc {
+  width: clamp(115px, 32vw, 175px);
+  height: clamp(115px, 32vw, 175px);
+  margin: 0 auto 1.1rem;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 0 18px rgba(255,244,212,.15));
+}
+.home-moon-disc img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.home-moon-eyebrow {
+  margin-bottom: .3rem;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .17em;
+  color: #c99ad4;
+}
+.hero #moon-phase .home-moon-name {
+  padding: 0;
+  margin: 0 0 .5rem;
+  background: none;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  font-family: "Berkshire Swash", Georgia, serif;
+  font-size: clamp(1.9rem, 6vw, 2.7rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+.home-moon-summary {
+  margin: 0 0 1.35rem;
+  font-size: clamp(.88rem, 2.8vw, 1.05rem);
+  line-height: 1.5;
+  color: #d8c9dd;
+}
+.home-moon-facts { display: grid; gap: .65rem; }
+.home-moon-fact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .85rem 1rem;
+  border-radius: 15px;
+  background: rgba(10, 6, 15, .42);
+  text-align: left;
+  font-size: .9rem;
+}
+.home-moon-fact > span { color: #c99ad4; }
+.home-moon-fact strong {
+  color: #fff;
+  font-weight: 700;
+  text-align: right;
+}
+.home-moon-fact small {
+  display: block;
+  margin-top: .15rem;
+  color: #d8c9dd;
+  font-size: .85em;
+  font-weight: 400;
+}
+@media (max-width: 600px) {
+  .hero #moon-phase { padding: 1.45rem 1rem; border-radius: 24px; }
+  .home-moon-fact { font-size: .85rem; padding: .8rem .75rem; }
+}
