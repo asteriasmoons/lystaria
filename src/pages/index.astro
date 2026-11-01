@@ -4,6 +4,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NotificationToggle from "../components/NotificationToggle.astro";
 import { getCollection } from "astro:content";
+import "../styles/articles.css";
+import "../styles/home-articles.css";
 
 export const prerender = true; // ← add this
 
@@ -42,61 +44,35 @@ const latestPosts = sortedPosts.slice(0, 2);
     </div>
   </section>
 
-  <!-- FEATURED POSTS SECTION -->
-  <section class="featured-posts">
-    <div class="post-grid">
-      {
-        latestPosts.map((post) => {
-          const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-            "en-US",
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            },
-          );
-
-          return (
-            <article class="post-card">
-              {post.data.coverImage && (
-                <div class="post-media">
-                  <img
-                    src={post.data.coverImage}
-                    alt=""
-                    loading="lazy"
-                    class="post-cover"
-                  />
-                </div>
-              )}
-
-              <div class="post-lower">
-                <a class="post-link" href={`/blog/${post.id}`}>
-                  <div class="postcard-content">
-                    <h3>{post.data.title}</h3>
-                    <p class="post-date">{formattedDate}</p>
-                    <p class="post-description">{post.data.description}</p>
-                    <div class="read-more">Read more →</div>
-                  </div>
-                </a>
-
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="post-tags">
-                    {post.data.tags.slice(0, 3).map((tag) => (
-                      <a href={`/blog/tag/${tag}`} class="tag">
-                        {tag}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
-          );
-        })
-      }
+  <!-- LATEST ARTICLES: VERTICAL EDITORIAL CARDS -->
+  <section class="home-articles" aria-labelledby="home-articles-title">
+    <div class="home-articles-heading">
+      <div>
+        <span class="home-articles-eyebrow">FREE ARTICLES</span>
+        <h2 id="home-articles-title">New from the blog</h2>
+      </div>
     </div>
-
+    <div class="home-articles-list">
+      {latestPosts.map((post) => {
+        const wordCount = (post.body ?? "").trim().split(/\s+/).filter(Boolean).length;
+        const readingMinutes = Math.max(1, Math.ceil(wordCount / 220));
+        return (
+          <a class="article-card home-article-card" href={`/blog/${post.id}`} aria-label={post.data.title}>
+            <div class="article-image">
+              {post.data.coverImage && <img src={post.data.coverImage} alt="" loading="lazy" />}
+            </div>
+            <div class="article-content">
+              <span class="article-category">{post.data.categories?.[0] ?? "Lystaria"}</span>
+              <h3 class="article-title">{post.data.title}</h3>
+              <p class="article-description">{post.data.description}</p>
+              <span class="article-reading-time">{readingMinutes} min read</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
     <div class="view-all">
-      <a href="/blog" class="view-all-link">View All Posts →</a>
+      <a href="/blog" class="view-all-link">View All Articles →</a>
     </div>
   </section>
 
