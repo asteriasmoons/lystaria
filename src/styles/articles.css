@@ -163,10 +163,6 @@
   padding: clamp(3rem, 7vw, 5rem) var(--page-pad, 1rem) 3rem;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(126, 80, 151, .26), transparent 68%),
-    radial-gradient(circle at 13% 18%, rgba(255,255,255,.75) 1px, transparent 1.8px),
-    radial-gradient(circle at 77% 31%, rgba(255,255,255,.6) 1px, transparent 1.8px),
-    radial-gradient(circle at 40% 70%, rgba(255,255,255,.55) 1px, transparent 1.8px),
     #201B23;
   background-size: auto, 240px 240px, 330px 330px, 410px 410px, auto;
 }

@@ -26,66 +26,20 @@
   --bold-text-color: #C39AAD;
   --italic-text-color: #A3B5A0;
 
-  --bg-glow: radial-gradient(
-      900px 500px at 20% 10%,
-      rgba(195, 154, 173, 0.18),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 80% 30%,
-      rgba(163, 181, 160, 0.16),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 15% 85%,
-      rgba(195, 154, 173, 0.14),
-      transparent 65%
-    ),
-    radial-gradient(
-      900px 500px at 85% 80%,
-      rgba(163, 181, 160, 0.12),
-      transparent 65%
-    );
+  --bg-glow: var(--color-accent-lavender, #AD9BC5),
+    var(--color-accent-lavender, #AD9BC5),
+    var(--color-accent-lavender, #AD9BC5),
+    var(--color-accent-lavender, #AD9BC5);
 
-  --gradient-heading: linear-gradient(
-    90deg,
-    #C39AAD 0%,
-    #C39AAD 45%,
-    #A3B5A0 55%,
-    #A3B5A0 100%
-  );
+  --gradient-heading: var(--color-accent-lavender, #AD9BC5);
 
-  --grad-heading: linear-gradient(
-    60deg,
-    #C39AAD 0%,
-    #C39AAD 45%,
-    #A3B5A0 55%,
-    #A3B5A0 100%
-  );
+  --grad-heading: var(--color-accent-lavender, #AD9BC5);
 
-  --gradient-accent: linear-gradient(
-    45deg,
-    #C39AAD 0%,
-    #C39AAD 45%,
-    #A3B5A0 55%,
-    #A3B5A0 100%
-  );
+  --gradient-accent: var(--color-accent-lavender, #AD9BC5);
 
-  --overlay-gradient-accent: linear-gradient(
-    45deg,
-    rgba(195, 154, 173, 0.72) 0%,
-    rgba(195, 154, 173, 0.72) 45%,
-    rgba(163, 181, 160, 0.68) 55%,
-    rgba(163, 181, 160, 0.68) 100%
-  );
+  --overlay-gradient-accent: var(--color-accent-lavender, #AD9BC5);
 
-  --gradient-accent-hover: linear-gradient(
-    45deg,
-    #C39AAD 0%,
-    #C39AAD 45%,
-    #A3B5A0 55%,
-    #A3B5A0 100%
-  );
+  --gradient-accent-hover: var(--color-accent-lavender, #AD9BC5);
 
   --heading-grad-size: 30% 100%;
   --heading-grad-pos: 50% 50%;
@@ -145,7 +99,7 @@ body {
 ------------------------------ */
 body {
   background-color: var(--color-bg);
-  background-image: var(--bg-glow);
+  background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
 
@@ -185,7 +139,7 @@ h6 {
   margin: 0 0 0.75rem;
   font-family: "Berkshire Swash", serif;
   font-weight: 400;
-  background-image: var(--grad-heading);
+  background-color: #AD9BC5;
   background-size: var(--heading-bg-size);
   background-position: var(--heading-bg-pos);
   background-repeat: no-repeat;
@@ -272,7 +226,7 @@ a:hover {
     margin: 0;
     padding: 2rem;
     border: 2px dotted transparent; 
-    border-image: var(--gradient-accent) 1; 
+    border-color: #AD9BC5; 
     border-radius: 8px; 
     font-size: 0.85rem;
     color: #F4F0F4;
@@ -290,7 +244,7 @@ a:hover {
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 10px;
-    background: var(--overlay-gradient-accent);
+    background: #AD9BC5;
     border: none;
     color: #F4F0F4;
     transition: all 0.3s ease;
@@ -301,7 +255,7 @@ a:hover {
 
   /* Button hover effect */
   .gradient-btn:hover {
-    background: var(--gradient-accent);
+    background: #AD9BC5;
     transform: translateY(-2px);
     box-shadow:
       0 6px 20px rgba(0, 0, 0, 0.4),
@@ -322,7 +276,7 @@ a:hover {
   z-index: 9999;
 
   background-color: rgba(10, 10, 15, 0.7);
-  background-image: var(--bg-glow);
+  background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
 
@@ -335,7 +289,7 @@ a:hover {
   font-family: "Berkshire Swash", serif;
   text-decoration: none;
 
-  background-image: var(--gradient-heading);
+  background-color: #AD9BC5;
   background-size: 125% auto;
   background-position: center;
 
@@ -358,7 +312,7 @@ a:hover {
   font-weight: 400;
   letter-spacing: 0.1em;
 
-  background-image: var(--gradient-heading);
+  background-color: #AD9BC5;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -386,12 +340,7 @@ a:hover {
   inset: 0;
   pointer-events: none;
 
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.18),
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0)
-  );
+  background: var(--color-accent-lavender, #AD9BC5);
 
   opacity: 0.55;
   border-radius: inherit;
@@ -453,7 +402,7 @@ summary {
   color: white;
   position: relative;
   list-style: none;
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   transition: all 0.25s ease;
 }
 
@@ -492,7 +441,7 @@ details[open] summary::after {
 }
 
 summary:hover {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
 }
 
 details > *:not(summary) {
@@ -533,7 +482,7 @@ details[open] {
 }
 
 .post-card {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
@@ -565,12 +514,7 @@ details[open] {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    rgba(126, 126, 255, 0.14),
-    rgba(90, 200, 250, 0.1),
-    rgba(10, 10, 15, 0.22)
-  );
+  background: var(--color-accent-lavender, #AD9BC5);
 }
 
 .post-cover {
@@ -688,7 +632,7 @@ details[open] {
 }
 
 .tag {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   color: #F4F0F4;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
@@ -700,7 +644,7 @@ details[open] {
 }
 
 .tag:hover {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   color: #F4F0F4;
   transform: translateY(-2px);
 }
@@ -713,7 +657,7 @@ details[open] {
    POST SEARCH CARDS
 ------------------------------ */
 .post-card--search {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
@@ -730,7 +674,7 @@ details[open] {
    POST SERIES CARDS
 ------------------------------ */
 .post-series-card {
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
@@ -874,7 +818,7 @@ details[open] {
   margin-top: 1rem;
 
   background-color: rgba(44, 38, 48, 0.58);
-  background-image: var(--bg-glow);
+  background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-blend-mode: overlay;
@@ -925,7 +869,7 @@ details[open] {
 
   /* gradient text */
   font-family: "Berkshire Swash", serif;
-  background-image: var(--gradient-heading);
+  background-color: #AD9BC5;
   background-size: 30% auto;
   background-position: 0% 50%;
   -webkit-background-clip: text;
@@ -975,7 +919,7 @@ details[open] {
   font-size: 1.2rem;
   font-family: "Berkshire Swash", serif;
 
-  background-image: var(--gradient-heading);
+  background-color: #AD9BC5;
   background-size: 125% auto;
   background-position: center;
   -webkit-background-clip: text;
@@ -993,7 +937,7 @@ details[open] {
 
 .notification-action-btn {
   width: 100%;
-  background: linear-gradient(135deg, #AD9BC5 0%, #5ac8fa 100%);
+  background: var(--color-accent-lavender, #AD9BC5);
   color: #F4F0F4;
 
   border: none;
@@ -1031,7 +975,7 @@ details[open] {
   max-width: 900px;               /* match your content width */
   margin: 0 auto 1.25rem;         /* adds bottom space */
   padding: 0.6rem 1.5rem;         /* wider horizontally, flatter vertically */
-  background: var(--overlay-gradient-accent);
+  background: #AD9BC5;
   border: none;
   border-radius: 16px;
   box-shadow:
@@ -1310,7 +1254,7 @@ details[open] {
     padding: 0.9rem 3rem 0.9rem 1rem;
     font-size: 0.95rem;
     line-height: 1.4;
-    background: var(--overlay-gradient-accent);
+    background: #AD9BC5;
   }
 
   summary::after {

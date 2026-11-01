@@ -119,7 +119,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   }
 
   .post-header .tag {
-    background: var(--overlay-gradient-accent);
+    background: #AD9BC5;
     color: var(--color-accent);
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
@@ -132,7 +132,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   }
 
   .tag-link:hover .tag {
-    background-color: var(--gradient-accent);
+    background-color: #AD9BC5;
     color: var(--color-bg);
     transform: translateY(-2px);
   }
@@ -266,11 +266,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
   top: 0;
   left: 0;
   height: 8px;
-  background: linear-gradient(
-    90deg,
-    #6055f7 45%,
-    #03e3fc 55%
-  );
+  background: var(--color-accent-lavender, #AD9BC5);
   width: 0%;
   z-index: 9999;
   transition: width 0.1s ease;
