@@ -337,14 +337,11 @@
 }
 .article-toc summary::-webkit-details-marker { display: none; }
 .article-toc summary::after {
-  content: "+";
-  color: var(--color-accent, #ad9bc5);
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1;
+  content: "";
   flex: none;
+  /* Keep the custom right/down chevrons defined in global.css. */
 }
-.article-toc[open] summary::after { content: "−"; }
+.article-toc[open] summary::after { content: ""; }
 .article-toc ol {
   margin: 1.25rem 0 0;
   padding-left: 2rem;

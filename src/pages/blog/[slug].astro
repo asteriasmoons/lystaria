@@ -72,7 +72,7 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString("en-US", {
 
     {tocHeadings.length > 0 && (
       <nav aria-label="Article table of contents">
-        <details class="article-toc">
+        <details class="article-toc" open>
           <summary>In this article</summary>
           <ol>
             {tocHeadings.map((heading) => (

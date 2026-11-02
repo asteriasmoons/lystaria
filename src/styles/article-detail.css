@@ -52,7 +52,7 @@
   font-family: inherit;
 }
 .post-container .article-toc summary {
-  font-family: inherit;
+  font-family: "Berkshire Swash", serif;
   font-size: clamp(1.1rem, 3.5vw, 1.35rem);
   font-weight: 600;
   color: var(--color-text);
@@ -136,4 +136,77 @@
   .post-header { margin-bottom: 1.5rem; }
   .post-content { line-height: 1.75; }
   .post-container .article-toc { margin: 1.4rem 0 2rem; }
+}
+
+/* Article TOC: override the site's generic details/summary treatment. */
+.post-container details.article-toc {
+  overflow: visible;
+  backdrop-filter: none;
+  margin-bottom: 2.5rem;
+  box-shadow: none;
+}
+.post-container details.article-toc > summary {
+  font-family: "Berkshire Swash", serif;
+  font-size: clamp(1.45rem, 4.5vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: normal;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background: transparent;
+  color: var(--color-accent);
+  -webkit-text-fill-color: currentColor;
+  border: 0;
+  line-height: 1.35;
+}
+.post-container details.article-toc > summary:hover { background: transparent; }
+.post-container details.article-toc > summary::after,
+.post-container details.article-toc[open] > summary::after {
+  content: none;
+  display: none;
+  background: none;
+}
+.post-container details.article-toc > summary::before {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-accent);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  line-height: 1;
+}
+.post-container details.article-toc[open] > summary::before { content: "−"; }
+.post-container details.article-toc > ol {
+  padding: 0 0 0 1.65rem;
+  margin: 1rem 0 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font-size: inherit;
+  line-height: 1.6;
+}
+.post-container details.article-toc > ol li { margin-bottom: .55rem; }
+.post-container details.article-toc > ol li:last-child { margin-bottom: 0; }
+
+/* Match the reference TOC: no separator, consistent vertical rhythm. */
+.post-container details.article-toc > ol {
+  border-top: 0;
+  border-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 1rem;
+}
+.post-container details.article-toc > ol li {
+  margin: 0;
+  padding-top: .35rem;
+  padding-bottom: .35rem;
+  line-height: 1.55;
+}
+.post-container details.article-toc > ol li:last-child { margin-bottom: 0; }
+.post-container details.article-toc > summary {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
