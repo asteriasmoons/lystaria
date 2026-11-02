@@ -7,8 +7,8 @@ import { getCollection } from "astro:content";
 
 export const prerender = true;
 
-const names = { magic: "Magic", holidays: "Holidays", astrology: "Astrology", "the-self": "The Self" };
 export async function getStaticPaths() {
+  const names = { magic: "Magic", holidays: "Holidays", astrology: "Astrology", "the-self": "The Self" };
   return Object.entries(names).map(([category, title]) => ({ params: { category }, props: { title } }));
 }
 const { title } = Astro.props;
