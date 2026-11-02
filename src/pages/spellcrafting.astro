@@ -1,286 +1,37 @@
 ---
 // @ts-nocheck
-// Spellcrafting Series Landing Page
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCarousel from "../components/ArticleCarousel.astro";
+import "../styles/articles.css";
+import "../styles/article-stacked.css";
+import "../styles/series-redesign.css";
 import { getCollection } from "astro:content";
-
-// Get only posts tagged with "spellcrafting-series"
-const allPosts = await getCollection("posts");
-const spellcraftingPosts = allPosts
+const posts = (await getCollection("posts"))
   .filter((post) => post.data.series === "spellcrafting")
-  .sort((a, b) => a.data.seriesNumber - b.data.seriesNumber); // Sort by series number
+  .sort((a, b) => (a.data.seriesNumber ?? 9999) - (b.data.seriesNumber ?? 9999));
 ---
-
-<BaseLayout
-  title="Spellcrafting Series | Lystaria"
-  description="A 15-part journey into the foundations of practical magic"
-  image="/banner.png"
-  type="website"
->
-  <section class="series-hero">
-    <header class="series-header">
+<BaseLayout title="Spellcrafting Series | Lystaria" description="A 15-part journey into the foundations of practical magic" image="/banner.png" type="website">
+  <div class="series-redesign">
+    <header class="series-hero">
       <h1>Spellcrafting Series</h1>
-      <p class="subtitle">
-        A 15-part journey into the foundations of practical magic
-      </p>
+      <p class="series-subtitle">A 15-part journey into the foundations of practical magic</p>
     </header>
-  </section>
-
-  <section class="series-intro">
-    <div class="intro">
-      <p class="desc">
-        This series breaks down the mechanics of spellwork--demystifying the
-        "how" and "why" behind crafting intentional magic. Whether you're new
-        to the craft or refining your practice, these posts offer a
-        foundational framework for understanding spells as tools of
-        transformation, not mystical secrets.
-      </p>
-    </div>
-  </section>
-
-  <section class="series-subscribe">
-    <div class="subscribe-box">
-      <h3>Subscribe</h3>
-      <p>Get notified when new Spellcrafting posts are published</p>
-
-      <form
-        action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
-        method="post"
-        class="embeddable-buttondown-form"
-      >
-        <label for="bd-email">Enter your email</label>
-        <input type="email" name="email" id="bd-email" />
-        <input type="submit" value="Subscribe" />
+    <section class="series-intro" aria-label="About this series">
+      <p>This series breaks down the mechanics of spellwork—demystifying the “how” and “why” behind crafting intentional magic. Whether you're new to the craft or refining your practice, these posts offer a foundational framework for understanding spells as tools of transformation, not mystical secrets.</p>
+    </section>
+    <section class="series-subscribe" aria-label="Subscribe to series updates">
+      <h2>Subscribe</h2>
+      <p>Get notified when new Spellcrafting posts are published.</p>
+      <form action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon" method="post" class="subscribe-form">
+        <div class="subscribe-field">
+          <label for="bd-email">Email address</label>
+          <input type="email" name="email" id="bd-email" autocomplete="email" required placeholder="you@example.com" />
+        </div>
+        <button type="submit">Subscribe</button>
       </form>
+    </section>
+    <div class="series-posts article-stacked-list">
+      <ArticleCarousel title="Explore the Series" subtitle="Read each part of the journey." posts={posts} viewAllHref="/blog" />
     </div>
-  </section>
-
-  <section class="series-posts">
-    <div class="posts-grid">
-      {
-        spellcraftingPosts.map((post) => (
-          <article class="post-series-card">
-            <div class="post-series-body">
-              <span class="series-badge">
-                Part {post.data.seriesNumber} of {post.data.seriesTotal}
-              </span>
-
-              <h2>{post.data.title}</h2>
-
-              <p class="post-series-description">{post.data.description}</p>
-
-              <a href={`/blog/${post.id}`} class="read-button">
-                Read Post →
-              </a>
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-<style>
-  /* SECTION WRAPPERS (these exist in your new markup) */
-  /* .series-hero,
-  .series-intro,
-  .series-subscribe,
-  .series-posts {
-    width: 100%;
-  } */
-
-  .series-hero {
-    margin-bottom: 1rem;
-  }
-
-  .series-intro {
-    margin-bottom: 1rem;
-  }
-
-  .series-subscribe {
-    margin-bottom: 2rem;
-  }
-
-  .series-posts {
-    margin-bottom: 2rem;
-  }
-
-  /* HEADER (still exists) */
-  .series-header {
-    text-align: center;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 0.95rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-    color: #5ac7fa;
-    margin-bottom: 0.9rem;
-  }
-
-  /* INTRO (still exists) */
-  .intro {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .desc {
-    max-width: 900px;
-    margin: 1rem auto;
-    padding: 1.5rem;
-    border: 2px dotted transparent;
-    border-color: #AD9BC5;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    color: #ffffff;
-  }
-
-  /* POSTS GRID (still exists) */
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding-bottom: 4rem;
-  }
-
-  /* CONTENT WRAPPER (exists: .post-body) */
-
-  /* ONE source of truth for inner spacing */
-
-  /* remove fake padding from children */
-
-  /* tighter, intentional vertical rhythm */
-
-  .read-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: rgba(126, 126, 255, 0.1);
-    border: 1px solid rgba(126, 126, 255, 0.3);
-    border-radius: 8px;
-    color: #7e7eff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-  }
-
-  .read-button:hover {
-    background: rgba(126, 126, 255, 0.2);
-    border-color: #7e7eff;
-    transform: translateX(4px);
-  }
-
-  /* SUBSCRIBE BOX (still exists) */
-  .subscribe-box {
-    max-width: 900px;
-    margin: 1rem auto 0;
-    padding: 2.5rem;
-    background: var(--color-accent-lavender, #AD9BC5);
-    border: 1px solid rgba(126, 126, 255, 0.25);
-    border-radius: 16px;
-    text-align: center;
-  }
-
-  .subscribe-box h3 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    background-clip: initial !important;
-    -webkit-text-fill-color: #ffffff !important;
-    color: #ffffff !important;
-  }
-
-  .subscribe-box p {
-    color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 1.25rem;
-    font-size: 1rem;
-  }
-
-  /* BUTTONDOWN FORM (still exists) */
-  .embeddable-buttondown-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .embeddable-buttondown-form label {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .embeddable-buttondown-form input[type="email"] {
-    width: min(460px, 100%);
-    padding: 0.75rem 1rem;
-    background: rgba(10, 10, 15, 0.6);
-    border: 1px solid rgba(126, 126, 255, 0.35);
-    border-radius: 999px;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 0.95rem;
-    outline: none;
-  }
-
-  .embeddable-buttondown-form input[type="email"]:focus {
-    border-color: #7e7eff;
-  }
-
-  .embeddable-buttondown-form input[type="submit"] {
-    padding: 0.75rem 1.5rem;
-    background: var(--color-accent-lavender, #AD9BC5);
-    border: none;
-    border-radius: 999px;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
-  }
-
-  .embeddable-buttondown-form input[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
-  }
-
-  .embeddable-buttondown-form input[type="submit"]:active {
-    transform: translateY(0);
-  }
-
-  .embeddable-buttondown-form p {
-    margin: 0.5rem 0 0;
-    font-size: 0.9rem;
-  }
-
-  .embeddable-buttondown-form p a {
-    color: rgba(126, 126, 255, 0.75);
-    text-decoration: none;
-  }
-
-  .embeddable-buttondown-form p a:hover {
-    color: rgba(90, 199, 250, 0.9);
-  }
-
-  /* Mobile Styles */
-  @media (max-width: 1100px) {
-    .series-header h1 {
-      font-size: 2rem;
-    }
-
-    .posts-grid {
-      grid-template-columns: 1fr;
-    }
-    
-
-
-    .subscribe-box {
-      /* padding: 2rem 1.5rem; */
-    }
-
-    .subscribe-box h3 {
-      font-size: 1.6rem;
-    }
-  }
-</style>
+  </div>
 </BaseLayout>

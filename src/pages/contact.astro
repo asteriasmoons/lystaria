@@ -292,4 +292,22 @@ const pageDescription = "Send a message to the Lystaria team.";
       font-size: 0.88rem;
     }
   }
+  /* Updated contact styling: dark surfaces, readable fields, restrained accents. */
+  .contact-page { font-family:system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif; color:#e8dfea; }
+  .contact-page .hero { padding:1.5rem 0 .5rem; }
+  .contact-page .hero h1 { font-family:"Berkshire Swash",serif; color:#AD9BC5; -webkit-text-fill-color:#AD9BC5; background:none; }
+  .contact-page .subtitle { font-size:1rem; line-height:1.6; color:#cfc4d2; }
+  .contact-page .description { padding:1.4rem; border:1px solid #493d4d; border-left:4px solid #C39AAD; border-radius:14px; background:#201B23; font-size:.95rem; line-height:1.65; color:#e8dfea; text-align:left; }
+  .contact-page .form-section { margin:1.5rem 0 3rem; }
+  .contact-page .form-card { box-sizing:border-box; width:100%; max-width:720px; padding:clamp(1.25rem,4vw,2rem); border:1px solid #55465b; border-top:3px solid #AD9BC5; border-radius:18px; background:#211c26; }
+  .contact-page .form-card h2 { font-family:"Berkshire Swash",serif; color:#f8f3f9; -webkit-text-fill-color:#f8f3f9; background:none; margin:0 0 1.4rem; font-size:clamp(1.6rem,4vw,2rem); }
+  .contact-page .contact-form { gap:.55rem; }
+  .contact-page .contact-form label { font-family:inherit; font-size:.95rem; font-weight:600; color:#e6dbe8; margin-top:.55rem; }
+  .contact-page .contact-form input:not(.hp), .contact-page .contact-form textarea { box-sizing:border-box; display:block; width:100%; min-width:0; border:1px solid #74617b; border-radius:12px; padding:.85rem 1rem; background:#151219; color:#fff; font-family:inherit; font-size:1rem; line-height:1.5; }
+  .contact-page .contact-form textarea { min-height:160px; resize:vertical; }
+  .contact-page .contact-form input:focus-visible,.contact-page .contact-form textarea:focus-visible,.contact-page .contact-form button:focus-visible { outline:2px solid #C39AAD; outline-offset:2px; }
+  .contact-page .contact-form button { justify-self:start; margin-top:1rem; padding:.85rem 1.6rem; background:#AD9BC5; color:#19141d; font:600 1rem system-ui,-apple-system,sans-serif; box-shadow:none; }
+  .contact-page .contact-form button:hover { background:#C39AAD; box-shadow:none; }
+  .contact-page .status { text-align:left; color:#e6dbe8; }
+  @media(max-width:860px){.contact-page .form-card{width:100%;max-width:100%;padding:1.25rem}.contact-page .contact-form button{width:100%;max-width:none;justify-self:stretch}.contact-page .contact-form input:not(.hp),.contact-page .contact-form textarea{font-size:1rem}}
 </style>

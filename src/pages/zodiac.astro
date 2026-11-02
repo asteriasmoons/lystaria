@@ -1,324 +1,39 @@
 ---
 // @ts-nocheck
-// Zodiac Series Landing Page (section-based spacing)
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Divider from "../components/GradientDivider.astro";
+import ArticleCarousel from "../components/ArticleCarousel.astro";
+import "../styles/articles.css";
+import "../styles/article-stacked.css";
+import "../styles/series-redesign.css";
 import { getCollection } from "astro:content";
-
-const allPosts = await getCollection("posts");
-
-const zodiacPosts = allPosts
+const posts = (await getCollection("posts"))
   .filter((post) => post.data.series === "zodiac")
   .sort((a, b) => (a.data.seriesNumber ?? 9999) - (b.data.seriesNumber ?? 9999));
 ---
-
-<BaseLayout
-  title="Zodiac Series | Lystaria"
-  description="A grounded exploration of the twelve zodiac archetypes"
-  image="/banner.png"
-  type="website"
->
-  <section class="series-hero">
-    <header class="series-header">
+<BaseLayout title="Zodiac Series | Lystaria" description="A grounded exploration of the twelve zodiac archetypes" image="/banner.png" type="website">
+  <div class="series-redesign">
+    <header class="series-hero">
       <h1>Zodiac Series</h1>
-      <p class="subtitle">A grounded exploration of the twelve zodiac archetypes</p>
+      <p class="series-subtitle">A grounded exploration of the twelve zodiac archetypes</p>
     </header>
-  </section>
-
-  <section class="series-intro">
-    <div class="intro-box">
-      <p>
-        The zodiac is more than personality traits or prediction. Each sign is an archetype:
-        a pattern of energy, emotion, instinct, and expression that shows up in real life.
-      </p>
-      <p>
-        This series explores each sign in a practical, grounded way, focusing on themes,
-        emotional patterns, shadow edges, strengths, and the kind of personal magic that pairs
-        naturally with that energy.
-      </p>
+    <section class="series-intro" aria-label="About this series">
+      <p>The zodiac is more than personality traits or prediction. Each sign is an archetype: a pattern of energy, emotion, instinct, and expression that shows up in real life.</p>
+      <p>This series explores each sign in a practical, grounded way, focusing on themes, emotional patterns, shadow edges, strengths, and the kind of personal magic that pairs naturally with that energy.</p>
       <p>These posts are built for clarity, self-awareness, and intentional living.</p>
-    </div>
-  </section>
-
-  <section class="series-subscribe">
-    <div class="subscribe-box">
-      <h3>Subscribe</h3>
-      <p>Get notified when new Zodiac posts are published</p>
-
-      <form
-        action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon"
-        method="post"
-        class="embeddable-buttondown-form"
-      >
-        <label for="bd-email">Enter your email</label>
-        <input type="email" name="email" id="bd-email" />
-        <input type="submit" value="Subscribe" />
+    </section>
+    <section class="series-subscribe" aria-label="Subscribe to series updates">
+      <h2>Subscribe</h2>
+      <p>Get notified when new Zodiac posts are published.</p>
+      <form action="https://buttondown.com/api/emails/embed-subscribe/asteriamoon" method="post" class="subscribe-form">
+        <div class="subscribe-field">
+          <label for="bd-email">Email address</label>
+          <input type="email" name="email" id="bd-email" autocomplete="email" required placeholder="you@example.com" />
+        </div>
+        <button type="submit">Subscribe</button>
       </form>
+    </section>
+    <div class="series-posts article-stacked-list">
+      <ArticleCarousel title="Explore the Series" subtitle="Read each part of the journey." posts={posts} viewAllHref="/blog" />
     </div>
-  </section>
-
-  <Divider />
-
-  <section class="series-posts">
-    {
-      zodiacPosts.length === 0 ? (
-        <div class="empty-state">
-          <h2>No Zodiac posts yet</h2>
-          <p>
-            This page is ready. As soon as you publish your first entry with the tag
-            <span class="mono">zodiac-series</span>, it will show up here automatically.
-          </p>
-        </div>
-      ) : (
-        <div class="posts-grid">
-          {zodiacPosts.map((post) => (
-            <article class="post-series-card">
-              <div class="post-series-body">
-                <span class="series-badge">
-                  Part {post.data.seriesNumber} of {post.data.seriesTotal}
-                </span>
-
-                <h2>{post.data.title}</h2>
-
-                <p class="post-series-description">{post.data.description}</p>
-
-                <a href={`/blog/${post.id}`} class="read-button">
-                  Read Post →
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      )
-    }
-  </section>
-
-<style>
-  /* =========================
-     SECTION WRAPPERS (EXIST NOW)
-     ========================= */
-
-  .series-hero,
-  .series-intro,
-  .series-subscribe,
-  .series-posts {
-    /* width: 100%; */
-  }
-
-  /* Give sections a consistent rhythm (replaces dead .series-section rules) */
-  .series-hero {
-    padding-top: 1rem;
-    /* padding-bottom: 0.95rem; */
-  }
-
-  .series-intro {
-    /* padding-bottom: 1.5rem; */
-  }
-
-  .series-subscribe {
-    padding-bottom: 1rem;
-  }
-
-  /* =========================
-     HEADER + INTRO
-     ========================= */
-
-  .series-header {
-    text-align: center;
-    padding: 0;
-    border-bottom: none;
-  }
-
-  .series-header :where(h1, h2, h3, p) {
-    margin: 0;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-    color: #5ac7fa;
-    margin-top: 0.9rem;
-    margin-bottom: 0.9rem;
-  }
-
-  .intro-box {
-    max-width: 900px;
-    margin: 1rem auto;
-    padding: 1.5rem;
-    border: 2px dotted transparent;
-    border-color: #AD9BC5;
-    font-size: 0.85rem;
-    color: #ffffff;
-    line-height: 1.8;
-    text-align: left;
-  }
-
-  .intro-box p + p {
-    margin-top: 1rem;
-  }
-
-  /* =========================
-     POSTS GRID + CARDS
-     ========================= */
-
-  .series-posts {
-    /* padding-top: 2rem; */
-    padding-bottom: 2rem;
-  }
-
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    /* gap: 2rem; */
-  }
-
-  .read-button {
-    display: inline-flex;
-    align-self: flex-start;
-    width: max-content;
-    max-width: 100%;
-    white-space: nowrap;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: rgba(126, 126, 255, 0.1);
-    border: 1px solid rgba(126, 126, 255, 0.3);
-    border-radius: 8px;
-    color: #7e7eff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-
-  .read-button:hover {
-    background: rgba(126, 126, 255, 0.2);
-    border-color: #7e7eff;
-    transform: translateX(4px);
-  }
-
-  /* =========================
-     SUBSCRIBE BOX
-     ========================= */
-  .subscribe-box {
-    max-width: 900px;
-    margin: 1rem auto 0;
-    padding: 2.5rem;
-    background: var(--color-accent-lavender, #AD9BC5);
-    border: 1px solid rgba(126, 126, 255, 0.25);
-    border-radius: 16px;
-    text-align: center;
-  }
-
-  .subscribe-box h3 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    background: none !important;
-    -webkit-background-clip: initial !important;
-    background-clip: initial !important;
-    -webkit-text-fill-color: #ffffff !important;
-    color: #ffffff !important;
-  }
-
-  .subscribe-box p {
-    color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-
-  /* BUTTONDOWN FORM (still exists) */
-  .embeddable-buttondown-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    align-items: center;
-  }
-
-  .embeddable-buttondown-form label {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .embeddable-buttondown-form input[type="email"] {
-    width: min(460px, 100%);
-    padding: 0.75rem 1rem;
-    background: rgba(10, 10, 15, 0.6);
-    border: 1px solid rgba(126, 126, 255, 0.35);
-    border-radius: 999px;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 0.95rem;
-    outline: none;
-  }
-
-  .embeddable-buttondown-form input[type="email"]:focus {
-    border-color: #7e7eff;
-  }
-
-  .embeddable-buttondown-form input[type="submit"] {
-    padding: 0.75rem 1.5rem;
-    background: var(--color-accent-lavender, #AD9BC5);
-    border: none;
-    border-radius: 999px;
-    color: #ffffff;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(126, 126, 255, 0.25);
-  }
-
-  .embeddable-buttondown-form input[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(126, 126, 255, 0.35);
-  }
-
-  .embeddable-buttondown-form input[type="submit"]:active {
-    transform: translateY(0);
-  }
-
-  .embeddable-buttondown-form p {
-    margin: 0.5rem 0 0;
-    font-size: 0.9rem;
-  }
-
-  .embeddable-buttondown-form p a {
-    color: rgba(126, 126, 255, 0.75);
-    text-decoration: none;
-  }
-
-  .embeddable-buttondown-form p a:hover {
-    color: rgba(90, 199, 250, 0.9);
-  }
-
-  /* =========================
-     MOBILE
-     ========================= */
-
-  @media (max-width: 1100px) {
-    .series-hero {
-      /* padding-top: 1.5rem;
-      padding-bottom: 2rem;
-    } */
-
-    .series-intro,
-    .series-subscribe {
-      /* padding-bottom: 2rem; */
-    }
-
-    .subscribe-box {
-      /* padding: 2rem 1.5rem; */ 
-    }
-
-    .subscribe-box h3 {
-      font-size: 1rem;
-    }
-
-    .posts-grid {
-      grid-template-columns: 1fr; 
-    }
-    
-  .post-card {
-    /* padding: 1rem; */
-    } 
-  }
-</style>
+  </div>
 </BaseLayout>
