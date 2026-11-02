@@ -210,3 +210,42 @@
   border-bottom: 0;
   padding-bottom: 0;
 }
+
+/* Distribute the established theme colors across article details. */
+.post-header .post-title {
+  color: var(--color-accent-lavender);
+  -webkit-text-fill-color: currentColor;
+}
+.post-meta time { color: var(--color-text-muted); }
+.post-header .tag:nth-child(4n + 1) {
+  color: var(--color-accent-mauve);
+  border-color: rgba(195, 154, 173, .35);
+}
+.post-header .tag:nth-child(4n + 2) {
+  color: var(--color-accent-sage);
+  border-color: rgba(163, 181, 160, .35);
+}
+.post-header .tag:nth-child(4n + 3) {
+  color: var(--color-accent-champagne);
+  border-color: rgba(210, 188, 165, .35);
+}
+.post-container details.article-toc {
+  border-color: var(--color-border);
+  background: var(--color-bg-secondary);
+}
+.post-container details.article-toc > summary {
+  color: var(--color-accent-lavender);
+  -webkit-text-fill-color: currentColor;
+}
+.post-container details.article-toc > ol li::marker {
+  color: var(--color-accent-mauve);
+}
+.post-container details.article-toc > ol li:nth-child(3n + 2)::marker {
+  color: var(--color-accent-sage);
+}
+.post-container details.article-toc > ol li:nth-child(3n + 3)::marker {
+  color: var(--color-accent-champagne);
+}
+.post-content h2 { color: var(--color-accent-lavender); -webkit-text-fill-color: currentColor; }
+.post-content h3 { color: var(--color-accent-mauve); -webkit-text-fill-color: currentColor; }
+.post-content h4 { color: var(--color-accent-sage); -webkit-text-fill-color: currentColor; }

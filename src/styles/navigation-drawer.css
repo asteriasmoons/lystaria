@@ -1,0 +1,105 @@
+/* Lystaria slide-in navigation, triggered by the existing sparkle button. */
+body.drawer-open { overflow: hidden; }
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  background: rgba(0,0,0,.68);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.drawer-backdrop.active { opacity: 1; visibility: visible; pointer-events: auto; }
+#navLinks.nav-links {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: 0;
+  margin: 0;
+  width: min(86vw, 420px);
+  min-width: 0;
+  max-width: none;
+  max-height: none;
+  height: 100dvh;
+  z-index: 10011;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: max(1.5rem, env(safe-area-inset-top)) 1.35rem max(1.5rem, env(safe-area-inset-bottom));
+  border: 0;
+  border-left: 1px solid var(--color-border);
+  border-radius: 0;
+  background: var(--color-bg-secondary);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: -18px 0 50px rgba(0,0,0,.4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 1;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(102%);
+  transition: transform .32s cubic-bezier(.2,.8,.2,1), visibility .32s;
+}
+#navLinks.nav-links.active {
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+#navLinks .drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .3rem .35rem 1.3rem;
+  border-bottom: 1px solid var(--color-border);
+}
+#navLinks .drawer-heading {
+  font-family: "Berkshire Swash", serif;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  color: var(--color-accent-lavender);
+}
+#navLinks .drawer-close {
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 300;
+  line-height: 1;
+  padding: .2rem .45rem;
+}
+#navLinks .drawer-link-list {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: 1rem 0;
+}
+#navLinks .drawer-link-list a {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 350;
+  line-height: 1.4;
+  letter-spacing: 0;
+  padding: .8rem 1rem;
+  border-radius: 12px;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--color-text);
+  text-decoration: none;
+}
+#navLinks .drawer-link-list a:hover,
+#navLinks .drawer-link-list a:focus-visible {
+  background: var(--color-card);
+  color: var(--color-accent-lavender);
+}
+#navLinks .drawer-link-list a:nth-child(4n+2) { border-left: 2px solid var(--color-accent-mauve); }
+#navLinks .drawer-link-list a:nth-child(4n+3) { border-left: 2px solid var(--color-accent-sage); }
+#navLinks .drawer-link-list a:nth-child(4n+4) { border-left: 2px solid var(--color-accent-champagne); }
+@media (prefers-reduced-motion: reduce) {
+  #navLinks.nav-links, .drawer-backdrop { transition: none; }
+}

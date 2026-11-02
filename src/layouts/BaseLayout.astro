@@ -2,6 +2,7 @@
 // BaseLayout.astro - The wrapper for all pages
 // The original one
 import "../styles/global.css";
+import "../styles/navigation-drawer.css";
 
 const {
   title = "Lystaria",
@@ -115,7 +116,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             <button
               class="menu-toggle"
               id="menuToggle"
-              aria-label="Toggle menu"
+              aria-label="Open navigation menu"
+              aria-expanded="false"
+              aria-controls="navLinks"
             >
               <img src="/icons/nav.svg" alt="Menu" class="menu-icon-img" />
             </button>
@@ -128,7 +131,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </button>
           </div>
 
-          <div class="nav-links" id="navLinks">
+
+        </nav>
+      </div>
+
+      <!-- Notification Popup (matches nav-links style) -->
+      <div class="notification-popup" id="notificationPopup">
+        <h3 class="notification-title">Notifications</h3>
+        <p class="notification-description">
+          Get notified when new posts are published
+        </p>
+        <button id="enable-notifications-btn" class="notification-action-btn">
+          Turn On Notifications
+        </button>
+      </div>
+    </header>
+    <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+          <div class="nav-links" id="navLinks" role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true">
+            <div class="drawer-header">
+              <span class="drawer-heading">Explore Lystaria</span>
+              <button type="button" class="drawer-close" id="drawerClose" aria-label="Close navigation menu">×</button>
+            </div>
+            <div class="drawer-link-list">
             <a href="/">Home</a>
             <a href="/blog">Blogs</a>
             <a href="/home">Telehome</a>
@@ -153,21 +177,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             <a href="#">Test Link 5</a>
             <a href="#">Test Link 6</a>
             -->
+            </div>
           </div>
-        </nav>
-      </div>
-
-      <!-- Notification Popup (matches nav-links style) -->
-      <div class="notification-popup" id="notificationPopup">
-        <h3 class="notification-title">Notifications</h3>
-        <p class="notification-description">
-          Get notified when new posts are published
-        </p>
-        <button id="enable-notifications-btn" class="notification-action-btn">
-          Turn On Notifications
-        </button>
-      </div>
-    </header>
 
   <main>
     <div class="page">
@@ -192,29 +203,46 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </footer>
 
   <script>
-    // Menu toggle functionality
+    // Slide-in navigation drawer
     const menuToggle = document.getElementById("menuToggle");
     const navLinks = document.getElementById("navLinks");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+    const drawerClose = document.getElementById("drawerClose");
+    let previousFocus: HTMLElement | null = null;
+
+    function setDrawerOpen(open: boolean) {
+      if (open) previousFocus = document.activeElement as HTMLElement;
+      navLinks?.classList.toggle("active", open);
+      drawerBackdrop?.classList.toggle("active", open);
+      document.body.classList.toggle("drawer-open", open);
+      menuToggle?.setAttribute("aria-expanded", String(open));
+      navLinks?.setAttribute("aria-hidden", String(!open));
+      if (open) drawerClose?.focus();
+      else previousFocus?.focus();
+    }
 
     menuToggle?.addEventListener("click", () => {
-      navLinks?.classList.toggle("active");
+      setDrawerOpen(!navLinks?.classList.contains("active"));
+      document.getElementById("notificationPopup")?.classList.remove("active");
     });
-
-    // Close menu when clicking outside
-    document.addEventListener("click", (e) => {
-      if (
-        !menuToggle?.contains(e.target as Node) &&
-        !navLinks?.contains(e.target as Node)
-      ) {
-        navLinks?.classList.remove("active");
+    drawerClose?.addEventListener("click", () => setDrawerOpen(false));
+    drawerBackdrop?.addEventListener("click", () => setDrawerOpen(false));
+    document.addEventListener("keydown", (event) => {
+      if (!navLinks?.classList.contains("active")) return;
+      if (event.key === "Escape") setDrawerOpen(false);
+      if (event.key === "Tab") {
+        const focusable = Array.from(navLinks.querySelectorAll<HTMLElement>('button, a[href]'));
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault(); last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault(); first?.focus();
+        }
       }
     });
-
-    // Close menu when a link is clicked
     navLinks?.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-      });
+      link.addEventListener("click", () => setDrawerOpen(false));
     });
 
     // Notification toggle functionality
@@ -224,7 +252,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     notifyBtn?.addEventListener("click", () => {
       notificationPopup?.classList.toggle("active");
       // Close nav menu if open
-      navLinks?.classList.remove("active");
+      setDrawerOpen(false);
     });
 
     // Close notification popup when clicking outside
