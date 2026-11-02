@@ -4,6 +4,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import GradientDivider from "../components/GradientDivider.astro";
+import "../styles/articles.css";
+import "../styles/article-stacked.css";
 
 // Get all posts for searching
 const allPosts = await getCollection("posts");
@@ -18,6 +20,9 @@ const postsData = sortedPosts.map((post) => ({
   description: post.data.description,
   tags: post.data.tags || [],
   pubDate: post.data.pubDate.toISOString(),
+  coverImage: post.data.coverImage || "",
+  category: post.data.categories?.[0] ?? "Lystaria",
+  readingMinutes: Math.max(1, Math.ceil((post.body ?? "").trim().split(/\s+/).filter(Boolean).length / 220)),
 }));
 ---
 
@@ -51,66 +56,30 @@ const postsData = sortedPosts.map((post) => ({
 
   <GradientDivider />
 
-  <section
-    id="results-section"
-    class="search-results search-page"
-    style="display:none;"
-  >
-    <div id="search-results" class="posts-grid" style="display: none;"></div>
-
-    <div id="no-results" class="no-results" style="display: none;">
+  <section id="results-section" class="search-results search-page article-stacked-list" style="display:none;">
+    <div id="search-results" class="article-carousel" style="display:none;"></div>
+    <div id="no-results" class="no-results" style="display:none;">
       <p>No posts found. Try different keywords.</p>
     </div>
   </section>
-
-  <section class="search-all search-page">
-    <div id="all-posts" class="posts-grid">
-      {
-        sortedPosts.map((post) => {
-          const formattedDate = new Date(post.data.pubDate).toLocaleDateString(
-            "en-US",
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            },
-          );
-
-          return (
-            <div class="post-card post-card--search">
-              <div class="post-body">
-                <a href={`/blog/${post.slug}`} class="post-link">
-                  <div class="postcard-content">
-                    <div class="post-header">
-                      <h2>{post.data.title}</h2>
-                      <time
-                        class="post-date"
-                        datetime={post.data.pubDate.toISOString()}
-                      >
-                        {formattedDate}
-                      </time>
-                    </div>
-
-                    <p class="post-description">{post.data.description}</p>
-
-                    <div class="read-more">Read more →</div>
-                  </div>
-                </a>
-
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="post-tags">
-                    {post.data.tags.map((tag) => (
-                      <a href={`/blog/tag/${tag}`} class="tag">
-                        {tag}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+  <section class="search-all search-page article-stacked-list">
+    <div id="all-posts" class="article-carousel">
+      {sortedPosts.map((post) => {
+        const readingMinutes = Math.max(1, Math.ceil((post.body ?? "").trim().split(/\s+/).filter(Boolean).length / 220));
+        return (
+          <a class="article-card" href={`/blog/${post.id}`} aria-label={post.data.title}>
+            <div class="article-image">
+              {post.data.coverImage && <img src={post.data.coverImage} alt="" loading="lazy" />}
             </div>
-          );
-        })
-      }
+            <div class="article-content">
+              <span class="article-category">{post.data.categories?.[0] ?? "Lystaria"}</span>
+              <h2 class="article-title">{post.data.title}</h2>
+              <p class="article-description">{post.data.description}</p>
+              <span class="article-reading-time">{readingMinutes} min read</span>
+            </div>
+          </a>
+        );
+      })}
     </div>
   </section>
 
@@ -121,48 +90,39 @@ const postsData = sortedPosts.map((post) => ({
     const allPosts = document.getElementById("all-posts");
     const resultsSection = document.getElementById("results-section");
 
-    function formatDate(isoDate) {
-      return new Date(isoDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    }
-
     function createPostCard(post) {
-      const tagsHTML =
-        post.tags && post.tags.length > 0
-          ? `<div class="post-tags">
-              ${post.tags
-                .map(
-                  (tag) => `<a href="/blog/tag/${tag}" class="tag">${tag}</a>`,
-                )
-                .join("")}
-            </div>`
-          : "";
+      const link = document.createElement("a");
+      link.className = "article-card";
+      link.href = `/blog/${encodeURIComponent(post.slug)}`;
+      link.setAttribute("aria-label", post.title);
 
-      const formattedDate = formatDate(post.pubDate);
+      const imageWrap = document.createElement("div");
+      imageWrap.className = "article-image";
+      if (post.coverImage) {
+        const img = document.createElement("img");
+        img.src = post.coverImage;
+        img.alt = "";
+        img.loading = "lazy";
+        imageWrap.append(img);
+      }
 
-      return `
-        <div class="post-card post-card--search">
-          <div class="post-body">
-            <a href="/blog/${post.slug}" class="post-link">
-              <div class="postcard-content">
-                <div class="post-header">
-                  <h2>${post.title}</h2>
-                  <time class="post-date" datetime="${post.pubDate}">
-                    ${formattedDate}
-                  </time>
-                </div>
-
-                <p class="post-description">${post.description}</p>
-                <div class="read-more">Read more →</div>
-              </div>
-            </a>
-            ${tagsHTML}
-          </div>
-        </div>
-      `;
+      const content = document.createElement("div");
+      content.className = "article-content";
+      const category = document.createElement("span");
+      category.className = "article-category";
+      category.textContent = post.category;
+      const title = document.createElement("h2");
+      title.className = "article-title";
+      title.textContent = post.title;
+      const description = document.createElement("p");
+      description.className = "article-description";
+      description.textContent = post.description;
+      const time = document.createElement("span");
+      time.className = "article-reading-time";
+      time.textContent = `${post.readingMinutes} min read`;
+      content.append(category, title, description, time);
+      link.append(imageWrap, content);
+      return link;
     }
 
     function searchPosts(query) {
@@ -171,7 +131,7 @@ const postsData = sortedPosts.map((post) => ({
         searchResults.innerHTML = "";
         searchResults.style.display = "none";
         noResults.style.display = "none";
-        allPosts.style.display = "grid";
+        allPosts.style.display = "flex";
         return;
       }
 
@@ -194,8 +154,8 @@ const postsData = sortedPosts.map((post) => ({
         searchResults.style.display = "none";
         noResults.style.display = "block";
       } else {
-        searchResults.innerHTML = results.map(createPostCard).join("");
-        searchResults.style.display = "grid";
+        searchResults.replaceChildren(...results.map(createPostCard));
+        searchResults.style.display = "flex";
         noResults.style.display = "none";
       }
     }
@@ -208,6 +168,7 @@ const postsData = sortedPosts.map((post) => ({
 
 <style is:global>
   /* variables scoped to this page wrapper */
+  .search-page .article-card { text-decoration: none; }
   .search-page {
     --card-radius: 12px;
     --card-pad: 1.25rem;
@@ -275,7 +236,7 @@ const postsData = sortedPosts.map((post) => ({
     border-radius: 50px;
     color: var(--color-text);
     font-size: 1rem;
-    font-family: "Berkshire Swash", serif;
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     transition: border-color 0.3s ease;
   }
 
