@@ -167,6 +167,40 @@ const postsData = sortedPosts.map((post) => ({
 </BaseLayout>
 
 <style is:global>
+  /* Match the redesigned blog typography and tighten the search-to-results flow. */
+  .search-page {
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  .search-page .search-intro,
+  .search-page .article-category,
+  .search-page .article-description,
+  .search-page .article-reading-time,
+  .search-page .no-results {
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  .search-page .article-title,
+  .search-page .search-header h1 {
+    font-family: "Berkshire Swash", Georgia, serif;
+  }
+  .search-page.search-hero {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+  }
+  .search-page .search-header {
+    margin-bottom: 0;
+  }
+  .search-page .search-box {
+    margin-bottom: 0;
+  }
+  .search-hero + .gradient-divider {
+    margin: 1.25rem auto !important;
+  }
+  .search-page.search-all,
+  .search-page.search-results {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
   /* variables scoped to this page wrapper */
   .search-page .article-card { text-decoration: none; }
   .search-page {
