@@ -1,0 +1,20 @@
+.article-stacked-list .article-carousel {
+  flex-direction: column;
+  overflow: visible;
+  scroll-snap-type: none;
+  gap: 1rem;
+  padding-bottom: 0;
+}
+
+.article-stacked-list .article-card {
+  flex: none;
+  width: 100%;
+  min-height: 225px;
+  scroll-snap-align: none;
+}
+
+@media (max-width: 600px) {
+  .article-stacked-list .article-card {
+    min-height: 205px;
+  }
+}

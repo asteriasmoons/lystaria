@@ -2,7 +2,11 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import ArticleCarousel from "../../../components/ArticleCarousel.astro";
 import "../../../styles/articles.css";
+import "../../../styles/article-stacked.css";
 import { getCollection } from "astro:content";
+
+export const prerender = true;
+
 const names = { magic: "Magic", holidays: "Holidays", astrology: "Astrology", "the-self": "The Self" };
 export async function getStaticPaths() {
   return Object.entries(names).map(([category, title]) => ({ params: { category }, props: { title } }));
@@ -13,5 +17,7 @@ const posts = (await getCollection("posts"))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title={`${title} · Lystaria`} description={`Articles in ${title} on Lystaria.`} type="website">
-  <ArticleCarousel title={title} subtitle={`All articles in ${title}.`} posts={posts} viewAllHref="/blog" />
+  <div class="article-stacked-list">
+    <ArticleCarousel title={title} subtitle={`All articles in ${title}.`} posts={posts} viewAllHref="/blog" />
+  </div>
 </BaseLayout>

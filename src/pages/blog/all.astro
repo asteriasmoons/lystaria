@@ -2,9 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArticleCarousel from "../../components/ArticleCarousel.astro";
 import "../../styles/articles.css";
+import "../../styles/article-stacked.css";
 import { getCollection } from "astro:content";
 const posts = (await getCollection("posts")).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title="All Articles · Lystaria" description="All articles on Lystaria." type="website">
-  <ArticleCarousel title="All Articles" subtitle="Every article from the Grimoire." posts={posts} viewAllHref="/blog" />
+  <div class="article-stacked-list">
+    <ArticleCarousel title="All Articles" subtitle="Every article from the Grimoire." posts={posts} viewAllHref="/blog" />
+  </div>
 </BaseLayout>
