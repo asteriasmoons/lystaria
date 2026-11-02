@@ -1046,6 +1046,7 @@ details[open] {
   padding: 2rem 0;
   text-align: center;
   color: var(--color-text-muted);
+  font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.9rem;
 }
 
